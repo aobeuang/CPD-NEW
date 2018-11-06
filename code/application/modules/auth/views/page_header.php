@@ -319,6 +319,7 @@ $current_url = $_SERVER['REQUEST_URI'];
               <ul class="dropdown-menu" role="menu">
                 <!-- li><a href="<?php echo site_url('admin/group_management')?>">การจัดการกลุ่มผู้ใช้งาน</a></li-->
                 <li><a href="<?php echo site_url('admin/users_management')?>">การจัดการผู้ใช้งานระบบ</a></li>
+                <li><a href="<?php echo site_url('csv_import')?>">นำเข้าผู้ใช้งานระบบ</a></li>
                 <!-- li><a href="<?php //echo site_url('loginlog/formloginerror')?>">รายการผู้ล็อกอินผิดพลาด</a></li>
 	            <li><a href="<?php //echo site_url('loginlog/formips')?>">รายการหมายเลข IP ที่ถูก lock ชั่วคราว</a></li> 
 	            <li><a href="<?php //echo site_url('loginlog/index')?>">รายการผู้ห้ามล็อกอินเข้าระบบ</a></li -->      

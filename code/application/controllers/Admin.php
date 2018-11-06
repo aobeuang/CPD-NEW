@@ -11,7 +11,7 @@ class Admin extends MY_Controller {
 		
 		$this->load->database();
 		$this->load->helper('url');
-		
+		$this->load->helper('file');		
 		$this->load->helper('form');
 		$this->load->driver('cache',array('adapter' => 'apc', 'backup' => 'file'));
 
@@ -21,6 +21,9 @@ class Admin extends MY_Controller {
 		$this->load->helper('properties');
 		$this->load->helper('survey');
 		$this->load->helper('user');
+
+		$this->load->model('csv_import_model');
+		$this->load->library('csvimport');
 		
 
 // 		$this->output->enable_profiler($this->config->item('profiling_enabled'));
@@ -66,8 +69,23 @@ class Admin extends MY_Controller {
 		echo $this->load->view('auth/page_header', '', TRUE);
 	
 		$this->load->view('admin/import',$output);
+
 	
 		echo $this->load->view('auth/page_footer', '', TRUE);
+	}
+	function import_user($output = null)
+	{
+		ob_start();
+		echo $this->load->view('auth/page_header', '', TRUE);
+	
+		$this->load->view('admin/import',array('error' => ' ' ));
+	
+		echo $this->load->view('auth/page_footer', '', TRUE);
+	}
+
+	function importFile()
+	{
+		
 	}
 	
 	
