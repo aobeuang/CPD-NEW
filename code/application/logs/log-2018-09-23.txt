@@ -1,0 +1,23 @@
+INFO - 2018-09-23 17:03:34 --> Config Class Initialized
+INFO - 2018-09-23 17:03:34 --> Hooks Class Initialized
+DEBUG - 2018-09-23 17:03:34 --> UTF-8 Support Enabled
+INFO - 2018-09-23 17:03:34 --> Utf8 Class Initialized
+INFO - 2018-09-23 17:03:34 --> URI Class Initialized
+INFO - 2018-09-23 17:03:34 --> Router Class Initialized
+INFO - 2018-09-23 17:03:34 --> Output Class Initialized
+INFO - 2018-09-23 17:03:34 --> Security Class Initialized
+DEBUG - 2018-09-23 17:03:34 --> Global POST, GET and COOKIE data sanitized
+INFO - 2018-09-23 17:03:34 --> CSRF cookie sent
+INFO - 2018-09-23 17:03:34 --> Input Class Initialized
+INFO - 2018-09-23 17:03:34 --> Language Class Initialized
+INFO - 2018-09-23 17:03:34 --> Language Class Initialized
+INFO - 2018-09-23 17:03:34 --> Config Class Initialized
+INFO - 2018-09-23 17:03:34 --> Loader Class Initialized
+DEBUG - 2018-09-23 17:03:34 --> Config file loaded: /devphp/projects/govedw/code/application/third_party/community_auth/config/db_tables.php
+DEBUG - 2018-09-23 17:03:34 --> Config file loaded: /devphp/projects/govedw/code/application/third_party/community_auth/config/authentication.php
+INFO - 2018-09-23 17:03:34 --> Helper loaded: serialization_helper
+INFO - 2018-09-23 17:03:34 --> Helper loaded: cookie_helper
+INFO - 2018-09-23 17:03:34 --> Database Driver Class Initialized
+ERROR - 2018-09-23 17:04:34 --> Severity: Warning --> oci_connect(): ORA-12170: TNS:Connect timeout occurred /devphp/projects/govedw/code/system/database/drivers/oci8/oci8_driver.php 238
+ERROR - 2018-09-23 17:04:34 --> Unable to connect to the database
+INFO - 2018-09-23 17:04:34 --> Language file loaded: language/thai/db_lang.php

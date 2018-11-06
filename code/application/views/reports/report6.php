@@ -1,0 +1,903 @@
+<?php
+$this->load->helper('survey');
+?>
+
+<style>
+#myBar {
+  width: 0%;
+  height: 30px;
+  background-color: #4CAF50;
+  text-align: center;
+  line-height: 30px;
+  color: white;
+}
+.display
+{
+	display:none;
+}
+</style>
+
+
+<div id="report" class="nonmis">
+
+	<div id="main-wrapper">
+		<div id="main-container" class="container-fluid col-md-12 col-xs-12">
+			<h2><span class="glyphicon glyphicon-signal"></span> รายงานข้อมูลการผลิตปีปัจจุบัน</h2>
+			
+			<?php /*?>
+			<div id="left-container" class="col-md-3 col-xs-12">
+			<ul class="list-group">
+				<li class="list-group-item "><a href="<?php echo site_url('report1/index1')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลทั่วไป</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index2')?>"><i class="fa fa-caret-right"></i> รายงานพื้นที่ครอบครอง</a></li>
+				<li class="list-group-item "><a href="<?php echo site_url('report1/index3')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลการผลิตทางการเกษตรในรอบปีที่ผ่านมา</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index4')?>"><i class="fa fa-caret-right"></i> รายงานปัญหาที่พบในการประกอบอาชีพ</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index5')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลหนี้สิน จำนวนลูกหนี้ และยอดหนี้สิน</a></li>
+				<li class="list-group-item active"><a href="<?php echo site_url('report1/index6')?>">รายงานข้อมูลการผลิตปีปัจจุบัน</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index7')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลการเลี้ยงโคนม</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index8')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลผลไม้</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index9')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลพันธ์ข้าว</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index10')?>"><i class="fa fa-caret-right"></i> รายงานข้อมูลการใช้ปุ๋ย</a></li>
+				<li class="list-group-item"><a href="<?php echo site_url('report1/index11')?>"><i class="fa fa-caret-right"></i> รายงานการปลูกพืชทั่วประเทศไทย 10 ชนิด</a></li>
+			</ul>			
+			
+			</div>
+			*/?>
+			
+			<div id="right-container" class="col-md-12 col-xs-12">
+				
+				<div class="row" id="action-bar">
+					<div class="report-action-bar">
+
+						<form id="search-analytic" action="" method="GET">
+						
+						<input type="hidden" value="yes" name="frompost" />
+						
+						<div class="container-fluid col-md-3 col-xs-12" style="margin-top: 6px;">
+							<label for="filter_year">ปีที่สำรวจ: </label>	
+							<select name="filter_year" id="filter_year" >
+								<option value="">ทั้งหมด</option>
+							<?php  
+								$all_survey_years = getAllSurveyYears();
+								if (!empty($all_survey_years))
+								{
+									foreach ($all_survey_years as $k=>$v)
+									{
+										$selected = "";
+										if ($k==$filter_year)
+											$selected = "selected=\"selected\"";		
+										echo "<option $selected value='$k'>$v</option>";
+									}
+								}
+							?>
+							</select>															
+						</div>
+					
+						<div class="container-fluid col-md-4 col-xs-12"  style="margin-top: 6px;">				
+							<label for="filter_province">จังหวัด: </label>		
+							<input type="hidden" id="filter_province_hidden" value=""/>
+							<?php $all_provinces = getAllProvinces();?>
+							<select id="filter_province" name="filter_province">
+								<option value = "0" >ทั้งหมด </option>
+								<?php foreach ($all_provinces as $province):?>
+									<?php $selected = $province->PROVINCE_NAME==$filter_province ? " selected=\"selected\" " : "";?>
+									<option value="<?php echo $province->PROVINCE_ID?>" <?php echo $selected?> ><?php echo $province->PROVINCE_NAME?></option>
+								<?php endforeach?>
+							</select>
+
+						</div>
+						
+						<div class="container-fluid col-md-4 col-xs-12"  style="margin-top: 6px;">				
+							<label for="filter_range_income">ช่วงรายได้: </label>		
+							<input type="hidden" id="filter_range_income_hidden" value=""/>	
+							<?php $listfilter = array("ทั้งหมด","100,000-300,000","300,000-500,000","500,000 ขึ้นไป");?>
+							<select id="filter_range_income" name="filter_range_income">
+									<option></option>
+									<?php foreach ($listfilter as $k=>$v):?>
+										<?php $selected = "";?>
+										<?php if ($k==$filter_range_income){?>
+											<?php $selected = "selected=\"selected\"";?>
+										<?php }?>													
+										<?php echo "<option $selected value='$k'>$v</option>";?>
+								<?php endforeach?>	
+							</select>
+						</div>
+						
+								
+						<div class="container-fluid col-md-1 col-xs-12" class="search-report-button" >
+							<button class="btn btn-outline-purple" id="btn-search"><span class="glyphicon glyphicon-search"></span> ค้นหา</button>		
+						</div>
+						
+						
+						<div class="container-fluid col-md-4 col-xs-12"  style="margin-top: 6px;">				
+							<label for="filter_status">แบ่งตามข้อมูล: </label>		
+							<input type="hidden" id="filter_status_hidden" value=""/>							
+							<select id="filter_status" name="filter_status">				
+									<option value="1">จำนวนรวมปลูกพืชเลี้ยงสัตว์</option>
+									<option value="2">จำนวนปลูกพืช</option>
+									<option value="3">จำนวนเลี้ยงสัตว์</option>
+									
+							</select>
+						</div>
+												
+						
+						
+					</form>
+
+					
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="actions" style="float:right">
+<!-- 			    		<script> 
+// 							function downloadExcel()
+// 							{
+								window.location = '<?php //echo $export_url?>';
+// 							}
+			    		</script>
+			    		<a onclick="downloadExcel();" class="btn btn-default t5 gc-export" data-url="">
+<!-- 		                                        <i class="fa fa-file-pdf-o floatL t3"></i> -->
+<!-- 		                                        <span class="hidden-xs floatL l5">PDF</span> -->
+<!-- 		                                        <div class="clear"></div> -->
+<!-- 		                </a> 
+			    		<a onclick="downloadExcel();" class="btn btn-default t5 gc-export" data-url="">
+<!--                                         <i class="fa fa-cloud-download floatL t3"></i> -->
+<!--                                         <span class="hidden-xs floatL l5">ส่งออก</span> -->
+<!--                                         <div class="clear"></div> -->
+<!--                         </a> -->
+<!-- 				    </div>		 -->
+			    
+			    </div>				
+				
+				
+				
+				<div class="row">  
+					 <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+				    <script type="text/javascript">
+				
+				      // Load the Visualization API and the piechart package.
+				      google.charts.load('current', {'packages':['corechart']});
+				
+					
+				      // Callback that creates and populates a data table, 
+				      // instantiates the pie chart, passes in the data and
+				      // draws it.
+				      function drawChart_sum_plant(count,countall,filter_year,filter_province_hidden,filter_range_income_hidden,filter_status) {
+
+				    	  filter_year = Number(filter_year)+543;
+				    	  
+						var data = new google.visualization.arrayToDataTable(result_data);
+						var options = {
+								  width: 1000,
+							       	 height: 350,
+						  pieSliceText: 'label',
+						  title: 'ข้อมูลทำการเกษตรปี 2018',
+						  pieStartAngle: 100,
+						};
+
+						
+						 var chart = new google.visualization.PieChart(document.getElementById('chart_div'));						
+						 
+						 var btnSave1 = document.getElementById('save-pdf');
+						  
+						  google.visualization.events.addListener(chart, 'ready', function () {
+							  btnSave1.disabled = false;
+							  });
+						  btnSave1.addEventListener('click', function () {
+							  var input =  $(this);
+							  if(input[0].id ==  'save-pdf'){
+								var uri2 =  chart.getImageURI();
+								var docDefinition =null;
+								pdfMake.fonts = {
+										Roboto: {
+										    normal: 'Roboto-Regular.ttf',
+										    bold: 'Roboto-Medium.ttf',
+										    italics: 'Roboto-Italic.ttf',
+										    bolditalics: 'Roboto-MediumItalic.ttf'
+										  },
+										  THSarabunNew: {
+										    normal: 'THSarabunNew.ttf',
+										    bold: 'THSarabunNew Bold.ttf',
+										    italics: 'THSarabunNew Italic.ttf',
+										    bolditalics: 'THSarabunNew BoldItalic.ttf'
+										  }
+										};
+								if(filter_range_income_hidden == "ทั้งหมด"){
+									filter_range_income_hidden = filter_range_income_hidden+"";	
+								}else
+									filter_range_income_hidden = filter_range_income_hidden+" บาท";	
+								docDefinition = { 
+										content: [
+											{
+												text: 'รายงานข้อมูลการผลิตปีปัจจุบัน',
+												alignment: 'center',
+												style: 'header'
+											},											
+											{
+												
+												text: 'ตามเงื่อนไขปี ' +filter_year+ ' จังหวัด' +filter_province_hidden+ ' ช่วงรายได้ '+filter_range_income_hidden,						
+												alignment: 'center',
+												style: 'header',						
+											},					
+											{
+												text: 'แบ่งข้อมูลตาม'+filter_status+' พบข้อมูล ' +count+ ' จำนวน จากข้อมูลทั้งหมด ' +countall+ ' แถว',						
+												alignment: 'center',
+												style: 'header',
+												margin : [0,0,0,10],
+											},
+											{
+												image: uri2,
+												alignment: 'center',
+												width: 925 * 0.7487922705314,
+											},
+											
+										],
+										footer: {
+											columns: [
+											'',
+											{ text: datethai, alignment: 'right',style: 'footer', }
+											],margin: [40, 0],
+										},
+										defaultStyle:{
+											font: 'THSarabunNew'	
+										},
+										styles: {
+											header: {
+												fontSize: 25,
+												bold: true
+											},
+											footer :{
+												fontSize: 15,
+												font: 'THSarabunNew'
+											}
+											
+										},
+										 pageOrientation: 'landscape',
+										
+
+								};
+								console.log(pdfMake);
+								pdfMake.createPdf(docDefinition).download('รายงานข้อมูลการผลิตปีปัจจุบัน.pdf');
+						  }
+							  }, false);
+						  
+						  chart.draw(data, options);
+						}
+
+				      function drawStuffColumn(count,countall,filter_year,filter_province_hidden,filter_range_income_hidden,filter_status) {
+
+
+// 				    	  var temp_data = [['Move', 'Percentage']];
+
+// 				    	  for (let elem in data_json)
+// 				    	  {
+// 				    	  	temp_data.push([elem,data_json[elem]]);
+// 				    	  }
+
+// 				    	  console.log(temp_data);
+ 							filter_year = Number(filter_year)+543;
+				    	    var data = new google.visualization.arrayToDataTable(result_data);
+
+				    	    var options = {
+				    	      width: 1000,
+				    	      bar: { groupWidth: "90%" }
+				    	    };
+				    	    var view = new google.visualization.DataView(data);
+				    	    view.setColumns([0, 1,
+				    	                     { calc: "stringify",
+				    	                       sourceColumn: 1,
+				    	                       type: "string",
+				    	                       role: "annotation" },
+				    	                       2, { calc: "stringify",
+				    	                           sourceColumn: 2,
+				    	                           type: "string",
+				    	                           role: "annotation" },
+					    	                       3, { calc: "stringify",
+					    	                           sourceColumn: 3,
+					    	                           type: "string",
+					    	                           role: "annotation" }
+				    	                     ]);
+				    	    var chart_div = document.getElementById('chart_div');
+				    	    var chart = new google.visualization.ColumnChart(chart_div);
+				    	    
+				    	    var btnSave2 = document.getElementById('save-pdf');
+				    	    
+				    	    google.visualization.events.addListener(chart, 'ready', function () {
+				    	    	btnSave2.disabled = false;
+				    	  	  });
+				    	  	  
+				    	    btnSave2.addEventListener('click', function () {
+				    	    	var input =  $(this);
+								if(input[0].id ==  'save-pdf'){
+								var uri =  chart.getImageURI();
+								var docDefinition =null;
+								pdfMake.fonts = {
+										Roboto: {
+										    normal: 'Roboto-Regular.ttf',
+										    bold: 'Roboto-Medium.ttf',
+										    italics: 'Roboto-Italic.ttf',
+										    bolditalics: 'Roboto-MediumItalic.ttf'
+										  },
+										  THSarabunNew: {
+										    normal: 'THSarabunNew.ttf',
+										    bold: 'THSarabunNew Bold.ttf',
+										    italics: 'THSarabunNew Italic.ttf',
+										    bolditalics: 'THSarabunNew BoldItalic.ttf'
+										  }
+										};
+								if(filter_range_income_hidden == "ทั้งหมด"){
+									filter_range_income_hidden = filter_range_income_hidden+"";	
+								}else
+									filter_range_income_hidden = filter_range_income_hidden+" บาท";	
+								docDefinition = { 
+										content: [
+											{
+												text: 'รายงานข้อมูลการผลิตปีปัจจุบัน',
+												alignment: 'center',
+												style: 'header'
+											},
+											{
+												
+												text: 'ตามเงื่อนไขปี ' +filter_year+ ' จังหวัด' +filter_province_hidden+ ' ช่วงรายได้ '+filter_range_income_hidden,						
+												alignment: 'center',
+												style: 'header',						
+											},					
+											{
+												text: 'แบ่งข้อมูลตาม'+filter_status+' พบข้อมูล ' +count+ ' จำนวน จากข้อมูลทั้งหมด ' +countall+ ' แถว',						
+												alignment: 'center',
+												style: 'header',
+												margin : [0,0,0,0],
+											},
+											
+											{
+												image: uri,
+												alignment: 'center',
+												width: 925 * 0.7487922705314,
+												height: 400,
+												pageBreak:'after'
+												
+											},
+											
+											{
+												image: imageuri_ani,
+												alignment: 'center',
+												width: 925 * 0.7487922705314,
+												height: 400,
+											},
+											
+										],
+										footer: {
+											columns: [
+											'',
+											{ text: datethai, alignment: 'right',style: 'footer', }
+											],margin: [40, 0],
+										},
+										defaultStyle:{
+											font: 'THSarabunNew'	
+										},
+										styles: {
+											header: {
+												fontSize: 25,
+												bold: true
+											},
+											footer :{
+												fontSize: 15,
+												font: 'THSarabunNew'
+											}
+											
+										},
+										pageOrientation: 'landscape',
+										
+
+								};
+								pdfMake.createPdf(docDefinition).download('รายงานข้อมูลการผลิตปีปัจจุบัน.pdf');
+								console.log(pdfMake);
+								}
+							  }, false);
+				    	    chart.draw(data, {
+				    	  	    chartArea: {
+				    	  	      bottom: 24,
+				    	  	      left: 36,
+				    	  	      right: 12,
+				    	  	      top: 48,
+				    	  	      width: '100%',
+				    	  	      height: '100%'
+				    	  	    },
+				    	  	    height: 600,
+				    	  	    title: 'ภาษาไทย',
+				    	  	    width: 600
+				    	  	  });
+				    	    chart.draw(view, options);
+				    	  }
+				      function drawStuffColumn2(filter_year,filter_province_hidden,filter_range_income_hidden,filter_status) 
+				      {
+				    	  var data = new google.visualization.arrayToDataTable(result_data1);
+				    	  filter_year = Number(filter_year)+543;
+				    	    var options = {
+				    	      width: 1000,
+				    	      bar: { groupWidth: "90%" }
+				    	    };
+				    	    var view = new google.visualization.DataView(data);
+				    	    view.setColumns([0, 1,
+				    	                     { calc: "stringify",
+				    	                       sourceColumn: 1,
+				    	                       type: "string",
+				    	                       role: "annotation" },
+				    	                       2, { calc: "stringify",
+				    	                           sourceColumn: 2,
+				    	                           type: "string",
+				    	                           role: "annotation" },
+					    	                       3, { calc: "stringify",
+					    	                           sourceColumn: 3,
+					    	                           type: "string",
+					    	                           role: "annotation" }
+				    	                     ]);
+				    	    var chart_div = document.getElementById('chart_div1');
+				    	    var chart = new google.visualization.ColumnChart(chart_div);
+				    	    
+
+				    	    chart.draw(data, {
+				    	  	    chartArea: {
+				    	  	      bottom: 24,
+				    	  	      left: 36,
+				    	  	      right: 12,
+				    	  	      top: 48,
+				    	  	      width: '100%',
+				    	  	      height: '100%'
+				    	  	    },
+				    	  	    height: 600,
+				    	  	    title: 'ภาษาไทย',
+				    	  	    width: 600
+				    	  	  });
+				    	    chart.draw(view, options);
+				    	    imageuri_ani =  chart.getImageURI();
+				    	  	  
+				      }
+				      function drawStuffColumn3(count,countall,filter_year,filter_province_hidden,filter_range_income_hidden,filter_status) {
+
+
+// 				    	  var temp_data = [['Move', 'Percentage']];
+
+// 				    	  for (let elem in data_json)
+// 				    	  {
+// 				    	  	temp_data.push([elem,data_json[elem]]);
+// 				    	  }
+
+// 				    	  console.log(temp_data);
+ 							filter_year = Number(filter_year)+543;
+				    	    var data = new google.visualization.arrayToDataTable(result_data);
+
+				    	    var options = {
+				    	      width: 1100,
+				    	      bar: { groupWidth: "90%" }
+				    	    };
+				    	    var view = new google.visualization.DataView(data);
+				    	    view.setColumns([0, 1,
+				    	                     { calc: "stringify",
+				    	                       sourceColumn: 1,
+				    	                       type: "string",
+				    	                       role: "annotation" },
+				    	                       2, { calc: "stringify",
+				    	                           sourceColumn: 2,
+				    	                           type: "string",
+				    	                           role: "annotation" }
+				    	                     ]);
+				    	    var chart_div = document.getElementById('chart_div');
+				    	    var chart = new google.visualization.ColumnChart(chart_div);
+				    	    
+				    	    var btnSave3 = document.getElementById('save-pdf');
+				    	    
+				    	    google.visualization.events.addListener(chart, 'ready', function () {
+				    	    	btnSave3.disabled = false;
+				    	  	  });
+				    	  	  
+				    	    btnSave3.addEventListener('click', function () {
+				    	    	var input =  $(this);
+								if(input[0].id ==  'save-pdf'){
+								var uri =  chart.getImageURI();
+								var docDefinition =null;
+
+								pdfMake.fonts = {
+										Roboto: {
+										    normal: 'Roboto-Regular.ttf',
+										    bold: 'Roboto-Medium.ttf',
+										    italics: 'Roboto-Italic.ttf',
+										    bolditalics: 'Roboto-MediumItalic.ttf'
+										  },
+										  THSarabunNew: {
+										    normal: 'THSarabunNew.ttf',
+										    bold: 'THSarabunNew Bold.ttf',
+										    italics: 'THSarabunNew Italic.ttf',
+										    bolditalics: 'THSarabunNew BoldItalic.ttf'
+										  }
+										};
+								if(filter_range_income_hidden == "ทั้งหมด"){
+									filter_range_income_hidden = filter_range_income_hidden+"";	
+								}else
+									filter_range_income_hidden = filter_range_income_hidden+" บาท";	
+								docDefinition = { 
+										content: [
+											{
+												text: 'รายงานข้อมูลการผลิตปีปัจจุบัน',
+												alignment: 'center',
+												style: 'header'
+											},
+											{
+												
+												text: 'ตามเงื่อนไขปี ' +filter_year+ ' จังหวัด' +filter_province_hidden+ ' ช่วงรายได้ '+filter_range_income_hidden,						
+												alignment: 'center',
+												style: 'header',						
+											},					
+											{
+												text: 'แบ่งข้อมูลตาม'+filter_status+' พบข้อมูล ' +count+ ' จำนวน จากข้อมูลทั้งหมด ' +countall+ ' แถว',						
+												alignment: 'center',
+												style: 'header',
+												margin : [0,0,0,10],
+											},
+											
+											{
+												image: uri,
+												alignment: 'center',
+												width: 925 * 0.7487922705314,
+												height: 400,
+												
+											},
+											
+										],
+										footer: {
+											columns: [
+											'',
+											{ text: datethai, alignment: 'right',style: 'footer', }
+											],margin: [40, 0],
+										},
+										defaultStyle:{
+											font: 'THSarabunNew'	
+										},
+										styles: {
+											header: {
+												fontSize: 25,
+												bold: true
+											},
+											footer :{
+												fontSize: 15,
+												font: 'THSarabunNew'
+											}
+											
+										},
+										pageOrientation: 'landscape',
+										
+
+								};
+								
+								pdfMake.createPdf(docDefinition).download('รายงานข้อมูลการผลิตปีปัจจุบัน.pdf');
+
+								
+								}
+							  }, false);
+				    	    chart.draw(data, {
+				    	  	    chartArea: {
+				    	  	      bottom: 24,
+				    	  	      left: 36,
+				    	  	      right: 12,
+				    	  	      top: 48,
+				    	  	      width: '100%',
+				    	  	      height: '80%'
+				    	  	    },
+				    	  	    title: 'ภาษาไทย',
+				    	  	  });
+				    	    chart.draw(view, options);
+				    	  }
+				    </script>
+				    <div id="myProgress" style="padding-left:15px;padding-right:15px;">
+					  <div id="myBar">0%</div>
+					</div>
+					
+				   <div class="row" id="save">
+					<input  id="save-pdf" class="btn btn-default t5" type="button" value="บันทึกเป็น PDF" style="float:  right; margin-right: 20px;" disabled  />
+			    	</div>
+					<h4><center>พบข้อมูลตามเงื่อนไข <span id="total_chart_div"></span> จำนวน  จากทั้งหมด  <span id="total_all"></span> แถว</center></h4>
+					<div id="chart_div" style="width: 900px; height: 500px;"></div>
+					<div id="chart_div1" style="width: 800px; height: 600px;"></div>	
+				</div>
+				
+				
+				
+			</div>
+			
+		</div>
+	
+	</div>
+
+</div>
+
+
+
+
+
+<script>
+var count = 0;
+var result_data;
+var result_data1;
+var count_all=0;
+var btn_id="save-pdf";
+
+var imageuri;
+var imageuri_ani;
+
+
+
+var  list_type ;
+var now = new Date(); 
+var thmonth = new Array ("มกราคม","กุมภาพันธ์","มีนาคม",
+"เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน",
+"ตุลาคม","พฤศจิกายน","ธันวาคม");
+var datethai = "ข้อมูล ณ วันที่ "+ now.getDate()+ " " + thmonth[now.getMonth()]+ " พ.ศ. " + (0+now.getFullYear()+543);
+$('#datethai').html(datethai);
+
+onopent_report();
+
+
+
+$(function (){
+
+	
+	
+	$('#search-analytic').submit(function ()
+	{
+
+		var filter_status = $('#filter_status').val();
+		if(typeof filter_status == 'undefined' ||  filter_status=="")
+		{
+			filter_status = 1;
+		}
+
+		
+		var filter_year = $('#filter_year').val(); 
+		var filter_province_hidden =	$('#filter_province').val();
+		var filter_range_income_hidden = $('#filter_range_income').val();
+		
+		if(typeof filter_year == 'undefined' ||  filter_year=='0')
+		{
+			filter_year = "";
+		}
+		if(typeof filter_province_hidden == 'undefined' ||  filter_province_hidden=='0')
+		{
+			filter_province_hidden = "";
+		}
+		if(typeof filter_range_income_hidden == 'undefined' ||  filter_range_income_hidden=='0')
+		{
+			filter_range_income_hidden = "";
+		}
+		
+		if(filter_status == 1)
+			{
+				var url = 'get_result_product_animal';
+				getData_ajax(filter_status,url,filter_year,filter_province_hidden,filter_range_income_hidden);
+			}
+		if(filter_status == 2)
+		{
+			var url = 'count_plant_type';
+			getData_ajax(filter_status,url,filter_year,filter_province_hidden,filter_range_income_hidden);
+		}
+		if(filter_status == 3)
+		{
+			var url = 'result_animal_type';
+			getData_ajax(filter_status,url,filter_year,filter_province_hidden,filter_range_income_hidden);
+		}
+
+		return false;
+	});
+
+});
+
+// var url_array = ['','result_product','result_animal'];
+function getData_ajax(filter_status,url,filter_year,filter_province_hidden,filter_range_income_hidden)
+{
+
+	var elem = document.getElementById("myBar");   
+	var width = 10;
+	var time = (((10*0.15)/100)+5)*10;
+	var id = setInterval(frame, time);
+	$('#btn-search').prop('disabled', true);
+	function frame() {
+	  if (width >= 98) {
+	    clearInterval(id);
+	  } else {
+	    width++; 
+	    elem.style.width = width + '%'; 
+	    elem.innerHTML = width * 1  + '%';
+	    
+	  }
+	} 
+// 	console.log(url);
+	if(url !='')
+	{
+		$.ajax({
+			url:'<?php echo site_url('ReportAnalytic/')?>'+url,
+			type:'GET',
+			dataType:'json',
+			data:{filter_year:filter_year,filter_province_hidden:filter_province_hidden,filter_range_income_hidden:filter_range_income_hidden},
+			success:function(result){
+
+		    	  console.log(result);
+
+		    	  var old_element = document.getElementById("save-pdf");
+					var new_element = old_element.cloneNode(true);
+					old_element.parentNode.replaceChild(new_element, old_element);
+					
+					var filter_province_name = $('#filter_province option:selected').text();
+					var filter_range_income_name = $('#filter_range_income option:selected').text();
+					var filter_status_name = $('#filter_status option:selected').text();	
+
+		    	  
+		    	  if(filter_status == '1')
+			    	{
+		    		  result_data =[['lable','count']];
+						count = result.count;
+		    			  for (let elem in result.data)
+		    				{
+		    				  result_data.push([elem+' '+result.data[elem]+' คน',result.data[elem]]);
+		    				}
+
+	    				console.log(result_data);
+	    				$('#total_chart_div').html(result.count);
+	    				$('#total_all').html(result.countall);
+	    				btn_id = "save-pdf";
+	    				$('#save').find('input').attr('id',btn_id);
+	    				
+	    				if(result.count !== 0){	
+	    					google.charts.setOnLoadCallback(function(){drawChart_sum_plant(result.count,result.countall,filter_year,filter_province_name,filter_range_income_name,filter_status_name)});
+						}else{
+							$('#chart_div').empty();
+							$('#save-pdf').prop('disabled', true);
+						}
+		    			
+						clearInterval(id);
+				        elem.style.width = 100 + '%'; 
+				        elem.innerHTML = 100  + '%';
+				        $('#btn-search').prop('disabled', false);
+				        
+			    	}
+		    	  if(filter_status == '2')
+			    	{
+		    		  result_data =  [['lable','ปลูกแล้ว','จะปลูก']];
+
+		    		  
+// 		    		  if(result.lenght > 0)
+							console.log(result.data);
+		    			  for (let elem in result.data)
+		    				{
+		    					console.log(elem);
+		    					result_data.push([elem+'',result.data[elem]['ปลูกแล้ว'],result.data[elem]['จะปลูก']]);
+		    				}
+		    			  console.log(result_data);
+		    			  btn_id = "save-pdf";
+	    				  $('#save').find('input').attr('id',btn_id);
+		    				
+		    			$('#total_chart_div').html(result.count);
+		    			$('#total_all').html(result.countall);
+		    			
+		    			if(result.count !== 0){
+		    				google.charts.setOnLoadCallback(function(){drawStuffColumn3(result.count,result.countall,filter_year,filter_province_name,filter_range_income_name,filter_status_name)});
+							
+						}else{
+							$('#chart_div').empty();
+							$('#save-pdf').prop('disabled', true);
+						}
+						$('#chart_div1').html('');
+						$('#total_chart_div1_text').css('display','none');
+						clearInterval(id);
+				        elem.style.width = 100 + '%'; 
+				        elem.innerHTML = 100  + '%';
+				        $('#btn-search').prop('disabled', false);
+			    	}
+		    	  if(filter_status == '3')
+			    	{
+		    		  result_data =  [['lable','เลี้ยงแล้ว','จะเลี้ยง','เลี้ยงไว้ขาย']];
+		    		  result_data1 =  [['lable','เลี้ยงแล้ว','จะเลี้ยง','เลี้ยงไว้ขาย']];
+// 		    		  if(result.lenght > 0)
+		    			  for (let elem in result.data_ani)
+		    				{
+		    				  result_data.push([elem,result.data_ani[elem][0],result.data_ani[elem][1],result.data_ani[elem][2]]);
+		    				}
+
+		    			  for (let elem in result.data_ani2)
+		    				{
+		    					result_data1.push([elem,result.data_ani2[elem][0],result.data_ani2[elem][1],result.data_ani2[elem][2]]);
+		    				}
+		    			  btn_id = "save-pdf";
+		    			  $('#chart_div').html('');
+	    				  $('#save').find('input').attr('id',btn_id);
+			    		$('#total_chart_div').html(result.count);
+			    		$('#total_all').html(result.countall);
+						$('#chart_div1').html('');
+
+						if(result.count !== 0){
+							google.charts.setOnLoadCallback(function(){drawStuffColumn(result.count,result.countall,filter_year,filter_province_name,filter_range_income_name,filter_status_name)});
+							google.charts.setOnLoadCallback(function(){drawStuffColumn2(filter_year,filter_province_name,filter_range_income_name,filter_status_name)});
+							
+						}else{
+							$('#chart_div').empty();
+							$('#save-pdf').prop('disabled', true);
+						}
+						
+						
+						$('#total_chart_div1_text').css('display','none');
+			    	}
+		    	  	clearInterval(id);
+			        elem.style.width = 100 + '%'; 
+			        elem.innerHTML = 100  + '%';
+			        $('#btn-search').prop('disabled', false);
+			    }
+
+			});
+
+	}
+	
+}
+
+
+
+
+
+function onopent_report()
+{
+	var filter_status = $('#filter_status').val();
+	if(typeof filter_status == 'undefined' ||  filter_status=="" || filter_status=='0')
+	{
+		filter_status = 1;
+	}
+	
+// 	var url = url_array[filter_status];
+	
+	var filter_year = $('#filter_year').val(); 
+	var filter_province_hidden =	$('#filter_province').val();
+	var filter_range_income_hidden = $('#filter_range_income').val();
+	
+	if(typeof filter_year == 'undefined')
+	{
+		filter_year = "";
+	}
+	if(typeof filter_province_hidden == 'undefined' || filter_province_hidden=='0')
+	{
+		filter_province_hidden = "";
+	}
+	if(typeof filter_range_income_hidden == 'undefined' ||  filter_range_income_hidden=='0')
+	{
+		filter_range_income_hidden = "";
+	}
+
+	var url = 'get_result_product_animal';
+	
+	getData_ajax(filter_status,url,filter_year,filter_province_hidden,filter_range_income_hidden);
+
+	
+}
+
+$('#filter_province').each(function( index ) {
+	$(this).select2({
+		  placeholder: "เลือกจังหวัด",
+		  width: "140px"
+		});
+});
+$('#filter_year').each(function( index ) {
+	$(this).select2({
+		  placeholder: "เลือกปี"
+		});
+});
+$('#filter_status').each(function( index ) {
+	$(this).select2({
+		  placeholder: "เลือกประเภท",
+			  width: "auto"
+		});
+});
+$('#filter_range_income').each(function( index ) {
+	$(this).select2({
+		  placeholder: "เลือกช่วงรายได้"
+		});
+});
+
+
+</script>
+
+
