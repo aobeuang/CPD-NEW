@@ -35,17 +35,19 @@ $(document).ready(function() {
 				e.preventDefault();
 			}
 
-			if(e.key ==  '.' || e.shiftKey || (  e.key !=  '0' && e.key !=  '1'  && e.key !=  '2'  && e.key !=  '3'
+			/*if(e.key ==  '.' || e.shiftKey || (  e.key !=  '0' && e.key !=  '1'  && e.key !=  '2'  && e.key !=  '3'
 				 && e.key !=  '4'  && e.key !=  '5'  && e.key !=  '6'  && e.key !=  '7'
 					 && e.key !=  '8'  && e.key !=  '9'   ) && e.keyCode!=8 ){
 				e.preventDefault();
-			}
+			}*/
 
 			if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
 					// Allow: Ctrl/cmd+A
 				(e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
 					// Allow: Ctrl/cmd+C
 				(e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+					// Allow: Ctrl/cmd+V
+				(e.keyCode == 86 && (e.ctrlKey === true || e.metaKey === true)) ||
 					// Allow: Ctrl/cmd+X
 				(e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
 					// Allow: home, end, left, right
@@ -109,7 +111,7 @@ if( ! isset( $on_hold_message ) )
                 <div class="form-group username_form_group">
 			    	<label class="control-label">ชื่อบัญชีผู้ใช้</label>
 			    	<div class="">
-			       	<input type="text" style="" name="login_string"  class="form-control" id="login_string" autocomplete="off" maxlength="255" />
+			       	<input type="number" style="" name="login_string"  class="form-control" id="login_string" autocomplete="off" maxlength="255" />
 			   		</div>
 				</div>
                 <div class="form-group passwd_form_group">

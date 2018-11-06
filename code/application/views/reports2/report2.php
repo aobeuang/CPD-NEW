@@ -306,13 +306,14 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 			        <!-- </div> -->
 					<thead>
 						<tr>
-							<th>ชื่อ สหกรณ์</th>
+							<th>เลขบัตรประชาชน</th>
 							<th>คำนำหน้า</th>
 							<th>ชื่อ</th>
 							<th>นามสกุล</th>
-							<th>เลขบัตรประชาชน</th>
 							<th>สถานะสมาชิก</th>
 							<th>จังหวัด</th>
+							<th>ชื่อ สหกรณ์</th>
+							<th>ดูรายละเอียด</th>
 						</tr>
 					</thead>
 				</table>
@@ -369,25 +370,6 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 </div>
 </div>
 
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog" style="width: 500px">
-    
-      <!-- Modal content-->
-      <div class="modal-content">
-        <div class="modal-header" style="height: 45px;">
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-          
-        </div>
-        <div class="modal-body">
-        
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-        </div>
-      </div>
-      
-    </div>
-  </div>
 <style>
 <!--
 
@@ -820,8 +802,8 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	    	  filter_coop:filter_coop
 	       },
 	       success:function(result){
-	    	   $('#data_respone').html(result.items.query);
-	    	   $('#search_result').html(result.items.numrow);
+	    	  // $('#data_respone').html(result.items.query);
+	    	   //$('#search_result').html(result.items.numrow);
 
 		       }
     	
@@ -897,6 +879,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	        { "width": "auto" },
 	        { "width": "auto" },
 	        { "width": "auto" },
+	        { "width": "auto" },
 	        { "width": "auto" }
 	    ],
 	   	"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -914,26 +897,16 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	    },
 	    'columnDefs': [
 	    	{
-	    	      "targets": 1, // your case first column
-	    	      "className": "text-center",
-	    	      "width": "4%"
-	    	 },
-	    	{
 	    	      "targets": 4, // your case first column
 	    	      "className": "text-center",
 	    	      "width": "4%"
 	    	 },
-	    	  {
-	    	      "targets": 5, // your case first column
-	    	      "className": "text-center",
-	    	      "width": "4%"
-	    	 },
-	    	 {
-	    	      "targets": 6, // your case first column
+	    	{
+	    	      "targets": 7, // your case first column
 	    	      "className": "text-center",
 	    	      "width": "4%"
 	    	 }
-    	 ],
+	    ],
 		"ajax" : {
 			url:"ajax_filter_report2",
 			type:"GET",
@@ -987,6 +960,73 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 		table.search( this.value ).draw();
 	});
 		
+}
+
+function getUserDetail(citizen_id){
+	$("#pageLoading").fadeIn();
+	var query=true;
+	$.ajax({
+		url:"<?php echo site_url('report2/getMemberByCitizenID')?>",
+	    type:"GET",
+	    dataType: 'json',
+	    data:{
+	    	citizen_id:citizen_id,
+	    	query:query,
+	    	check:true,
+	    },
+       	success:function(result){
+    	   //$('#data_respone').html(result.items.query);
+    	   // console.log(result.items);
+    	   $("#pageLoading").fadeOut();
+    	   	if(result.items != null){
+    	   		if(result.items == 'nopermission'){
+			    	/*$('#error-box').html('ไม่มีสิทธิ์เข้าถึงข้อมูล').show();
+					setInterval(function(){
+				        $('#error-box').fadeOut();
+				    }, 6000);*/
+				    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+		    		$("#message-modal").modal();
+    	   		}else{
+    	   			var road = '';
+    	   			var lane = '';
+    	   			if(result.items[0].road){
+    	   				road = result.items[0].road;
+    	   			}
+    	   			if(result.items[0].lane){
+    	   				lane = result.items[0].lane;
+    	   			}
+		    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
+					$('#mem_citizen_id').text(result.items[0].citizen_id);
+					var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district;
+					$('#mem_addr').text(address);
+					var coop_list = '';
+					for(var i = 0;i<result.items.length;i++){
+				   		coop_list = coop_list+result.items[i].coop_name +'<br>';
+				   	}
+					$('#mem_coop_name').html(coop_list);
+					$('#mem_province_name').text(result.items[0].province_name);
+					$("#myModal").modal();
+				}
+    	   	}else{
+    	   		/*$('#error-box').html(result).show();
+				setInterval(function(){
+			        $('#error-box').fadeOut();
+			    }, 6000);*/
+			    $("#msg-modal-txt").html('ไม่พบข้อมูลที่ค้นหา');
+		    	$("#message-modal").modal();
+    	   	}
+    	    
+	    },
+	    error:function(){
+	    	$("#pageLoading").fadeOut();
+	    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			setInterval(function(){
+		        $('#error-box').fadeOut();
+		    }, 5000);*/
+		    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
+		    $("#message-modal").modal();
+	    }
+	});
 }
 // var table = $('#example').DataTable();
 var table;
@@ -1070,3 +1110,37 @@ $(document).ready(function() {
 });
 </script>
 
+<div class="modal fade cpd-modal-info" id="myModal" role="dialog">
+	<div class="modal-dialog modal-lg">
+	  <div class="modal-content">
+	    <div class="modal-header">
+	    	<span class="modal-title" id="ModalTitle" style="display: inline-block;">รายงานข้อมูลรายบุคคล</span>
+	      	<button type="button" class="close" data-dismiss="modal" aria-label="Close" style="line-height: 0.6;font-size: 38px;">
+	          <span aria-hidden="true">×</span>
+	        </button>
+	    </div>
+	    <div class="modal-body">
+	    	<div class="row b10">
+	    		<div class="col-sm-3 text-right"><strong>ชื่อผู้ใช้งาน:</strong></div>
+	    		<div class="col-sm-9" id="mem_name"></div>
+	    	</div>
+	    	<div class="row b10">
+	    		<div class="col-sm-3 text-right"><strong>หมายเลขบัตรประชาชน:</strong></div>
+	    		<div class="col-sm-9" id="mem_citizen_id"></div>
+	    	</div>
+	    	<div class="row b10">
+	    		<div class="col-sm-3 text-right"><strong>ที่อยู่:</strong></div>
+	    		<div class="col-sm-9" id="mem_addr"></div>
+	    	</div>
+	    	<div class="row b10">
+	    		<div class="col-sm-3 text-right"><strong>สังกัดสหกรณ์:</strong></div>
+	    		<div class="col-sm-9" id="mem_coop_name"></div>
+	    	</div>
+	    	<div class="row b10">
+		    	<div class="col-sm-3 text-right"><strong>จังหวัด:</strong></div>
+		    	<div class="col-sm-9" id="mem_province_name"></div>
+		    </div>
+	    </div>
+	  </div>
+	</div>
+</div>

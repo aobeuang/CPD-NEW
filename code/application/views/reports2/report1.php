@@ -404,7 +404,7 @@ table.dataTable thead .sorting_desc {
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 6000);*/
-				    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+				    $("#msg-modal-txt").html('ไม่พบข้อมูลที่ค้นหา');
 			    	$("#message-modal").modal();
 	    	   	}
 	    	    
@@ -415,7 +415,7 @@ table.dataTable thead .sorting_desc {
 				setInterval(function(){
 			        $('#error-box').fadeOut();
 			    }, 5000);*/
-			    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
 			    $("#message-modal").modal();
 		    }
 		});
@@ -474,7 +474,7 @@ table.dataTable thead .sorting_desc {
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-				    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
 			    	$("#message-modal").modal();
 			    }  
 		 	},
@@ -484,7 +484,7 @@ table.dataTable thead .sorting_desc {
 				setInterval(function(){
 			        $('#error-box').fadeOut();
 			    }, 5000);*/
-			    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
 			    $("#message-modal").modal();
 		    }  
 		});
@@ -582,7 +582,7 @@ table.dataTable thead .sorting_desc {
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-				    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
 			    	$("#message-modal").modal();
 			    }  
 		 	},
@@ -592,7 +592,7 @@ table.dataTable thead .sorting_desc {
 				setInterval(function(){
 			        $('#error-box').fadeOut();
 			    }, 5000);*/
-			    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
 			    $("#message-modal").modal();
 		    }  
 		});

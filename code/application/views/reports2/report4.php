@@ -117,18 +117,17 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 								</select>
 							</div>	
 						</div>
- 						<div class="form-group"> 
-						<!-- <div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 6px;">				
-							<label for="life_status">สถานะ: </label>
-							<select id="filter_life_status" name="filter_life_status">
-									<option value="0">ทั้งหมด</option>									
-									<option value="1">ปกติ</option>
-									<option value="2">ตาย</option>
-							</select>
-						</div>
- -->						
-						</div>
-						<div class="form-group">
+ 						<!--<div class="form-group"> 
+						 	<div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 6px;">				
+								<label for="life_status">สถานะ: </label>
+								<select id="filter_life_status" name="filter_life_status">
+										<option value="0">ทั้งหมด</option>									
+										<option value="1">ปกติ</option>
+										<option value="2">ตาย</option>
+								</select>
+							</div>
+						</div>-->
+						<!-- <div class="form-group">
 							<div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 6px;">				
 								<label for="life_status">จำนวนสหกรณ์ที่เป็นสมาชิก: </label>
 								<select id="filter_more_coop" name="filter_more_coop">	
@@ -138,7 +137,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 										<option value="3">ตั้งแต่ 3 สหกรณ์ขึ้นไป</option>
 								</select>
 							</div>
-						</div>
+						</div> -->
 <!-- 						<div class="container-fluid col-md-5 col-xs-12"  style="margin-top: 6px;"> -->				
 <!-- 							<label for="flag">ตรวจสอบ: </label> -->
 <!-- 							<select id="filter_flag" name="filter_flag"> -->
