@@ -216,11 +216,12 @@ class Loginlog extends MY_Controller {
 			->display_as('citizen_name','ชื่อ-สกุลของสมาชิก')
 			->display_as('citizen_id','เลขบัตรประชาชน');
 			
-			$crud->set_subject('รายการเข้าดูข้อมูลแบบสำรวจ');
+			$crud->set_subject('ประวัติการเรียกดูข้อมูลสมาชิก');
 			// $crud->field_type('citizen_id', 'hidden');
 			$crud->field_type('created_at', 'text');
 
 			$crud->callback_column('created_at', array($this, 'callback_date'));
+			$crud->callback_edit_field('created_at',array($this,'callback_date'));
 			// $crud->callback_column('citizen_id', array($this, 'callback_name_bycitizen'));
 
 
@@ -293,14 +294,14 @@ class Loginlog extends MY_Controller {
 			->display_as('detail', 'ประเภทของประวัติ')
 			->display_as('search_province', 'จังหวัดที่เรียกดู')
 			->display_as('actor_name', 'ชื่อผู้ใช้งาน')
-			->display_as('actor_province','จังหวัดของผู้ใข้งาน')
+			->display_as('actor_province','จังหวัดของผู้ใช้งาน')
 			
 			;
-			$crud->set_subject('รายการเข้าดูรายงานข้อมูลสมาชิก');
+			$crud->set_subject('ประวัติการเข้าใช้งานระบบ');
 			$crud->field_type('created_at', 'text');
 
 			$crud->callback_column('created_at', array($this, 'callback_date'));
-
+			$crud->callback_edit_field('created_at',array($this,'callback_date'));
 			
 
 			

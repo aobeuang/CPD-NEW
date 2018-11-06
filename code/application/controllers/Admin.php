@@ -133,7 +133,8 @@ class Admin extends MY_Controller {
 				->display_as('AGENCY','สังกัดหน่วยงาน')
 
 			;
-			$crud->set_subject('สมาชิก');
+			$crud->set_subject('ผู้ใช้งานระบบ','	การจัดการผู้ใช้งานระบบ');
+			$crud->unset_delete();
 				
 			$crud->field_type('auth_level','dropdown',
 					array(	'1' => 'ผู้ใช้งานส่วนกลางระดับจัดการ',

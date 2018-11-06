@@ -151,7 +151,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 								
 								
 								
-							<div class="floatR">
+							<div>
 								<center>
 									<div id="btnchange">
 										<button id="search_btn" class="btn btn-outline-purple"><span class="glyphicon glyphicon-search"></span> ค้นหา</button>

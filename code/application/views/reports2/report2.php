@@ -1121,7 +1121,7 @@ $(document).ready(function() {
 	    </div>
 	    <div class="modal-body">
 	    	<div class="row b10">
-	    		<div class="col-sm-3 text-right"><strong>ชื่อผู้ใช้งาน:</strong></div>
+	    		<div class="col-sm-3 text-right"><strong>ชื่อสมาชิก:</strong></div>
 	    		<div class="col-sm-9" id="mem_name"></div>
 	    	</div>
 	    	<div class="row b10">

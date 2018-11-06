@@ -1728,7 +1728,6 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$string_to_export = "\xFF\xFE" .mb_convert_encoding($string_to_export, 'UTF-16LE', 'UTF-8');
 
 		$filename = "export-".date("Y-m-d_H:i:s").".xls";
-
 		header('Content-type: application/vnd.ms-excel;charset=UTF-16LE');
 		header('Content-Disposition: attachment; filename='.$filename);
 		header("Cache-Control: no-cache");
@@ -1759,15 +1758,23 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	protected function _print_webpage($data)
 	{
 		$string_to_print = "<meta charset=\"utf-8\" /><style type=\"text/css\" >
-		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 13px;}
-		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px}
-		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black}
-		#print-table table tr th{text-align: left;background: #ddd}
-		#print-table table tr:nth-child(odd){background: #eee}
+		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 14px;text-align: center;}
+		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px; font-size: 10px;}
+		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black;}
+		#print-table table tr th{text-align: left;background: #ddd;}
+		#print-table table tr:nth-child(odd){background: #eee;}
 		</style>";
 		$string_to_print .= "<div id='print-table'>";
-
-		$string_to_print .= '<table width="100%" cellpadding="0" cellspacing="0" ><tr>';
+		$string_to_print .= "<span>".$data->subject_plural."</span>";
+		$date = date("Y-m-d H:i:s");
+		$strYear = date("Y",strtotime($date))+543;
+		$strMonth= date("m",strtotime($date));
+		$strDay= date("d",strtotime($date));
+		$strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+		$strMonthThai=$strMonthCut[$strMonth];
+		$dateString= "$strDay $strMonthThai $strYear";
+		$string_to_print .= "<span style='position: absolute;right: 10px;'> ข้อมูล ณ วันที่ ".$dateString."</span>";
+		$string_to_print .= '<br><br><table width="100%" cellpadding="0" cellspacing="0" ><tr>';
 		foreach($data->columns as $column){
 			$string_to_print .= "<th>".$column->display_as."</th>";
 		}
