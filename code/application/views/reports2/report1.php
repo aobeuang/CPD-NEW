@@ -288,20 +288,24 @@ table.dataTable thead .sorting_desc {
 		if (test=='')
 		{
 			$("#pageLoading").fadeOut();
-			$('#error-box').html('กรุณากรอกเลขบัตรประชาชน').show();
+			/*$('#error-box').html('กรุณากรอกเลขบัตรประชาชน').show();
 			setInterval(function(){
 		        $('#error-box').fadeOut();
-		    }, 3000);
+		    }, 3000);*/
+		    $("#msg-modal-txt").html('กรุณากรอกเลขบัตรประชาชน');
+			$("#message-modal").modal();
 			return false;													
 		}
 		
 		//console.log(test);
 	 	if(!checkID(test)){
 	 		$("#pageLoading").fadeOut();
-			$('#error-box').html('เลขบัตรประชาชนไม่ถูกต้อง').show();
+			/*$('#error-box').html('เลขบัตรประชาชนไม่ถูกต้อง').show();
 			setInterval(function(){
 		        $('#error-box').fadeOut();
-		    }, 3000);
+		    }, 3000);*/
+		    $("#msg-modal-txt").html('เลขบัตรประชาชนไม่ถูกต้อง');
+			$("#message-modal").modal();
 	 		return false;
 	 	}
 		else
