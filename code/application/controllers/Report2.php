@@ -1479,7 +1479,7 @@ class Report2 extends MY_Controller {
 						$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
 						$temp_data[]=$value['IN_PROVICE_NAME'];
 						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
-						$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(3940200012157);'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+						$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 					
 						$data_temp[]=$temp_data;				
 							
