@@ -121,6 +121,7 @@ input::-webkit-inner-spin-button {
 							<th>สกุล</th>
 							<th>หมายเลขบัตรประชาชน</th>
 							<th>สังกัดสหกรณ์</th>
+							<th>จังหวัด</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -132,6 +133,7 @@ input::-webkit-inner-spin-button {
 							<th>ชื่อ</th>
 							<th>สกุล</th>
 							<th>สังกัดสหกรณ์</th>
+							<th>จังหวัด</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -326,6 +328,9 @@ table.dataTable thead .sorting_desc {
 				{ "width": "auto" },
 				{ "width": "auto" },
 				{ "width": "auto" },
+				{ "width": "auto" },
+				{ "width": "auto" },
+				{ "width": "auto" },
 				{ "width": "auto" }
 			],
 			"language": {
@@ -449,6 +454,7 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
+		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		   	"ordering": false,
@@ -530,6 +536,7 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
+		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		    'columnDefs': [
@@ -555,6 +562,11 @@ table.dataTable thead .sorting_desc {
 	    	 },
 	    	 {
 	    	      "targets": 4, // your case first column
+	    	      "className": "text-left",
+	    	      "width": "15%"
+	    	 },
+	    	 {
+	    	      "targets": 5, // your case first column
 	    	      "className": "text-right",
 	    	      "width": "20%"
 	    	 }

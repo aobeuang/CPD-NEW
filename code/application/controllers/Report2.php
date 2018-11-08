@@ -1515,7 +1515,8 @@ class Report2 extends MY_Controller {
 						 		$temp_data = array();
 							$coop = getCoopByID($value['IN_D_COOP']);
 
-							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
+							$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 							$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 							$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 							$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
@@ -2524,6 +2525,7 @@ class Report2 extends MY_Controller {
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
 						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+						$temp_data[]=!empty($coop['PROVINCE_NAME'])?$coop['PROVINCE_NAME']:"-";
 						$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 					
 						$data_temp[]=$temp_data;
@@ -2544,7 +2546,8 @@ class Report2 extends MY_Controller {
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
-						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";						
+						$temp_data[]=!empty($coop['PROVINCE_NAME'])?$coop['PROVINCE_NAME']:"-";
 						$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 					
 						$data_temp[]=$temp_data;
@@ -2650,6 +2653,7 @@ class Report2 extends MY_Controller {
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+						$temp_data[]=!empty($coop['PROVINCE_NAME'])?$coop['PROVINCE_NAME']:"-";
 						$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 					
 						$data_temp[]=$temp_data;
