@@ -2341,6 +2341,53 @@ if ( ! function_exists('getAllSurveyYears'))
 			return $data_cache;
 		}
 	}
+
+	if (! function_exists('countCoopCiticen'))
+	{
+	
+		function countCoopCiticen($citizen_id)
+		{
+			$citizen_id = trim($citizen_id);
+				
+			if (!is_numeric($citizen_id))
+				return null;
+				
+
+			$cache_key = "countCoopCiticen$citizen_id";
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+	
+			$data_cache = "";
+			//if ( ! $data_cache = $ci->cache->get($cache_key))
+			if (true)
+			{
+
+				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
+				$select = '"citizen_id",COOP_ID';
+				
+				$table = getMahadthaiDbTable();
+				
+				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
+				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
+				$sql = "select count(COOP_ID) as sss from (select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id')";
+				// echo print_r($sql);die();
+				$query = $ci->db->query($sql);
+
+				$to_return = array();
+				$results = $query->result_array();
+				if (!empty($results))
+				{		
+					foreach ($results as $row ) {
+						$to_return[] = $row;
+					}
+				}
+				$ci->cache->save($cache_key, $to_return, 300000);
+	
+				return $to_return;
+			}
+			return $data_cache;
+		}
+	}
 	
 	
 	

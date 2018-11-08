@@ -1474,7 +1474,11 @@ class Report2 extends MY_Controller {
 					
 						# code...
 						$coops = getMemberByCitizenID($data['OU_D_ID']);
+						$count_coop_more = countCoopCiticen($data['OU_D_ID']);
+						$ccm = $count_coop_more[0]['SSS'];
 
+						// echo print_r($sttt);
+						// echo $sttt[0]['SSS'];die();
 						
 						$dis_citizen = 1;
 						// if (!array_search($data['OU_D_ID'], $citicen)){
@@ -1483,7 +1487,7 @@ class Report2 extends MY_Controller {
 						 
 						 foreach ($coops as $key => $value) {
 						 	
-						 	if ($check_more_coop == 1  && $dis_citizen == 1){
+						 	if ($check_more_coop == 1  && $dis_citizen == 1 && $ccm == $check_more_coop){
 						 		$temp_data = array();
 							$coop = getCoopByID($value['IN_D_COOP']);
 
@@ -1497,7 +1501,7 @@ class Report2 extends MY_Controller {
 
 							$data_temp[]=$temp_data;
 						 		$dis_citizen++;
-						 	}else if ($check_more_coop == 2 && $dis_citizen <= 2){ 
+						 	}else if ($check_more_coop == 2 && $dis_citizen <= 2 && $ccm == $check_more_coop){ 
 						 		$temp_data = array();
 							$coop = getCoopByID($value['IN_D_COOP']);
 
@@ -1511,6 +1515,21 @@ class Report2 extends MY_Controller {
 
 							$data_temp[]=$temp_data;
 						 		$dis_citizen++;
+						 	}else if ($check_more_coop == 3 && $ccm == $check_more_coop){
+						 		$temp_data = array();
+							$coop = getCoopByID($value['IN_D_COOP']);
+
+							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
+							$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+							$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+							$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+							$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+							$temp_data[]=$value['IN_PROVICE_NAME'];
+							$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+							$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+							$data_temp[]=$temp_data;
+							$dis_citizen++;
 						 	}else{
 						 		$temp_data = array();
 							$coop = getCoopByID($value['IN_D_COOP']);

@@ -519,7 +519,8 @@ class Report3 extends MY_Controller {
 
 	public function ajexreport6 ()
 	{
-
+				set_time_limit(-1);
+				ini_set("memory_limit", '-1');
 
 		if(canViewReport())
 		{
@@ -553,6 +554,7 @@ class Report3 extends MY_Controller {
 								GROUP BY tb.IN_D_COOP
 							) a ON COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
 							GROUP by COOP_INFO.ORG_ORG_ID";
+
 			$temp1 = $this->db->query($sqla_count1)->result_array();
 
 			$sqla_count2 =	"SELECT COOP_INFO.ORG_ORG_ID, SUM(a.TOTAL_COOP)
@@ -571,6 +573,7 @@ class Report3 extends MY_Controller {
 								GROUP BY tb.IN_D_COOP
 							) a ON COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
 							GROUP BY COOP_INFO.ORG_ORG_ID";
+							// echo print_r($sqla_count2);die();
 			$temp2 = $this->db->query($sqla_count2)->result_array();
 
 			$sqla_count3 =	"SELECT SUM(a.TOTAL_COOP)
@@ -620,6 +623,7 @@ class Report3 extends MY_Controller {
 			) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP";
 			$result = $this->db->query($sqla_count3)->result_array();
 			*/
+
 			$temp_data_sum =array();
 			foreach ($temp1 as $temp)
 			{
@@ -636,17 +640,27 @@ class Report3 extends MY_Controller {
 
 
 
-				if($data['COL004'] == '20')
+				// if($data['COL004'] == '99')
+				// {
+				// 	$name_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 1";
+				// 	$id_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 1";
+				// }else if($data['COL004'] == '99')
+				// {
+				// 	$name_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 2";
+				// 	$id_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 2";
+				// }
+				// else
+				// {
+				// 	$name_khet[$data['COL004']] = $data['COL003'];
+				// 	$id_khet[$data['COL004']] = $data['COL003'];
+				// }
+
+				if($data['COL004'] == '99')
 				{
-					$name_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 1";
-					$id_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 1";
-				}else if($data['COL004'] == '21')
-				{
-					$name_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 2";
-					$id_khet[$data['COL004']] = "กรุงเทพฯ พื้นที่ 2";
-				}
-				else
-				{
+					$name_khet[$data['COL004']] = $data['COL003'];
+					$id_khet[$data['COL004']] = $data['COL003'];
+				}else{
+
 					$name_khet[$data['COL004']] = $data['COL003'];
 					$id_khet[$data['COL004']] = $data['COL003'];
 				}
@@ -688,7 +702,7 @@ class Report3 extends MY_Controller {
 
 			$merge_data = array();
 
-			$sort_data_khet = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+			$sort_data_khet = Array(99,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
 
 
 

@@ -190,6 +190,7 @@
 	  				  }
 	  				}
 	  		var docDefinition = { 
+	  			pageOrientation: 'landscape',
 	  				content: [
 	  					{
 	  						text: name+'',
