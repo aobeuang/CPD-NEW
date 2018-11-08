@@ -160,6 +160,10 @@
 
                                         <th class="column-with-ordering" style="width: 12%" data-order-by="<?php echo $column->field_name; ?>"><?php echo $column->display_as; ?></th>
 
+                                        <?php }else if($column->field_name == 'name'){?>
+                                        <th class="column-with-ordering" style="width: 25%" data-order-by="<?php echo $column->field_name; ?>"><?php echo $column->display_as; ?></th>
+
+
                                          <?php }else{?>
                                         <th class="column-with-ordering" data-order-by="<?php echo $column->field_name; ?>"><?php echo $column->display_as; ?></th>
 

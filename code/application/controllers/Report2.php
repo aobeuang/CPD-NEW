@@ -1267,7 +1267,7 @@ class Report2 extends MY_Controller {
 			
 			
 			if(!empty($filter_coop)){
-				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
+				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
 							RIGHT JOIN (select REGISTRY_NO_2,COOP_NAME_TH from COOP_INFO where REGISTRY_NO_2 ='$filter_coop') a on a.REGISTRY_NO_2 = moiuser.master_data.IN_D_COOP 
 							where  OU_D_FLAG in(1,2) and
 							DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data.IN_D_COOP) = 13
@@ -1294,7 +1294,7 @@ class Report2 extends MY_Controller {
 				//oloversion
 
 
-				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
+				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
 						RIGHT JOIN (select REGISTRY_NO_2,COOP_NAME_TH from COOP_INFO where ORG_ID =$filter_provinces) a on a.REGISTRY_NO_2 = moiuser.master_data.IN_D_COOP 
 						where DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data.IN_D_COOP) = 13 and OU_D_FLAG in(1,2)
 						$life_status_query $more_coop_query $search_datatable
@@ -1317,7 +1317,7 @@ class Report2 extends MY_Controller {
 	// 			  )
 	// 			$life_status_query $more_coop_query ";
 			}else {
-				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
+				$sql = "SELECT DISTINCT IN_D_COOP,a.COOP_NAME_TH,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME FROM moiuser.master_data
 						RIGHT JOIN (select REGISTRY_NO_2,COOP_NAME_TH from COOP_INFO where ORG_ID in (
 						    select KHET.COL011 from KHET where KHET.COL004 = $filter_khet
 						    )
@@ -1389,6 +1389,9 @@ class Report2 extends MY_Controller {
 			// 			echo "<pre>";
 			// 			print_r($filter_coop);
 			// 			echo "</pre>";
+			$check_more_coop = $more_coop;
+			// echo $check_more_coop;die();
+
 			if(!empty($filter_coop))
 			{
 				$filter_coop = $data_coop[$filter_coop];
@@ -1450,6 +1453,8 @@ class Report2 extends MY_Controller {
 			unset($coop_names);
 			$count = 1;
 			$count_row =1;
+			$check_morecoop = null;
+			$citicen = array();
 				foreach ($query_nomal as $data)
 				{
 					// $coop_name =  $data_coop[$data['IN_D_COOP']];
@@ -1461,29 +1466,116 @@ class Report2 extends MY_Controller {
 					// $temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
 					// $temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";
 					// $temp_data[]=$data['IN_PROVICE_NAME'];
-					
-					
-					// 	$data_temp[]=$temp_data;
-					$coops = getMemberByCitizenID($data['OU_D_ID']);
-					// $coop = getCoopByID($data['IN_D_COOP']);
-					foreach ($coops as $key => $value) {						
-						// array_push($data, $coop);
-						// echo $role_user;
-						// echo print_r($value);die();
-						$temp_data = array();
-						$coop = getCoopByID($value['IN_D_COOP']);
 
-						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
-						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
-						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
-						$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
-						$temp_data[]=$value['IN_PROVICE_NAME'];
-						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
-						$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+						if (in_array($data['OU_D_ID'],$citicen)) { 
+							break;
+						}
+
 					
-						$data_temp[]=$temp_data;				
+						# code...
+						$coops = getMemberByCitizenID($data['OU_D_ID']);
+
+						
+						$dis_citizen = 1;
+						// if (!array_search($data['OU_D_ID'], $citicen)){
+						
+
+						 
+						 foreach ($coops as $key => $value) {
+						 	
+						 	if ($check_more_coop == 1  && $dis_citizen == 1){
+						 		$temp_data = array();
+							$coop = getCoopByID($value['IN_D_COOP']);
+
+							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+							$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+							$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+							$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+							$temp_data[]=$value['IN_PROVICE_NAME'];
+							$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+							$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+							$data_temp[]=$temp_data;
+						 		$dis_citizen++;
+						 	}else if ($check_more_coop == 2 && $dis_citizen <= 2){ 
+						 		$temp_data = array();
+							$coop = getCoopByID($value['IN_D_COOP']);
+
+							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+							$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+							$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+							$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+							$temp_data[]=$value['IN_PROVICE_NAME'];
+							$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+							$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+							$data_temp[]=$temp_data;
+						 		$dis_citizen++;
+						 	}else{
+						 		$temp_data = array();
+							$coop = getCoopByID($value['IN_D_COOP']);
+
+							$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+							$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+							$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+							$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+							$temp_data[]=$value['IN_PROVICE_NAME'];
+							$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+							$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+							$data_temp[]=$temp_data;
+							$dis_citizen++;
+						 	}
+
+
+						 }
+						 $citicen[] = $data['OU_D_ID'];
+						
+						
+					
+					
+					// // $coop = getCoopByID($data['IN_D_COOP']);
+					// foreach ($coops as $key => $value) {						
+					// 	// array_push($data, $coop);
+					// 	// echo $role_user;
+					// 	// echo print_r($value);die();
+
+					// 	if ($check_more_coop == 2 && $dis_citizen < 3) {
+					// 		$temp_data = array();
+					// 		$coop = getCoopByID($value['IN_D_COOP']);
+
+					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
+					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+					// 		$data_temp[]=$temp_data;
+					// 	}else{
+					// 		$temp_data = array();
+					// 		$coop = getCoopByID($value['IN_D_COOP']);
+
+					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
+					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+					// 		$data_temp[]=$temp_data;
+					// 	}
+						
+						
+					// 	$dis_citizen++;
+						
+										
 							
-					}
+					// }
+
+
 						$count++;
 						
 		// 			$count_row++;/*/
@@ -1491,6 +1583,11 @@ class Report2 extends MY_Controller {
 						
 						
 				}
+
+			
+				// $citicen = null;
+				// echo print_r($citicen);
+		
 			
 			$recordsTotal = $query_count[0]['TOTAL'];
 			$recordsFiltered = $query_count[0]['TOTAL'];

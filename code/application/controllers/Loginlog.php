@@ -204,12 +204,12 @@ class Loginlog extends MY_Controller {
 			
 			
 			$crud->set_primary_key('logactivityid');
-			$crud->columns('created_at','detail','citizen_name','citizen_province','actor_province','actor_name');
-			$crud->fields('created_at','detail','citizen_id','citizen_name','citizen_province','actor_province','actor_name');
+			$crud->columns('created_at','name','citizen_name','citizen_province','actor_province','actor_name');
+			$crud->fields('created_at','name','citizen_id','citizen_name','citizen_province','actor_province','actor_name');
 			
 			$crud->display_as('created_at', 'วันและเวลาที่เข้าดู')
-			->display_as('name', 'รายละเอียดการเข้าใช้งาน')
-			->display_as('detail', 'ประเภทของประวัติ')
+			->display_as('name', 'ประเภทของประวัติ')
+			->display_as('detail', 'ชื่อกิจกรรม')
 			->display_as('citizen_province', 'จังหวัดของสมาชิก')
 			->display_as('actor_name', 'ชื่อผู้ใช้งาน')
 			->display_as('actor_province','จังหวัดของผู้ใช้งาน')
@@ -290,7 +290,7 @@ class Loginlog extends MY_Controller {
 			 $crud->unset_fields('citizen_id', 'citizen_province');
 			
 			$crud->display_as('created_at', 'วันและเวลาที่เข้าดู')
-			/*->display_as('name', 'ชื่อหน้าที่เข้า')*/
+			->display_as('name', 'ชื่อกิจกรรม')
 			->display_as('detail', 'ประเภทของประวัติ')
 			->display_as('search_province', 'จังหวัดที่เรียกดู')
 			->display_as('actor_name', 'ชื่อผู้ใช้งาน')
@@ -352,7 +352,7 @@ class Loginlog extends MY_Controller {
 		$strSeconds= date("s",strtotime($val));
 		$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
 		$strMonthThai=$strMonthCut[$strMonth];
-		return "$strYear-$strMonth-$strDay $strHour:$strMinute:$strSeconds";
+		return "$strDay-$strMonth-$strYear $strHour:$strMinute:$strSeconds";
 
 	        // return date('Y-m-d', strtotime($val));
 	}

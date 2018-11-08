@@ -2316,13 +2316,13 @@ if ( ! function_exists('getAllSurveyYears'))
 			{
 
 				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
-				// $select = 'IN_D_COOP,"citizen_id",COOP_ID,IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,OU_D_PNAME,OU_D_SNAME,OU_D_HNO,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME';
+				$select = 'IN_D_COOP,"citizen_id",COOP_ID,IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,OU_D_PNAME,OU_D_SNAME,OU_D_HNO,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME';
 				
 				$table = getMahadthaiDbTable();
 				
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
-				$sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
-				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";
+				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
+				$sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 

@@ -61,7 +61,10 @@ include(__DIR__ . '/common_javascript_vars.php');
                           		$input_fields[$field->field_name]->input = 'ผู้ใช้งานส่วนกลางระดับบริหาร';
                           	if(strpos($input_fields[$field->field_name]->input, "1")!==FALSE)
                           		$input_fields[$field->field_name]->input = 'ผู้ใช้งานส่วนกลางระดับจัดการ';
-                          }                          	?>
+                          } ?>
+
+                          
+
                                 <?php echo $input_fields[$field->field_name]->input; ?>
                             </div>
                         </div>
