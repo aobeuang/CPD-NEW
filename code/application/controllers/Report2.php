@@ -2541,7 +2541,7 @@ class Report2 extends MY_Controller {
 				if (!empty($pname)){
 
 					foreach ($coops as $key => $value) {
-						$coop = getCoopByID($value['COOP_ID']);
+						$coop = getCoopByID($value['IN_D_COOP']);
 						// array_push($data, $coop);
 						 // echo "<pre>".print_r(strtotime($value['OU_D_BDATE']))."</pre>";die();
 							$data[$key] = getDataCitizen($coop,$value);

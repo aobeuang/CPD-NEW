@@ -2323,7 +2323,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
-				$sql = "SELECT * FROM test_view WHERE OU_D_ID = '$citizen_id'";//new
+				$sql = "SELECT * FROM view_master_data_use WHERE OU_D_ID = '$citizen_id'";//new
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 
@@ -3275,8 +3275,17 @@ if ( ! function_exists('getAllSurveyYears'))
 				$select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
 				
 				$table = getMahadthaiDbTable();
-				
-				$sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
+				$search_datatable = "";
+				$search = safeSQLValue($pname);
+				if(!empty($search))
+				{
+					$search_datatable = " OU_D_PNAME like '$search' or OU_D_PNAME like '$search%' or OU_D_PNAME like '%$search' or OU_D_PNAME like '%$search%'";
+					$search_datatable .="or OU_D_SNAME like '$search' or OU_D_SNAME like '$search%' or OU_D_SNAME like '%$search' or OU_D_SNAME like '%$search%'";
+				}
+
+				$sql = "SELECT * from view_master_data_use where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
+
+				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
 				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
 				$query = $ci->db->query($sql);
@@ -3340,10 +3349,20 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				$table = getMahadthaiDbTable();
 				
-				$sql = "SELECT count(*) as TOTAL FROM (select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%')"; 
-				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
-				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
-				$query = $ci->db->query($sql);
+				$search_datatable = "";
+				$search = safeSQLValue($pname);
+				if(!empty($search))
+				{
+					$search_datatable = " OU_D_PNAME like '$search' or OU_D_PNAME like '$search%' or OU_D_PNAME like '%$search' or OU_D_PNAME like '%$search%'";
+					$search_datatable .="or OU_D_SNAME like '$search' or OU_D_SNAME like '$search%' or OU_D_SNAME like '%$search' or OU_D_SNAME like '%$search%'";
+				}
+
+				$sql = "SELECT * from view_master_data_use where $search_datatable";
+
+				$sql_count = "SELECT count(*) as TOTAL FROM ($sql)";
+
+				
+				$query = $ci->db->query($sql_count);
 				// $count = $ci->db->count_all_results();
 
 				$to_return = array();
