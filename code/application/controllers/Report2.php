@@ -1197,9 +1197,9 @@ class Report2 extends MY_Controller {
 			
 			$filter_count_coop = !empty($this->input->get('filter_count_coop'))?$this->input->get('filter_khet'):null;
 			$filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):$filter_khet;
-			$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):$filter_district;
-			$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):$filter_provinces;
-			$filter_coop = !empty($this->input->get('filter_coop'))?$this->input->get('filter_coop'):$filter_coop;
+			$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):null;
+			$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):null;
+			$filter_coop = !empty($this->input->get('filter_coop'))?$this->input->get('filter_coop'):null;
 			$more_coop = !empty($this->input->get('filter_more_coop'))?$this->input->get('filter_more_coop'):null;
 			$show_query = !empty($this->input->get('query'))?TRUE:FALSE;
 			
@@ -1263,6 +1263,17 @@ class Report2 extends MY_Controller {
 				$query_org_id = " AND B.ORG_ID = $filter_provinces ";
 			}else{
 
+			}
+
+			//Check Select Org_id
+			$isset_org_id = array();
+			if (empty($filter_provinces)) {
+				$province = getProvinceOfKhetById($filter_khet);
+				foreach ($province as $v){
+					array_push($isset_org_id,$v['COL011']);
+				}
+				$list = implode(',',$isset_org_id);
+				$query_org_id = " AND B.ORG_ID IN ($list) ";
 			}
 
 
