@@ -2322,7 +2322,8 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
-				$sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";
+				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
+				$sql = "SELECT * FROM test_view WHERE OU_D_ID = '$citizen_id'";//new
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 
@@ -3215,12 +3216,12 @@ if ( ! function_exists('getAllSurveyYears'))
 			
 			$data = array(
 				'coop_name'			=> $coop['COOP_NAME_TH'],
-				'coop_id'			=> $value['COOP_ID'],
+				'coop_id'			=> $value['IN_D_COOP'],
 				'province_name'		=> $coop['PROVINCE_NAME'],
-				'citizen_id'		=> $value['citizen_id'],
-				'prefix'			=> $value['IN_D_PREFIX'],
-				'name'				=> $value['IN_D_PNAME'],
-				'surname'			=> $value['IN_D_SNAME'],
+				'citizen_id'		=> $value['OU_D_ID'],
+				'prefix'			=> $value['OU_D_PREFIX'],
+				'name'				=> $value['OU_D_PNAME'],
+				'surname'			=> $value['OU_D_SNAME'],
 				'bdate'				=> date($date),
 				'hno'				=> $value['OU_D_HNO'],
 				'lane'				=> $value['OU_D_LANE'],
