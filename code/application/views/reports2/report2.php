@@ -1136,10 +1136,10 @@ $(document).ready(function() {
 	    		<div class="col-sm-3 text-right"><strong>สังกัดสหกรณ์:</strong></div>
 	    		<div class="col-sm-9" id="mem_coop_name"></div>
 	    	</div>
-	    	<div class="row b10">
+	    	<!-- <div class="row b10">
 		    	<div class="col-sm-3 text-right"><strong>จังหวัด:</strong></div>
 		    	<div class="col-sm-9" id="mem_province_name"></div>
-		    </div>
+		    </div> -->
 	    </div>
 	  </div>
 	</div>
