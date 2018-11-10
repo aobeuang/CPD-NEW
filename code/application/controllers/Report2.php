@@ -1194,7 +1194,6 @@ class Report2 extends MY_Controller {
 			
 			$start = !empty($this->input->get('start'))? trim($this->input->get('start')): $start;
 			$length = !empty($this->input->get('length'))? trim($this->input->get('length')): $length;
-			// $length = -1;
 			
 			$filter_count_coop = !empty($this->input->get('filter_count_coop'))?$this->input->get('filter_khet'):null;
 			$filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):$filter_khet;
@@ -1206,13 +1205,8 @@ class Report2 extends MY_Controller {
 			
 			$search = !empty($this->input->get('search[value]'))?$this->input->get('search[value]'):null;
 			
-			$sumcache = $filter_khet.'-'.$filter_provinces.'-'.$filter_coop.'-'.$life_status.'-'.$citizen_id.'-'.$filter_district.'-';
-			$sumcache .= $more_coop.'-'.$show_query.'-'.$search.'-';
-			$sumcache .= $start.'-'.$length;
-			$md5_cache = md5($sumcache);
-			$md5_cache_count = md5($sumcache.'count');
-
-
+			
+			
 			$numm =0;
 			$sql="";
 			$sql_count = "";
@@ -1298,21 +1292,7 @@ class Report2 extends MY_Controller {
 					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
 					$query_coop
 					ORDER BY OU_D_ID";
-			// $sql_count = "SELECT count(*) as TOTAL FROM ($sql)";
-			$sql_count 	= "SELECT count(*) as TOTAL FROM (SELECT DISTINCT OU_D_ID
-					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND OU_D_FLAG IN(1,2)
-					                          $life_status_query
-					                          $query_org_id
-					                          GROUP BY OU_D_ID
-					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
-					$query_coop
-					ORDER BY OU_D_ID)";
+			$sql_count = "SELECT count(*) as TOTAL FROM ($sql)";
 
 
 
@@ -1329,27 +1309,9 @@ class Report2 extends MY_Controller {
 					"4"=>"ย้ายไปต่างประเทศ",
 					"6"=>"อยู่ระหว่างการหาข้อมูลเพิ่มเติม","8"=>"บุคคลในบ้านกลาง","9"=>"บุคคลอยู่ระหว่างการย้าย","14"=>"อยู่ระหว่างการปรับปรุงข้อมูล","15"=>"อยู่ระหว่างการตรวจสอบ");
 			$status_array_text =array("1"=>"ปกติ","2"=>"ตาย");
-			
-			//cache
-			$cache_key = $md5_cache;
-			$cache_key_c = $md5_cache_count;
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	
-			$data_cache = array();
-			$data_cache_count = array();
-			
-			if ( ! $data_cache_count = $ci->cache->get($cache_key_c)){
-			// if (true){
-
-				$query_count = $this->db->query($sql_count)->result_array();				
-				$ci->cache->save($cache_key_c, $query_count, 300000);
-				$data_cache_count = $query_count;
-			}
-
-			
-
-			// echo print_r($sql_count);die();
+			// echo $sql_count;
+			$query_count = $this->db->query($sql_count)->result_array();
+			// echo print_r($query_count );die();
 			$coop_names = getAllCoops();
 			
 			$data_coop = array();
@@ -1408,7 +1370,7 @@ class Report2 extends MY_Controller {
 			$text .=!empty($filter_coop)?" ".$filter_coop." /":"";
 			$text .=!empty($life_status)?" ".$status_array_text[$life_status]." /":"";
 			$text .=!empty($more_coop)?" ".$more_coop." /":"";
-			$text .=" จำนวนสมาชิก ".number_format($data_cache_count[0]['TOTAL']);
+			$text .=" จำนวนสมาชิก ".number_format($query_count[0]['TOTAL']);
 			$text .=" คน";
 			
 			$textlog ="";
@@ -1433,7 +1395,8 @@ class Report2 extends MY_Controller {
 			// }
 			
 			// echo print_r($sql);die();
-			
+			$query_nomal = $this->db->query($sql)
+							->result_array();
 			
 			
 			// echo json_encode($query_nomal);
@@ -1451,19 +1414,9 @@ class Report2 extends MY_Controller {
 			$count = 1;
 			$count_row =1;
 
-			if ( ! $data_cache = $ci->cache->get($cache_key)){
-			// if (true){
-
-				$query_nomal = $this->db->query($sql)->result_array();
-				
-			
-				$checkcitizen = null;
 				foreach ($query_nomal as $data)
 				{
 					// $coop_name =  $data_coop[$data['IN_D_COOP']];
-					if($checkcitizen != $data['OU_D_ID']) {
-						$checkcitizen = $data['OU_D_ID'];
-					// $coop = getCoopByID($data['IN_D_COOP']);
 					$temp_data = array();
 					$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
 					$temp_data[]=!empty($data['OU_D_PREFIX'])?$data['OU_D_PREFIX']:"-";
@@ -1474,35 +1427,72 @@ class Report2 extends MY_Controller {
 					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";					
 					$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 					$data_temp[]=$temp_data;
+						
+						
+						
 					
 					
-					}	
-					// $count++;
+					// // $coop = getCoopByID($data['IN_D_COOP']);
+					// foreach ($coops as $key => $value) {						
+					// 	// array_push($data, $coop);
+					// 	// echo $role_user;
+					// 	// echo print_r($value);die();
 
-					
+					// 	if ($check_more_coop == 2 && $dis_citizen < 3) {
+					// 		$temp_data = array();
+					// 		$coop = getCoopByID($value['IN_D_COOP']);
 
+					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
+					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+					// 		$data_temp[]=$temp_data;
+					// 	}else{
+					// 		$temp_data = array();
+					// 		$coop = getCoopByID($value['IN_D_COOP']);
+
+					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
+					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
+					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+
+					// 		$data_temp[]=$temp_data;
+					// 	}
+						
+						
+					// 	$dis_citizen++;
+						
+										
+							
+					// }
+
+
+						$count++;
+						
+		// 			$count_row++;/*/
+		// 			}
+						
 						
 				}
 
-				$ci->cache->save($cache_key, $data_temp, 300000);
-				$data_cache = $data_temp;
-
-
-			}
+			
 				// $citicen = null;
 				// echo print_r($citicen);
 		
 			
-			$recordsTotal = $data_cache_count[0]['TOTAL'];
-			$recordsFiltered = $data_cache_count[0]['TOTAL'];
-			// $recordsTotal = sizeof($data_temp);
-			// 	$recordsFiltered = sizeof($data_temp);
-
-			$total = $data_cache_count[0]['TOTAL'] / $length ;
+			$recordsTotal = $query_count[0]['TOTAL'];
+			$recordsFiltered = $query_count[0]['TOTAL'];
 			
 			if(!empty($search)){
-				$recordsTotal = $total;
-				$recordsFiltered = $total;
+				$recordsTotal = sizeof($data_temp);
+				$recordsFiltered = sizeof($data_temp);
 			}
 			//unset($master_data);
 			// echo "<pre>";
@@ -1514,7 +1504,7 @@ class Report2 extends MY_Controller {
 
 			if($export){
 				// addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
-				return $data_cache;
+				return $data_temp;
 			}else{
 				addLogSuspiciousMessageReport('รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
 				$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
@@ -1522,15 +1512,13 @@ class Report2 extends MY_Controller {
 						"draw"    => intval($draw),
 						"recordsTotal"  => intval($recordsTotal),
 						"recordsFiltered" => intval($recordsFiltered),
-						"data"   => $data_cache,
+						"data"   => $data_temp,
 						"numtotal"   => $text
 				);
 
 				print_r(json_encode($output));
 				// $this->load->view($textlog);
 			}
-
-
 		}else {
 			redirect('/');
 		}
@@ -2338,8 +2326,6 @@ class Report2 extends MY_Controller {
 	{
 		
 		// no cache
-		ini_set('max_execution_time', -1);
-		ini_set("memory_limit", '8124M');
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
@@ -2474,8 +2460,6 @@ class Report2 extends MY_Controller {
 				if($show_query)
 				{
 					$temp['items'] = $data;
-					echo print_r($temp);die();
-
 					echo json_encode($temp);
 					exit();
 				}
@@ -2499,8 +2483,6 @@ class Report2 extends MY_Controller {
 
 	public function getUserListByName()
 	{	
-		ini_set('max_execution_time', -1);
-		ini_set("memory_limit", '8124M');
 		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 		header("Cache-Control: post-check=0, pre-check=0", false);
 		header("Pragma: no-cache");
@@ -2559,7 +2541,7 @@ class Report2 extends MY_Controller {
 				if (!empty($pname)){
 
 					foreach ($coops as $key => $value) {
-						$coop = getCoopByID($value['COOP_ID']);
+						$coop = getCoopByID($value['IN_D_COOP']);
 						// array_push($data, $coop);
 						 // echo "<pre>".print_r(strtotime($value['OU_D_BDATE']))."</pre>";die();
 							$data[$key] = getDataCitizen($coop,$value);

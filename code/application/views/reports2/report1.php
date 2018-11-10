@@ -399,13 +399,13 @@ table.dataTable thead .sorting_desc {
 			    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
 						$('#mem_citizen_id').text(result.items[0].citizen_id);
 						var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district;
-						$('#mem_addr').text(address + ' ' + result.items[0].province_name);
+						$('#mem_addr').text(address);
 						var coop_list = '';
 						for(var i = 0;i<result.items.length;i++){
-					   		coop_list = coop_list+result.items[i].coop_name + ' ' + result.items[i].province_org_name +'<br>';
+					   		coop_list = coop_list+result.items[i].coop_name +'<br>';
 					   	}
 						$('#mem_coop_name').html(coop_list);
-						// $('#mem_province_name').text(result.items[0].province_name);
+						$('#mem_province_name').text(result.items[0].province_name);
 						$("#myModal").modal();
 					}
 	    	   	}else{
@@ -667,10 +667,10 @@ table.dataTable thead .sorting_desc {
 	    		<div class="col-sm-3 text-right"><strong>สังกัดสหกรณ์:</strong></div>
 	    		<div class="col-sm-9" id="mem_coop_name"></div>
 	    	</div>
-	    	<!-- <div class="row b10">
+	    	<div class="row b10">
 		    	<div class="col-sm-3 text-right"><strong>จังหวัด:</strong></div>
 		    	<div class="col-sm-9" id="mem_province_name"></div>
-		    </div> -->
+		    </div>
 	    </div>
 	  </div>
 	</div>
