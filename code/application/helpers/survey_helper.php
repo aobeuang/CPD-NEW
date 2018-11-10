@@ -2323,6 +2323,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
+				$sql = "SELECT * FROM test_view WHERE OU_D_ID = '$citizen_id'";//new
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 
