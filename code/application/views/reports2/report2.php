@@ -882,7 +882,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	        { "width": "auto" },
 	        { "width": "auto" }
 	    ],
-	   	"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+	   	// "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
 	   	"ordering": false,
 	   	"language": {
 	        "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
@@ -917,6 +917,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 				province:province,
 				filter_district:filter_district,
 				filter_khet:khet,
+				length:25,
 				filter_count_coop:filter_count_coop,
 				filter_more_coop:filter_more_coop,
 				filter_coop:filter_coop,
@@ -989,10 +990,10 @@ function getUserDetail(citizen_id){
     	   		}else{
     	   			var road = '';
     	   			var lane = '';
-    	   			if(result.items[0].road){
+    	   			if(result.items[0].road != ''){
     	   				road = result.items[0].road;
     	   			}
-    	   			if(result.items[0].lane){
+    	   			if(result.items[0].lane != ''){
     	   				lane = result.items[0].lane;
     	   			}
 		    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
@@ -1013,7 +1014,7 @@ function getUserDetail(citizen_id){
 			        $('#error-box').fadeOut();
 			    }, 6000);*/
 			    $("#msg-modal-txt").html('ไม่พบข้อมูลที่ค้นหา');
-		    	$("#message-modal").modal();
+		    	$("#message-modal").modal("show");
     	   	}
     	    
 	    },

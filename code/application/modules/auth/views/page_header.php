@@ -432,7 +432,7 @@ jQuery(function () {
 	</div>
 </div>
 
-<div class="modal fade cpd-modal-info" id="message-modal" role="dialog">
+<div class="modal cpd-modal-info" id="message-modal" role="dialog">
 	<div class="modal-dialog" style="width: auto;">
 	  <div class="modal-content">
 	    <!-- <div class="modal-header">

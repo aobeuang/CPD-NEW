@@ -3228,8 +3228,8 @@ if ( ! function_exists('getAllSurveyYears'))
 				'surname'			=> $value['OU_D_SNAME'],
 				'bdate'				=> date($date),
 				'hno'				=> $value['OU_D_HNO'],
-				'lane'				=> $value['OU_D_LANE'],
-				'road'				=> $value['OU_D_ROAD'],
+				'lane'				=> !empty($value['OU_D_LANE'])?$value['OU_D_LANE']:'',
+				'road'				=> !empty($value['OU_D_ROAD'])?$value['OU_D_ROAD']:'',
 				'subd'				=> $value['OU_D_SUBD'],
 				'district'			=> $value['OU_D_DISTRICT'],
 				'province_name'		=> $value['OU_D_PROVICE_NAME'],
@@ -3272,8 +3272,8 @@ if ( ! function_exists('getAllSurveyYears'))
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 	
 			$data_cache = "";
-			// if ( ! $data_cache = $ci->cache->get($cache_key))
-			if (true)
+			if ( ! $data_cache = $ci->cache->get($cache_key))
+			// if (true)
 			{
 
 				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
@@ -3346,8 +3346,8 @@ if ( ! function_exists('getAllSurveyYears'))
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 	
 			$data_cache = "";
-			// if ( ! $data_cache = $ci->cache->get($cache_key))
-			if (true)
+			if ( ! $data_cache = $ci->cache->get($cache_key))
+			// if (true)
 			{
 
 				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';

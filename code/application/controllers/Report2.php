@@ -1339,8 +1339,8 @@ class Report2 extends MY_Controller {
 			$data_cache = array();
 			$data_cache_count = array();
 			
-			// if ( ! $data_cache_count = $ci->cache->get($cache_key_c)){
-			if (true){
+			if ( ! $data_cache_count = $ci->cache->get($cache_key_c)){
+			// if (true){
 
 				$query_count = $this->db->query($sql_count)->result_array();				
 				$ci->cache->save($cache_key_c, $query_count, 300000);
@@ -1451,8 +1451,8 @@ class Report2 extends MY_Controller {
 			$count = 1;
 			$count_row =1;
 
-			// if ( ! $data_cache = $ci->cache->get($cache_key)){
-			if (true){
+			if ( ! $data_cache = $ci->cache->get($cache_key)){
+			// if (true){
 
 				$query_nomal = $this->db->query($sql)->result_array();
 				
@@ -2474,6 +2474,8 @@ class Report2 extends MY_Controller {
 				if($show_query)
 				{
 					$temp['items'] = $data;
+					echo print_r($temp);die();
+
 					echo json_encode($temp);
 					exit();
 				}
