@@ -2323,7 +2323,6 @@ if ( ! function_exists('getAllSurveyYears'))
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
-				$sql = "SELECT * FROM view_master_data_use WHERE OU_D_ID = '$citizen_id'";//new
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 
@@ -3280,6 +3279,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				// $select = 'IN_D_COOP,OU_D_PNAME,OU_D_SNAME,COOP_NAME_TH,IN_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_PREFIX';
 				
 				$table = getMahadthaiDbTable();
+<<<<<<< HEAD
 				$search_datatable = "";
 				$search = safeSQLValue($pname);
 				if(!empty($search))
@@ -3291,6 +3291,10 @@ if ( ! function_exists('getAllSurveyYears'))
 				$sql = "SELECT * from view_search where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
 
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
+=======
+				
+				$sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
+>>>>>>> parent of 72a44ea... Update Fix Find Name
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
 				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
 				$query = $ci->db->query($sql);
@@ -3356,6 +3360,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				$table = getMahadthaiDbTable();
 				
+<<<<<<< HEAD
 				$search_datatable = "";
 				$search = safeSQLValue($pname);
 				if(!empty($search))
@@ -3370,6 +3375,12 @@ if ( ! function_exists('getAllSurveyYears'))
 
 				
 				$query = $ci->db->query($sql_count);
+=======
+				$sql = "SELECT count(*) as TOTAL FROM (select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%')"; 
+				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
+				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
+				$query = $ci->db->query($sql);
+>>>>>>> parent of 72a44ea... Update Fix Find Name
 				// $count = $ci->db->count_all_results();
 
 				$to_return = array();
