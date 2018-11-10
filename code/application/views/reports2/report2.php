@@ -998,7 +998,7 @@ function getUserDetail(citizen_id){
 		    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
 					$('#mem_citizen_id').text(result.items[0].citizen_id);
 					var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district;
-					$('#mem_addr').text(address);
+					$('#mem_addr').text(address + ' ' + result.items[0].province_name);
 					var coop_list = '';
 					for(var i = 0;i<result.items.length;i++){
 				   		coop_list = coop_list+result.items[i].coop_name +'<br>';
