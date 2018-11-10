@@ -3281,6 +3281,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				$table = getMahadthaiDbTable();
 <<<<<<< HEAD
+<<<<<<< HEAD
 				$search_datatable = "";
 				$search = safeSQLValue($pname);
 				if(!empty($search))
@@ -3292,6 +3293,10 @@ if ( ! function_exists('getAllSurveyYears'))
 				$sql = "SELECT * from view_search where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
 
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
+=======
+				
+				$sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
+>>>>>>> parent of 72a44ea... Update Fix Find Name
 =======
 				
 				$sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
@@ -3362,6 +3367,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				$table = getMahadthaiDbTable();
 				
 <<<<<<< HEAD
+<<<<<<< HEAD
 				$search_datatable = "";
 				$search = safeSQLValue($pname);
 				if(!empty($search))
@@ -3377,10 +3383,15 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				$query = $ci->db->query($sql_count);
 =======
+=======
+>>>>>>> parent of 72a44ea... Update Fix Find Name
 				$sql = "SELECT count(*) as TOTAL FROM (select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%')"; 
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
 				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
 				$query = $ci->db->query($sql);
+<<<<<<< HEAD
+>>>>>>> parent of 72a44ea... Update Fix Find Name
+=======
 >>>>>>> parent of 72a44ea... Update Fix Find Name
 				// $count = $ci->db->count_all_results();
 
