@@ -146,7 +146,8 @@ class Admin extends MY_Controller {
 			
 			$crud->field_type('banned','dropdown',
 					array('2' => 'ใช้งานได้','1' => 'ไม่ให้ใช้'));
-			
+
+			$crud->field_type('username','numeric');
 			
 			$provinces = array();
 			$province_all = getAllProvinces();
@@ -327,6 +328,10 @@ class Admin extends MY_Controller {
 				$crud->field_type('username','readonly');
 				$crud->field_type('email','readonly');
 			}
+			else if ( $crud->getState()=='export' )
+			{
+				$crud->callback_column('username', array($this,'change_value_number'));
+			}
 			else
 			{
 				$crud->set_rules('username','ชื่อบัญชีผู้ใช้','required|alpha_numeric_spaces|is_unique[users.username]');
@@ -382,6 +387,11 @@ class Admin extends MY_Controller {
 		$user_id = $this->user_model->getId();
 	
 		return '<input type="text" name="user_id" value="'.$user_id.'" readonly/>';
+	}
+
+	function change_value_number($value)
+	{
+		return "'".$value;
 	}
 	
 

@@ -47,8 +47,8 @@ include(__DIR__ . '/common_javascript_vars.php');
                                 <?php echo $input_fields[$field->field_name]->display_as?>:
                             </label>
                             <div class="col-sm-9 read-row">
-                          <?php if($field->field_name == 'auth_level')
-                          {
+                          <?php
+                          if($field->field_name == 'auth_level') {
                           	if(strpos($input_fields[$field->field_name]->input, "9")!==FALSE)
                           		$input_fields[$field->field_name]->input = 'ผู้ดูแลระบบระดับบริหาร';
                           	if(strpos($input_fields[$field->field_name]->input, "8")!==FALSE)
@@ -61,11 +61,25 @@ include(__DIR__ . '/common_javascript_vars.php');
                           		$input_fields[$field->field_name]->input = 'ผู้ใช้งานส่วนกลางระดับบริหาร';
                           	if(strpos($input_fields[$field->field_name]->input, "1")!==FALSE)
                           		$input_fields[$field->field_name]->input = 'ผู้ใช้งานส่วนกลางระดับจัดการ';
-                          } ?>
+                          }
 
-                          
-
-                                <?php echo $input_fields[$field->field_name]->input; ?>
+                          if($field->field_name == 'created_at') {
+                            $val = $input_fields[$field->field_name]->input;
+                            $t = trim($val,'<div id="field-created_at" class="readonly_label"></div>');                            
+                            $strYear = date("Y",strtotime($t))+543;
+                            $strMonth= date("m",strtotime($t));
+                            $strDay= date("d",strtotime($t));
+                            $strHour= date("H",strtotime($t));
+                            $strMinute= date("i",strtotime($t));
+                            $strSeconds= date("s",strtotime($t));
+                            echo "$strYear-$strMonth-$strDay $strHour:$strMinute:$strSeconds";
+                            // echo print_r($input_fields[$field->field_name]->input);die();
+                            }
+                          ?>
+                          <?php if ( $field->field_name != 'created_at' ) { ?>
+                            <?php echo $input_fields[$field->field_name]->input; ?>
+                            <?php }?>
+                                
                             </div>
                         </div>
                     <?php }?>

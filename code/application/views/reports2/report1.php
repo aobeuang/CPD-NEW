@@ -26,7 +26,7 @@ input::-webkit-inner-spin-button {
 		<div class="row" style="text-align:left">
 		
 		
-			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> รายงานข้อมูลสมาชิก</h2>
+			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> รายงานข้อมูลรายบุคคล</h2>
 			
 		</div>
 		<pre id="data_respone"></pre>
