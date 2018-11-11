@@ -525,14 +525,15 @@ class Report3 extends MY_Controller {
 		if(canViewReport())
 		{
 			$cache_key = "Report36";
-			$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 
 
 			$data_cache = null;
 
 			$count_data_all = array();
-	// 		if ( ! $data_cache = $this->cache->get($cache_key))
-	// 		{
+			if ( ! $data_cache = $ci->cache->get($cache_key))
+			{
 	// 		$this->db->distinct('COL001');
 			$query = $this->db->get($this->db->dbprefix('KHET'));
 			$datas = $query->result_array();
@@ -737,10 +738,14 @@ class Report3 extends MY_Controller {
 			$output['date'] = $this->changemonth();
 
 			$output['khetid'] = $id_khet;
-
+			$ci->cache->save($cache_key, $output, 30000);
 			print_r(json_encode($output));
-
+			die();
 		}
+		print_r(json_encode($data_cache));
+
+	}
+		
 
 	}
 
@@ -1177,13 +1182,13 @@ class Report3 extends MY_Controller {
 
 		echo $this->load->view('auth/page_header', '', TRUE);
 
-		$result = $this->queryreport17();
+		// $result = $this->queryreport17();
 
-		$output = array();
-		$output['khet'] =json_encode($result);
+		// $output = array();
+		// $output['khet'] =json_encode($result);
 // 		$output['list_total_type1'] = $result[0]['SUM(A.TOTAL_COOP)'];
 
-		echo $this->load->view('reports3/report17',$output);
+		echo $this->load->view('reports3/report17','', TRUE);
 
 		echo $this->load->view('auth/page_footer', '', TRUE);
 
@@ -1192,14 +1197,15 @@ class Report3 extends MY_Controller {
 	public function queryreport17 ()
 	{
 
-		$cache_key = "Report317";
-		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+		$cache_key = "Report317excell";
+		$ci =& get_instance();
+		$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 		$data_cache = null;
 
 		$count_data_all = array();
 
-		// 		if ( ! $data_cache = $this->cache->get($cache_key))
-		// 		{
+				if ( ! $data_cache = $ci->cache->get($cache_key))
+				{
 		$temp_data = array();
 		
 		$sqla_count1 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
@@ -1314,7 +1320,7 @@ class Report3 extends MY_Controller {
 		$merge_data['ยอดรวม']['1'] = $total_normal;
 		$merge_data['ยอดรวม']['2'] = $total_die;
 
-		$sort_data_khet = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+		$sort_data_khet = Array(99,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
 		$final_data= array();
 		$final_data['กรุงเทพฯ พื้นที่ 1'] =  $merge_data['กรุงเทพฯ พื้นที่ 1'];
 		$final_data['กรุงเทพฯ พื้นที่ 2'] =  $merge_data['กรุงเทพฯ พื้นที่ 2'];
@@ -1329,8 +1335,15 @@ class Report3 extends MY_Controller {
 
 				if($temp['COL004'] == $khet)
 				{
-					$final_data[$k] = $merge_data[$k];
-					$final_data[$k][] = $khet;
+					
+					if ($khet == 99) {
+						$final_data[$k] = $merge_data[$k];
+						$final_data[$k][] = "ส่วนกลาง";
+					}else{
+						$final_data[$k] = $merge_data[$k];
+						$final_data[$k][] = $khet;
+					}
+
 				}
 
 			}
@@ -1339,7 +1352,16 @@ class Report3 extends MY_Controller {
 		$final_data['ยอดรวม']['1']= $merge_data['ยอดรวม']['1'];
 		$final_data['ยอดรวม']['2']= $merge_data['ยอดรวม']['2'];
 		$final_data['ยอดรวม']['3']= "";
+
+		$ci->cache->save($cache_key, $final_data, 30000);
+
 		return $final_data;
+
+		}
+
+		return $data_cache;
+
+
 	}
 
 
@@ -1494,6 +1516,7 @@ class Report3 extends MY_Controller {
 		// 		print_graph($data);
 		$data = array();
 		$filename = "รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด";
+
 		$data_khet = $this->queryreport17();
 		$date = $this->changemonth();
 		$header_excel = array('','','','','','',$date);
@@ -1507,6 +1530,7 @@ class Report3 extends MY_Controller {
 		$temp_row = null;
 		$colspan_array = array();
 // 		$colspan_array[] = 3;
+
 		foreach ($data_khet as $key=>$rows) {
 
 			if($rows['3'] != $temp_row && !empty($rows['3']) && $rows['3'] !="")
@@ -1537,24 +1561,25 @@ class Report3 extends MY_Controller {
 
 		$temp_merge = array();
 
-		$temp_merge[0] = "A4:A9";
-		$temp_merge[1] = "A10:A13";
-		$temp_merge[2] = "A14:A18";
-		$temp_merge[3] = "A19:A22";
-		$temp_merge[4] = "A23:A26";
-		$temp_merge[5] = "A27:A30";
-		$temp_merge[6] = "A31:A35";
-		$temp_merge[7] = "A36:A40";
-		$temp_merge[8] = "A41:A44";
-		$temp_merge[9] = "A45:A49";
-		$temp_merge[10] = "A50:A52";
-		$temp_merge[11] = "A53:A56";
-		$temp_merge[12] = "A57:A60";
-		$temp_merge[13] = "A61:A64";
-		$temp_merge[14] = "A65:A68";
-		$temp_merge[15] = "A69:A72";
-		$temp_merge[16] = "A73:A77";
-		$temp_merge[17] = "A78:A81";
+		$temp_merge[0] = "A4:A5";
+		$temp_merge[1] = "A6:A11";
+		$temp_merge[2] = "A12:A15";
+		$temp_merge[3] = "A16:A18";
+		$temp_merge[4] = "A19:A22";
+		$temp_merge[5] = "A23:A27";
+		$temp_merge[6] = "A28:A33";
+		$temp_merge[7] = "A34:A36";
+		$temp_merge[8] = "A37:A39";
+		$temp_merge[9] = "A40:A44";
+		$temp_merge[10] = "A45:A49";
+		$temp_merge[11] = "A50:A52";
+		$temp_merge[12] = "A53:A56";
+		$temp_merge[13] = "A57:A60";
+		$temp_merge[14] = "A61:A64";
+		$temp_merge[15] = "A65:A68";
+		$temp_merge[16] = "A69:A72";
+		$temp_merge[17] = "A73:A77";
+		$temp_merge[18] = "A78:A81";
 
 		$countRow = sizeof($data);
 		$strFilds1 = 'C3:C'.$countRow;
@@ -1581,17 +1606,17 @@ class Report3 extends MY_Controller {
 		header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.xlsx"');
 		$writer->save("php://output");
 	}
-	public function ajexreport17()
-	{
-		//   set_time_limit(-1);
-		//   ini_set("memory_limit", '-1');
+	public function ajexreport17() {
+
+		  ini_set('max_execution_time', 0);
+		  ini_set("memory_limit", '-1');
 		$cache_key = "Report317";
-		$this->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+		$ci =& get_instance();
+		$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 		$data_cache = null;
 
 		$count_data_all = array();
-		//   if ( ! $data_cache = $this->cache->get($cache_key))
-		//   {
+		if ( ! $data_cache = $ci->cache->get($cache_key)) {
 
 		$temp_data = array();
 		
@@ -1635,6 +1660,7 @@ class Report3 extends MY_Controller {
 		$result = $this->db->query($sqla_count3)->result_array();
 
 		$temp_data_sum =array();
+		// echo print_r($temp1);die();
 		foreach ($temp1 as $temp)
 		{
 			$k = $temp['ORG_NAME'];
@@ -1661,6 +1687,7 @@ class Report3 extends MY_Controller {
 		$total_normal = 0;
 		$total_die = 0;
 		$merge_data = array();
+		// echo print_r($temp_data_sum);die();
 		foreach ($temp_data_sum as $k=>$v)
 		{
 			$k = str_replace("สำนักงานสหกรณ์จังหวัด", "", $k);
@@ -1676,18 +1703,19 @@ class Report3 extends MY_Controller {
 		$merge_data['ยอดรวม']['2'] = $total_die;
 
 
-		$sort_data_khet = Array(1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
+		$sort_data_khet = Array(99,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18);
 		$final_data= array();
 
 		$final_data['กรุงเทพฯ พื้นที่ 1'] =  $merge_data['กรุงเทพฯ พื้นที่ 1'];
 		$final_data['กรุงเทพฯ พื้นที่ 1'][] = 1;
 		$final_data['กรุงเทพฯ พื้นที่ 2'] =  $merge_data['กรุงเทพฯ พื้นที่ 2'];
 		$final_data['กรุงเทพฯ พื้นที่ 2'][] = 2;
-// 		echo "<pre>";
-// 		print_r($final_data);
-// 		exit();
+		// echo "<pre>";
+		// print_r($result);
+		// exit();
 		foreach ($sort_data_khet as $khet){
 
+		// echo print_r($khet);die();
 
 			foreach ($result as $temp){
 
@@ -1699,8 +1727,14 @@ class Report3 extends MY_Controller {
 
 				if($temp['COL004'] == $khet)
 				{
-					$final_data[$k] = $merge_data[$k];
-					$final_data[$k][] = $khet."";
+					if ($khet == 99) {
+						$final_data[$k] = $merge_data[$k];
+						$final_data[$k][] = "ส่วนกลาง"." ";
+					}else{
+						$final_data[$k] = $merge_data[$k];
+						$final_data[$k][] = $khet."";
+					}
+					
 				}
 
 			}
@@ -1716,14 +1750,25 @@ class Report3 extends MY_Controller {
 		$output = array();
 		$output['khet'] = $final_data;
 
+		// echo print_r($final_data);die();
+
 
 
 		$output['list_total'] = $total_normal+$total_die;
 		$output['query1'] = $sqla_count1;
 		$output['query2'] = $sqla_count2;
 		$output['date'] = $this->changemonth();
-// 		$output['query3'] = $sqla_count3;
+		$output['query3'] = $sqla_count3;
+		// echo print_r($output);die();
+
+			$ci->cache->save($cache_key, $output, 30000);
+				// return $to_return;
 		print_r(json_encode($output));
+		die();
+	}
+	
+
+		print_r(json_encode($data_cache));
 
 	}
 

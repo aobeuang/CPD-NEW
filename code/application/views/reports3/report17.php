@@ -83,9 +83,7 @@ text-align: center !important;
 				    </div>
 
 			    </div>
-			     <div id="myProgress" class="display">
-					  <div id="myBar">0%</div>
-				</div>
+			     
 
 				<div class="row" id ="save">
 					<input id="save-pdf"  class="btn btn-default t5" type="button" value="บันทึกเป็น Excel" style="float:  right;" onclick="downloadExcel();" />
@@ -102,34 +100,6 @@ text-align: center !important;
 
 
 				</div>
-
-
-
-<!-- 				<div>
-
-					<textarea rows="12" cols="130" style="margin: 0px; width: 1073px; height: 291px;">
-					select sum(a.TOTAL_COOP),COOP_INFO.ORG_NAME
-		  from COOP_INFO
-		  left join (
-		       select  IN_D_COOP ,count(OU_D_ID) as TOTAL_COOP
-		       from moiuser.master_data
-		       where OU_D_FLAG in (1,2) and OU_D_STATUS_TYPE  not in (1,11,13)
-		       group by IN_D_COOP having DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
-		  ) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP GROUP by COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
-		  ORDER BY COOP_INFO.ORG_ID
-
-		  select sum(a.TOTAL_COOP),COOP_INFO.ORG_NAME
-			  from COOP_INFO
-			  left join (
-			       select  IN_D_COOP ,count(OU_D_ID) as TOTAL_COOP
-			       from moiuser.master_data
-			       where OU_D_FLAG in (1,2) and OU_D_STATUS_TYPE  in (1,11,13)
-			       group by IN_D_COOP having DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
-			  ) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP GROUP by COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
-			  ORDER BY COOP_INFO.ORG_ID
-					</textarea>
-
-				</div> -->
 
 			</div>
 		</div>
@@ -180,18 +150,8 @@ th
       var listresult;
       var elem = document.getElementById("myBar");
       var width = 10;
-      var time = (((10*0.15)/100)+5)*30;
-      var id_frame = setInterval(frame, time);
-      function frame() {
-        if (width >= 98) {
-          clearInterval(id_frame);
-        } else {
-          width++;
-          elem.style.width = width + '%';
-          elem.innerHTML = width * 1  + '%';
 
-        }
-      }
+
       var now = new Date();
       var thmonth = new Array ("มกราคม","กุมภาพันธ์","มีนาคม",
       "เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน",
@@ -222,7 +182,7 @@ th
 				num++;
 			}
 			//console.log(data_array);
-			console.log('tttooo');
+			// console.log('tttooo');
 			 var data = new google.visualization.DataTable();
 // 			 	data.addColumn('string', 'ลำดับ');
 			 	data.addColumn('string', 'เขตตรวจราชการ');
@@ -278,7 +238,7 @@ th
 		        elem.style.width = 100 + '%';
 		        elem.innerHTML = 100  + '%';
 
-		        console.log($('.TotalCell').attr('colspan',"2"));
+		        // console.log($('.TotalCell').attr('colspan',"2"));
 		        $('.TotalCellDelete').remove();
 // 		        $('.TotalCell').attr('colspan',"2");
 
@@ -286,7 +246,7 @@ th
 			function drawPDF()
 			{
 					//console.log('ooo111');
-					//console.log(listresult.khet);
+					// console.log(listresult.khet);
 					//console.log('ooo222');
 					var data_array = [];
 					var num = 1;
@@ -320,14 +280,16 @@ th
 					}
 
 					for(let rowspan_elem in table_rows){
-						//console.log(table_rows[rowspan_elem]['0']);
+						// console.log(table_rows[rowspan_elem]['0']);
 						if(table_rows[rowspan_elem]['0']['text']!=0){
 							table_rows[rowspan_elem]['0']['rowSpan'] = count_khet[table_rows[rowspan_elem]['0']['text']];
+						// console.log(table_rows[rowspan_elem]['0']);
+
 							//table_rows[rowspan_elem]['0']['text'] = '\n\n\n'+table_rows[rowspan_elem]['0']['text'];
 						}else{
 							//table_rows[rowspan_elem]['0']['rowspan'] = '';
 							if(rowspan_elem!=0){
-								//table_rows[rowspan_elem].splice(0,1);
+								// table_rows[rowspan_elem].splice(0,1);
 								table_rows[rowspan_elem]['0'] = {};
 							}
 						}
@@ -341,6 +303,7 @@ th
 									table_rows[rowspan_elem]['0']['text'] = '\n\n'+table_rows[rowspan_elem]['0']['text'];
 								}else if(count_khet[table_rows[rowspan_elem]['0']['text']]>=6){
 									table_rows[rowspan_elem]['0']['text'] = '\n\n\n'+table_rows[rowspan_elem]['0']['text'];
+									// console.log(table_rows[rowspan_elem]['0']['text']);
 								}
 							}
 						}else{
@@ -383,21 +346,23 @@ th
 					table_rows['0']['1']['fillColor'] = '#e4e9f4';
 					table_rows['0']['2']['fillColor'] = '#e4e9f4';
 					table_rows['0']['3']['fillColor'] = '#e4e9f4';
-					//table_rows['27']['3']['pageBreak'] = 'after';
-					//table_rows['27']['3']['dontBreakRows'] = 'true';
+					// table_rows['24']['1']['pageBreak'] = 'after';
+					table_rows['24']['3']['pageBreak'] = 'after';
+					// table_rows['5']['3']['pageBreak'] = 'after';
+					// table_rows['24']['3']['dontBreakRows'] = 'false';
 
-					//temp_pdf_array['27']['3']['pageBreak'] = 'after';
-					//temp_pdf_array1['29']['3']['pageBreak'] = 'after';
-					//table_rows['28']['0']['pageBreak'] = 'after';
-					//table_rows['57']['3']['pageBreak'] = 'after';
-					//table_rows['57']['3']['dontBreakRows'] = 'true';
-					console.log('ooo333');
-					console.log(count_khet);
+					// temp_pdf_array['27']['3']['pageBreak'] = 'after';
+					// temp_pdf_array1['29']['3']['pageBreak'] = 'after';
+					// table_rows['28']['0']['pageBreak'] = 'after';
+					table_rows['56']['3']['pageBreak'] = 'after';
+					// table_rows['57']['3']['dontBreakRows'] = 'true';
+					// console.log('ooo333');
+					// console.log(count_khet);
 					//console.log(table_rows);
 					//console.log(temp_pdf_array);
 					//console.log(temp_pdf_array1);
 					//console.log(temp_pdf_array2);
-					console.log('ooo444');
+					// console.log('ooo444');
 
 							pdfMake.fonts = {
 			  						Roboto: {
@@ -418,24 +383,26 @@ th
 									header: function(currentPage, pageCount) {
 										// you can apply any logic and return any valid pdfmake element
 
-										return { text: 'หน้าที่ '+ currentPage +'/'+ pageCount, alignment: 'right', margin:[20, 20, 40, 20], fontSize: 14 };
+										return { text: 'หน้าที่ '+ currentPage +'/'+ pageCount, alignment: 'right', margin:[20, 10, 40, 15], fontSize: 14 };
 									  },
+									pageSize: 'A4',
+									// pageMargins: [ auto, auto, auto, auto ],
 			  						content: [
 			  							{
 			  								text: 'รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด',
 			  								alignment: 'center',
 			  								style: 'header',
-											fontSize: 20
+											fontSize: 18
 			  							},
 			  							{
 			  								text: 'จำนวนสมาชิกของสหกรณ์ '+listresult.list_total.toLocaleString()+' คน',
 			  								alignment: 'center',
 			  								style: 'header',
-											fontSize: 16
+											fontSize: 14
 			  							},
 										{
 										  table: {
-											 //heights: [12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,],
+											 // heights: [12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,12,],
 											// headers are automatically repeated if the table spans over multiple pages
 											// you can declare how many rows should be treated as headers
 											headerRows: 1,
@@ -658,17 +625,18 @@ th
 
 	*/
       $(document).ready(function() {
-
+      		$("#pageLoading").fadeIn();
     		$.ajax({
     			url:"ajexreport17",
     		    type:"GET",
     		    dataType: 'json',
     		    success:function(result){
-    				console.log(result);
+    				// console.log(result);
     				listresult = result;
 
     				$('#total').html(listresult.list_total.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
+    				$("#pageLoading").fadeOut();
     			}
 
 
