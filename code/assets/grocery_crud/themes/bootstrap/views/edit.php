@@ -35,11 +35,11 @@ include(__DIR__ . '/common_javascript_vars.php');
                         <?php echo form_open( $update_url, 'method="post" id="crudForm"  enctype="multipart/form-data" class="form-horizontal"'); ?>
 
                             <?php foreach($fields as $field) { ?>
-                                <div class="form-group <?php echo $field->field_name; ?>_form_group">
+                                <div class="form-group <?php echo $field->field_name; ?>_form_group" style="display: flex;align-items: center;">
                                     <label class="col-sm-3 control-label">
                                         <?php echo $input_fields[$field->field_name]->display_as?><?php echo ($input_fields[$field->field_name]->required)? "<span class='required'>*</span> " : ""?>:
                                     </label>
-                                    <div class="col-sm-9">
+                                    <div class="col-sm-9 read-row">
                                         <?php echo $input_fields[$field->field_name]->input; ?>
                                     </div>
                                 </div>
@@ -83,7 +83,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                                             <?php echo $this->l('form_update_and_go_back'); ?>
                                         </button> -->
                                         <button class="btn btn-outline-red cancel-button b10" type="button" id="cancel-button">
-                                            <?php echo $this->l('form_cancel'); ?>
+                                            <?php echo $this->l('form_back_to_list'); ?>
                                         </button>
                                     <?php } ?>
                                 </div>

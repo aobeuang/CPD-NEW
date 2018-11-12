@@ -1773,7 +1773,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
 		$strMonthThai=$strMonthCut[$strMonth];
 		$dateString= "$strDay $strMonthThai $strYear";
-		$string_to_print .= "<span style='position: absolute;right: 10px;'> ข้อมูล ณ วันที่ ".$dateString."</span>";
+		$string_to_print .= "<span style='position: absolute;right: 10px;font-size: 12px;'> ข้อมูล ณ วันที่ ".$dateString."</span>";
 		$string_to_print .= '<br><br><table width="100%" cellpadding="0" cellspacing="0" ><tr>';
 		foreach($data->columns as $column){
 			$string_to_print .= "<th>".$column->display_as."</th>";

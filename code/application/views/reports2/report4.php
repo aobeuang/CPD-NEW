@@ -862,13 +862,15 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	    },
 	   	error: function(){
 	   		$("#pageLoading").fadeOut();
-	   		$('#error-box').html('มีข้อผิดพลาดเกิดขึ้น ไม่สามารถดึงข้อมูลได้').show();
+	   		/*$('#error-box').html('มีข้อผิดพลาดเกิดขึ้น ไม่สามารถดึงข้อมูลได้').show();
 	   		$('html,body').animate({
 		        scrollTop: $('#error-box').offset().top - 100
 		    }, 'slow');
 			setInterval(function(){
 		        $('#error-box').fadeOut();
-		    }, 5000);
+		    }, 5000);*/
+		    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+		    $("#message-modal").modal();
 		    $('#filter-search').prop('disabled', false);
 	   	} 
 	});
