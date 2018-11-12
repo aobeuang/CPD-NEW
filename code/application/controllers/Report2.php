@@ -1424,8 +1424,10 @@ class Report2 extends MY_Controller {
 					$temp_data[]=!empty($data['OU_D_SNAME'])?$data['OU_D_SNAME']:"-";
 					$temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";					
 					$temp_data[]=!empty($data['IN_PROVICE_NAME'])?$data['IN_PROVICE_NAME']:"-";					
-					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";					
+					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";
+					if(!$export){					
 					$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+					}
 					$data_temp[]=$temp_data;
 						
 						

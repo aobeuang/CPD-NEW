@@ -64,7 +64,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                     	<?php if ($field->field_name!="passwd"  && $field->field_name!="banned"
                     			&& $field->field_name!="last_login" && $field->field_name!="created_by"
                     			&& $field->field_name!="modified_by"  && $field->field_name!="user_id"  && $field->field_name!="AGENCY" 
-                    			&& $field->field_name!="province"
+                    			&& $field->field_name!="province" && $field->field_name!="ORG_ID"
                     			):?>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">
@@ -85,16 +85,44 @@ include(__DIR__ . '/common_javascript_vars.php');
                         	$agency = $field;
                         }
                     	?>
+                        <?php if ($field->field_name=="ORG_ID"){
+                            $org_id = $field;
+                        }
+                        ?>
                         
                     <?php }?>
                     
-	                  
+	                   <div class="form-group">
+                            <label class="col-sm-3 control-label">
+                                <?php echo $input_fields[$org_id->field_name]->display_as?>:
+                            </label>
+                            <div class="col-sm-9 read-row">
+                                <?php 
+                                // echo $input_fields[$province->field_name]->input; 
+                                $s = $input_fields[$org_id->field_name]->input;
+                                     $t = trim($s,'<div id="field-ORG_ID" class="readonly_label"></div>');
+                                    $text = getOrgByID($t);
+                                    // echo$text->PROVINCE_NAME;
+                                echo $text['org_name'];
+                                ?>
+
+
+                            </div>
+                        </div>
                         <div class="form-group">
                             <label class="col-sm-3 control-label">
                                 <?php echo $input_fields[$province->field_name]->display_as?>:
                             </label>
                             <div class="col-sm-9 read-row">
-                                <?php echo $input_fields[$province->field_name]->input; ?>
+                                <?php 
+                                // echo $input_fields[$province->field_name]->input; 
+                                $s = $input_fields[$province->field_name]->input;
+                                     $t = trim($s,'<div id="field-province" class="readonly_label"></div>');
+                                    $text = getProvinceByID($t);
+                                    echo$text->PROVINCE_NAME;
+                                ?>
+
+
                             </div>
                         </div>
                         <div class="form-group">

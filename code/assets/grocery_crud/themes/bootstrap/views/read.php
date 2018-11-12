@@ -76,12 +76,24 @@ include(__DIR__ . '/common_javascript_vars.php');
                             // echo print_r($input_fields[$field->field_name]->input);die();
                             }
                           ?>
-                          <?php if ( $field->field_name != 'created_at' ) { ?>
+                          <?php if ($field->field_name=="province"){
+                            $s = $input_fields[$field->field_name]->input;
+                                     $t = trim($s,'<div id="field-province" class="readonly_label"></div>');
+                                    $text = getProvinceByID($t);
+                                    echo$text->PROVINCE_NAME;
+                            }
+                            ?>
+                          <?php if ( $field->field_name != 'created_at' && $field->field_name != 'province' ) { ?>
                             <?php echo $input_fields[$field->field_name]->input; ?>
                             <?php }?>
                                 
                             </div>
                         </div>
+
+                        
+
+
+
                     <?php }?>
                     
                     
