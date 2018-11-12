@@ -1023,7 +1023,7 @@ function getUserDetail(citizen_id){
 			setInterval(function(){
 		        $('#error-box').fadeOut();
 		    }, 5000);*/
-		    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
+		    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
 		    $("#message-modal").modal();
 	    }
 	});

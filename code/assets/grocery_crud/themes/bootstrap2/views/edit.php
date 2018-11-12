@@ -95,7 +95,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                                         </button>
                                         <button class="btn btn-default cancel-button b10" type="button" id="cancel-button">
                                             <i class="fa fa-warning"></i>
-                                            <?php echo $this->l('form_cancel'); ?>
+                                            <?php echo $this->l('form_back_to_list'); ?>
                                         </button>
                                     <?php } ?>
                                 </div>

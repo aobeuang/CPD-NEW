@@ -1169,7 +1169,7 @@ class Report2 extends MY_Controller {
 		$strFilds = 'E1:E'.$countRow;
 		
 		$spreadsheet = new Spreadsheet();
-		$sheet = $spreadsheet->getActiveSheet()->fromArray($data)->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
+		$sheet = $spreadsheet->getActiveSheet()->fromArray($data)->removeColumn('H')->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
 		
 		
 		

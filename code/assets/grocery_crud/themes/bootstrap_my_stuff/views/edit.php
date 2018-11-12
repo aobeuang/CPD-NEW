@@ -85,7 +85,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                                         <?php echo $this->l('form_update_changes'); ?>
                                     </button>
                                     <button class="btn btn-outline-red cancel-button b10" type="button" id="cancel-button">
-                                            <?php echo $this->l('form_cancel'); ?>
+                                            <?php echo $this->l('form_back_to_list'); ?>
                                     </button>
                                     <!-- <?php 	if(!$this->unset_back_to_list) { ?>
                                         <button class="btn btn-info b10" type="button" id="save-and-go-back-button">

@@ -104,7 +104,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                                             <?php echo $this->l('form_save_and_go_back'); ?>
                                         </button> -->
                                         <button class="btn btn-outline-red cancel-button b10" type="button" id="cancel-button">
-                                            <?php echo $this->l('form_cancel'); ?>
+                                            <?php echo $this->l('form_back_to_list'); ?>
                                         </button>
                                     <?php } ?>
                                 </div>

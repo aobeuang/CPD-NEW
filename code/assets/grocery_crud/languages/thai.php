@@ -21,7 +21,7 @@
 	$lang['list_loading'] 			= 'กำลังโหลด...';	
 
 	$lang['form_edit'] 				= 'แก้ไข';
-	$lang['form_back_to_list'] 		= 'กลับไปยังรายการ';
+	$lang['form_back_to_list'] 		= 'กลับ';
 	$lang['form_update_changes'] 	= 'บันทึกการเปลี่ยนแปลง';
 	$lang['form_cancel'] 			= 'ยกเลิก';	
 	$lang['form_update_loading'] 	= 'กำลังโหลด, อัพเดตการเปลี่ยนแปลง...';
