@@ -908,8 +908,12 @@ class Report3 extends MY_Controller {
 			$div_heigth = "400px";
 			$chart_heigth = "80%";
 
-
-			$khet_lable = "รายงานจำนวนสมาชิกสหกรณ์ตามจังหวัดเขตพื้นที่ตรวจราชการที่  ".$khet;
+			if ($khet == 99) {
+				$khet_lable = "รายงานจำนวนสมาชิกสหกรณ์ตามจังหวัดเขตพื้นที่ตรวจราชการส่วนกลาง";
+			}else{
+				$khet_lable = "รายงานจำนวนสมาชิกสหกรณ์ตามจังหวัดเขตพื้นที่ตรวจราชการที่  ".$khet;
+			}
+			
 
 			$cache_key = "khet_$khet";
 
