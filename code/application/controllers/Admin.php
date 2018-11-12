@@ -106,7 +106,7 @@ class Admin extends MY_Controller {
 			$crud = new grocery_CRUD();
 				
 			//$crud->set_theme('datatables');
-			$crud->set_theme('bootstrap');
+			$crud->set_theme('bootstrap_admin_user');
 			$crud->unset_bootstrap();
 			$crud->unset_jquery();
 			
@@ -147,7 +147,7 @@ class Admin extends MY_Controller {
 			$crud->field_type('banned','dropdown',
 					array('2' => 'ใช้งานได้','1' => 'ไม่ให้ใช้'));
 
-			$crud->field_type('username','numeric');
+			// $crud->field_type('username','numeric');
 			
 			$provinces = array();
 			$province_all = getAllProvinces();
