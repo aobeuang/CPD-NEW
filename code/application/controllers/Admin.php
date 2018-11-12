@@ -106,7 +106,7 @@ class Admin extends MY_Controller {
 			$crud = new grocery_CRUD();
 				
 			//$crud->set_theme('datatables');
-			$crud->set_theme('bootstrap_admin_user');
+			$crud->set_theme('bootstrap');
 			$crud->unset_bootstrap();
 			$crud->unset_jquery();
 			
