@@ -1160,16 +1160,29 @@ class Report2 extends MY_Controller {
 
 		if(empty($filter_khet))
 			exit();
+		// $sunm_keycache_export = $filename.'-'.$filter_khet.'-'.$life_status.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$filter_tambon;
+		// $cache_key = md5($sunm_keycache_export);
+		// 	$ci =& get_instance();
+		// 	$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+		// 	$data_cache_export = "";
+		// $data = null;
+		// $value = null;
+		// 	if ( ! $data_cache_export = $ci->cache->get($cache_key)) {
+	
 			
-			
-		$data = $this->ajax_filter_report2(true,$filter_khet,$filter_provinces,$filter_district,$filter_coop,$life_status);
+				$data = $this->ajax_filter_report2(true,$filter_khet,$filter_provinces,$filter_district,$filter_coop,$life_status);
 		
+		// 		$ci->cache->save($cache_key, $data, 30000);
+		// 		$value = $data;
+		// 	}
+		// $value = $data_cache_export;
+
 		// echo print_r($data);die();
-		$countRow = sizeof($data);
+		$countRow = sizeof($value);
 		$strFilds = 'E1:E'.$countRow;
 		
 		$spreadsheet = new Spreadsheet();
-		$sheet = $spreadsheet->getActiveSheet()->fromArray($data)->removeColumn('H')->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
+		$sheet = $spreadsheet->getActiveSheet()->fromArray($value)->removeColumn('H')->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
 		
 		
 		
@@ -1205,8 +1218,11 @@ class Report2 extends MY_Controller {
 			
 			$search = !empty($this->input->get('search[value]'))?$this->input->get('search[value]'):null;
 			
+			$sunm_keycache = $export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
+			$sunm_keycache_ex = 'export'.$export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
 			
-			
+
+
 			$numm =0;
 			$sql="";
 			$sql_count = "";
@@ -1310,8 +1326,19 @@ class Report2 extends MY_Controller {
 					"6"=>"อยู่ระหว่างการหาข้อมูลเพิ่มเติม","8"=>"บุคคลในบ้านกลาง","9"=>"บุคคลอยู่ระหว่างการย้าย","14"=>"อยู่ระหว่างการปรับปรุงข้อมูล","15"=>"อยู่ระหว่างการตรวจสอบ");
 			$status_array_text =array("1"=>"ปกติ","2"=>"ตาย");
 			// echo $sql_count;
+
+			// $cache_key = md5($sunm_keycache);
+			// $cache_key_export = md5($sunm_keycache_ex);
+			// $ci =& get_instance();
+			// $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			// $data_cache = "";
+			// $data_cache_export = "";
+			
+			// if ( ! $data_cache = $ci->cache->get($cache_key)) {
+
 			$query_count = $this->db->query($sql_count)->result_array();
 			// echo print_r($query_count );die();
+
 			$coop_names = getAllCoops();
 			
 			$data_coop = array();
@@ -1506,7 +1533,9 @@ class Report2 extends MY_Controller {
 
 			if($export){
 				// addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+				// $ci->cache->save($cache_key_export, $data_temp, 30000);
 				return $data_temp;
+
 			}else{
 				addLogSuspiciousMessageReport('รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
 				$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
@@ -1517,10 +1546,20 @@ class Report2 extends MY_Controller {
 						"data"   => $data_temp,
 						"numtotal"   => $text
 				);
-
+				// $ci->cache->save($cache_key, $output, 30000);
 				print_r(json_encode($output));
 				// $this->load->view($textlog);
+				die();
 			}
+		// 	print_r(json_encode($data_cache));
+		// }else if ( ! $data_cache_export = $ci->cache->get($cache_key_export)) {
+		// 	print_r(json_encode($data_cache_export));
+
+		// }
+
+
+
+
 		}else {
 			redirect('/');
 		}
