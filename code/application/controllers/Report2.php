@@ -1149,7 +1149,7 @@ class Report2 extends MY_Controller {
 	
 	public function exportdatacsv($filename = "export-data")
 	{
-		ini_set('max_execution_time', 0);
+		ini_set('max_execution_time', -1);
 		ini_set("memory_limit", '8124M');
 		$life_status = isset($_GET['filter_life_status'])? trim($_GET['filter_life_status']):"";
 		$filter_khet = !empty($this->input->get('khet'))?$this->input->get('khet'):null;
@@ -1200,7 +1200,7 @@ class Report2 extends MY_Controller {
 		if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id'))
 				&& (canViewReport() || canAdd()))
 		{
-			ini_set('max_execution_time', -1);
+			ini_set('max_execution_time', 0);
 			ini_set("memory_limit", "8124M");
 			$life_status = isset($_GET['filter_life_status'])? trim($_GET['filter_life_status']):$life_status;
 			$citizen_id = isset($_GET['citizen_id'])? trim($_GET['citizen_id']): "";
