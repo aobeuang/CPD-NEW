@@ -1202,7 +1202,7 @@ class Report2 extends MY_Controller {
 		if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id'))
 				&& (canViewReport() || canAdd()))
 		{
-			// ini_set('max_execution_time', -1);
+			ini_set('max_execution_time', -1);
 			ini_set("memory_limit", "8124M");
 			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
 			header("Cache-Control: post-check=0, pre-check=0", false);
@@ -1223,8 +1223,8 @@ class Report2 extends MY_Controller {
 			
 			$search = !empty($this->input->get('search[value]'))?$this->input->get('search[value]'):null;
 			
-			$sunm_keycache = $export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
-			$sunm_keycache_ex = 'export'.$export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
+			// $sunm_keycache = $export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
+			// $sunm_keycache_ex = 'export'.$export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
 			
 
 
