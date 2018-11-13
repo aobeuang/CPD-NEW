@@ -3448,6 +3448,25 @@ if ( ! function_exists('getAllSurveyYears'))
 		}
 	}
 
+	// if (! function_exists('inputCache'))
+	// {
+	// 	function inputCache($key,$this)
+	// 	{
+	// 		$cache_key = md5($key);
+	// 		$ci =& get_instance();
+	// 		$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+	// 		$data_cache = "";
+	// 		$to_return = null;
+	// 		if ( ! $data_cache = $ci->cache->get($cache_key)) {
+	// 			// $ci->load->database();
+	// 			$data =  $this->query($key)->result_array();
+	// 			$ci->cache->save($cache_key, $data, 30000);
+	// 			$data_cache = $data;
+	// 		}
+	// 		return $data_cache;
+	// 	}
+	// }
+
 
 	
 }

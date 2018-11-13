@@ -1178,11 +1178,11 @@ class Report2 extends MY_Controller {
 		// $value = $data_cache_export;
 
 		// echo print_r($data);die();
-		$countRow = sizeof($value);
+		$countRow = sizeof($data);
 		$strFilds = 'E1:E'.$countRow;
 		
 		$spreadsheet = new Spreadsheet();
-		$sheet = $spreadsheet->getActiveSheet()->fromArray($value)->removeColumn('H')->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
+		$sheet = $spreadsheet->getActiveSheet()->fromArray($data)->removeColumn('H')->getStyle($strFilds)->getNumberFormat()->setFormatCode('0');
 		
 		
 		
@@ -1340,8 +1340,22 @@ class Report2 extends MY_Controller {
 			// $data_cache_export = "";
 			
 			// if ( ! $data_cache = $ci->cache->get($cache_key)) {
+			
 
-			$query_count = $this->db->query($sql_count)->result_array();
+			$cache_key_count = md5($sql_count);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_count = "";
+			$query_count = null;
+			if ( ! $data_cache_count = $ci->cache->get($cache_key_count)) {
+				$query_count = $this->db->query($sql_count)->result_array();
+
+				$ci->cache->save($cache_key_count, $query_count, 30000);
+				// return $query_count;
+			}else{
+				$query_count = $data_cache_count;
+			}
+			
 			// echo print_r($query_count );die();
 
 			$coop_names = getAllCoops();
@@ -1427,9 +1441,22 @@ class Report2 extends MY_Controller {
 			// }
 			
 			// echo print_r($sql);die();
-			$query_nomal = $this->db->query($sql)
-							->result_array();
+			$cache_key = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache = "";
+			$query_nomal = null;
+			if ( ! $data_cache = $ci->cache->get($cache_key)) {
+				$query_nomal = $this->db->query($sql)
+								->result_array();
+				$ci->cache->save($cache_key, $query_nomal, 30000);
+
+				// return $query_nomal;
+			}else{
+				$query_nomal = $data_cache;
+			}
 			
+
 			
 			// echo json_encode($query_nomal);
 			// exit();
@@ -1448,7 +1475,7 @@ class Report2 extends MY_Controller {
 
 				foreach ($query_nomal as $data)
 				{
-					// $coop_name =  $data_coop[$data['IN_D_COOP']];
+
 					$temp_data = array();
 					$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
 					$temp_data[]=!empty($data['OU_D_PREFIX'])?$data['OU_D_PREFIX']:"-";
@@ -1457,63 +1484,13 @@ class Report2 extends MY_Controller {
 					$temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";					
 					$temp_data[]=!empty($data['IN_PROVICE_NAME'])?$data['IN_PROVICE_NAME']:"-";					
 					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";		
-					// if(!$export){			
+					if(!$export){			
 					$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-					// }
+					}
 					$data_temp[]=$temp_data;
-						
-						
-						
-					
-					
-					// // $coop = getCoopByID($data['IN_D_COOP']);
-					// foreach ($coops as $key => $value) {						
-					// 	// array_push($data, $coop);
-					// 	// echo $role_user;
-					// 	// echo print_r($value);die();
-
-					// 	if ($check_more_coop == 2 && $dis_citizen < 3) {
-					// 		$temp_data = array();
-					// 		$coop = getCoopByID($value['IN_D_COOP']);
-
-					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
-					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
-					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
-					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
-					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
-					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
-					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-
-					// 		$data_temp[]=$temp_data;
-					// 	}else{
-					// 		$temp_data = array();
-					// 		$coop = getCoopByID($value['IN_D_COOP']);
-
-					// 		$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
-					// 		$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
-					// 		$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
-					// 		$temp_data[]=!empty($status_array[trim($value['OU_D_STATUS_TYPE'])])?$status_array[trim($value['OU_D_STATUS_TYPE'])]:"-";
-					// 		$temp_data[]=$value['IN_PROVICE_NAME'];
-					// 		$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
-					// 		$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-
-					// 		$data_temp[]=$temp_data;
-					// 	}
-						
-						
-					// 	$dis_citizen++;
-						
-										
-							
-					// }
-
 
 						$count++;
-						
-		// 			$count_row++;/*/
-		// 			}
-						
-						
+	
 				}
 
 			

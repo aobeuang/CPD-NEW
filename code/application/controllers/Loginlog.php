@@ -297,11 +297,16 @@ class Loginlog extends MY_Controller {
 			->display_as('actor_province','จังหวัดของผู้ใช้งาน')
 			
 			;
+
+			// $crud->field_type('detail', 'text');
+			
+
 			$crud->set_subject('ประวัติการเข้าใช้งานระบบ');
 			$crud->field_type('created_at', 'text');
 
 			$crud->callback_column('created_at', array($this, 'callback_date'));
 			$crud->callback_edit_field('created_at',array($this,'callback_date'));
+			// $crud->callback_column('detail', array($this, 'callback_text'));
 			
 
 			
@@ -339,6 +344,15 @@ class Loginlog extends MY_Controller {
 		$this->load->view('table_body.php',$output);
 		
 		echo $this->load->view('auth/page_footer', '', TRUE);
+	}
+
+	public function callback_text($val, $row)
+	{
+
+		
+		return trim($val," ");
+
+	        // return date('Y-m-d', strtotime($val));
 	}
 
 	public function callback_date($val, $row)
