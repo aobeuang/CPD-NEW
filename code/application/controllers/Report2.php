@@ -1198,14 +1198,15 @@ class Report2 extends MY_Controller {
 	public function ajax_filter_report2($export = false,$filter_khet=null,$filter_provinces=null,$filter_district=null,$filter_coop=null,$life_status="",$start=0,$length=-1)
 	{
 
-		header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-		header("Cache-Control: post-check=0, pre-check=0", false);
-		header("Pragma: no-cache");
+
 		if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id'))
 				&& (canViewReport() || canAdd()))
 		{
-			ini_set('max_execution_time', -1);
+			// ini_set('max_execution_time', -1);
 			ini_set("memory_limit", "8124M");
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
 			$life_status = isset($_GET['filter_life_status'])? trim($_GET['filter_life_status']):$life_status;
 			$citizen_id = isset($_GET['citizen_id'])? trim($_GET['citizen_id']): "";
 			
@@ -1456,9 +1457,9 @@ class Report2 extends MY_Controller {
 					$temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";					
 					$temp_data[]=!empty($data['IN_PROVICE_NAME'])?$data['IN_PROVICE_NAME']:"-";					
 					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";		
-					if(!$export){			
+					// if(!$export){			
 					$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-					}
+					// }
 					$data_temp[]=$temp_data;
 						
 						
