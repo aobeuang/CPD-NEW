@@ -306,7 +306,7 @@ class Loginlog extends MY_Controller {
 
 			$crud->callback_column('created_at', array($this, 'callback_date'));
 			$crud->callback_edit_field('created_at',array($this,'callback_date'));
-			// $crud->callback_column('detail', array($this, 'callback_text'));
+			$crud->callback_column('detail', array($this, 'callback_text'));
 			
 
 			
