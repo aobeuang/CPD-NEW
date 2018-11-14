@@ -1477,7 +1477,12 @@ class Report2 extends MY_Controller {
 				{
 
 					$temp_data = array();
-					$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
+					
+					if(!$export){			
+						$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
+					}else{
+						$temp_data[]=!empty($data['OU_D_ID'])?"'".$data['OU_D_ID']:"-";
+					}
 					$temp_data[]=!empty($data['OU_D_PREFIX'])?$data['OU_D_PREFIX']:"-";
 					$temp_data[]=!empty($data['OU_D_PNAME'])?$data['OU_D_PNAME']:"-";
 					$temp_data[]=!empty($data['OU_D_SNAME'])?$data['OU_D_SNAME']:"-";
