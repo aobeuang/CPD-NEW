@@ -298,12 +298,13 @@ class Loginlog extends MY_Controller {
 			
 			;
 
+			// $crud->display_as("search_province", "<span style='width: 100%; text-align: right; display: block;'>จังหวัดที่เรียกดู</span>");
 			// $crud->field_type('detail', 'text');
 			
 
 			$crud->set_subject('ประวัติการเข้าใช้งานระบบ');
 			$crud->field_type('created_at', 'text');
-
+			$crud->callback_column('search_province', array($this, 'column_bonus_right_align'));		
 			$crud->callback_column('created_at', array($this, 'callback_date'));
 			$crud->callback_edit_field('created_at',array($this,'callback_date'));
 			$crud->callback_column('detail', array($this, 'callback_text'));
@@ -344,6 +345,15 @@ class Loginlog extends MY_Controller {
 		$this->load->view('table_body.php',$output);
 		
 		echo $this->load->view('auth/page_footer', '', TRUE);
+	}
+
+	public function column_bonus_right_align($val, $row)
+	{
+
+		
+		return "<span style='width:100%;text-align:center;display:block;'>$val</span>";
+
+	        // return date('Y-m-d', strtotime($val));
 	}
 
 	public function callback_text($val, $row)

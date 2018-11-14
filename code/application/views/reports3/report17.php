@@ -162,6 +162,7 @@ th
       function drawChart() {
 
     	  	//console.log(listresult.khet);
+
 			var data_array = [];
 			var num = 1;
 			//console.log(listresult.length);
@@ -190,18 +191,23 @@ th
 		        data.addColumn('number', 'จำนวนสมาชิกปกติ (คน)');
 		        data.addColumn('number', 'จำนวนสมาชิกตาย (คน)');
 		        data.addRows(data_array);
+
+		        // data.sort({column: 0, desc: false});
 		        var id = document.getElementById('table_div');
 		        var table = new google.visualization.Table(id);
+
 
 
 
 		        //add the listener events
 		        google.visualization.events.addListener(table, 'ready', function () {
 		            resetStyling('table_div');
+		            // data.setSelection([{column: 1}]);
 		        });
 
 		        google.visualization.events.addOneTimeListener(table, 'ready', function () {
 		          var rowLabel = null;
+		          // setSelection([{column: 1}]);
 		          var rowIndex;
 		          var rowSpan;
 		          var rows = id.getElementsByTagName('tr');
@@ -232,7 +238,7 @@ th
 // 		            resetStyling('StatusOverview');
 // 		        });
 
-
+					
 		        table.draw(data, {width: '100%', height: '100%'});
 		    	clearInterval(id_frame);
 		        elem.style.width = 100 + '%';
@@ -637,9 +643,15 @@ th
     				$('#total').html(listresult.list_total.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
     				$("#pageLoading").fadeOut();
+
     			}
 
 
     		})
     	});
     </script>
+    <style type="text/css">
+    	#table_div{
+    		pointer-events:none !important;
+    	}
+    </style>

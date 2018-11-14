@@ -651,6 +651,7 @@ class Report2 extends MY_Controller {
 		// 		->getNumberFormat()->setFormatCode('0')
 		$spreadsheet = new Spreadsheet();
 		$sheet = $spreadsheet->getActiveSheet()->fromArray($data);
+		// $sheet = $spreadsheet->getActiveSheet()->fromArray($data)->getStyle($strFilds)->getNumberFormat()->setFormatCode('0000000000000');
 		// 		$writer = new Xlsx($spreadsheet);
 		// 		$writer->save('php://output');
 		
@@ -676,7 +677,7 @@ class Report2 extends MY_Controller {
 		$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):$filter_district;
 		$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):$filter_provinces;
 		$filter_coop = !empty($this->input->get('filter_coop'))?$this->input->get('filter_coop'):$filter_coop;
-		$more_coop = !empty($this->input->get('filter_more_coop'))?$this->input->get('filter_more_coop'):null;
+		// $more_coop = !empty($this->input->get('filter_more_coop'))?$this->input->get('filter_more_coop'):null;
 		$show_query = !empty($this->input->get('query'))?TRUE:FALSE;
 		
 		$search = !empty($this->input->get('search[value]'))?$this->input->get('search[value]'):null;
@@ -712,25 +713,25 @@ class Report2 extends MY_Controller {
 		}
 
 		
-		if(!empty($more_coop) && $more_coop !='3')
-		{
-			if(empty($search) && $search =="")
-				$sql_more_coop =" and moiuser.master_data.NUMBER_OF_COOP =".$more_coop;
-			else if($export)
-				$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop =$more_coop)";
-			else
-				$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop =$more_coop)";
+		// if(!empty($more_coop) && $more_coop !='3')
+		// {
+		// 	if(empty($search) && $search =="")
+		// 		$sql_more_coop =" and moiuser.master_data.NUMBER_OF_COOP =".$more_coop;
+		// 	else if($export)
+		// 		$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop =$more_coop)";
+		// 	else
+		// 		$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop =$more_coop)";
 						
-		}
-		if(!empty($more_coop) && $more_coop>='3')
-		{
-			if(empty($search) && $search =="")
-				$sql_more_coop =" and moiuser.master_data.number_of_coop >2";
-			else if($export)
-					$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop >2)";
-			else
-				$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop >2)";
-		}
+		// }
+		// if(!empty($more_coop) && $more_coop>='3')
+		// {
+		// 	if(empty($search) && $search =="")
+		// 		$sql_more_coop =" and moiuser.master_data.number_of_coop >2";
+		// 	else if($export)
+		// 			$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop >2)";
+		// 	else
+		// 		$sql_more_coop =" and moiuser.master_data.OU_D_ID in (select OU_D_ID from MOIUSER.MASTER_DATA where number_of_coop >2)";
+		// }
 		
 		
 
@@ -879,12 +880,12 @@ class Report2 extends MY_Controller {
 			{
 				$filter_coop = $data_coop[$filter_coop];
 			}
-			if(!empty($more_coop))
-			{
-				$more_coop_array = array("1"=>"เป็นสมาชิก 1 สหกรณ์","2"=>"เป็นสมาชิก 2  สหกรณ์","3"=>"ตั้งแต่ 3 สหกรณ์ขึ้นไป");
-				$more_coop = $more_coop_array[$more_coop];
+			// if(!empty($more_coop))
+			// {
+			// 	$more_coop_array = array("1"=>"เป็นสมาชิก 1 สหกรณ์","2"=>"เป็นสมาชิก 2  สหกรณ์","3"=>"ตั้งแต่ 3 สหกรณ์ขึ้นไป");
+			// 	$more_coop = $more_coop_array[$more_coop];
 				
-			}
+			// }
 			
 			// echo print_r($sql_count);die();
 			$query_count = $this->db->query($sql_count)->result_array();
@@ -902,14 +903,14 @@ class Report2 extends MY_Controller {
 
 
 			$text ="";
-			$text .= !empty($filter_khet)?$filter_khet." /":"";
+			$text .=!empty($filter_khet)?$filter_khet." /":"";
 			$text .=!empty($filter_provinces)?" ".$filter_provinces." /":"";
 			$text .=!empty($filter_district)?" ".$filter_district." /":"";
 			$text .=!empty($filter_coop)?" ".$filter_coop." /":"";
-			$text .=!empty($life_status)?" ".$status_array[$life_status]." /":"";
+			// $text .=!empty($life_status)?" ".$status_array[$life_status]." /":"";
 			// $text .=!empty($life_status)?" ".$status_array[1]." /":"";
 			// $text .=!empty($life_status)?" ".$status_array[2]." /":"";
-			$text .=!empty($more_coop)?" ".$more_coop." /":"";
+			// $text .=!empty($more_coop)?" ".$more_coop." /":"";
 			$text .=" จำนวน   : ".number_format($query_count[0]['TOTAL']);
 			$text .=" สหกรณ์";
 			
@@ -918,8 +919,8 @@ class Report2 extends MY_Controller {
 			$textlog.=!empty($filter_provinces)?" / ".$filter_provinces." ":"";
 			$textlog.=!empty($filter_district)?"/ ".$filter_district." ":"";
 			$textlog.=!empty($filter_coop)?" / ".$filter_coop." ":"";
-			$textlog.=!empty($life_status)?" / ".$status_array[$life_status]." ":"";
-			$textlog.=!empty($more_coop)?" / ".$more_coop." ":"";
+			// $textlog.=!empty($life_status)?" / ".$status_array[$life_status]." ":"";
+			// $textlog.=!empty($more_coop)?" / ".$more_coop." ":"";
 			
 			
 			if($show_query)
@@ -939,33 +940,42 @@ class Report2 extends MY_Controller {
 
 		
 		$data_key_coop_id = array();
+		
+		// echo print_r($query_nomal);die();
 		if($export)
 		{
 			$date_time = $this->changemonth();
 			$data_key_coop_id[] =array('','','',$date_time);
 			$data_key_coop_id[] =array('รายงานสรุปยอดสถานะสมาชิกสหกรณ์','','','','');
 			$data_key_coop_id[] =array($text,'','','');
-			$data_key_coop_id[] =array('ชื่อสหกรณ์','จังหวัด','เขต|อำเภอ','จำนวนสมาชิกทั้งหมด');
-		}
-
-		// echo print_r($query_nomal);die();
-		if($export)
-		{
+			$data_key_coop_id[] =array('ชื่อสหกรณ์','จังหวัด','เขต|อำเภอ','จำนวนสมาชิกปกติ','จำนวนสมาชิกตาย','จำนวนสมาชิกทั้งหมด');
 // 			$data = array();
 			foreach ($query_nomal as $data_temp)
 			{
 				// echo print_r($data_temp);die();
+				$query_count_die = getDie($data_temp['REGISTRY_NO_2']);
+				$die = null;
+				
+				// echo $die['TOTAL_DIE'];
+				// echo print_r($die);die();
+				if (!empty($query_count_die['TOTAL_DIE'])) {
+					$die = $query_count_die['TOTAL_DIE'];
+				}
+
 				$temp = array();
 				$temp[] = $data_temp['COOP_NAME_TH'];
 				$temp[] = $data_temp['PROVINCE_NAME'];
 				$temp[] = $data_temp['AMPHUR_NAME'];
-				$temp[] = $data_temp['TOTAL_COOP'];
+				$temp[] = number_format($data_temp['TOTAL_COOP'] - $die);
+				$temp[] = number_format($die);
+				$temp[] = number_format($data_temp['TOTAL_COOP']);	
 				$data_key_coop_id[] =$temp;
 			}
-			addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+			// addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+			// echo print_r($data_key_coop_id);die();
 			return $data_key_coop_id;
 		}else{
-			//addLogSuspiciousMessageReport('รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+			addLogSuspiciousMessageReport('เข้าดูรายงานสรุปยอดสถานะสมาชิกสหกรณ์', $textlog,$filter_provinces);
 			$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
 			
 			$data = array();
@@ -1010,6 +1020,7 @@ class Report2 extends MY_Controller {
 			// echo print_r($output['data']);die();
 			print_r(json_encode($output));
 		}
+
 // 		$draw = 1;
 		
 		

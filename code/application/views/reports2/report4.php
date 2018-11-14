@@ -181,6 +181,8 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 			    		<script>
 							function downloadExcel()
 							{
+
+								// $("#pageLoading").fadeIn();
 								var province = $('#filter_province_hidden').val();
 								var filter_district = $('#filter_district_hidden').val();
 								var khet = $('#filter_khet_hidden').val();
@@ -213,17 +215,26 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 
 
 								
-								window.location.href = "/index.php/report2/exportTotalResultNomalOrDieOfCoop?khet="+khet+"&province="+province+"&filter_coop="+filter_coop+"&filter_life_status="+filter_life_status+"&filter_more_coop="+filter_more_coop;
+								var url = "/index.php/report2/exportTotalResultNomalOrDieOfCoop?khet="+khet+"&province="+province+"&filter_coop="+filter_coop+"&filter_life_status="+filter_life_status+"&filter_more_coop="+filter_more_coop;
 // 								var filter_year = $('#filter_year option:selected').val();
 // 								var filter_province = $('#filter_province option:selected').val();
-// 								var filter_coop = $('#filter_coop option:selected').val();								
-// 								 $.ajax({
-// 									url:"/index.php/report2/exportdatacsv",
-// 									type:"GET",
-// 									success: function () {
+// 								var filter_coop = $('#filter_coop option:selected').val();	
+								var win = window.open(url, '_blank');
+								// $.ajax({
+								// 	url: '/index.php/report2/exportTotalResultNomalOrDieOfCoop',
+								// 	data: {
+								// 		khet : khet,
+								// 		province : province,
+								// 		filter_coop : filter_coop,
+								// 		filter_life_status : filter_life_status,
+								// 		filter_more_coop : filter_more_coop,
+								// 	},
+								// 	type:"GET",
+								// 	success: function () {
 								         
-// 								      }
-// 								});
+								//       }
+								// });
+								// $("#pageLoading").fadeOut();
 							}
 			    		</script>
 			    		
