@@ -51,7 +51,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                                         <?php echo $input_fields[$field->field_name]->display_as?><?php echo ($input_fields[$field->field_name]->required)? "<span class='required'>*</span> " : ""?>
                                     </label>
                                     <div class="col-sm-9">
-                                        <div class="col-sm-6">
+                                        <div class="col-sm-6" style="margin-top:6px;">
                                         <?php echo $input_fields[$field->field_name]->input; ?>
                                         
                                         <?php if($field->field_name == "passwd"):?>                                        		
