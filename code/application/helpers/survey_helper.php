@@ -3224,9 +3224,9 @@ if ( ! function_exists('getAllSurveyYears'))
 				'surname'			=> $value['OU_D_SNAME'],
 				'bdate'				=> date($date),
 				'hno'				=> $value['OU_D_HNO'],
-				'lane'				=> $value['OU_D_LANE'],
-				'road'				=> $value['OU_D_ROAD'],
-				'subd'				=> $value['OU_D_SUBD'],
+				'lane'				=> !empty($value['OU_D_LANE'])?$value['OU_D_LANE']:'';
+				'road'				=> !empty($value['OU_D_ROAD'])?$value['OU_D_ROAD']:'';
+				'subd'				=> !empty($value['OU_D_SUBD'])?$value['OU_D_SUBD']:'';
 				'district'			=> $value['OU_D_DISTRICT'],
 				'province_name'		=> $value['OU_D_PROVICE_NAME'],
 			);
