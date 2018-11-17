@@ -118,13 +118,20 @@ header('Content-Type: text/html; charset=UTF-8');
     if (empty($check)) {
 
 
-
       foreach($file_data as $row)
         {
+          $sequence_tablename = "USERS_SEQUENCE";
+          $query = $this->db->query(" SELECT $sequence_tablename.nextval as nextvalue FROM dual ");
+          $result = $query->result_array();;
+          $nextvalue = !empty($result) && isset($result[0]['NEXTVALUE']) ? $result[0]['NEXTVALUE']: 1;
+          if (empty($nextvalue))
+          {
+           die("Create sequence named  $sequence_tablename");
+          }
           $sname = empty(($row["name"]))? "": $row["sname"];
           $number++;
           $data[] = array(
-          'user_id' => $number,
+          'user_id' => $nextvalue,
           'username' => $row["username"],
           'name'  => $row["name"].' '.$sname,
           'auth_level'  => 5,
@@ -137,12 +144,13 @@ header('Content-Type: text/html; charset=UTF-8');
           'email'   => $row["email"]
           );
           $dataed = $data;
+
            // $this->db->insert_batch('users', $data);
            // die();
         }
         // $this->db->insert_batch('users', $data);
         $this->csv_import_model->insert($dataed);
-
+       
         $output = array(
             "message"    => 'ดำเนินการสำเร็จ',
             "status"  => true
@@ -155,6 +163,60 @@ header('Content-Type: text/html; charset=UTF-8');
    
     
  }
+
+
+ public function update_data()
+ {
+  header('Content-Type: text/html; charset=UTF-8'); 
+  ini_set('max_execution_time', 0);
+  ini_set("memory_limit", '8124M');
+
+  $file_data = $this->csvimport->get_array($_FILES["csv_file"]["tmp_name"]);
+  $data = array();
+  $check = null;
+    foreach($file_data as $row)
+    {
+
+      if (empty($row["username"]) || empty($row["auth_level"]) ) {
+
+        $output = array(
+            "message"    => 'ไฟล์ไม่สมบูรณ์',
+            "status"  => false
+        );
+        $check = 1;
+        echo print_r($output);
+        // die();
+      }
+    }
+
+    if (empty($check)) {
+
+
+      foreach($file_data as $row)
+        {
+          $username = $row["username"];
+          $data = array(
+          'username'  => $row["username"],
+          'auth_level'  => $row["auth_level"],
+          );
+          $this->csv_import_model->update($data,$username);
+
+           // $this->db->insert_batch('users', $data);
+           // die();
+        }
+        // $this->db->insert_batch('users', $data);
+        
+       
+        $output = array(
+            "message"    => 'ดำเนินการสำเร็จ',
+            "status"  => true
+        );
+
+        echo print_r($output);
+    }
+ }
+
+
 
  public function hash_passwd( $password, $random_salt = '' )
   {

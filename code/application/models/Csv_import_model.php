@@ -18,4 +18,12 @@ class Csv_import_model extends MY_Model
 
  }
 
+ public function update($data,$id)
+ {
+ 	// $table = $this->db->dbprefix('users');
+ 	$this->db->where('username', $id);
+  	$this->db->update('users', $data);
+
+ }
+
 }
