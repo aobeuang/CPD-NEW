@@ -104,8 +104,27 @@ class Admin extends MY_Controller {
 			$this->is_logged_in();
 			
 			$crud = new grocery_CRUD();
+
+			// if ($crud->getState()=='list') {
+
+			// 	$sql = 'select * from "users"';
+
+			// 	$query_nomal = $this->db->query($sql)->result_array();	
+			// 	$data_temp = array();
+			// 	foreach ($query_nomal as $data){
+			// 		$temp_data = array();
+
+			// 	}
+
+			// 	echo $this->load->view('auth/page_header', '', TRUE);
+	
+			// 	$this->load->view('admin/list_table',$output, TRUE);
+	
+			// 	echo $this->load->view('auth/page_footer', '', TRUE);
+			// die();
+			// }
 				
-			//$crud->set_theme('datatables');
+			// $crud->set_theme('datatables');
 			$crud->set_theme('bootstrap');
 			$crud->unset_bootstrap();
 			$crud->unset_jquery();
@@ -114,10 +133,10 @@ class Admin extends MY_Controller {
 			$crud->set_table($table);
 			
 			$crud->set_primary_key('user_id');
-			$crud->columns('username','email','name','auth_level','AGENCY','province','ORG_ID');
-			$crud->edit_fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned', 'modified_at', 'modified_by');
-			$crud->fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned');
-			$crud->add_fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned', 'created_at', 'modified_at','created_by','modified_by');
+			$crud->columns('username','email','name','auth_level','AGENCY','province_name','org_name');
+			$crud->edit_fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned', 'modified_at', 'modified_by','province_name','org_name');
+			$crud->fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned','province_name','org_name');
+			$crud->add_fields('username','email','name','passwd','auth_level','AGENCY','province','ORG_ID','banned', 'created_at', 'modified_at','created_by','modified_by','province_name','org_name');
 			$crud->set_read_fields('username','email','name','auth_level','AGENCY','province');
 			$crud->display_as('username','ชื่อบัญชีผู้ใช้')
 				->display_as('name','ชื่อ')
@@ -129,13 +148,21 @@ class Admin extends MY_Controller {
 				->display_as('passwd','รหัสผ่าน')
 				->display_as('auth_level','บทบาท')
 				->display_as('province','จังหวัด')
+				->display_as('province_name','จังหวัด')
 				->display_as('ORG_ID','เขตพื้นที่')
+				->display_as('org_name','เขตพื้นที่')
 				->display_as('AGENCY','สังกัดหน่วยงาน')
 
 			;
 			$crud->set_subject('ผู้ใช้งานระบบ','	การจัดการผู้ใช้งานระบบ');
 			$crud->unset_delete();
-				
+			// $crud->callback_column('ORG_ID', array($this, 'callback_org_name'));
+			// $crud->callback_column('province', array($this, 'callback_province'));
+
+			// if ($crud->getState()=='ajax_list') {
+			// 	$crud->callback_column('ORG_ID', array($_POST[''], 'callback_org_id'));
+			// 	$crud->callback_column('province', array($this, 'callback_province'));
+			// }
 			$crud->field_type('auth_level','dropdown',
 					array(	'1' => 'ผู้ใช้งานส่วนกลางระดับจัดการ',
 							'2' => 'ผู้ใช้งานส่วนกลางระดับบริหาร',
@@ -143,6 +170,16 @@ class Admin extends MY_Controller {
 							'6' => 'ผู้ใช้งานส่วนภูมิภาคระดับบริหาร' ,
 							'8' => 'ผู้ดูแลระบบระดับจัดการ' ,
 							'9' => 'ผู้ดูแลระบบระดับบริหาร'));
+
+			// if ($crud->getState()=='add') {
+			$crud->field_type('auth_level','dropdown',
+					array(	'1' => 'ผู้ใช้งานส่วนกลางระดับจัดการ',
+							'2' => 'ผู้ใช้งานส่วนกลางระดับบริหาร',
+							'5' => 'ผู้ใช้งานส่วนภูมิภาคระดับจัดการ',
+							'6' => 'ผู้ใช้งานส่วนภูมิภาคระดับบริหาร' ,
+							'8' => 'ผู้ดูแลระบบระดับจัดการ' ,
+							'9' => 'ผู้ดูแลระบบระดับบริหาร'));
+			
 			
 			$crud->field_type('banned','dropdown',
 					array('2' => 'ใช้งานได้','1' => 'ไม่ให้ใช้'));
@@ -299,6 +336,8 @@ class Admin extends MY_Controller {
 			$crud->field_type('modified_at','hidden');
 			$crud->field_type('created_by','hidden');
 			$crud->field_type('modified_by','hidden');
+			$crud->field_type('org_name','hidden');
+				$crud->field_type('province_name','hidden');
 				
 			$crud->field_type('passwd','password');
 			//$crud->field_type('banned','hidden');
@@ -319,14 +358,22 @@ class Admin extends MY_Controller {
 			$crud->callback_before_insert(array($this,'encrypt_password_callback'));
 			$crud->callback_before_update(array($this,'encrypt_password_callback'));
 			$crud->callback_edit_field('passwd',array($this,'decrypt_password_callback'));
-
-			$crud->set_rules('passwd','รหัสผ่าน','required|callback_validate_charater_password_callback');
+			// }
+			// $crud->set_rules('passwd','รหัสผ่าน','required|callback_validate_charater_password_callback');
 			
 			if( $crud->getState()=='edit'  || $crud->getState()=='update' || $crud->getState()=='update_validation')
 			{
+				// $crud->callback_column('ORG_ID', array($this, 'callback_org_name'));
+				// $crud->callback_column('province', array($this, 'callback_province'));
 				$crud->set_rules('name', 'Name', 'required');
 				$crud->field_type('username','readonly');
+				$crud->field_type('org_name','hidden');
+				$crud->field_type('province_name','hidden');
+				// $crud->field_type('org_name','readonly');
 				$crud->field_type('email','readonly');
+				// $crud->callback_before_insert(array($this,'encrypt_password_callback'));
+				// $crud->callback_before_update(array($this,'encrypt_password_callback'));
+				// $crud->callback_edit_field('passwd',array($this,'decrypt_password_callback'));
 			}
 			else if ( $crud->getState()=='export' )
 			{
@@ -364,13 +411,14 @@ class Admin extends MY_Controller {
 	}
 	public function validate_charater_password($post_array, $primary_key = null)
 	{
-		$regex = '(?=(?:.*[A-Z].*){' . config_item('min_uppercase_chars_for_password') . ',})';
-		if( preg_match( '/^' . $regex . '.*$/', $post_array['passwd'] ) ){
-			return $post_array;
-		}else{
-// 			$this->from_validation->set_message('Pass fail');
-			return false;
-		}
+// 		$regex = '(?=(?:.*[A-Z].*){' . config_item('min_uppercase_chars_for_password') . ',})';
+// 		if( preg_match( '/^' . $regex . '.*$/', $post_array['passwd'] ) ){
+// 			return $post_array;
+// 		}else{
+// // 			$this->from_validation->set_message('Pass fail');
+// 			return false;
+// 		}
+		return $post_array;
 	}
 	
 
@@ -389,8 +437,23 @@ class Admin extends MY_Controller {
 		return '<input type="text" name="user_id" value="'.$user_id.'" readonly/>';
 	}
 
+	function callback_org_name($value)
+	{
+		$p = getOrgById($value);
+		// echo print_r($p);die();
+		return $p['org_name'];
+	}
+
+	function callback_province($value)
+	{
+		$p = getProvinceByID($value);
+		// echo print_r($p);die();
+		return $p->PROVINCE_NAME;
+	}
+
 	function change_value_number($value)
 	{
+		
 		return "'".$value;
 	}
 	
@@ -434,15 +497,15 @@ class Admin extends MY_Controller {
 	    else if("nochange" == $password ){
 	        return true;
 	    }
-	    else if (preg_match('/[A-Z]/',$password))
-	    {
-	        return true;
-	    }
-	    else
-	    {
-	        $this->form_validation->set_message('validate_charater_password_callback','รหัสผ่านจำเป็นต้องมี A-Z อย่างน้อย 1 ตัวอักษร');
-	        return false;
-	    }
+	    // else if (preg_match('/[A-Z]/',$password))
+	    // {
+	    //     return true;
+	    // }
+	    // else
+	    // {
+	    //     $this->form_validation->set_message('validate_charater_password_callback','รหัสผ่านจำเป็นต้องมี A-Z อย่างน้อย 1 ตัวอักษร');
+	    //     return false;
+	    // }
 	}
 	
 	public function announcements_management()

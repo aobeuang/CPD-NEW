@@ -29,14 +29,15 @@ $config['login_rules'] = [
 	[
 		'field' => 'login_pass',
 		'label' => 'PASSWORD',
-		'rules' => [
-            'trim',
-            'required',
-            [ 
-                '_check_password_strength', 
-                [ $CI->validation_callables, '_check_password_strength' ] 
-            ]
-        ]
+		'trim|required|min_length[4]'
+		// 'rules' => [
+  //           'trim',
+  //           'required',
+  //           [ 
+  //               '_check_password_strength', 
+  //               [ $CI->validation_callables, '_check_password_strength' ] 
+  //           ]
+  //       ]
 	]
 ];
 

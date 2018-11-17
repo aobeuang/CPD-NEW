@@ -16,6 +16,7 @@ class Csv_import extends MY_Controller {
     $this->load->library('session');
 
     $this->load->helper('properties');
+    $this->load->helper('survey');
 
     $this->load->helper('user');
 
@@ -126,11 +127,13 @@ header('Content-Type: text/html; charset=UTF-8');
           'user_id' => $number,
           'username' => $row["username"],
           'name'  => $row["name"].' '.$sname,
-          'auth_level'  => $row["auth_level"],
+          'auth_level'  => 5,
           'passwd'   => $this->hash_passwd($row["passwd"]),
           'banned'   => 2,
           'province'   => $row["province"],
+          'province_name'   => $this->setNameProvince($row["province"]),
           'ORG_ID'   => $row["org_id"],
+          'org_name'   => $this->setNameOrg($row["org_id"]),
           'email'   => $row["email"]
           );
           $dataed = $data;
@@ -180,6 +183,20 @@ header('Content-Type: text/html; charset=UTF-8');
     return strlen( $salt ) != 22 
       ? substr( md5( mt_rand() ), 0, 22 )
       : $salt;
+  }
+
+  public function setNameProvince($id)
+  {
+    $p = getProvinceByID($id);
+    // echo print_r($p);die();
+    return $p->PROVINCE_NAME;
+  }
+
+  public function setNameOrg($id)
+  {
+    $p = getOrgById($id);
+    // echo print_r($p);die();
+    return $p['org_name'];
   }
  
   

@@ -32,9 +32,12 @@ $( document ).ready(function() {
 				{
 
 					html +='<option selected value="'+result.items[i].org_org_id+'">'+result.items[i].org_name+'</option>';
+					html2 = result.items[i].org_name;
 				
 			}
 			$('#field-ORG_ID').html(html);
+			$('#field-org_name').val(html2);
+			$('#field-province_name').val($("#field-province option:selected").text());
 			$('#field-ORG_ID').attr('disabled',false);
 
 			}
@@ -59,9 +62,13 @@ $( "#field-province" ).change(function() {
 				{
 
 					html +='<option selected value="'+result.items[i].org_org_id+'">'+result.items[i].org_name+'</option>';
+					html2 = result.items[i].org_name;
+					
 				
 			}
 			$('#field-ORG_ID').html(html);
+			$('#field-org_name').html(html2);
+			$('#field-province_name').val($("#field-province option:selected").text());
 			$('#field-ORG_ID').attr('disabled',false);
 
 			}

@@ -20,7 +20,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | The least amount of characters for a valid password
 */
 
-$config['min_chars_for_password'] = 8;
+$config['min_chars_for_password'] = 0;
 
 /*
 | -----------------------------------------------------------------

@@ -1535,7 +1535,7 @@ class Report2 extends MY_Controller {
 				return $data_temp;
 
 			}else{
-				addLogSuspiciousMessageReport('รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+				
 				$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
 				$output = array(
 						"draw"    => intval($draw),
@@ -1545,6 +1545,9 @@ class Report2 extends MY_Controller {
 						"numtotal"   => $text
 				);
 				// $ci->cache->save($cache_key, $output, 30000);
+				if (!empty($_GET["draw"]) && $_GET["draw"] == 1) {
+					addLogSuspiciousMessageReport('รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
+				}
 				print_r(json_encode($output));
 				// $this->load->view($textlog);
 				die();
@@ -2517,7 +2520,7 @@ class Report2 extends MY_Controller {
 			}
 		}
 		else
-			echo "no permission";
+			echo "nopermission";
 	}
 
 	public function getUserListByName()

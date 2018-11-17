@@ -390,7 +390,7 @@ table.dataTable thead .sorting_desc {
 	    	   		}else{
 	    	   			var road = '';
 	    	   			var lane = '';
-	    	   			if(result.items[0].road){
+	    	   			if(result.items[0].road != ''){
 	    	   				road = result.items[0].road;
 	    	   			}
 	    	   			if(result.items[0].lane){

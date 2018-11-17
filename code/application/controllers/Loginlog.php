@@ -11,8 +11,9 @@ class Loginlog extends MY_Controller {
 		$this->load->helper('form');
 		$this->load->driver('cache',array('adapter' => 'apc', 'backup' => 'file'));
 		$this->load->library('session');
+
 		$this->load->library('grocery_CRUD');
-		$this->load->helper('user_helper');
+		$this->load->helper('user');
 		$this->load->helper('survey');
 	}
 	public function _formlog_output($output = null)
@@ -177,9 +178,9 @@ class Loginlog extends MY_Controller {
 			
 			
 			// close the default connection
-			$this->db->close();
-			// connect to the other db
-			$this->db = $this->load->database('cooplog', true);
+			// $this->db->close();
+			// // connect to the other db
+			// $this->db = $this->load->database('cooplog', true);
 			
 			$crud = new grocery_CRUD();
 			$crud->set_theme('bootstrap');
@@ -236,9 +237,9 @@ class Loginlog extends MY_Controller {
 			$output = $crud->render();
 			
 			// close the default connection
-			$this->db->close();
-			// connect to the other db
-			$this->db = $this->load->database('default', true);
+			// $this->db->close();
+			// // connect to the other db
+			// $this->db = $this->load->database('default', true);
 			
 			$this->_admin_output($output);
 		}
@@ -258,9 +259,9 @@ class Loginlog extends MY_Controller {
 			
 			
 			// close the default connection
-			$this->db->close();
+			// $this->db->close();
 			// connect to the other db
-			$this->db = $this->load->database('cooplog', true);
+			// $this->db = $this->load->database('cooplog', true);
 			
 			$crud = new grocery_CRUD();
 			$crud->set_theme('bootstrap');
@@ -323,9 +324,9 @@ class Loginlog extends MY_Controller {
 			
 			
 			// close the default connection
-			$this->db->close();
+			// $this->db->close();
 			// connect to the other db
-			$this->db = $this->load->database('default', true);
+			// $this->db = $this->load->database('default', true);
 			
 			$this->_admin_output($output);
 			
@@ -368,14 +369,18 @@ class Loginlog extends MY_Controller {
 	public function callback_date($val, $row)
 	{
 
-		$strYear = date("Y",strtotime($val))+543;
+		// echo print_r($val);die();
+		// $test = date('Y-m-d H:i:s',time());
+		$strYear = date("Y",strtotime($val));
+		// echo print_r($test);die();
+
 		$strMonth= date("m",strtotime($val));
 		$strDay= date("d",strtotime($val));
 		$strHour= date("H",strtotime($val));
 		$strMinute= date("i",strtotime($val));
 		$strSeconds= date("s",strtotime($val));
 		$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
-		$strMonthThai=$strMonthCut[$strMonth];
+		// $strMonthThai=$strMonthCut[$strMonth];
 		return "$strDay-$strMonth-$strYear $strHour:$strMinute:$strSeconds";
 
 	        // return date('Y-m-d', strtotime($val));
