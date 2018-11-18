@@ -313,7 +313,6 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 							<th>สถานะสมาชิก</th>
 							<th>จังหวัด</th>
 							<th>ชื่อ สหกรณ์</th>
-							<th>ดูรายละเอียด</th>
 						</tr>
 					</thead>
 				</table>
@@ -879,7 +878,6 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	        { "width": "auto" },
 	        { "width": "auto" },
 	        { "width": "auto" },
-	        { "width": "auto" },
 	        { "width": "auto" }
 	    ],
 	   	"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -898,11 +896,6 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	    'columnDefs': [
 	    	{
 	    	      "targets": 4, // your case first column
-	    	      "className": "text-center",
-	    	      "width": "4%"
-	    	 },
-	    	{
-	    	      "targets": 7, // your case first column
 	    	      "className": "text-center",
 	    	      "width": "4%"
 	    	 }
@@ -961,6 +954,8 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	});
 		
 }
+
+
 
 function getUserDetail(citizen_id){
 	$("#pageLoading").fadeIn();

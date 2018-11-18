@@ -363,15 +363,16 @@ table.dataTable thead .sorting_desc {
 		}
 		
 	}
-	function getUserDetail(citizen_id){
+	function getUserDetail(citizen_id,org_id){
 		$("#pageLoading").fadeIn();
 		var query=true;
 		$.ajax({
-			url:"<?php echo site_url('report2/getMemberByCitizenID')?>",
+			url:"<?php echo site_url('report2/getMemberByCitizenIDOrgID')?>",
 		    type:"GET",
 		    dataType: 'json',
 		    data:{
 		    	citizen_id:citizen_id,
+		    	org_id:org_id,
 		    	query:query,
 		    	check:true,
 		    },
@@ -398,14 +399,14 @@ table.dataTable thead .sorting_desc {
 	    	   			}
 			    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
 						$('#mem_citizen_id').text(result.items[0].citizen_id);
-						var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district;
+						var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district +' '+ result.items[0].province_name;
 						$('#mem_addr').text(address);
 						var coop_list = '';
 						for(var i = 0;i<result.items.length;i++){
 					   		coop_list = coop_list+result.items[i].coop_name +'<br>';
 					   	}
 						$('#mem_coop_name').html(coop_list);
-						$('#mem_province_name').text(result.items[0].province_name);
+						$('#mem_province_name').text(result.items[0].in_province_name);
 						$("#myModal").modal();
 					}
 	    	   	}else{
@@ -429,6 +430,7 @@ table.dataTable thead .sorting_desc {
 		    }
 		});
 	}
+
 	function getUserListByID(citizen_id)
 	{
 		$("#pageLoading").fadeIn();

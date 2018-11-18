@@ -2343,6 +2343,75 @@ if ( ! function_exists('getAllSurveyYears'))
 		}
 	}
 
+	if (! function_exists('getMemberByCitizenIDAndOrgID'))
+	{
+	
+		function getMemberByCitizenIDAndOrgID($citizen_id,$org_id)
+		{
+			$citizen_id = trim($citizen_id);
+			$org_id = trim($org_id);
+
+				
+			if (!is_numeric($citizen_id) && !is_numeric($org_id))
+				return null;
+				
+			/*
+			$test = array();
+			$test[] = array(
+					'D_ID' => 509,
+					'D_YEAR' =>null,
+					'D_PIN' => '3160300354651',
+					'D_MDATE' => '09/09/3100',
+					'D_NSTOCK' => '305',
+					'D_VSTOCK' => '3050',
+					'D_TYPE' => 1,
+					'D_COOP' => '1600000125357',
+					'D_GROUP' => '01',
+					'D_PNAME' => 'จินดา',
+					'D_SNAME' => 'เชื่อมหอม',
+					'D_PREFIX' => 'นาง',
+					'D_NATION' => 'ไทย'
+			);
+			return $test;
+			*/
+				
+			$cache_key = "getMemberByCitizenIDAndOrgID_$citizen_id$org_id";
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+	
+			$data_cache = "";
+			//if ( ! $data_cache = $ci->cache->get($cache_key))
+			if (true)
+			{
+
+				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
+				$select = 'IN_D_COOP,"citizen_id",COOP_ID,IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,OU_D_PNAME,OU_D_SNAME,OU_D_HNO,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME';
+				
+				$table = getMahadthaiDbTable();
+				
+				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
+				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
+				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
+				$sql = "SELECT * FROM view_master_data_use WHERE OU_D_ID = '$citizen_id' and IN_D_COOP = '$org_id'";//new
+				// echo print_r($sql);die();
+				$query = $ci->db->query($sql);
+
+				$to_return = array();
+				$results = $query->result_array();
+				if (!empty($results))
+				{		
+					foreach ($results as $row ) {
+						$to_return[] = $row;
+					}
+				}
+				$ci->cache->save($cache_key, $to_return, 300000);
+	
+				return $to_return;
+			}
+			return $data_cache;
+		}
+	}
+
 	if (! function_exists('countCoopCiticen'))
 	{
 	
@@ -3217,7 +3286,7 @@ if ( ! function_exists('getAllSurveyYears'))
 			$data = array(
 				'coop_name'			=> $coop['COOP_NAME_TH'],
 				'coop_id'			=> $value['IN_D_COOP'],
-				'province_name'		=> $coop['PROVINCE_NAME'],
+				'in_province_name'		=> $coop['PROVINCE_NAME'],
 				'citizen_id'		=> $value['OU_D_ID'],
 				'prefix'			=> $value['OU_D_PREFIX'],
 				'name'				=> $value['OU_D_PNAME'],
