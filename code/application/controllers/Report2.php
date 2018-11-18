@@ -1284,15 +1284,18 @@ class Report2 extends MY_Controller {
 			//Check Filter Before Query
 			$query_coop = null;
 			$query_org_id = null;
+			$query_org_id_2 = null;
 			if (!empty($filter_coop) && !empty($filter_provinces)) {
 				//IF isset $filter_coop and $filter_provinces
 				$query_coop = " AND IN_D_COOP = $filter_coop ";
 				$query_org_id = " WHERE ORG_ID IN ($filter_provinces) ";
+				$query_org_id_2 = " AND B.ORG_ID IN ($filter_provinces) ";
 
 			}else if (!empty($filter_coop)) {
 				$query_coop = " AND IN_D_COOP = $filter_coop ";
 			}else if (!empty($filter_provinces)) {
 				$query_org_id = " WHERE ORG_ID IN ($filter_provinces) ";
+				$query_org_id_2 = " AND B.ORG_ID IN ($filter_provinces) ";
 			}else{
 
 			}
@@ -1306,6 +1309,7 @@ class Report2 extends MY_Controller {
 				}
 				$list = implode(',',$isset_org_id);
 				$query_org_id = " WHERE ORG_ID IN ($list) ";
+				$query_org_id_2 = " AND B.ORG_ID IN ($list) ";
 			}
 
 			//New Query
@@ -1322,6 +1326,7 @@ class Report2 extends MY_Controller {
 					                          $query_org_id)
 					                          GROUP BY OU_D_ID
 					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
+					$query_org_id_2
 					$query_coop
 					ORDER BY OU_D_ID";
 
