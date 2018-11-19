@@ -76,7 +76,7 @@ class Mystuffs extends MY_Controller
       
 
 
-            $crud->unset_fields('AUTH_LEVEL_NAME', 'created_at', 'modified_at');
+            $crud->unset_fields('AUTH_LEVEL_NAME', 'created_at', 'modified_at' ,'province_name' ,'org_name');
         	
         	 
         	$crud->edit_fields('name','username','passwd', 'created_at', 'modified_at','ORG_ID');
