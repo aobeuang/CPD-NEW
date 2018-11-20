@@ -355,13 +355,11 @@ th
 					// table_rows['24']['1']['pageBreak'] = 'after';
 					table_rows['24']['3']['pageBreak'] = 'after';
 					// table_rows['5']['3']['pageBreak'] = 'after';
-					// table_rows['24']['3']['dontBreakRows'] = 'false';
 
 					// temp_pdf_array['27']['3']['pageBreak'] = 'after';
 					// temp_pdf_array1['29']['3']['pageBreak'] = 'after';
 					// table_rows['28']['0']['pageBreak'] = 'after';
-					table_rows['56']['3']['pageBreak'] = 'after';
-					// table_rows['57']['3']['dontBreakRows'] = 'true';
+					table_rows['53']['3']['pageBreak'] = 'after';
 					// console.log('ooo333');
 					// console.log(count_khet);
 					//console.log(table_rows);
