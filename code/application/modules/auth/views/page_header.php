@@ -228,10 +228,10 @@ $current_url = $_SERVER['REQUEST_URI'];
 							<li class=""><a href="<?php echo site_url('report3/index6')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ</a></li>
 							<li class=""><a href="<?php echo site_url('report3/index17')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</a></li>
 							<li class="disble-gray"><a href="<?php echo site_url('report3/index12')?>">รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>	
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index10')?>">รายงานข้อมูลการเลี้ยงสัตว์ (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index11')?>">รายงานข้อมูลการทำประมง (อยู่ในระหว่างการแก้ไข)</a></li>                
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>	
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index10')?>">รายงานข้อมูลการเลี้ยงสัตว์ (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index11')?>">รายงานข้อมูลการทำประมง (อยู่ในระหว่างการแก้ไข)</a></li>                
 		              </ul>
                      </li>  
                      <?php endif?>
