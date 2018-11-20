@@ -222,12 +222,12 @@ $current_url = $_SERVER['REQUEST_URI'];
                      <a href="#" class="dropdown-toggle nav-ic ic-mis" data-toggle="dropdown">รายงาน MIS ผู้บริหาร <span class="caret"></span></a>
                      <ul class="dropdown-menu" role="menu">
 
-                     		<li class="disble-gray"><a href="#<?php //echo site_url('report3/index1')?>">รายงานจำนวนสมาชิกสหกรณ์ (ภาคเกษตร-นอกภาคเกษตร) (อยู่ในระหว่างการแก้ไข)</a></li>
-                     		<li class="disble-gray"><a href="#<?php //echo site_url('report3/index2')?>">รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index3')?>">รายงานจำนวนสมาชิกสหกรณ์ นอกภาคเกษตร (อยู่ในระหว่างการแก้ไข)</a></li>								
+                     		<li class="disble-gray"><a href="<?php echo site_url('report3/index1')?>">รายงานจำนวนสมาชิกสหกรณ์ (ภาคเกษตร-นอกภาคเกษตร) (อยู่ในระหว่างการแก้ไข)</a></li>
+                     		<li class="disble-gray"><a href="<?php echo site_url('report3/index2')?>">รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index3')?>">รายงานจำนวนสมาชิกสหกรณ์ นอกภาคเกษตร (อยู่ในระหว่างการแก้ไข)</a></li>								
 							<li class=""><a href="<?php echo site_url('report3/index6')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ</a></li>
 							<li class=""><a href="<?php echo site_url('report3/index17')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index12')?>">รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report3/index12')?>">รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง (อยู่ในระหว่างการแก้ไข)</a></li>
 							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>	
 							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>
 							<li class="disble-gray"><a href="#<?php //echo site_url('report3/index10')?>">รายงานข้อมูลการเลี้ยงสัตว์ (อยู่ในระหว่างการแก้ไข)</a></li>
