@@ -754,11 +754,21 @@ function getlistkhet()
 
 			var html ='';
 
+			if (result.check) {
+				html +='<option selected value="0">ทั้งหมด</option>';
+				$("#filter_khet_hidden").val('0');
+			}
+
 			for(var i = 0;i<result.items.length;i++)
 				{
 				if(i==0){
-					html +='<option selected value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
-					$("#filter_khet_hidden").val(result.items[i].COL004);
+						if (result.items) {
+							html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
+							$("#filter_khet_hidden").val('0');
+						}else{
+							html +='<option selected value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
+							$("#filter_khet_hidden").val(result.items[i].COL004);
+						}
 					}else 
 						if(result.items[i].COL004 >=20){
 						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';

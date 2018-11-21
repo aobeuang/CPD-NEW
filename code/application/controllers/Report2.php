@@ -1031,7 +1031,13 @@ class Report2 extends MY_Controller {
 		if(!$retrun_data)
 		$khet_id = $this->input->get('khet');
 		
-		$province = getProvinceOfKhetById($khet_id);
+		if($khet_id == 0 ){
+			$province = getAllProvinces();
+			// echo print_r($province);die();
+
+		}else{
+			$province = getProvinceOfKhetById($khet_id);
+		}
 	
 		
 		$province_name_user_search = getUser($this->session->userdata('auth_user_id'));
@@ -1050,34 +1056,42 @@ class Report2 extends MY_Controller {
 		
 // 		print_r($khet_id);
 		$temp_data = array();
-		foreach ($province as $v)
-		{
-			if($this->session->userdata('auth_role') == "notcentral_normal")
-			{
-				if(!empty($org_id) && !is_null($org_id) && intval($v['COL011']) == intval($org_id))
-				{
-					$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
-				}
-				if(empty($org_id) && intval($province_id) == intval($v['COL006']))
-				{
-					$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
-				}else{
-					continue;
-				}
-			}else{
-				$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
+		if ($khet_id == 0 ) {
+			foreach ($province as $v) {
+				$temp_data[] = array('id'=>$v->PROVINCE_ID,'name'=>$v->PROVINCE_NAME);
 			}
-// 				$temp_data[]['name'] = $v['COL008'];
-			
+		}else{
+
+			foreach ($province as $v)
+			{
+				if($this->session->userdata('auth_role') == "notcentral_normal")
+				{
+					if(!empty($org_id) && !is_null($org_id) && intval($v['COL011']) == intval($org_id))
+					{
+						$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
+					}
+					if(empty($org_id) && intval($province_id) == intval($v['COL006']))
+					{
+						$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
+					}else{
+						continue;
+					}
+				}else{
+					$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
+				}
+	// 				$temp_data[]['name'] = $v['COL008'];
+				
+			}
+			# code...	
 		}
 		$data_responce = array();
 		
 		$data_responce['items'] =  $temp_data;
-		$test = array();
+		// $test = array();
 
-		foreach ($province as $v){
-			array_push($test,$v['COL011']);
-		}
+		// foreach ($province as $v){
+		// 	array_push($test,$v['COL011']);
+		// }
 		
 		// echo print_r($test);
 		// echo implode(',',$test);
@@ -1137,6 +1151,11 @@ class Report2 extends MY_Controller {
 		
 		
 		$temp_data = array();
+		$checkpermission = true;
+		if($this->session->userdata('auth_role') == "notcentral_normal" || $this->session->userdata('auth_role') == "notcentral_manager") {
+			$checkpermission = false;
+		}
+
 		foreach ($datas as $data)
 		{
 			$temp_data[intval($data['COL004'])] = $data;
@@ -1146,13 +1165,17 @@ class Report2 extends MY_Controller {
 		
 		$temp_data_alert_sort = array();
 		
+		
+
 		foreach ($temp_data as $data_sort)
 		{
 			$temp_data_list_khet[] = $data_sort;
 		}
 		
+		
 		$data_respone = array();
 		$data_respone['items'] = $temp_data_list_khet;
+		$data_respone['check'] = $checkpermission;
 		$data_respone['query'] = "select * from KHET_DATA";
 		print_r(json_encode($data_respone));
 		
@@ -1948,21 +1971,32 @@ class Report2 extends MY_Controller {
 			$page = isset($_GET['page'])? $_GET['page'] :1;
 			
 			
+			// echo $this->input->get('filter_khet');die();
+			if ($this->input->get('filter_khet') == 0) {
+				$filter_khet = $this->input->get('filter_khet');
+			}else if ($this->input->get('filter_khet') == ''){
+				$filter_khet = 0;
+			}else{
+				$filter_khet = $this->input->get('filter_khet');
+			}
 			
 			
-			
-			$filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):$this->session->userdata('filter_khet');
+			// $filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):"";
 			$filter_tambon = !empty($this->input->get('filter_tambon'))?$this->input->get('filter_tambon'):"";
 			$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):"";
 			$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):"";
 			
+			// echo $filter_khet;die();
 			
-			
-			$province_of_khet = getProvinceOfKhetById($filter_khet);
+				$province_of_khet = getProvinceOfKhetById($filter_khet);
+	
 			$province_of_khet_array = array();
+
 			foreach ($province_of_khet as $data_khet)
 			{
+				// array_push($province_of_khet_array,trim($data_khet['COL011']));
 				array_push($province_of_khet_array,trim($data_khet['COL011']));
+				
 			}
 // 			echo "<pre>";
 // 			print_r($province_of_khet);

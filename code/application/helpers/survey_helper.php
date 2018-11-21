@@ -1910,19 +1910,22 @@ if ( ! function_exists('getAllSurveyYears'))
 // 				$list_data =getProvinceByName($filter_provinces);
 				
 // 				echo "<pre>";print_r($data);echo "</pre>";
+				// if($khetId)
 				foreach ($data as $v)
 				{
+					
+						// if(!empty($filter_provinces) &&  ($filter_provinces == $v['COL011'] || $filter_provinces == $v['COL008'] || $filter_provinces ==$v['COL006'] ) && $v['COL004'] == $khetId)
+						// {
+						// 	$temp_data[] = $v;
+						// }
+						// else if(empty($filter_provinces) && $v['COL004'] == intval($khetId)){
 
-					if(!empty($filter_provinces) &&  ($filter_provinces == $v['COL011'] || $filter_provinces == $v['COL008'] || $filter_provinces ==$v['COL006'] ) && $v['COL004'] == $khetId)
-					{
-						$temp_data[] = $v;
-					}
-					else if(empty($filter_provinces) && $v['COL004'] == intval($khetId)){
+							$temp_data[] = $v;
 
-						$temp_data[] = $v;
-					}
+						// }
+
 				}
-				
+				echo print_r($temp_data);die();
 				return $temp_data;
 				
 				
