@@ -1889,8 +1889,10 @@ if ( ! function_exists('getAllSurveyYears'))
 		function getProvinceOfKhetById($khetId,$filter_provinces=null,$filter_district=null,$filter_coop=null)
 		{
 			//ini_set("memory_limit", "3024M");
-			if(isset($khetId) && !empty($khetId)){
-				$cache_key = "ProvinceOfKhet";
+			if(isset($khetId)){
+				// echo print_r($khetId);die();
+
+				$cache_key = "ProvinceOfKhet_$khetId";
 				$ci =& get_instance();
 				$ci->load->database();
 				if(!$data = $ci->cache->get($cache_key)){
@@ -1913,19 +1915,23 @@ if ( ! function_exists('getAllSurveyYears'))
 				// if($khetId)
 				foreach ($data as $v)
 				{
-					
-						// if(!empty($filter_provinces) &&  ($filter_provinces == $v['COL011'] || $filter_provinces == $v['COL008'] || $filter_provinces ==$v['COL006'] ) && $v['COL004'] == $khetId)
-						// {
-						// 	$temp_data[] = $v;
-						// }
-						// else if(empty($filter_provinces) && $v['COL004'] == intval($khetId)){
+					if ($khetId == 0) {
+						$temp_data[] = $v;
+					}else{
+
+						if(!empty($filter_provinces) &&  ($filter_provinces == $v['COL011'] || $filter_provinces == $v['COL008'] || $filter_provinces ==$v['COL006'] ) && $v['COL004'] == $khetId)
+						{
+							$temp_data[] = $v;
+						}
+						else if(empty($filter_provinces) && $v['COL004'] == intval($khetId)){
 
 							$temp_data[] = $v;
 
-						// }
+						}
+					}
 
 				}
-				echo print_r($temp_data);die();
+				// echo print_r($temp_data);die();
 				return $temp_data;
 				
 				

@@ -1311,13 +1311,13 @@ class Report2 extends MY_Controller {
 			if (!empty($filter_coop) && !empty($filter_provinces)) {
 				//IF isset $filter_coop and $filter_provinces
 				$query_coop = " AND IN_D_COOP = $filter_coop ";
-				$query_org_id = " WHERE ORG_ID IN ($filter_provinces) ";
+				$query_org_id = " AND B.ORG_ID IN ($filter_provinces) ";
 				$query_org_id_2 = " AND B.ORG_ID IN ($filter_provinces) ";
 
 			}else if (!empty($filter_coop)) {
 				$query_coop = " AND IN_D_COOP = $filter_coop ";
 			}else if (!empty($filter_provinces)) {
-				$query_org_id = " WHERE ORG_ID IN ($filter_provinces) ";
+				$query_org_id = " AND B.ORG_ID IN ($filter_provinces) ";
 				$query_org_id_2 = " AND B.ORG_ID IN ($filter_provinces) ";
 			}else{
 
@@ -1326,50 +1326,59 @@ class Report2 extends MY_Controller {
 			//Check Select Org_id
 			$isset_org_id = array();
 			if (empty($filter_provinces)) {
-				$province = getProvinceOfKhetById($filter_khet);
-				foreach ($province as $v){
-					array_push($isset_org_id,$v['COL011']);
+				if($filter_khet != 0 ){
+					$province = getProvinceOfKhetById($filter_khet);
+					foreach ($province as $v){
+						array_push($isset_org_id,$v['COL011']);
+					}
+					// $province = getProvinceOfKhetById($filter_khet);
+				
+					$list = implode(',',$isset_org_id);
+					$query_org_id = " AND ORG_ID IN ($list) ";
+				}else{
+					$query_org_id = "";
 				}
-				$list = implode(',',$isset_org_id);
-				$query_org_id = " WHERE ORG_ID IN ($list) ";
-				$query_org_id_2 = " AND B.ORG_ID IN ($list) ";
+				
 			}
 
 			//New Query
-			$sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
-					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (  -- Data in KHET_ID = 1 and Member COOP = 1  
-					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND OU_D_FLAG IN(1,2)
-					                          $life_status_query
-					                          AND IN_D_COOP IN (SELECT REGISTRY_NO_2 FROM ANALYTICPRD.COOP_INFO 
-					                          $query_org_id)
-					                          GROUP BY OU_D_ID
-					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
-					$query_org_id_2
-					$query_coop
-					ORDER BY OU_D_ID";
-
-
-			//Query
-			// $sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
+			// $sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
 			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (  -- Data in KHET_ID = 1 and Member COOP = 1  
 			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
 			// 		                          FROM MOIUSER.MASTER_DATA 
 			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
 			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
 			// 		                          AND OU_D_FLAG IN(1,2)
 			// 		                          $life_status_query
-			// 		                          $query_org_id
+			// 		                          AND IN_D_COOP IN (SELECT REGISTRY_NO_2 FROM ANALYTICPRD.COOP_INFO 
+			// 		                          $query_org_id)
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
+			// 		$query_org_id_2
 			// 		$query_coop
 			// 		ORDER BY OU_D_ID";
-			$sql_count = "SELECT count(*) as TOTAL FROM ($sql)";
+
+
+			// Query
+			$sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          $life_status_query
+					                          $query_org_id
+					                          GROUP BY OU_D_ID
+					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
+					$query_coop
+					ORDER BY OU_D_ID";
+			$dis_count = "DISTINCT OU_D_ID";
+			$sql_count_row = "SELECT count(*) as TOTAL FROM ($sql)";
+			$sql_count = "SELECT count($dis_count) as TOTAL FROM ($sql)";
+			
 
 
 
@@ -1410,6 +1419,20 @@ class Report2 extends MY_Controller {
 				// return $query_count;
 			}else{
 				$query_count = $data_cache_count;
+			}
+
+			$cache_key_count_row = md5($sql_count_row);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_count_row = "";
+			$query_count_row = null;
+			if ( ! $data_cache_count_row = $ci->cache->get($cache_key_count_row)) {
+				$query_count_row = $this->db->query($sql_count_row)->result_array();
+
+				$ci->cache->save($cache_key_count_row, $query_count_row, 30000);
+				// return $query_count;
+			}else{
+				$query_count_row = $data_cache_count_row;
 			}
 			
 			// echo print_r($query_count );die();
@@ -1559,8 +1582,8 @@ class Report2 extends MY_Controller {
 				// echo print_r($citicen);
 		
 			
-			$recordsTotal = $query_count[0]['TOTAL'];
-			$recordsFiltered = $query_count[0]['TOTAL'];
+			$recordsTotal = $query_count_row[0]['TOTAL'];
+			$recordsFiltered = $query_count_row[0]['TOTAL'];
 			
 			if(!empty($search)){
 				$recordsTotal = sizeof($data_temp);
@@ -1988,7 +2011,7 @@ class Report2 extends MY_Controller {
 			
 			// echo $filter_khet;die();
 			
-				$province_of_khet = getProvinceOfKhetById($filter_khet);
+			$province_of_khet = getProvinceOfKhetById(intval($filter_khet));
 	
 			$province_of_khet_array = array();
 
