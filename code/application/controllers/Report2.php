@@ -838,9 +838,12 @@ class Report2 extends MY_Controller {
 
 
 
+
 			if(!$export){
 				$sql .=" OFFSET $start ROWS FETCH NEXT $length ROWS ONLY ";
 			}
+
+
 		
 		
 			$more_coop_array = array('1'=>"เป็นสมาชิก 1 สหกรณ์",'2'=>"เป็นสมาชิก 2  สหกรณ์",'3'=>"ตั้งแต่ 3 สหกรณ์ขึ้นไป");
@@ -1361,13 +1364,16 @@ class Report2 extends MY_Controller {
 
 
 			// Query
-			$sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
+			$sql = "SELECT DISTINCT OU_D_ID,IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_STATUS_TYPE,IN_PROVICE_NAME
 					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
 					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
 					                          FROM MOIUSER.MASTER_DATA 
 					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
 					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+					                          AND IN_D_COOP IS NOT NULL
+					                          AND OU_D_ID IS NOT NULL
 					                          AND OU_D_FLAG IN(1,2)
 					                          $life_status_query
 					                          $query_org_id
@@ -1376,8 +1382,38 @@ class Report2 extends MY_Controller {
 					$query_coop
 					ORDER BY OU_D_ID";
 			$dis_count = "DISTINCT OU_D_ID";
-			$sql_count_row = "SELECT count(*) as TOTAL FROM ($sql)";
-			$sql_count = "SELECT count($dis_count) as TOTAL FROM ($sql)";
+			$sql_count_row = "SELECT count(*) as TOTAL FROM (
+								SELECT DISTINCT OU_D_ID,IN_D_COOP
+								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+								                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+								                          FROM MOIUSER.MASTER_DATA 
+								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+								                          AND IN_D_COOP IS NOT NULL
+								                          AND OU_D_ID IS NOT NULL
+								                          AND OU_D_FLAG IN(1,2)
+								                          $life_status_query
+								                          $query_org_id
+								                          GROUP BY OU_D_ID
+								                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
+			$sql_count = "SELECT count($dis_count) as TOTAL FROM (
+							SELECT DISTINCT OU_D_ID,IN_D_COOP
+							FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+							WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+							                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+							                          FROM MOIUSER.MASTER_DATA 
+							                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+							                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+							                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+							                          AND IN_D_COOP IS NOT NULL
+							                          AND OU_D_ID IS NOT NULL
+							                          AND OU_D_FLAG IN(1,2)
+							                          $life_status_query
+							                          $query_org_id
+							                          GROUP BY OU_D_ID
+							                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
 			
 
 

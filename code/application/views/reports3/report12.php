@@ -40,8 +40,7 @@ $this->load->helper('survey');
 				    </div>		
 			    
 			    </div>
-			     <div id="myProgress" class="display">
-					  <div id="myBar">0%</div>
+			     
 				</div>
 				
 				<div class="row" id ="save">
@@ -82,7 +81,7 @@ $this->load->helper('survey');
 		var elem = document.getElementById("myBar");   
 		var width = 10;
 		var time = (((10*0.15)/100)+5)*30;
-		var id = setInterval(frame, time);
+		// var id = setInterval(frame, time);
 		function frame() {
 		  if (width >= 98) {
 		    clearInterval(id);
@@ -196,7 +195,7 @@ $this->load->helper('survey');
 	  	
       }
       $(document).ready(function() {
-
+        $("#pageLoading").fadeIn();
     		$.ajax({
     			url:"ajexreport12",
     		    type:"GET",
@@ -206,7 +205,7 @@ $this->load->helper('survey');
     		    	listresult = result;
     		    	$('#total').html(listresult.list_total_type1.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
-    			
+    			$("#pageLoading").fadeOut();
     		        
     			}
 

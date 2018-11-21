@@ -302,6 +302,7 @@ function drawType2() {
 		temp.push(listdawr.type[i].name+'',listdawr.type[i].value);
 		data_coop.push(temp);
 	}
+	// console.log(data_coop);
 	
 
 	var data = google.visualization.arrayToDataTable(data_coop);

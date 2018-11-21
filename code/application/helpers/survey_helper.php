@@ -3046,6 +3046,7 @@ if ( ! function_exists('getAllSurveyYears'))
 			->order_by('ORG_ORG_ID')
 			->get();
 			
+			// echo print_r($query);die();
 			$temp = array();
 			$results = $query->result_array();
 			

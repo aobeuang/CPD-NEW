@@ -120,7 +120,13 @@ class Report3 extends MY_Controller {
 	{
 		if(canViewReport())
 		{
-			$data = getTotalCoopReport();
+
+			ini_set('max_execution_time', -1);
+			ini_set("memory_limit", "8124M");
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+			// $data = getTotalCoopReport();
 			$list_type1 = array();
 			$list_total_type1 = 0;
 			$list_total_type2 = 0;
@@ -134,78 +140,182 @@ class Report3 extends MY_Controller {
 			$list_type_out_7 = 0;
 			$list_type_in_out = array();
 
-			foreach ($data as $item)
-			{
-				if(!isset($list_type[$item['ORG_NAME']]))
-				{
-					$list_type[$item['ORG_NAME']]['1'] =0;
-					$list_type[$item['ORG_NAME']]['2'] =0;
-					$list_type[$item['ORG_NAME']]['3'] =0;
-					$list_type[$item['ORG_NAME']]['4'] =0;
-					$list_type[$item['ORG_NAME']]['5'] =0;
-					$list_type[$item['ORG_NAME']]['6'] =0;
-					$list_type[$item['ORG_NAME']]['7'] =0;
-				}
-				if($item['COOP_TYPE'] == '1')
-				{
-					$list_type[$item['ORG_NAME']]['1'] = is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['1'];
-					$list_type_in_1 = $list_type_in_1+$list_type[$item['ORG_NAME']]['1'];
-				}
-				if($item['COOP_TYPE'] == '2')
-				{
-					$list_type[$item['ORG_NAME']]['2']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['2'];
-					$list_type_in_2 = $list_type_in_2+$list_type[$item['ORG_NAME']]['2'];
-				}
-				if($item['COOP_TYPE'] == '3')
-				{
-					$list_type[$item['ORG_NAME']]['3']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['3'];
-					$list_type_in_3 = $list_type_in_3+$list_type[$item['ORG_NAME']]['3'];
-				}
-				if($item['COOP_TYPE'] == '4')
-				{
-					$list_type[$item['ORG_NAME']]['4']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['4'];
-					$list_type_out_4= $list_type_out_4+$list_type[$item['ORG_NAME']]['4'];
-				}
-				if($item['COOP_TYPE'] == '5')
-				{
-					$list_type[$item['ORG_NAME']]['5']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['5'];
-					$list_type_out_5= $list_type_out_5+$list_type[$item['ORG_NAME']]['5'];
-				}
-				if($item['COOP_TYPE'] == '6')
-				{
-					$list_type[$item['ORG_NAME']]['6']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['6'];
-					$list_type_out_6 = $list_type_out_6+$list_type[$item['ORG_NAME']]['6'];
-				}
-				if($item['COOP_TYPE'] == '7')
-				{
-					$list_type[$item['ORG_NAME']]['7']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['7'];
-					$list_type_out_7 = $list_type_out_7+$list_type[$item['ORG_NAME']]['7'];
-				}
+			$sql_count_farm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+								                          FROM MOIUSER.MASTER_DATA 
+								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+								                          AND OU_D_FLAG IN(1,2)
+								                          GROUP BY OU_D_ID) S)
+								AND B.COOP_TYPE IN (1,2,3)                       
+								ORDER BY 1";
+			$sql_count_nonfarm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+								                          FROM MOIUSER.MASTER_DATA 
+								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+								                          AND OU_D_FLAG IN(1,2)
+								                          GROUP BY OU_D_ID) S)
+								AND B.COOP_TYPE IN (4,5,6,7)
+								ORDER BY 1";
+
+								
+
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID) S)
+					AND B.COOP_TYPE IS NOT NULL                          
+					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					ORDER BY 1";
+
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query_sql = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query_sql = $this->db->query($sql)->result_array();
+
+				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+				// return $query_sql;
+			}else{
+				$query_sql = $data_cache_sql;
+			}
+
+			$cache_key_sql_c_farm = md5($sql_count_farm);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql_c_farm = "";
+			$query_sql_c_farm = null;
+			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
+				$query_sql_c_farm = $this->db->query($sql_count_farm)->result_array();
+
+				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
+				// return $query_sql_c_farm;
+			}else{
+				$query_sql_c_farm = $data_cache_sql_c_farm;
+			}
+
+			$cache_key_sql_c_nfarm = md5($sql_count_nonfarm);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql_c_nfarm = "";
+			$query_sql_c_nfarm = null;
+			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
+				$query_sql_c_nfarm = $this->db->query($sql_count_nonfarm)->result_array();
+
+				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
+				// return $query_sql_c_nfarm;
+			}else{
+				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
 			}
 
 
 
+			// $query_nomal = $this->db->query($sql)->result_array();
+			// $query_count_farm = $this->db->query($sql_count_farm)->result_array();
+			// $query_count_nonfarm = $this->db->query($sql_count_nonfarm)->result_array();
+			
 
-			$list_total[] =  array('name'=>'ภาคเกษตร '.number_format($list_total_type1).' คน','value'=> $list_total_type1);
-			$list_total[] =  array('name'=>'นอกภาคเกษตร '.number_format($list_total_type2).' คน','value'=> $list_total_type2);
+			// echo print_r($query_nomal);die();
+			foreach ($query_sql_c_farm as $value) {
+				$list_total[] = array('name'=>'ภาคเกษตร '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+				$list_total_type1 = $value['TOTAL'];
+			}
+
+			foreach ($query_sql_c_nfarm as $value) {
+				$list_total[] = array('name'=>'นอกภาคเกษตร '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+				$list_total_type2 = $value['TOTAL'];
+			}
+
+			foreach ($query_sql as $value) {
+				$list_type_in_out[] = array('name'=>$value['COOP_TYPE_NAME'].' '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+			}
+			
 
 
-			$list_type_in_out[] =  array('name'=>'สหกรณ์การเกษตร '.number_format($list_type_in_1).' คน','value'=> $list_type_in_1);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ประมง '.number_format($list_type_in_2).' คน','value'=> $list_type_in_2);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์นิคม '.number_format($list_type_in_3).' คน','value'=> $list_type_in_3);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ออมทรัพย์ '.number_format($list_type_out_4).' คน','value'=> $list_type_out_4);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ร้านค้า '.number_format($list_type_out_5).' คน','value'=> $list_type_out_5);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์บริการ '.number_format($list_type_out_6).' คน','value'=> $list_type_out_6);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์เครดิตยูเนี่ยน '.number_format($list_type_out_7).' คน','value'=> $list_type_out_7);
+			// foreach ($data as $item)
+			// {
+			// 	if(!isset($list_type[$item['ORG_NAME']]))
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['1'] =0;
+			// 		$list_type[$item['ORG_NAME']]['2'] =0;
+			// 		$list_type[$item['ORG_NAME']]['3'] =0;
+			// 		$list_type[$item['ORG_NAME']]['4'] =0;
+			// 		$list_type[$item['ORG_NAME']]['5'] =0;
+			// 		$list_type[$item['ORG_NAME']]['6'] =0;
+			// 		$list_type[$item['ORG_NAME']]['7'] =0;
+			// 	}
+			// 	if($item['COOP_TYPE'] == '1')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['1'] = is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['1'];
+			// 		$list_type_in_1 = $list_type_in_1+$list_type[$item['ORG_NAME']]['1'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '2')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['2']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['2'];
+			// 		$list_type_in_2 = $list_type_in_2+$list_type[$item['ORG_NAME']]['2'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '3')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['3']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['3'];
+			// 		$list_type_in_3 = $list_type_in_3+$list_type[$item['ORG_NAME']]['3'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '4')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['4']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['4'];
+			// 		$list_type_out_4= $list_type_out_4+$list_type[$item['ORG_NAME']]['4'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '5')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['5']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['5'];
+			// 		$list_type_out_5= $list_type_out_5+$list_type[$item['ORG_NAME']]['5'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '6')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['6']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['6'];
+			// 		$list_type_out_6 = $list_type_out_6+$list_type[$item['ORG_NAME']]['6'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '7')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['7']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['7'];
+			// 		$list_type_out_7 = $list_type_out_7+$list_type[$item['ORG_NAME']]['7'];
+			// 	}
+			// }
 
 
+
+
+			// $list_total[] =  array('name'=>'ภาคเกษตร '.number_format($list_total_type1).' คน','value'=> $list_total_type1);
+			// $list_total[] =  array('name'=>'นอกภาคเกษตร '.number_format($list_total_type2).' คน','value'=> $list_total_type2);
+
+
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์การเกษตร '.number_format($list_type_in_1).' คน','value'=> $list_type_in_1);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ประมง '.number_format($list_type_in_2).' คน','value'=> $list_type_in_2);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์นิคม '.number_format($list_type_in_3).' คน','value'=> $list_type_in_3);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ออมทรัพย์ '.number_format($list_type_out_4).' คน','value'=> $list_type_out_4);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ร้านค้า '.number_format($list_type_out_5).' คน','value'=> $list_type_out_5);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์บริการ '.number_format($list_type_out_6).' คน','value'=> $list_type_out_6);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์เครดิตยูเนี่ยน '.number_format($list_type_out_7).' คน','value'=> $list_type_out_7);
+
+			// echo print_r($list_total);die();
 			$total = $list_total_type1+$list_total_type2;
 
 			$output = array();
@@ -224,8 +334,12 @@ class Report3 extends MY_Controller {
 	{
 		if(canViewReport())
 		{
-
-			$data = getTotalCoopReport();
+			ini_set('max_execution_time', -1);
+			ini_set("memory_limit", "8124M");
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+			// $data = getTotalCoopReport();
 			$list_type1 = array();
 			$list_total_type1 = 0;
 
@@ -235,48 +349,122 @@ class Report3 extends MY_Controller {
 			$list_type_in_3 = 0;
 
 			$list_type_in_out = array();
-			foreach ($data as $item)
-			{
-				if(!isset($list_type[$item['ORG_NAME']]))
-				{
-					$list_type[$item['ORG_NAME']]['1'] =0;
-					$list_type[$item['ORG_NAME']]['2'] =0;
-					$list_type[$item['ORG_NAME']]['3'] =0;
-					$list_type[$item['ORG_NAME']]['4'] =0;
-					$list_type[$item['ORG_NAME']]['5'] =0;
-					$list_type[$item['ORG_NAME']]['6'] =0;
-					$list_type[$item['ORG_NAME']]['7'] =0;
-				}
-				if($item['COOP_TYPE'] == '1')
-				{
-					$list_type[$item['ORG_NAME']]['1'] = is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['1'];
-					$list_type_in_1 = $list_type_in_1+$list_type[$item['ORG_NAME']]['1'];
-				}
-				if($item['COOP_TYPE'] == '2')
-				{
-					$list_type[$item['ORG_NAME']]['2']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['2'];
-					$list_type_in_2 = $list_type_in_2+$list_type[$item['ORG_NAME']]['2'];
-				}
-				if($item['COOP_TYPE'] == '3')
-				{
-					$list_type[$item['ORG_NAME']]['3']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['3'];
-					$list_type_in_3 = $list_type_in_3+$list_type[$item['ORG_NAME']]['3'];
-				}
 
+			$sql_count_farm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+								                          FROM MOIUSER.MASTER_DATA 
+								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+								                          AND OU_D_FLAG IN(1,2)
+								                          GROUP BY OU_D_ID) S)
+								AND B.COOP_TYPE IN (1,2,3)                       
+								ORDER BY 1";
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID) S)
+					AND B.COOP_TYPE IN (1,2,3)                          
+					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					ORDER BY 1";
+
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query_sql = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query_sql = $this->db->query($sql)->result_array();
+
+				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+				// return $query_sql;
+			}else{
+				$query_sql = $data_cache_sql;
 			}
 
-			$list_type_in_out[] =  array('name'=>'สหกรณ์การเกษตร '.number_format($list_type_in_1).' คน','value'=> $list_type_in_1);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ประมง '.number_format($list_type_in_2).' คน','value'=> $list_type_in_2);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์นิคม '.number_format($list_type_in_3).' คน','value'=> $list_type_in_3);
+
+			$cache_key_sql_c_farm = md5($sql_count_farm);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql_c_farm = "";
+			$query_sql_c_farm = null;
+			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
+				$query_sql_c_farm = $this->db->query($sql_count_farm)->result_array();
+
+				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
+				// return $query_sql_c_farm;
+			}else{
+				$query_sql_c_farm = $data_cache_sql_c_farm;
+			}
+
+
+			foreach ($query_sql_c_farm as $value) {
+				// $list_total[] = array('name'=>'ภาคเกษตร '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+				$list_total_type1 = $value['TOTAL'];
+			}
+
+			foreach ($query_sql as $value) {
+				$list_type_in_out[] = array('name'=>$value['COOP_TYPE_NAME'].' '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+			}
+
+
+			// foreach ($data as $item)
+			// {
+			// 	if(!isset($list_type[$item['ORG_NAME']]))
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['1'] =0;
+			// 		$list_type[$item['ORG_NAME']]['2'] =0;
+			// 		$list_type[$item['ORG_NAME']]['3'] =0;
+			// 		$list_type[$item['ORG_NAME']]['4'] =0;
+			// 		$list_type[$item['ORG_NAME']]['5'] =0;
+			// 		$list_type[$item['ORG_NAME']]['6'] =0;
+			// 		$list_type[$item['ORG_NAME']]['7'] =0;
+			// 	}
+			// 	if($item['COOP_TYPE'] == '1')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['1'] = is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['1'];
+			// 		$list_type_in_1 = $list_type_in_1+$list_type[$item['ORG_NAME']]['1'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '2')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['2']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['2'];
+			// 		$list_type_in_2 = $list_type_in_2+$list_type[$item['ORG_NAME']]['2'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '3')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['3']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type1 = $list_total_type1+$list_type[$item['ORG_NAME']]['3'];
+			// 		$list_type_in_3 = $list_type_in_3+$list_type[$item['ORG_NAME']]['3'];
+			// 	}
+
+			// }
+
+
+
+
+
+
+
+
+
+
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์การเกษตร '.number_format($list_type_in_1).' คน','value'=> $list_type_in_1);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ประมง '.number_format($list_type_in_2).' คน','value'=> $list_type_in_2);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์นิคม '.number_format($list_type_in_3).' คน','value'=> $list_type_in_3);
 
 
 
 			$output = array();
 
-			$output['list_total'] = $list_total_type1;
+			$output['list_total'] = number_format($list_total_type1);
 			$output['list_in_out'] = $list_type_in_out;
 			$output['date'] = $this->changemonth();
 			print_r(json_encode($output));
@@ -291,8 +479,12 @@ class Report3 extends MY_Controller {
 		if(canViewReport())
 		{
 
-
-			$data = getTotalCoopReport();
+			ini_set('max_execution_time', -1);
+			ini_set("memory_limit", "8124M");
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
+			// $data = getTotalCoopReport();
 			$list_type1 = array();
 			$list_total_type1 = 0;
 			$list_total_type2 = 0;
@@ -305,56 +497,121 @@ class Report3 extends MY_Controller {
 			$list_type_out_6 = 0;
 			$list_type_out_7 = 0;
 			$list_type_in_out = array();
-			foreach ($data as $item)
-			{
-				if(!isset($list_type[$item['ORG_NAME']]))
-				{
-					$list_type[$item['ORG_NAME']]['1'] =0;
-					$list_type[$item['ORG_NAME']]['2'] =0;
-					$list_type[$item['ORG_NAME']]['3'] =0;
-					$list_type[$item['ORG_NAME']]['4'] =0;
-					$list_type[$item['ORG_NAME']]['5'] =0;
-					$list_type[$item['ORG_NAME']]['6'] =0;
-					$list_type[$item['ORG_NAME']]['7'] =0;
-				}
 
-				if($item['COOP_TYPE'] == '4')
-				{
-					$list_type[$item['ORG_NAME']]['4']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['4'];
-					$list_type_out_4= $list_type_out_4+$list_type[$item['ORG_NAME']]['4'];
-				}
-				if($item['COOP_TYPE'] == '5')
-				{
-					$list_type[$item['ORG_NAME']]['5']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['5'];
-					$list_type_out_5= $list_type_out_5+$list_type[$item['ORG_NAME']]['5'];
-				}
-				if($item['COOP_TYPE'] == '6')
-				{
-					$list_type[$item['ORG_NAME']]['6']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['6'];
-					$list_type_out_6 = $list_type_out_6+$list_type[$item['ORG_NAME']]['6'];
-				}
-				if($item['COOP_TYPE'] == '7')
-				{
-					$list_type[$item['ORG_NAME']]['7']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
-					$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['7'];
-					$list_type_out_7 = $list_type_out_7+$list_type[$item['ORG_NAME']]['7'];
-				}
+			$sql_count_nonfarm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+								                          FROM MOIUSER.MASTER_DATA 
+								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+								                          AND OU_D_FLAG IN(1,2)
+								                          GROUP BY OU_D_ID) S)
+								AND B.COOP_TYPE IN (4,5,6,7)
+								ORDER BY 1";
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID) S)
+					AND B.COOP_TYPE IN (4,5,6,7)                       
+					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					ORDER BY 1";
+
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query_sql = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query_sql = $this->db->query($sql)->result_array();
+
+				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+				// return $query_sql;
+			}else{
+				$query_sql = $data_cache_sql;
 			}
 
 
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ออมทรัพย์ '.number_format($list_type_out_4).' คน','value'=> $list_type_out_4);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์ร้านค้า '.number_format($list_type_out_5).' คน','value'=> $list_type_out_5);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์บริการ '.number_format($list_type_out_6).' คน','value'=> $list_type_out_6);
-			$list_type_in_out[] =  array('name'=>'สหกรณ์เครดิตยูเนี่ยน '.number_format($list_type_out_7).' คน','value'=> $list_type_out_7);
+			$cache_key_sql_c_nfarm = md5($sql_count_nonfarm);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql_c_nfarm = "";
+			$query_sql_c_nfarm = null;
+			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
+				$query_sql_c_nfarm = $this->db->query($sql_count_nonfarm)->result_array();
+
+				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
+				// return $query_sql_c_nfarm;
+			}else{
+				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
+			}
+
+
+			foreach ($query_sql_c_nfarm as $value) {
+				// $list_total[] = array('name'=>'ภาคเกษตร '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+				$list_total_type2 = $value['TOTAL'];
+			}
+
+			foreach ($query_sql as $value) {
+				$list_type_in_out[] = array('name'=>$value['COOP_TYPE_NAME'].' '.number_format($value['TOTAL']).' คน','value'=> intval($value['TOTAL']));
+			}
+
+
+			// foreach ($data as $item)
+			// {
+			// 	if(!isset($list_type[$item['ORG_NAME']]))
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['1'] =0;
+			// 		$list_type[$item['ORG_NAME']]['2'] =0;
+			// 		$list_type[$item['ORG_NAME']]['3'] =0;
+			// 		$list_type[$item['ORG_NAME']]['4'] =0;
+			// 		$list_type[$item['ORG_NAME']]['5'] =0;
+			// 		$list_type[$item['ORG_NAME']]['6'] =0;
+			// 		$list_type[$item['ORG_NAME']]['7'] =0;
+			// 	}
+
+			// 	if($item['COOP_TYPE'] == '4')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['4']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['4'];
+			// 		$list_type_out_4= $list_type_out_4+$list_type[$item['ORG_NAME']]['4'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '5')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['5']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['5'];
+			// 		$list_type_out_5= $list_type_out_5+$list_type[$item['ORG_NAME']]['5'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '6')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['6']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['6'];
+			// 		$list_type_out_6 = $list_type_out_6+$list_type[$item['ORG_NAME']]['6'];
+			// 	}
+			// 	if($item['COOP_TYPE'] == '7')
+			// 	{
+			// 		$list_type[$item['ORG_NAME']]['7']= is_numeric($item['TOTAL_COOP'])?intval($item['TOTAL_COOP']):0;
+			// 		$list_total_type2 = $list_total_type2+$list_type[$item['ORG_NAME']]['7'];
+			// 		$list_type_out_7 = $list_type_out_7+$list_type[$item['ORG_NAME']]['7'];
+			// 	}
+			// }
+
+
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ออมทรัพย์ '.number_format($list_type_out_4).' คน','value'=> $list_type_out_4);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์ร้านค้า '.number_format($list_type_out_5).' คน','value'=> $list_type_out_5);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์บริการ '.number_format($list_type_out_6).' คน','value'=> $list_type_out_6);
+			// $list_type_in_out[] =  array('name'=>'สหกรณ์เครดิตยูเนี่ยน '.number_format($list_type_out_7).' คน','value'=> $list_type_out_7);
 
 
 			$output = array();
 
-			$output['list_in_out'] = $list_type_in_out;
-			$output['list_total'] = $list_total_type2;
+			$output['list_in_out'] =$list_type_in_out;
+			$output['list_total'] =  number_format($list_total_type2);
 			$output['date'] = $this->changemonth();
 			print_r(json_encode($output));
 
@@ -853,19 +1110,116 @@ class Report3 extends MY_Controller {
 		if(canViewReport())
 		{
 
+			ini_set('max_execution_time', -1);
+			ini_set("memory_limit", "8124M");
+			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+			header("Cache-Control: post-check=0, pre-check=0", false);
+			header("Pragma: no-cache");
 
+			$sql ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID
+					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
+			// echo print_r($sql);die();
+			// $query3 = $this->db->query($sql)->result_array();
 
-			$sql ="select count(OU_D_ID) as num  from moiuser.master_data where OU_D_FLAG in(1,2) and NUMBER_OF_COOP is not null  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13";
-			$query3 = $this->db->query($sql)->result_array();
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query3 = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query3 = $this->db->query($sql)->result_array();
 
-			$sql1 ="select  count(OU_D_ID) as num from moiuser.master_data where OU_D_FLAG in(1,2) and  NUMBER_OF_COOP =1 and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13 ";
-			$result1 = $this->db->query($sql1)->result_array();
+				$ci->cache->save($cache_key_sql, $query3, 30000);
+				// return $query3;
+			}else{
+				$query3 = $data_cache_sql;
+			}
 
-			$sql2 ="select  count(OU_D_ID) as num from moiuser.master_data where OU_D_FLAG in(1,2) and  NUMBER_OF_COOP =2 and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13 ";
-			$result2 = $this->db->query($sql2)->result_array();
+			$sql1 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID
+					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ) S))";
+			// $result1 = $this->db->query($sql1)->result_array();
 
-			$sql3 ="select  count(OU_D_ID) as num from moiuser.master_data where OU_D_FLAG in(1,2) and  NUMBER_OF_COOP >2 and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13 ";
-			$result3 = $this->db->query($sql3)->result_array();
+			$cache_key_sql1 = md5($sql1);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql1 = "";
+			$result1 = null;
+			if ( ! $data_cache_sql1 = $ci->cache->get($cache_key_sql1)) {
+				$result1 = $this->db->query($sql1)->result_array();
+
+				$ci->cache->save($cache_key_sql1, $result1, 30000);
+				// return $result1;
+			}else{
+				$result1 = $data_cache_sql1;
+			}
+
+			$sql2 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID
+					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
+			// $result2 = $this->db->query($sql2)->result_array();
+
+			$cache_key_sql2 = md5($sql2);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql2 = "";
+			$result2 = null;
+			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+				$result2 = $this->db->query($sql2)->result_array();
+
+				$ci->cache->save($cache_key_sql2, $result2, 30000);
+				// return $result2;
+			}else{
+				$result2 = $data_cache_sql2;
+			}
+
+			$sql3 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+					                          FROM MOIUSER.MASTER_DATA 
+					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+					                          AND OU_D_FLAG IN(1,2)
+					                          GROUP BY OU_D_ID
+					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ) S))";
+			// $result3 = $this->db->query($sql3)->result_array();
+
+			$cache_key_sql3 = md5($sql3);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql3 = "";
+			$result3 = null;
+			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+				$result3 = $this->db->query($sql3)->result_array();
+
+				$ci->cache->save($cache_key_sql3, $result3, 30000);
+				// return $result3;
+			}else{
+				$result3 = $data_cache_sql3;
+			}
 
 			$temp_data = array();
 
