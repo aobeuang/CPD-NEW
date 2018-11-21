@@ -762,7 +762,7 @@ function getlistkhet()
 			for(var i = 0;i<result.items.length;i++)
 				{
 				if(i==0){
-						if (result.items) {
+						if (result.check) {
 							html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
 							$("#filter_khet_hidden").val('0');
 						}else{

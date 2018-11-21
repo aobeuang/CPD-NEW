@@ -2040,7 +2040,7 @@ class Report2 extends MY_Controller {
 			}
 			
 			
-			// $filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):"";
+			$filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):$filter_khet;
 			$filter_tambon = !empty($this->input->get('filter_tambon'))?$this->input->get('filter_tambon'):"";
 			$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):"";
 			$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):"";
