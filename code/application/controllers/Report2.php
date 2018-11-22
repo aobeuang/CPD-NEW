@@ -1382,7 +1382,7 @@ class Report2 extends MY_Controller {
 					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
 					$query_coop
 					ORDER BY OU_D_ID";
-			$dis_count = "DISTINCT OU_D_ID";
+			$dis_count = "A.OU_D_ID";
 			$sql_count_row = "SELECT count(*) as TOTAL FROM (
 								SELECT DISTINCT OU_D_ID,IN_D_COOP
 								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
@@ -1400,7 +1400,7 @@ class Report2 extends MY_Controller {
 								                          AND B.COOP_TYPE IS NOT NULL
 								                          GROUP BY OU_D_ID
 								                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
-			$sql_count = "SELECT count(A.OU_D_ID) as TOTAL FROM (
+			$sql_count = "SELECT count($dis_count) as TOTAL FROM (
 							SELECT DISTINCT OU_D_ID,IN_D_COOP
 							FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 							WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
