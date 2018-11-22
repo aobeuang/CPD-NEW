@@ -1377,6 +1377,7 @@ class Report2 extends MY_Controller {
 					                          AND OU_D_FLAG IN(1,2)
 					                          $life_status_query
 					                          $query_org_id
+					                          AND B.COOP_TYPE IS NOT NULL
 					                          GROUP BY OU_D_ID
 					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
 					$query_coop
@@ -1396,9 +1397,10 @@ class Report2 extends MY_Controller {
 								                          AND OU_D_FLAG IN(1,2)
 								                          $life_status_query
 								                          $query_org_id
+								                          AND B.COOP_TYPE IS NOT NULL
 								                          GROUP BY OU_D_ID
 								                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
-			$sql_count = "SELECT count($dis_count) as TOTAL FROM (
+			$sql_count = "SELECT count(A.OU_D_ID) as TOTAL FROM (
 							SELECT DISTINCT OU_D_ID,IN_D_COOP
 							FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 							WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
@@ -1412,6 +1414,7 @@ class Report2 extends MY_Controller {
 							                          AND OU_D_FLAG IN(1,2)
 							                          $life_status_query
 							                          $query_org_id
+							                          AND B.COOP_TYPE IS NOT NULL
 							                          GROUP BY OU_D_ID
 							                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
 			
