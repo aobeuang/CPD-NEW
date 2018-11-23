@@ -2,18 +2,23 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Function to get the client ip address
-function getUserIpAddr(){
-    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
-        //ip from share internet
-        $ip = $_SERVER['HTTP_CLIENT_IP'];
-    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
-        //ip pass from proxy
-        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
-    }else{
-        $ip = $_SERVER['REMOTE_ADDR'];
+function getRealIpAddr()
+  {
+    if ( !empty( $_SERVER['HTTP_CLIENT_IP'] ) )
+    {
+      $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }
+    elseif( !empty( $_SERVER['HTTP_X_FORWARDED_FOR'] ) )
+    //to check ip passed from proxy
+    {
+      $ip=$_SERVER['HTTP_X_FORWARDED_FOR'];
+    }
+    else
+    {
+      $ip = $_SERVER['REMOTE_ADDR'];
     }
     return $ip;
-}
+  }
 
 
 ?><!DOCTYPE html>
@@ -73,7 +78,7 @@ p {
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo getUserIpAddr();?></h1>
+		<h1><?php echo getRealIpAddr();?></h1>
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
 	</div>
