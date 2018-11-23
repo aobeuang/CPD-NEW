@@ -118,15 +118,25 @@ class CI_Exceptions {
 	 */
 	public function show_404($page = '', $log_error = TRUE)
 	{
+
+		function url(){
+		  return sprintf(
+		    "%s://%s%s",
+		    isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' ? 'https' : 'http',
+		    $_SERVER['SERVER_NAME'],
+		    $_SERVER['REQUEST_URI']
+		  );
+		}
+		
 		if (is_cli())
 		{
 			$heading = 'Not Found';
-			$message = 'The controller/method pair you requested was not found.';
+			$message = url();
 		}
 		else
 		{
 			$heading = '404 Page Not Found';
-			$message = 'The page you requested was not found.';
+			$message = url();
 		}
 
 		// By default we log this, but allow a dev to skip it
