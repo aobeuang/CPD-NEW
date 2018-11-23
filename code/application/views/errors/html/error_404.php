@@ -2,15 +2,19 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 // Function to get the client ip address
-function get_client_ip_env() {
-	$ipaddress = '';
-	if(getenv('REMOTE_ADDR'))
-		$ipaddress = getenv('REMOTE_ADDR');
-	else
-		$ipaddress = 'UNKNOWN';
-
-	return $ipaddress;
+function getUserIpAddr(){
+    if(!empty($_SERVER['HTTP_CLIENT_IP'])){
+        //ip from share internet
+        $ip = $_SERVER['HTTP_CLIENT_IP'];
+    }elseif(!empty($_SERVER['HTTP_X_FORWARDED_FOR'])){
+        //ip pass from proxy
+        $ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+    }else{
+        $ip = $_SERVER['REMOTE_ADDR'];
+    }
+    return $ip;
 }
+
 
 ?><!DOCTYPE html>
 <html lang="en">
@@ -69,7 +73,7 @@ p {
 </head>
 <body>
 	<div id="container">
-		<h1><?php echo get_client_ip_env();?></h1>
+		<h1><?php echo getUserIpAddr();?></h1>
 		<h1><?php echo $heading; ?></h1>
 		<?php echo $message; ?>
 	</div>
