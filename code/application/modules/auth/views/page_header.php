@@ -285,7 +285,7 @@ $current_url = $_SERVER['REQUEST_URI'];
            		<ul class="dropdown-menu" role="menu">
            			<li><a href="<?php echo site_url('loginlog/suspiciouslog_management')?>">ดูประวัติการเรียกดูข้อมูลสมาชิก</a></li>
            			<li><a href="<?php echo site_url('loginlog/suspiciouslogreport_management')?>">ดูประวัติการเรียกดูข้อมูลสหกรณ์</a></li>
-           			<li class="disble-gray"><a href="#<?php //echo site_url('loginlog/log_user')?>">ดูประวัติการเข้าใช้งานระบบ (อยู่ในระหว่างการแก้ไข)</a></li>
+           			<li class=""><a href="<?php echo site_url('admin/logusers')?>">ดูประวัติการเข้าใช้งานระบบ (อยู่ในระหว่างการแก้ไข)</a></li>
 				</ul>
 				</li>  
 			<?php endif?>  
