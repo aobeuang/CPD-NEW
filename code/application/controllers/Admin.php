@@ -240,6 +240,7 @@ class Admin extends MY_Controller {
 
 			$crud->set_subject('ผู้ใช้งานระบบ','	ประวัติการใช้งานระบบ');
 			$crud->unset_delete();
+			$crud->unset_add();
 			$crud->unset_edit();
 			$crud->unset_read();
 			// $crud->callback_column('ORG_ID', array($this, 'callback_org_name'));
