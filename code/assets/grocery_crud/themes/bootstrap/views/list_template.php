@@ -115,7 +115,7 @@
                         <div class="report-action-bar report-search">
                             <?php if(!$unset_add){?>
                                 <div class="floatL">
-                                    <a class="btn btn-outline-purple" href="<?php echo $add_url?>"><i class="fa fa-plus"></i> <?php echo $this->l('list_add'); ?><?php echo $subject?></a>
+                                    <a class="btn btn-outline-purple" href="<?php echo site_url('admin/addUsers')?>"><i class="fa fa-plus"></i> <?php echo $this->l('list_add'); ?><?php echo $subject?></a>
                                 </div>
                             <?php } ?>
                             <div class="floatR">

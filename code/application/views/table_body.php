@@ -13,7 +13,7 @@ foreach($css_files as $file): ?>
 </div>
 
 <script>
-$("#field-passwd").attr("placeholder", "รหัสผ่านจำเป็นต้องมี A-Z อย่างน้อย 1 ตัวอักษร").blur();
+$("#field-passwd").attr("placeholder", "รหัสผ่านจำเป็นต้องมี A-ssZ อย่างน้อย 1 ตัวอักษร").blur();
 
 
 // $('#field-ORG_ID').attr('disabled',true);

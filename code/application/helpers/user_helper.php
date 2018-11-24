@@ -61,9 +61,26 @@ if ( ! function_exists('getUser'))
 if(! function_exists('getUsers')){
 	function getUsers(){
 		$ci->db->select('name,email');
-		$ci->db->from($ci->db->dbprefix('users'));
+		$ci->db->from($ci->db->dbprefix('users'));		
 		$query = $ci->db->get();
 		return $query->result();
+	}
+}
+
+if(! function_exists('getUsersRole')){
+	function getUsersRole($userID = NULL){
+		$ci =& get_instance();
+		$ci->db->select('auth_level');
+		$ci->db->from($ci->db->dbprefix('users'));
+		$ci->db->where('user_id',$userID);
+		$query = $ci->db->get();
+		$value = array();
+		foreach ($query->result() as $data){
+			$value = array(
+				'auth_level'=>$data->auth_level,
+			);
+		}
+		return $value;
 	}
 }
 

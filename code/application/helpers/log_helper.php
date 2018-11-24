@@ -139,6 +139,53 @@ if ( ! function_exists('addLogSuspiciousMessageReport'))
 		}
 	}
 }
+
+if ( ! function_exists('addLogUsers'))
+{
+	function addLogUsers($action_name,$description)
+	{
+		$ci =& get_instance();
+		$ci->load->database();
+		$ci->load->library('session');
+		$ci->load->helper('properties');
+		$ci->load->helper('user');
+		$ci->load->helper('survey');
+		$ci->load->helper('time');
+
+		
+		if($ci->session->userdata('auth_user_id')!=null && is_numeric($ci->session->userdata('auth_user_id')))
+		{
+
+			$actor = getUser($ci->session->userdata('auth_user_id'));
+			$actor_role = getUsersRole($ci->session->userdata('auth_user_id'));
+			// $actor = $ci->session->userdata('auth_user_id');
+			// echo print_r($actor_role);die();
+			// echo $actor_role['auth_level'];die();
+
+			$ci->db->set('name', $action_name);
+			$currenttime = date('Y-m-d H:i:s',time());
+
+			$province_user = getProvinceByID($actor['province']);
+			// echo print_r($actor);die();
+			
+			$ci->db->set('"created_at"', $currenttime);
+			// $description = "มีการเข้าถึงแบบสำรวจ";
+			$ci->db->set('detail', $description);
+			$ci->db->set('citizen_id', $actor['username']);			
+
+			$ci->db->set('actor_province', $province_user->PROVINCE_NAME);
+			$ci->db->set('actor_name', $actor['name']);
+			$ci->db->set('actor_auth', $actor_role['auth_level']);
+			$ci->db->set('actor_agency', $actor['agency']);
+			
+			$ci->db->insert($ci->db->dbprefix('logusers'));
+			// $logdb->close();
+			$ci->db->reset_query();
+		
+		}
+	}
+}
+
 // file error log codeignitor
 // https://www.codeigniter.com/user_guide/general/errors.html
 //Parameters:

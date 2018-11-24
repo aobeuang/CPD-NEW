@@ -279,7 +279,10 @@ class Authentication
 						// Set session cookie and HTTP user data delete_cookie
 						$this->maintain_state( $auth_data );
 
+
+						
 						// Send the auth data back to the controller
+
 						return $auth_data;
 					}
 				}
@@ -595,6 +598,8 @@ class Authentication
 
 			// Load URL helper for the site_url function
 			$this->CI->load->helper('url');
+			
+			// echo "sadsad";die();
 
 			$url = site_url( $redirect, $redirect_protocol );
 

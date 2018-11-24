@@ -163,9 +163,14 @@ class Authen extends MY_Controller
     public function login()
     {
     	
+        if ($this->is_logged_in()) {
+            addLogUsers("เข้าสู่ระบบ","เพิ่มผู้ใช้งาน เข้าสู่ระบบ");
+            echo 'sadsad';die();
+        }
     	
     	if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id')))
     	{
+            
     		redirect(site_url("/"));
     	}
     	
@@ -173,10 +178,14 @@ class Authen extends MY_Controller
     	if( $this->uri->uri_string() == 'authen/login')
             show_404();
 
-        if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' )
+        if( strtolower( $_SERVER['REQUEST_METHOD'] ) == 'post' ){
+            
             $this->require_min_level(1);
 
+        }
+
         $this->setup_login_form();
+
         
         
         $html = $this->load->view('auth/page_header', '', TRUE);
@@ -186,6 +195,7 @@ class Authen extends MY_Controller
         $html .= $this->load->view('auth/page_footer', '', TRUE);
 
         echo $html;
+
     }
 
     /**
