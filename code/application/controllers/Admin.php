@@ -95,7 +95,7 @@ class Admin extends MY_Controller {
 		$this->cache->clean();
 		print_r("All application caches have been deleted!!");
 		redirect('/');
-		die();
+		// die();
 	}
 
 	public function addUsers($output = null)
