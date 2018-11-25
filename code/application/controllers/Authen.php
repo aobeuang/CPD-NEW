@@ -163,10 +163,10 @@ class Authen extends MY_Controller
     public function login()
     {
     	
-        if ($this->is_logged_in()) {
-            addLogUsers("เข้าสู่ระบบ","เพิ่มผู้ใช้งาน เข้าสู่ระบบ");
-            echo 'sadsad';die();
-        }
+        // if ($this->is_logged_in()) {
+        //     addLogUsers("เข้าสู่ระบบ","เพิ่มผู้ใช้งาน เข้าสู่ระบบ");
+        //     echo 'sadsad';die();
+        // }
     	
     	if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id')))
     	{
@@ -203,7 +203,7 @@ class Authen extends MY_Controller
      */
     public function logout()
     {
-
+        addLogUsers("ออกจากระบบ","ออกจากระบบ");
     	$this->session->sess_destroy();
     	
     	$this->authentication->logout();

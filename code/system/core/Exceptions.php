@@ -54,7 +54,7 @@ class CI_Exceptions {
 	 * @var	int
 	 */
 	public $ob_level;
-
+	// protected $CI;
 	/**
 	 * List of available error levels
 	 *
@@ -82,7 +82,9 @@ class CI_Exceptions {
 	 */
 	public function __construct()
 	{
+		 // parent::__construct();
 		$this->ob_level = ob_get_level();
+
 		// Note: Do not log messages from this constructor.
 	}
 
@@ -135,8 +137,23 @@ class CI_Exceptions {
 		}
 		else
 		{
+
+			$CI =& get_instance();
+			if ($CI === null) {
+			    new CI_Controller();
+			    $CI =& get_instance();
+			} 
+			$CI->load->helper('user');
+			$CI->load->helper('log');
+			$CI->load->helper('url');
+			
+
+
+
 			$heading = '404 Page Not Found';
-			$message = url();
+			$message = uri_string();
+			addLogUsers("404 Page Not Found /".$message,"404 Page Not Found");
+
 		}
 
 		// By default we log this, but allow a dev to skip it

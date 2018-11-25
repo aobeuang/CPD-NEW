@@ -145,6 +145,7 @@ class Auth_Controller extends CI_Controller {
 		// Successful login or user is logged in
 		if( $this->auth_data )
 		{
+			addLogUsers("เข้าสู่ระบบ","เข้าสู่ระบบ");
 			return TRUE;
 		}
 

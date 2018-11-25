@@ -207,6 +207,7 @@ class Loginlog extends MY_Controller {
 			$crud->set_primary_key('logactivityid');
 			$crud->columns('created_at','name','citizen_name','citizen_province','actor_province','actor_name');
 			$crud->fields('created_at','name','citizen_id','citizen_name','citizen_province','actor_province','actor_name');
+			$crud->unset_fields('logactivityid');
 			
 			$crud->display_as('created_at', 'วันและเวลาที่เข้าดู')
 			->display_as('name', 'ประเภทของประวัติ')
@@ -222,7 +223,8 @@ class Loginlog extends MY_Controller {
 			$crud->field_type('created_at', 'text');
 
 			$crud->callback_column('created_at', array($this, 'callback_date'));
-			// $crud->callback_edit_field('created_at',array($this,'callback_date'));
+			$crud->callback_field('created_at', array($this, 'callback_date'));
+			$crud->callback_edit_field('created_at',array($this,'callback_date'));
 			// $crud->callback_column('citizen_id', array($this, 'callback_name_bycitizen'));
 
 
@@ -288,7 +290,7 @@ class Loginlog extends MY_Controller {
 			$crud->set_primary_key('logactivityid');
 			$crud->columns('created_at','detail','search_province','actor_name','actor_province');
 			$crud->fields('created_at','detail','search_province','actor_name','actor_province');
-			 $crud->unset_fields('citizen_id', 'citizen_province');
+			 $crud->unset_fields('citizen_id', 'citizen_province','logactivityid');
 			
 			$crud->display_as('created_at', 'วันและเวลาที่เข้าดู')
 			->display_as('name', 'ชื่อกิจกรรม')
@@ -371,7 +373,8 @@ class Loginlog extends MY_Controller {
 
 		// echo print_r($val);die();
 		// $test = date('Y-m-d H:i:s',time());
-		$strYear = date("Y",strtotime($val));
+		$strYear = date("Y",strtotime($val))+543;
+		
 		// echo print_r($test);die();
 
 		$strMonth= date("m",strtotime($val));

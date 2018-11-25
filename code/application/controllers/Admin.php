@@ -212,6 +212,194 @@ class Admin extends MY_Controller {
 		}
 	}
 
+	public function updateUsersCall($citizen = null)
+	{
+
+		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
+		{	
+		if (empty($_POST)) {
+			redirect('/admin/addUsers');
+		}
+		$citizen = !empty($this->input->post('citizen'))? trim($this->input->post('citizen')): null;
+		$passwd = !empty($this->input->post('passwd'))? trim($this->input->post('passwd')): null;
+		$name = !empty($this->input->post('name'))? trim($this->input->post('name')): null;
+		$email = !empty($this->input->post('email'))? trim($this->input->post('email')): null;
+		$auth = !empty($this->input->post('auth_level'))? trim($this->input->post('auth_level')): null;
+		$agency = !empty($this->input->post('agency'))? trim($this->input->post('agency')): null;
+		$province_id = !empty($this->input->post('province'))? trim($this->input->post('province')): null;
+		$province_name = !empty($this->input->post('province_name'))? trim($this->input->post('province_name')): null;
+		$org_id = !empty($this->input->post('org_id'))? trim($this->input->post('org_id')): null;
+		$org_name = !empty($this->input->post('org_name'))? trim($this->input->post('org_name')): null;
+		$banned = !empty($this->input->post('banned'))? trim($this->input->post('banned')): null;
+
+		if(empty($citizen) || empty($passwd) || empty($name) || empty($email) || empty($auth) || empty($agency) || empty($province_id) || empty($province_name) || empty($org_id) || empty($org_name) || empty($banned))
+		{
+			header('Content-Type: application/json');
+            echo json_encode(array('success'=>false, 'message'=> 'ไม่สามารถเพิ่มข้อมูลได้ กรุณาลองใหม่อีกครั้ง'));
+            die();
+		}
+
+
+
+		$c_email = null;
+		if ($email != '-') {
+			$c_email = $email;
+		}
+
+		$c_passwd = null;
+		if ($passwd != 'nochange') {
+			$c_passwd = $passwd;
+		}
+
+		$data = null;
+		if (empty($c_passwd)) {
+
+			$data = array(
+			'username' => $citizen,
+			'name'  => $name,
+			'auth_level'  => $auth,
+			'AGENCY'  => $agency,
+			'banned'   => $banned,
+			'province'   => $province_id,
+			'province_name'   => $province_name,
+			'ORG_ID'   => $org_id,
+			'org_name'   => $org_name,
+			'email'   => $c_email
+			);
+
+		}else{
+
+			$data = array(
+			'username' => $citizen,
+			'name'  => $name,
+			'auth_level'  => $auth,
+			'AGENCY'  => $agency,
+			'passwd'   => $this->hash_passwd($c_passwd),
+			'banned'   => $banned,
+			'province'   => $province_id,
+			'province_name'   => $province_name,
+			'ORG_ID'   => $org_id,
+			'org_name'   => $org_name,
+			'email'   => $c_email
+			);
+
+		}
+		
+
+		if($this->db->update('users', $data,array('username' => $citizen))){
+			addLogUsers("อัพเดทผู้ใช้งาน".$citizen,"อัพเดทผู้ใช้งาน ".$citizen);
+			header('Content-Type: application/json');
+	        echo json_encode(array('success'=>true, 'message'=>'สำเร็จ'));
+	        die();
+		}else{
+			header('Content-Type: application/json');
+	        echo json_encode(array('success'=>false, 'message'=>'เกิดปัญหาการอัพเดทข้อมูล'));
+	        die();
+		}
+
+
+
+
+		}else{
+			redirect('/');
+		}
+	}
+
+	public function editUsers($output = null)
+	{
+
+		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
+		{	
+			$provinces = array();
+			$province_all = getAllProvinces();
+			foreach ($province_all as $key => $value) {
+				// echo $value->PROVINCE_ID.'<br>';
+				$provinces[$value->PROVINCE_ID] = $value->PROVINCE_NAME;
+			}
+
+			$agency = $this->callAgency();
+
+
+			$output = array(
+				'province'	=> $provinces,
+				'agency'	=> $agency,
+			);
+
+		echo $this->load->view('auth/page_header', '', TRUE);
+		$this->load->view('edit_users',$output);
+		echo $this->load->view('auth/page_footer', '', TRUE);
+		}else{
+			redirect('/');
+		}
+	}
+
+	public function getUsersID($id=null)
+	{
+
+		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
+		{	
+			if (empty($_GET)) {
+				redirect('/');
+			}
+			$id = !empty($this->input->get('id'))? trim($this->input->get('id')): null;
+
+			$user = getUsersIdAll($id);
+			// echo print_r($user);die();
+
+            // [user_id] => 186
+            // [username] => 3710500707942
+            // [name] => ศิรินาฏ  พันธุ์ภักดี
+            // [auth_level] => 5
+            // [banned] => 2
+            // [passwd] => $2y$11$iEXnoaMg0TujeKShR8rHcek8JjRgegrT4GNPNzZ7NmhVB6EW1VPVG
+            // [passwd_recovery_code] => 
+            // [passwd_recovery_date] => 
+            // [passwd_modified_at] => 
+            // [last_login] => 23-NOV-18 02.06.54.000000 PM
+            // [created_at] => 01-OCT-18 04.13.36.000000 PM
+            // [modified_at] => 01-OCT-18 04.13.36.000000 PM
+            // [created_by] => 152
+            // [modified_by] => 152
+            // [email] => abcd@xyz.com
+            // [province] => 62
+            // [AGENCY] => ศูนย์ถ่ายทอดเทคโนโลยีการสหกรณ์ที่ 7 จังหวัดขอนแก่น
+            // [AUTH_LEVEL_NAME] => ผู้ใช้งานส่วนภูมิภาคระดับจัดการ
+            // [ORG_ID] => 5153
+            // [province_name] => นราธิวาส
+            // [org_name] => สำนักงานสหกรณ์จังหวัดนราธิวาส
+
+
+			$output = null;
+			foreach ($user as $value) {
+				$output = array(
+					'user_id'	=>	$value->user_id,
+					'username'	=>	$value->username,
+					'name'	=>	$value->name,
+					'auth_level'	=>	$value->auth_level,
+					'banned'	=>	$value->banned,
+					'passwd'	=>	'nochange',
+					'email'	=>	$value->email,
+					'province'	=>	$value->province,
+					'AGENCY'	=>	$value->AGENCY,
+					'ORG_ID'	=>	$value->ORG_ID,
+					'province_name'	=>	$value->province_name,
+					'org_name'	=>	$value->org_name
+				);
+			}
+			// echo print_r($user['username']);die();
+
+
+			header('Content-Type: application/json');
+	        echo json_encode(array('success'=>true, 'message'=>'Success','data'=>$output));
+
+			// echo print_r($user);die();
+
+
+		}else{
+			redirect('/');
+		}
+	}
+
 
 	public function logUsers()
 	{
@@ -237,12 +425,21 @@ class Admin extends MY_Controller {
 				->display_as('actor_auth','สิทธิ์การใช้งาน')
 				->display_as('actor_province','จังหวัดผู้ใช้งาน')
 				->display_as('actor_agency','สังกัดหน่วยงาน');
+			if ( $crud->getState()=='export' ) {
+				$crud->callback_column('citizen_id', array($this, 'callback_text'));
+			}
+
+			$crud->callback_column('created_at', array($this, 'callback_date'));
+			$crud->callback_field('created_at', array($this, 'callback_date'));
+			
+
 
 			$crud->set_subject('ผู้ใช้งานระบบ','	ประวัติการใช้งานระบบ');
 			$crud->unset_delete();
 			$crud->unset_add();
 			$crud->unset_edit();
 			$crud->unset_read();
+
 			// $crud->callback_column('ORG_ID', array($this, 'callback_org_name'));
 			// $crud->callback_column('province', array($this, 'callback_province'));
 
@@ -280,6 +477,9 @@ class Admin extends MY_Controller {
 
 			if ($crud->getState()=='add') {
 				redirect('/admin/addUsers');
+			}
+			if ($crud->getState()=='edit') {
+				redirect('/admin/editUsers/'.end($this->uri->segments));
 			}
 
 			// 	$sql = 'select * from "users"';
@@ -2366,6 +2566,36 @@ class Admin extends MY_Controller {
 		      // doesn't return any row means database doesn't have this email
 		        return TRUE; // And here false to TRUE
 		     }
+		}
+
+		public function callback_text($val, $row)
+		{
+
+			
+			return "'".$val;
+
+		        // return date('Y-m-d', strtotime($val));
+		}
+
+		public function callback_date($val, $row)
+		{
+
+			// echo print_r($val);die();
+			// $test = date('Y-m-d H:i:s',time());
+			$strYear = date("Y",strtotime($val))+543;
+			
+			// echo print_r($test);die();
+
+			$strMonth= date("m",strtotime($val));
+			$strDay= date("d",strtotime($val));
+			$strHour= date("H",strtotime($val));
+			$strMinute= date("i",strtotime($val));
+			$strSeconds= date("s",strtotime($val));
+			$strMonthCut = Array("","ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค.");
+			// $strMonthThai=$strMonthCut[$strMonth];
+			return "$strDay-$strMonth-$strYear $strHour:$strMinute:$strSeconds";
+
+		        // return date('Y-m-d', strtotime($val));
 		}
 	
 

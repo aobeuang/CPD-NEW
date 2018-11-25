@@ -67,6 +67,21 @@ if(! function_exists('getUsers')){
 	}
 }
 
+if(! function_exists('getUsersIdAll')){
+	function getUsersIdAll($userID = NULL){
+		$ci =& get_instance();
+		$ci->db->select('*');
+		$ci->db->from($ci->db->dbprefix('users'));
+		$ci->db->where('user_id',$userID);		
+		$query = $ci->db->get();
+		$value = array();
+		foreach ($query->result() as $data){
+			$value[] = $data;
+		}
+		return $value;
+	}
+}
+
 if(! function_exists('getUsersRole')){
 	function getUsersRole($userID = NULL){
 		$ci =& get_instance();

@@ -104,7 +104,7 @@ if( ! isset( $on_hold_message ) )
 
 	<?php
 	}
-
+		 // echo $login_url;die();
 		echo form_open( $login_url, ['class' => 'std-form'] );
 	?> 
             <div class="body bg-gray">
@@ -170,6 +170,10 @@ else
 
 <script type="text/javascript">
 $(document).ready(function() {
+	// $( ".std-form" ).submit(function() {
+	//   alert('sadsad');
+	// });
+
 	var errorBox = $('.login-error-box');
 	if(errorBox){
 		$('#login_string').focus(function() {
