@@ -781,7 +781,7 @@ function getlistkhet()
 						}
 					}else 
 						if(result.items[i].COL004 >=20){
-						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL012+'</option>';
+						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
 						}else{
 						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
 						}
