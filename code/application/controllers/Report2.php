@@ -1426,7 +1426,7 @@ class Report2 extends MY_Controller {
 			}
 
 
-			// echo print_r($sql);die();
+			echo print_r($sql);die();
 			
 			$status_array = array("0"=>"ปกติ",
 					"1"=>"ตาย","11"=>"ตาย","13"=>"ตาย",
