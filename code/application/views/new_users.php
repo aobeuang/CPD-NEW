@@ -116,7 +116,7 @@
             	<label class="control-label col-sm-3 form-right" for="password">รหัสผ่าน</label>
             	<div class="col-sm-9">
                 <input type="password" class="form-control item" id="password" minlength="4" placeholder="รหัสผ่าน">
-                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านต้องมีขนาด 4 ตัวอักษรหรือตัวเลขขึ้นไป**</p>
+                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านตั้งแต่ 4 ตัวขึ้นไป ต้องเป็น ตัวเลข หรือ ตัวอักษร หรือ สัญลักษณ์ หรือ ผสมกัน**</p>
                 </div>
             </div>
             <div class="form-group">
@@ -388,7 +388,7 @@
         if (passwd.length < 4) {
             $(ele).focus();
             $(ele).notify(
-              "โปรดระบุรหัสผ่านอย่างน้อย 4 ตัว", 
+              "ระบุรหัสผ่านไม่ถูกต้อง", 
               { position:"left middle" }
             );
             return false;

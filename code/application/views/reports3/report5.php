@@ -41,8 +41,7 @@ $this->load->helper('survey');
 				    </div>		
 			    
 			    </div>
-			      <div id="myProgress" class="display">
-					  <div id="myBar">0%</div>
+
 				</div>
 				
 				<div class="row" id ="save">
@@ -201,7 +200,7 @@ $this->load->helper('survey');
 	  	
       }
       $(document).ready(function() {
-
+        $("#pageLoading").fadeIn();
   		$.ajax({
   			url:"ajexreport5",
   		    type:"GET",
@@ -212,7 +211,7 @@ $this->load->helper('survey');
   		    	
   		    	$('#total').html(listresult.list_total_type1.toLocaleString());
   				google.charts.setOnLoadCallback(drawChart);
-  				
+  				$("#pageLoading").fadeOut();
   		        
   			}
 

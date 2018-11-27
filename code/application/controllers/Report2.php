@@ -1345,78 +1345,76 @@ class Report2 extends MY_Controller {
 			}
 
 			//New Query
-			// $sql = "SELECT DISTINCT IN_D_COOP, B.COOP_NAME_TH,OU_D_PNAME,OU_D_SNAME,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME
+			$sql = "SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
+					WHERE A.IN_D_COOP=B.REGISTRY_NO_2
+					AND A.OU_D_FLAG IN(1,2)
+					AND A.IN_D_COOP IS NOT NULL
+					$life_status_query
+					$query_org_id
+					$query_coop
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query";
+
+			$sql_count = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
+
+
+			// Query
+			// $sql = "SELECT DISTINCT OU_D_ID,IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_STATUS_TYPE,IN_PROVICE_NAME
 			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (  -- Data in KHET_ID = 1 and Member COOP = 1  
+			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
 			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
 			// 		                          FROM MOIUSER.MASTER_DATA 
 			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
 			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+			// 		                          AND IN_D_COOP IS NOT NULL
+			// 		                          AND OU_D_ID IS NOT NULL
 			// 		                          AND OU_D_FLAG IN(1,2)
 			// 		                          $life_status_query
-			// 		                          AND IN_D_COOP IN (SELECT REGISTRY_NO_2 FROM ANALYTICPRD.COOP_INFO 
-			// 		                          $query_org_id)
+			// 		                          $query_org_id
+			// 		                          AND B.COOP_TYPE IS NOT NULL
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
-			// 		$query_org_id_2
 			// 		$query_coop
 			// 		ORDER BY OU_D_ID";
 
-
-			// Query
-			$sql = "SELECT DISTINCT OU_D_ID,IN_D_COOP, B.COOP_NAME_TH,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_STATUS_TYPE,IN_PROVICE_NAME
-					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
-					                          AND IN_D_COOP IS NOT NULL
-					                          AND OU_D_ID IS NOT NULL
-					                          AND OU_D_FLAG IN(1,2)
-					                          $life_status_query
-					                          $query_org_id
-					                          AND B.COOP_TYPE IS NOT NULL
-					                          GROUP BY OU_D_ID
-					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable
-					$query_coop
-					ORDER BY OU_D_ID";
-			$dis_count = "DISTINCT OU_D_ID";
-			$sql_count_row = "SELECT count(*) as TOTAL FROM (
-								SELECT DISTINCT OU_D_ID,IN_D_COOP
-								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-								                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-								                          FROM MOIUSER.MASTER_DATA 
-								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
-								                          AND IN_D_COOP IS NOT NULL
-								                          AND OU_D_ID IS NOT NULL
-								                          AND OU_D_FLAG IN(1,2)
-								                          $life_status_query
-								                          $query_org_id
-								                          AND B.COOP_TYPE IS NOT NULL
-								                          GROUP BY OU_D_ID
-								                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
-			$sql_count = "SELECT count($dis_count) as TOTAL FROM (
-							SELECT DISTINCT OU_D_ID,IN_D_COOP
-							FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-							WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-							                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-							                          FROM MOIUSER.MASTER_DATA 
-							                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-							                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-							                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
-							                          AND IN_D_COOP IS NOT NULL
-							                          AND OU_D_ID IS NOT NULL
-							                          AND OU_D_FLAG IN(1,2)
-							                          $life_status_query
-							                          $query_org_id
-							                          AND B.COOP_TYPE IS NOT NULL
-							                          GROUP BY OU_D_ID
-							                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
+			// Count Query		
+			// $dis_count = "DISTINCT OU_D_ID";
+			// $sql_count_row = "SELECT count(*) as TOTAL FROM (
+			// 					SELECT DISTINCT OU_D_ID,IN_D_COOP
+			// 					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+			// 					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+			// 					                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+			// 					                          FROM MOIUSER.MASTER_DATA 
+			// 					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+			// 					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+			// 					                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+			// 					                          AND IN_D_COOP IS NOT NULL
+			// 					                          AND OU_D_ID IS NOT NULL
+			// 					                          AND OU_D_FLAG IN(1,2)
+			// 					                          $life_status_query
+			// 					                          $query_org_id
+			// 					                          AND B.COOP_TYPE IS NOT NULL
+			// 					                          GROUP BY OU_D_ID
+			// 					                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
+			// $sql_count = "SELECT count($dis_count) as TOTAL FROM (
+			// 				SELECT DISTINCT OU_D_ID,IN_D_COOP
+			// 				FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+			// 				WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+			// 				                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+			// 				                          FROM MOIUSER.MASTER_DATA 
+			// 				                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
+			// 				                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
+			// 				                          AND LENGTH (MOIUSER.MASTER_DATA.OU_D_ID) = 13 
+			// 				                          AND IN_D_COOP IS NOT NULL
+			// 				                          AND OU_D_ID IS NOT NULL
+			// 				                          AND OU_D_FLAG IN(1,2)
+			// 				                          $life_status_query
+			// 				                          $query_org_id
+			// 				                          AND B.COOP_TYPE IS NOT NULL
+			// 				                          GROUP BY OU_D_ID
+			// 				                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query ) S) $search_datatable)";
 			
 
 
@@ -1426,7 +1424,7 @@ class Report2 extends MY_Controller {
 			}
 
 
-			echo print_r($sql);die();
+			// echo print_r($sql);die();
 			
 			$status_array = array("0"=>"ปกติ",
 					"1"=>"ตาย","11"=>"ตาย","13"=>"ตาย",
@@ -1445,7 +1443,7 @@ class Report2 extends MY_Controller {
 			
 			// if ( ! $data_cache = $ci->cache->get($cache_key)) {
 			
-
+			// cache count
 			$cache_key_count = md5($sql_count);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
@@ -1460,19 +1458,7 @@ class Report2 extends MY_Controller {
 				$query_count = $data_cache_count;
 			}
 
-			$cache_key_count_row = md5($sql_count_row);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_count_row = "";
-			$query_count_row = null;
-			if ( ! $data_cache_count_row = $ci->cache->get($cache_key_count_row)) {
-				$query_count_row = $this->db->query($sql_count_row)->result_array();
-
-				$ci->cache->save($cache_key_count_row, $query_count_row, 30000);
-				// return $query_count;
-			}else{
-				$query_count_row = $data_cache_count_row;
-			}
+			
 			
 			// echo print_r($query_count );die();
 
@@ -1594,25 +1580,59 @@ class Report2 extends MY_Controller {
 				foreach ($query_nomal as $data)
 				{
 
-					$temp_data = array();
+					// $temp_data = array();
 					
-					if(!$export){			
-						$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
-					}else{
-						$temp_data[]=!empty($data['OU_D_ID'])?"'".$data['OU_D_ID']:"-";
-					}
-					$temp_data[]=!empty($data['OU_D_PREFIX'])?$data['OU_D_PREFIX']:"-";
-					$temp_data[]=!empty($data['OU_D_PNAME'])?$data['OU_D_PNAME']:"-";
-					$temp_data[]=!empty($data['OU_D_SNAME'])?$data['OU_D_SNAME']:"-";
-					$temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";					
-					$temp_data[]=!empty($data['IN_PROVICE_NAME'])?$data['IN_PROVICE_NAME']:"-";					
-					$temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";		
-					if(false){			
-					$temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-					}
-					$data_temp[]=$temp_data;
+					// if(!$export){			
+					// 	$temp_data[]=!empty($data['OU_D_ID'])?$data['OU_D_ID']:"-";
+					// }else{
+					// 	$temp_data[]=!empty($data['OU_D_ID'])?"'".$data['OU_D_ID']:"-";
+					// }
+					// $temp_data[]=!empty($data['OU_D_PREFIX'])?$data['OU_D_PREFIX']:"-";
+					// $temp_data[]=!empty($data['OU_D_PNAME'])?$data['OU_D_PNAME']:"-";
+					// $temp_data[]=!empty($data['OU_D_SNAME'])?$data['OU_D_SNAME']:"-";
+					// $temp_data[]=!empty($status_array[trim($data['OU_D_STATUS_TYPE'])])?$status_array[trim($data['OU_D_STATUS_TYPE'])]:"-";					
+					// $temp_data[]=!empty($data['IN_PROVICE_NAME'])?$data['IN_PROVICE_NAME']:"-";					
+					// $temp_data[]=!empty($data['COOP_NAME_TH'])?$data['COOP_NAME_TH']:"-";		
+					// if(false){			
+					// $temp_data[]="<a href='javascript:void(0)' onclick='getUserDetail(".$data['OU_D_ID'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
+					// }
+					// $data_temp[]=$temp_data;
 
-						$count++;
+
+					// New List
+					$temp_data = array();
+					$citizen_data = getMemberByCitizenID($data['OU_D_ID']);
+					foreach ($citizen_data as $value) {
+						$coop = getCoopByID($value['IN_D_COOP']);
+						$datacoop= getDataCitizen($coop,$value);
+						// echo print_r($datatest['coop_name']);
+						// die();
+						foreach ($variable as $key => $value) {
+							# code...
+						}
+						if(!$export){			
+							$temp_data[]=!empty($datacoop['citizen_id'])?$datacoop['citizen_id']:"-";
+						}else{
+							$temp_data[]=!empty($datacoop['citizen_id'])?"'".$datacoop['citizen_id']:"-";
+						}
+						$temp_data[]=!empty($datacoop['prefix'])?$datacoop['prefix']:"-";
+						$temp_data[]=!empty($datacoop['name'])?$datacoop['name']:"-";
+						$temp_data[]=!empty($datacoop['surname'])?$datacoop['surname']:"-";
+						$temp_data[]=!empty($status_array[trim($datacoop['ou_d_status'])])?$status_array[trim($datacoop['ou_d_status'])]:"-";					
+						$temp_data[]=!empty($datacoop['province_name'])?$datacoop['province_name']:"-";					
+						$temp_data[]=!empty($datacoop['coop_name'])?$datacoop['coop_name']:"-";	
+						$data_temp[]=$temp_data;
+
+					}
+					
+
+					
+
+
+
+
+
+					$count++;
 	
 				}
 
@@ -1621,9 +1641,9 @@ class Report2 extends MY_Controller {
 				// echo print_r($citicen);
 		
 			
-			$recordsTotal = $query_count_row[0]['TOTAL'];
-			$recordsFiltered = $query_count_row[0]['TOTAL'];
-			
+			$recordsTotal = $query_count[0]['TOTAL'];
+			$recordsFiltered = $query_count[0]['TOTAL'];
+		
 			if(!empty($search)){
 				$recordsTotal = sizeof($data_temp);
 				$recordsFiltered = sizeof($data_temp);

@@ -132,7 +132,7 @@ class Admin extends MY_Controller {
 		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
 		{	
 		if (empty($_POST)) {
-			redirect('/admin/addUsers');
+			redirect('/admin/users_management');
 		}
 		$citizen = !empty($this->input->post('citizen'))? trim($this->input->post('citizen')): null;
 		$passwd = !empty($this->input->post('passwd'))? trim($this->input->post('passwd')): null;
@@ -153,11 +153,19 @@ class Admin extends MY_Controller {
             die();
 		}
 
+		if (!valid_citizen_id($citizen)) {
+			header('Content-Type: application/json');
+            echo json_encode(array('success'=>false, 'message'=> 'หมายเลขบัตรประชาชนไม่ถูกต้อง'));
+            die();
+		}
+
 		if (!$this->checkDuplicateCitizen($citizen)) {
 			header('Content-Type: application/json');
             echo json_encode(array('success'=>false, 'message'=> 'มีหมายเลขบัตรประชาชนี้ในระบบแล้ว'));
             die();
 		}
+
+		
 
 
 
@@ -218,7 +226,7 @@ class Admin extends MY_Controller {
 		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
 		{	
 		if (empty($_POST)) {
-			redirect('/admin/addUsers');
+			redirect('/admin/users_management');
 		}
 		$citizen = !empty($this->input->post('citizen'))? trim($this->input->post('citizen')): null;
 		$passwd = !empty($this->input->post('passwd'))? trim($this->input->post('passwd')): null;
@@ -305,6 +313,66 @@ class Admin extends MY_Controller {
 		}
 	}
 
+public function changeUsersCall($citizen = null)
+	{
+
+		// if(true)
+		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
+		{	
+		if (empty($_POST)) {
+			redirect('/admin/users_management');
+		}
+		$citizen = !empty($this->input->post('citizen'))? trim($this->input->post('citizen')): null;
+		$passwd = !empty($this->input->post('passwd'))? trim($this->input->post('passwd')): null;
+		
+
+		if(empty($citizen) || empty($passwd))
+		{
+			header('Content-Type: application/json');
+            echo json_encode(array('success'=>false, 'message'=> 'ไม่สามารถเปลี่ยนรหัสผ่านได้ กรุณาลองใหม่อีกครั้ง'));
+            die();
+		}
+
+		$c_passwd = null;
+		if ($passwd != 'nochange') {
+			$c_passwd = $passwd;
+		}
+
+		$data = null;
+		if (empty($c_passwd)) {
+			header('Content-Type: application/json');
+            echo json_encode(array('success'=>false, 'message'=> 'โปรดระบุรหัสผ่านใหม่ เพื่อเปลี่ยนรหัสผ่าน'));
+            die();
+
+		}else{
+
+			$data = array(
+			'username' => $citizen,
+			'passwd'   => $this->hash_passwd($c_passwd)
+			);
+
+		}
+		
+
+		if($this->db->update('users', $data,array('username' => $citizen))){
+			addLogUsers("เปลี่ยนรหัสผ่านผู้ใช้งาน".$citizen,"เปลี่ยนรหัสผ่านผู้ใช้งาน ".$citizen);
+			header('Content-Type: application/json');
+	        echo json_encode(array('success'=>true, 'message'=>'เปลี่ยนรหัสผ่านเรียบร้อย'));
+	        die();
+		}else{
+			header('Content-Type: application/json');
+	        echo json_encode(array('success'=>false, 'message'=>'เกิดปัญหาการเปลี่ยนรหัสผ่าน'));
+	        die();
+		}
+
+
+
+
+		}else{
+			redirect('/');
+		}
+	}
+
 	public function editUsers($output = null)
 	{
 
@@ -327,6 +395,35 @@ class Admin extends MY_Controller {
 
 		echo $this->load->view('auth/page_header', '', TRUE);
 		$this->load->view('edit_users',$output);
+		echo $this->load->view('auth/page_footer', '', TRUE);
+		}else{
+			redirect('/');
+		}
+	}
+
+	public function changeUsers($output = null)
+	{
+
+		// if(true)
+		if( $this->session->userdata('auth_role')=="admin"  || $this->session->userdata('auth_role')=="admin_normal")
+		{	
+			$provinces = array();
+			$province_all = getAllProvinces();
+			foreach ($province_all as $key => $value) {
+				// echo $value->PROVINCE_ID.'<br>';
+				$provinces[$value->PROVINCE_ID] = $value->PROVINCE_NAME;
+			}
+
+			$agency = $this->callAgency();
+
+
+			$output = array(
+				'province'	=> $provinces,
+				'agency'	=> $agency,
+			);
+
+		echo $this->load->view('auth/page_header', '', TRUE);
+		$this->load->view('change_user',$output);
 		echo $this->load->view('auth/page_footer', '', TRUE);
 		}else{
 			redirect('/');

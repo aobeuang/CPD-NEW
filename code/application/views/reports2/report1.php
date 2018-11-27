@@ -335,8 +335,8 @@ table.dataTable thead .sorting_desc {
 			],
 			"language": {
 				"emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
-				"info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ คน",
-				"infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
+				"info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ รายการ",
+				"infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 รายการ",
 				"lengthMenu":     "แสดงจำนวน  _MENU_ ",
 				"search":         "ค้นหา : ",
 				"loadingRecords": "",
@@ -462,8 +462,8 @@ table.dataTable thead .sorting_desc {
 		   	"ordering": false,
 		   	"language": {
 	        "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
-	        "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ คน",
-	        "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
+	        "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ รายการ",
+	        "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 รายการ",
 	        "lengthMenu":     "แสดงจำนวน  _MENU_ ",
 	        "search":         "ค้นหา : ",
 	        "paginate": {
@@ -576,8 +576,8 @@ table.dataTable thead .sorting_desc {
 		   	"ordering": false,
 		   	"language": {
 	        "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
-	        "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ คน",
-	        "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
+	        "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ รายการ",
+	        "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 รายการ",
 	        "infoFiltered":   " ",
 	        "lengthMenu":     "แสดงจำนวน  _MENU_ ",
 	        "search":         "ค้นหา : ",

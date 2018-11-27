@@ -140,43 +140,48 @@ class Report3 extends MY_Controller {
 			$list_type_out_7 = 0;
 			$list_type_in_out = array();
 
-			$sql_count_farm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+			$sql_count_farm = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
 								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
 								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-								                          FROM MOIUSER.MASTER_DATA 
-								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-								                          AND OU_D_FLAG IN(1,2)
+								                          FROM MOIUSER.MASTER_DATA A
+								                          WHERE A.OU_D_FLAG IN(1,2)
+								                          AND LENGTH (A.IN_D_COOP) = 13 
+								                          AND LENGTH (A.OU_D_ID) = 13
+								                          AND A.IN_D_COOP IS NOT NULL
 								                          GROUP BY OU_D_ID) S)
-								AND B.COOP_TYPE IN (1,2,3)                       
+								AND B.COOP_TYPE IN (1,2,3)                           
 								ORDER BY 1";
-			$sql_count_nonfarm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
-								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
-								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-								                          FROM MOIUSER.MASTER_DATA 
-								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-								                          AND OU_D_FLAG IN(1,2)
-								                          GROUP BY OU_D_ID) S)
-								AND B.COOP_TYPE IN (4,5,6,7)
-								ORDER BY 1";
+			$sql_count_nonfarm = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
+									FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+									WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+									                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+									                          FROM MOIUSER.MASTER_DATA A
+									                          WHERE A.OU_D_FLAG IN(1,2)
+									                          AND LENGTH (A.IN_D_COOP) = 13 
+									                          AND LENGTH (A.OU_D_ID) = 13
+									                          AND A.IN_D_COOP IS NOT NULL
+									                          GROUP BY OU_D_ID) S)
+									AND B.COOP_TYPE IN (4,5,6,7)                          
+									ORDER BY 1";
 
-								
+							
 
-			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
 					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
 					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND OU_D_FLAG IN(1,2)
+					                          FROM MOIUSER.MASTER_DATA A
+					                          WHERE A.OU_D_FLAG IN(1,2)
+					                          AND LENGTH (A.IN_D_COOP) = 13 
+					                          AND LENGTH (A.OU_D_ID) = 13
+					                          AND A.IN_D_COOP IS NOT NULL
 					                          GROUP BY OU_D_ID) S)
-					AND B.COOP_TYPE IS NOT NULL                          
-					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					AND B.COOP_TYPE IS NOT NULL
+					GROUP BY B.COOP_TYPE,B.COOP_TYPE_NAME                           
 					ORDER BY 1";
+
+
 
 			$cache_key_sql = md5($sql);
 			$ci =& get_instance();
@@ -350,28 +355,30 @@ class Report3 extends MY_Controller {
 
 			$list_type_in_out = array();
 
-			$sql_count_farm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
+			$sql_count_farm = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
 								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
 								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-								                          FROM MOIUSER.MASTER_DATA 
-								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-								                          AND OU_D_FLAG IN(1,2)
+								                          FROM MOIUSER.MASTER_DATA A
+								                          WHERE A.OU_D_FLAG IN(1,2)
+								                          AND LENGTH (A.IN_D_COOP) = 13 
+								                          AND LENGTH (A.OU_D_ID) = 13
+								                          AND A.IN_D_COOP IS NOT NULL
 								                          GROUP BY OU_D_ID) S)
-								AND B.COOP_TYPE IN (1,2,3)                       
+								AND B.COOP_TYPE IN (1,2,3)                           
 								ORDER BY 1";
-			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
 					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
 					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND OU_D_FLAG IN(1,2)
+					                          FROM MOIUSER.MASTER_DATA A
+					                          WHERE A.OU_D_FLAG IN(1,2)
+					                          AND LENGTH (A.IN_D_COOP) = 13 
+					                          AND LENGTH (A.OU_D_ID) = 13
+					                          AND A.IN_D_COOP IS NOT NULL
 					                          GROUP BY OU_D_ID) S)
-					AND B.COOP_TYPE IN (1,2,3)                          
-					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					AND B.COOP_TYPE IN (1,2,3)  
+					GROUP BY B.COOP_TYPE,B.COOP_TYPE_NAME                           
 					ORDER BY 1";
 
 			$cache_key_sql = md5($sql);
@@ -498,28 +505,30 @@ class Report3 extends MY_Controller {
 			$list_type_out_7 = 0;
 			$list_type_in_out = array();
 
-			$sql_count_nonfarm = "SELECT COUNT(A.OU_D_ID) AS TOTAL
-								FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-								WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
-								                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-								                          FROM MOIUSER.MASTER_DATA 
-								                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-								                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-								                          AND OU_D_FLAG IN(1,2)
-								                          GROUP BY OU_D_ID) S)
-								AND B.COOP_TYPE IN (4,5,6,7)
-								ORDER BY 1";
-			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(A.OU_D_ID) AS TOTAL
+			$sql_count_nonfarm = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
+									FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+									WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
+									                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+									                          FROM MOIUSER.MASTER_DATA A
+									                          WHERE A.OU_D_FLAG IN(1,2)
+									                          AND LENGTH (A.IN_D_COOP) = 13 
+									                          AND LENGTH (A.OU_D_ID) = 13
+									                          AND A.IN_D_COOP IS NOT NULL
+									                          GROUP BY OU_D_ID) S)
+									AND B.COOP_TYPE IN (4,5,6,7)                          
+									ORDER BY 1";
+			$sql = "SELECT B.COOP_TYPE,B.COOP_TYPE_NAME,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS TOTAL
 					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
 					WHERE A.OU_D_ID IN (SELECT S.OU_D_ID 
 					                    FROM (SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-					                          FROM MOIUSER.MASTER_DATA 
-					                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-					                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-					                          AND OU_D_FLAG IN(1,2)
+					                          FROM MOIUSER.MASTER_DATA A
+					                          WHERE A.OU_D_FLAG IN(1,2)
+					                          AND LENGTH (A.IN_D_COOP) = 13 
+					                          AND LENGTH (A.OU_D_ID) = 13
+					                          AND A.IN_D_COOP IS NOT NULL
 					                          GROUP BY OU_D_ID) S)
-					AND B.COOP_TYPE IN (4,5,6,7)                       
-					GROUP BY COOP_TYPE,COOP_TYPE_NAME
+					AND B.COOP_TYPE IN (4,5,6,7)   
+					GROUP BY B.COOP_TYPE,B.COOP_TYPE_NAME                           
 					ORDER BY 1";
 
 			$cache_key_sql = md5($sql);
@@ -694,17 +703,85 @@ class Report3 extends MY_Controller {
 		{
 
 
-			$sql ="select count(OU_D_ID) as num  from moiuser.master_data where OU_D_FLAG in(1,2) and OU_D_STATUS_TYPE  in (1,11,13) and NUMBER_OF_COOP is not null  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13";
+			$sql ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					AND A.OU_D_STATUS_TYPE IN (1,11,13)
+					AND A.OU_D_ID IS NOT NULL
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
 
 
-			$query = $this->db->query($sql)->result_array();
-			$sql2 ="select count(DISTINCT OU_D_ID) as num  from moiuser.master_data where OU_D_FLAG in(1,2) and OU_D_STATUS_TYPE  not in (1,11,13) and NUMBER_OF_COOP is not null  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13";
-			$query2 = $this->db->query($sql2)->result_array();
+
+			$sql2 ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
 
 
 
-			$sql3 ="select count(DISTINCT OU_D_ID) as num  from moiuser.master_data where OU_D_FLAG in(1,2) and NUMBER_OF_COOP is not null  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13";
-			$query3 = $this->db->query($sql3)->result_array();
+			$sql3 ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+
+
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query = $this->db->query($sql)->result_array();
+
+				$ci->cache->save($cache_key_sql, $query, 30000);
+				// return $query;
+			}else{
+				$query = $data_cache_sql;
+			}
+
+			$cache_key_sql2 = md5($sql2);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql2 = "";
+			$query2 = null;
+			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+				$query2 = $this->db->query($sql2)->result_array();
+
+				$ci->cache->save($cache_key_sql2, $query2, 30000);
+				// return $query2;
+			}else{
+				$query2 = $data_cache_sql2;
+			}
+
+			$cache_key_sql3 = md5($sql3);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql3 = "";
+			$query3 = null;
+			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+				$query3 = $this->db->query($sql3)->result_array();
+
+				$ci->cache->save($cache_key_sql3, $query3, 30000);
+				// return $query3;
+			}else{
+				$query3 = $data_cache_sql3;
+			}
 
 
 
@@ -736,18 +813,86 @@ class Report3 extends MY_Controller {
 		if(canViewReport())
 		{
 
-			$sql ="select count(OU_D_ID) as num from moiuser.master_data where OU_D_FLAG in(1,2)  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13 and OU_D_STATUS_TYPE   in (1,11,13)";
+			$sql ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					AND A.OU_D_STATUS_TYPE IN (1,11,13)
+					AND A.OU_D_ID IS NOT NULL
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
 
 
 
-			$query = $this->db->query($sql)->result_array();
-			$sql2 ="select count(OU_D_ID) as num  from moiuser.master_data where  OU_D_FLAG in(1,2)  and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13 and OU_D_STATUS_TYPE  not in (1,11,13)";
-			$query2 = $this->db->query($sql2)->result_array();
+
+			$sql2 ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
 
 
-			$sql3 ="select count(OU_D_ID) as num  from moiuser.master_data where OU_D_FLAG in(1,2) and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data .IN_D_COOP) = 13";
-			$query3 = $this->db->query($sql3)->result_array();
 
+			$sql3 ="SELECT SUM(AMT) AS num FROM(
+					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
+					AND A.IN_D_COOP IS NOT NULL
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
+
+
+			$cache_key_sql = md5($sql);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql = "";
+			$query = null;
+			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+				$query = $this->db->query($sql)->result_array();
+
+				$ci->cache->save($cache_key_sql, $query, 30000);
+				// return $query;
+			}else{
+				$query = $data_cache_sql;
+			}
+
+			$cache_key_sql2 = md5($sql2);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql2 = "";
+			$query2 = null;
+			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+				$query2 = $this->db->query($sql2)->result_array();
+
+				$ci->cache->save($cache_key_sql2, $query2, 30000);
+				// return $query2;
+			}else{
+				$query2 = $data_cache_sql2;
+			}
+
+			$cache_key_sql3 = md5($sql3);
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$data_cache_sql3 = "";
+			$query3 = null;
+			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+				$query3 = $this->db->query($sql3)->result_array();
+
+				$ci->cache->save($cache_key_sql3, $query3, 30000);
+				// return $query3;
+			}else{
+				$query3 = $data_cache_sql3;
+			}
 
 
 			$temp_data = array();
@@ -1127,10 +1272,11 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
 
-			$sql = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS num
-					FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
-					WHERE A.IN_D_COOP=B.REGISTRY_NO_2
-					AND A.OU_D_FLAG IN(1,2)
+			$sql = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS num 
+					FROM MOIUSER.MASTER_DATA A
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
 					AND A.IN_D_COOP IS NOT NULL";
 			// echo print_r($sql);die();
 			// $query3 = $this->db->query($sql)->result_array();
@@ -1162,12 +1308,13 @@ class Report3 extends MY_Controller {
 
 			$sql1 = "SELECT SUM(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
-						WHERE A.IN_D_COOP=B.REGISTRY_NO_2
-						AND A.OU_D_FLAG IN(1,2)
+						FROM MOIUSER.MASTER_DATA A
+						WHERE A.OU_D_FLAG IN(1,2)
+						AND LENGTH (A.IN_D_COOP) = 13 
+						AND LENGTH (A.OU_D_ID) = 13
 						AND A.IN_D_COOP IS NOT NULL
 						GROUP BY OU_D_ID
-						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1)";
+						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
 
 			// $result1 = $this->db->query($sql1)->result_array();
 
@@ -1197,13 +1344,14 @@ class Report3 extends MY_Controller {
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
 
 			$sql2 = "SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
-					WHERE A.IN_D_COOP=B.REGISTRY_NO_2
-					AND A.OU_D_FLAG IN(1,2)
-					AND A.IN_D_COOP IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =2)";
+						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+						FROM MOIUSER.MASTER_DATA A
+						WHERE A.OU_D_FLAG IN(1,2)
+						AND LENGTH (A.IN_D_COOP) = 13 
+						AND LENGTH (A.OU_D_ID) = 13
+						AND A.IN_D_COOP IS NOT NULL
+						GROUP BY OU_D_ID
+						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =2)";
 
 			// $result2 = $this->db->query($sql2)->result_array();
 
@@ -1237,6 +1385,8 @@ class Report3 extends MY_Controller {
 						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
 						WHERE A.IN_D_COOP=B.REGISTRY_NO_2
 						AND A.OU_D_FLAG IN(1,2)
+						AND LENGTH (A.IN_D_COOP) = 13 
+						AND LENGTH (A.OU_D_ID) = 13
 						AND A.IN_D_COOP IS NOT NULL
 						GROUP BY OU_D_ID
 						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2)";

@@ -228,8 +228,8 @@ $current_url = $_SERVER['REQUEST_URI'];
 							<li class=""><a href="<?php echo site_url('report3/index6')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ</a></li>
 							<li class=""><a href="<?php echo site_url('report3/index17')?>">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</a></li>
 							<li class=""><a href="<?php echo site_url('report3/index12')?>">รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง</a></li>
-							<li class="disble-gray"><a href="<?php echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>	
-							<li class="disble-gray"><a href="<?php echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง) (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class=""><a href="<?php echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</a></li>	
+							<li class=""><a href="<?php echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</a></li>
 							<li class="disble-gray"><a href="<?php echo site_url('report3/index10')?>">รายงานข้อมูลการเลี้ยงสัตว์ (อยู่ในระหว่างการแก้ไข)</a></li>
 							<li class="disble-gray"><a href="<?php echo site_url('report3/index11')?>">รายงานข้อมูลการทำประมง (อยู่ในระหว่างการแก้ไข)</a></li>                
 		              </ul>
@@ -343,7 +343,7 @@ $current_url = $_SERVER['REQUEST_URI'];
 	              <a href="" class="dropdown-toggle" data-toggle="dropdown"><span class="glyphicon glyphicon-user"></span> <?php echo $user['name']?> <span class="caret"></span></a>
 	              <ul class="dropdown-menu" role="menu">
 	                <li><a href="<?php echo site_url("mystuffs/home")?>">ข้อมูลบัญชีผู้ใช้</a></li> 
-	                <li><a href="<?php echo site_url("mystuffs/home/edit/".$this->session->userdata('auth_user_id'))?>">เปลี่ยนรหัสผ่าน</a></li>
+	                <li><a href="<?php echo site_url("admin/changeUsers/".$this->session->userdata('auth_user_id'))?>">เปลี่ยนรหัสผ่าน</a></li>
 	                <li class="divider"></li>
 	                <li><a href="<?php echo site_url("authen/logout")?>"><span class="glyphicon glyphicon-log-out"></span> ออกจากระบบ</a></li>
 	              </ul>

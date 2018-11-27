@@ -447,7 +447,7 @@ $config['csrf_token_name'] = 'csrf_ntksoftware_name';
 $config['csrf_cookie_name'] = 'csrf_cookie_ntksoftware_name';
 $config['csrf_expire'] = 7200;
 $config['csrf_regenerate'] = TRUE;
-$config['csrf_exclude_uris'] = array('admin/addUsersCall','admin/updateUsersCall');
+$config['csrf_exclude_uris'] = array('admin/addUsersCall','admin/updateUsersCall','admin/changeUsersCall');
 
 // for dropdown ajax search
 if (isset($_SERVER['REQUEST_URI']) && strpos($_SERVER['REQUEST_URI'], "/ajax_relation")!==FALSE)

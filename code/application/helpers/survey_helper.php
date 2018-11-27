@@ -2325,14 +2325,33 @@ if ( ! function_exists('getAllSurveyYears'))
 			{
 
 				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
-				$select = 'IN_D_COOP,"citizen_id",COOP_ID,IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,OU_D_PNAME,OU_D_SNAME,OU_D_HNO,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME';
+				$select = "SELECT DISTINCT
+							IN_D_COOP,
+							ANALYTICPRD.GET_COOP(IN_D_COOP) as COOP_NAME_TH,
+							OU_D_PREFIX,
+							OU_D_PNAME,
+							OU_D_SNAME,
+							OU_D_ID,
+							OU_D_BDATE,
+							OU_D_HNO,
+							OU_D_VNO,
+							OU_D_ALLEY,
+							OU_D_LANE,
+							OU_D_ROAD,
+							OU_D_SUBD,
+							OU_D_DISTRICT,
+							OU_D_PROVICE_NAME,
+							OU_D_STATUS_TYPE,
+							IN_PROVICE_NAME 
+							FROM MOIUSER.MASTER_DATA";
+				// $select = 'IN_D_COOP,"citizen_id",COOP_ID,IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,OU_D_PNAME,OU_D_SNAME,OU_D_HNO,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_BDATE,OU_D_ID,OU_D_STATUS_TYPE,IN_PROVICE_NAME';
 				
 				$table = getMahadthaiDbTable();
 				
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select * from view_citizen WHERE \"citizen_id\" = '$citizen_id'"; 
 				// $sql = "select DISTINCT $select from view_citizen WHERE \"citizen_id\" = '$citizen_id'";//old
-				$sql = "SELECT * FROM view_master_data_use WHERE OU_D_ID = '$citizen_id'";//new
+				$sql = "$select WHERE OU_D_ID = '$citizen_id'";//new
 				// echo print_r($sql);die();
 				$query = $ci->db->query($sql);
 
@@ -3308,6 +3327,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				'subd'				=> !empty($value['OU_D_SUBD'])?$value['OU_D_SUBD']:'-',
 				'district'			=> $value['OU_D_DISTRICT'],
 				'province_name'		=> $value['OU_D_PROVICE_NAME'],
+				'ou_d_status'		=> $value['OU_D_STATUS_TYPE'],
 			);
 			return $data;
 		}
@@ -3351,7 +3371,27 @@ if ( ! function_exists('getAllSurveyYears'))
 			if (true)
 			{
 
-				$select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
+				// $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
+
+				$select = "SELECT DISTINCT
+							IN_D_COOP,
+							ANALYTICPRD.GET_COOP(IN_D_COOP) as COOP_NAME_TH,
+							OU_D_PREFIX,
+							OU_D_PNAME,
+							OU_D_SNAME,
+							OU_D_ID,
+							OU_D_BDATE,
+							OU_D_HNO,
+							OU_D_VNO,
+							OU_D_ALLEY,
+							OU_D_LANE,
+							OU_D_ROAD,
+							OU_D_SUBD,
+							OU_D_DISTRICT,
+							OU_D_PROVICE_NAME,
+							OU_D_STATUS_TYPE,
+							IN_PROVICE_NAME 
+							FROM MOIUSER.MASTER_DATA";
 				
 				$table = getMahadthaiDbTable();
 				$search_datatable = "";
@@ -3362,7 +3402,8 @@ if ( ! function_exists('getAllSurveyYears'))
 					$search_datatable .="or OU_D_SNAME like '$search' or OU_D_SNAME like '$search%' or OU_D_SNAME like '%$search' or OU_D_SNAME like '%$search%'";
 				}
 
-				$sql = "SELECT * from view_master_data_use where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
+				// $sql = "SELECT * from view_master_data_use where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
+				$sql = "$select where $search_datatable ORDER BY OU_D_ID ASC OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
 
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
@@ -3527,24 +3568,40 @@ if ( ! function_exists('getAllSurveyYears'))
 		}
 	}
 
-	// if (! function_exists('inputCache'))
-	// {
-	// 	function inputCache($key,$this)
-	// 	{
-	// 		$cache_key = md5($key);
-	// 		$ci =& get_instance();
-	// 		$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-	// 		$data_cache = "";
-	// 		$to_return = null;
-	// 		if ( ! $data_cache = $ci->cache->get($cache_key)) {
-	// 			// $ci->load->database();
-	// 			$data =  $this->query($key)->result_array();
-	// 			$ci->cache->save($cache_key, $data, 30000);
-	// 			$data_cache = $data;
-	// 		}
-	// 		return $data_cache;
-	// 	}
-	// }
+	if (! function_exists('valid_citizen_id'))
+	{
+
+		function valid_citizen_id($personID)
+		{
+
+			if (strlen($personID) != 13) {
+				return false;
+			}
+
+			$rev = strrev($personID);
+			$total = 0;
+			for($i=1;$i<13;$i++) {
+					$mul = $i +1;
+					$count = $rev[$i]*$mul;
+					$total = $total + $count;
+			}
+			$mod = $total % 11;
+			$sub = 11 - $mod;
+			$check_digit = $sub % 10;
+
+			if($rev[0] == $check_digit) { 
+				return true;
+			}else{
+				return false;
+			}
+
+		}
+
+
+
+
+
+	}
 
 
 	
