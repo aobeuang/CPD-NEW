@@ -1272,7 +1272,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
 
-			$sql = "SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS num 
+			$sql = "SELECT COUNT(DISTINCT OU_D_ID) AS num
 					FROM MOIUSER.MASTER_DATA A
 					WHERE A.OU_D_FLAG IN(1,2)
 					AND LENGTH (A.IN_D_COOP) = 13 
@@ -1306,7 +1306,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ) S))";
 
-			$sql1 = "SELECT SUM(AMT) AS num FROM(
+			$sql1 = "SELECT COUNT(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A
 						WHERE A.OU_D_FLAG IN(1,2)
@@ -1343,7 +1343,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
 
-			$sql2 = "SELECT SUM(AMT) AS num FROM(
+			$sql2 = "SELECT COUNT(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A
 						WHERE A.OU_D_FLAG IN(1,2)
@@ -1380,7 +1380,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ) S))";
 
-			$sql3 = "SELECT SUM(AMT) AS num FROM(
+			$sql3 = "SELECT COUNT(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
 						WHERE A.IN_D_COOP=B.REGISTRY_NO_2

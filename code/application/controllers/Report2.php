@@ -1284,14 +1284,14 @@ class Report2 extends MY_Controller {
 			//Check More COOP value NUll, 1, 2, >2
 			if (!empty($more_coop)) {
 				if ($more_coop == 1) {
-					$more_coop_query = " = 1 ";
+					$more_coop_query = " HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ";
 				}else if ($more_coop == 2) {
-					$more_coop_query = " = 2 ";
+					$more_coop_query = " HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ";
 				}else{
-					$more_coop_query = " > 2 ";
+					$more_coop_query = " HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ";
 				}		
 			}else{
-				$more_coop_query = " > 0 ";
+				$more_coop_query = "";
 			}
 
 			//Seach Datatable
@@ -1346,17 +1346,32 @@ class Report2 extends MY_Controller {
 
 			//New Query
 			$sql = "SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
-					WHERE A.IN_D_COOP=B.REGISTRY_NO_2
-					AND A.OU_D_FLAG IN(1,2)
+					FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+					WHERE A.OU_D_FLAG IN(1,2)
+					AND LENGTH (A.IN_D_COOP) = 13 
+					AND LENGTH (A.OU_D_ID) = 13
 					AND A.IN_D_COOP IS NOT NULL
 					$life_status_query
-					$query_org_id
-					$query_coop
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query";
+			 		$query_org_id
+			 		$query_coop
+					GROUP BY OU_D_ID $more_coop_query ORDER BY OU_D_ID";
 
-			$sql_count = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
+			// //New Query
+			// $sql = "SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+			// 		FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
+			// 		WHERE A.IN_D_COOP=B.REGISTRY_NO_2
+			// 		AND A.OU_D_FLAG IN(1,2)
+			// 		AND A.IN_D_COOP IS NOT NULL
+			// 		$life_status_query
+			// 		$query_org_id
+			// 		$query_coop
+			// 		GROUP BY OU_D_ID
+			// 		HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) $more_coop_query";
+
+
+
+			$sql_count = "SELECT COUNT(AMT) AS TOTAL FROM($sql)";
+			$sql_count_row = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
 
 
 			// Query
@@ -1444,19 +1459,22 @@ class Report2 extends MY_Controller {
 			// if ( ! $data_cache = $ci->cache->get($cache_key)) {
 			
 			// cache count
-			$cache_key_count = md5($sql_count);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_count = "";
-			$query_count = null;
-			if ( ! $data_cache_count = $ci->cache->get($cache_key_count)) {
-				$query_count = $this->db->query($sql_count)->result_array();
+			// $cache_key_count = md5($sql_count);
+			// $ci =& get_instance();
+			// $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			// $data_cache_count = "";
+			// $query_count = null;
+			// if ( ! $data_cache_count = $ci->cache->get($cache_key_count)) {
+			// 	$query_count = $this->db->query($sql_count)->result_array();
 
-				$ci->cache->save($cache_key_count, $query_count, 30000);
-				// return $query_count;
-			}else{
-				$query_count = $data_cache_count;
-			}
+			// 	$ci->cache->save($cache_key_count, $query_count, 30000);
+			// 	// return $query_count;
+			// }else{
+			// 	$query_count = $data_cache_count;
+			// }
+
+			$query_count = $this->db->query($sql_count)->result_array();
+			$query_count_row = $this->db->query($sql_count_row)->result_array();
 
 			
 			
@@ -1576,7 +1594,12 @@ class Report2 extends MY_Controller {
 			unset($coop_names);
 			$count = 1;
 			$count_row =1;
-
+			// foreach ($query_nomal as $data) {
+			// 	$citizen_data = getMemberByCitizenID($data['OU_D_ID']);
+			// 			echo print_r($citizen_data);
+			// 			die();
+			// 		}
+					
 				foreach ($query_nomal as $data)
 				{
 
@@ -1600,16 +1623,20 @@ class Report2 extends MY_Controller {
 
 
 					// New List
-					$temp_data = array();
+					
 					$citizen_data = getMemberByCitizenID($data['OU_D_ID']);
+					// echo print_r($citizen_data);
+					// 	die();
+
 					foreach ($citizen_data as $value) {
 						$coop = getCoopByID($value['IN_D_COOP']);
 						$datacoop= getDataCitizen($coop,$value);
-						// echo print_r($datatest['coop_name']);
+						// echo print_r($datacoop);
+						$temp_data = array();
+						// foreach ($datacoop as $value) {
+						// 	echo print_r($value);
 						// die();
-						foreach ($variable as $key => $value) {
-							# code...
-						}
+						// }
 						if(!$export){			
 							$temp_data[]=!empty($datacoop['citizen_id'])?$datacoop['citizen_id']:"-";
 						}else{
@@ -1621,32 +1648,38 @@ class Report2 extends MY_Controller {
 						$temp_data[]=!empty($status_array[trim($datacoop['ou_d_status'])])?$status_array[trim($datacoop['ou_d_status'])]:"-";					
 						$temp_data[]=!empty($datacoop['province_name'])?$datacoop['province_name']:"-";					
 						$temp_data[]=!empty($datacoop['coop_name'])?$datacoop['coop_name']:"-";	
+						
 						$data_temp[]=$temp_data;
-
+						
 					}
-					
-
-					
-
-
-
-
-
+					// $data_temp[]=$temp_data;
+					// echo print_r($data_temp);
+					// die();
 					$count++;
+					
+
+
+
+
+
+
+
+					
 	
 				}
 
 			
 				// $citicen = null;
-				// echo print_r($citicen);
+				// echo print_r($data_temp);
+				// die();
 		
 			
 			$recordsTotal = $query_count[0]['TOTAL'];
 			$recordsFiltered = $query_count[0]['TOTAL'];
 		
 			if(!empty($search)){
-				$recordsTotal = sizeof($data_temp);
-				$recordsFiltered = sizeof($data_temp);
+				$recordsTotal = $query_count[0]['TOTAL'];
+				$recordsFiltered = $query_count[0]['TOTAL'];
 			}
 			//unset($master_data);
 			// echo "<pre>";

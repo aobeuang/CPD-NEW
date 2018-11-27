@@ -85,20 +85,7 @@ $this->load->helper('survey');
       google.charts.load('current', {'packages':['corechart']});
      
       var listresult;
-		var elem = document.getElementById("myBar");   
-  		var width = 10;
-  		var time = (((10*0.15)/100)+5)*40;
-  		var id = setInterval(frame, time);
-  		function frame() {
-  		  if (width >= 98) {
-  		    clearInterval(id);
-  		  } else {
-  		    width++; 
-  		    elem.style.width = width + '%'; 
-  		    elem.innerHTML = width * 1  + '%';
-  		    
-  		  }
-  		} 
+		
   		var now = new Date(); 
   		var thmonth = new Array ("มกราคม","กุมภาพันธ์","มีนาคม",
   		"เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน",
