@@ -942,6 +942,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 
     var $btnExport = $('#btn-export');
     $btnExport.clone().appendTo('#example_filter').removeClass('display');;
+    $('#example_filter label').hide();
 //     console.log(table.settings()[0].jqXHR);
 	table.on( 'preDraw', function () {
  		 $("#pageLoading").fadeIn();
