@@ -1370,8 +1370,8 @@ class Report2 extends MY_Controller {
 
 
 
-			$sql_count = "SELECT COUNT(AMT) AS TOTAL FROM($sql)";
-			$sql_count_row = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
+			$sql_count = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
+			// $sql_count_row = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
 
 
 			// Query
@@ -1439,7 +1439,7 @@ class Report2 extends MY_Controller {
 			}
 
 
-			// echo print_r($sql);die();
+			echo print_r($sql);die();
 			
 			$status_array = array("0"=>"ปกติ",
 					"1"=>"ตาย","11"=>"ตาย","13"=>"ตาย",

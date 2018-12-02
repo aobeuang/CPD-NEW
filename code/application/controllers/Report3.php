@@ -944,7 +944,7 @@ class Report3 extends MY_Controller {
 			$sqla_count1 =	"SELECT COOP_INFO.ORG_ORG_ID, SUM(a.TOTAL_COOP)
 							FROM COOP_INFO
 							LEFT JOIN (
-				 				SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) as TOTAL_COOP
+				 				SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) as TOTAL_COOP
 				 				FROM (
 									SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME
 									FROM moiuser.master_data
@@ -963,7 +963,7 @@ class Report3 extends MY_Controller {
 			$sqla_count2 =	"SELECT COOP_INFO.ORG_ORG_ID, SUM(a.TOTAL_COOP)
 							FROM COOP_INFO
 							LEFT JOIN (
-								SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) as TOTAL_COOP
+								SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) as TOTAL_COOP
 								FROM (
 									SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME
 			     					FROM moiuser.master_data
@@ -982,7 +982,7 @@ class Report3 extends MY_Controller {
 			$sqla_count3 =	"SELECT SUM(a.TOTAL_COOP)
 							FROM COOP_INFO
 							LEFT JOIN (
-								SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) as TOTAL_COOP
+								SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) as TOTAL_COOP
 								FROM (
 									SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME
 			     					FROM moiuser.master_data
@@ -1272,12 +1272,15 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
 
-			$sql = "SELECT COUNT(DISTINCT OU_D_ID) AS num
+			$sql = "SELECT SUM(AMT) AS num FROM(
+			SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS AMT
 					FROM MOIUSER.MASTER_DATA A
 					WHERE A.OU_D_FLAG IN(1,2)
 					AND LENGTH (A.IN_D_COOP) = 13 
 					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL";
+					AND A.IN_D_COOP IS NOT NULL
+					GROUP BY OU_D_ID
+					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
 			// echo print_r($sql);die();
 			// $query3 = $this->db->query($sql)->result_array();
 
@@ -1306,7 +1309,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ) S))";
 
-			$sql1 = "SELECT COUNT(AMT) AS num FROM(
+			$sql1 = "SELECT SUM(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A
 						WHERE A.OU_D_FLAG IN(1,2)
@@ -1343,7 +1346,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
 
-			$sql2 = "SELECT COUNT(AMT) AS num FROM(
+			$sql2 = "SELECT SUM(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A
 						WHERE A.OU_D_FLAG IN(1,2)
@@ -1380,7 +1383,7 @@ class Report3 extends MY_Controller {
 			// 		                          GROUP BY OU_D_ID
 			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ) S))";
 
-			$sql3 = "SELECT COUNT(AMT) AS num FROM(
+			$sql3 = "SELECT SUM(AMT) AS num FROM(
 						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
 						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
 						WHERE A.IN_D_COOP=B.REGISTRY_NO_2
@@ -1408,10 +1411,10 @@ class Report3 extends MY_Controller {
 
 			$temp_data = array();
 
-			$temp_data[] = array(
-					'lable'=>'สมาชิก  1 สหกรณ์ '.number_format($result1[0]['NUM'])." คน",
-					'count'=>intval($result1[0]['NUM'])
-			);
+			// $temp_data[] = array(
+			// 		'lable'=>'สมาชิก  1 สหกรณ์ '.number_format($result1[0]['NUM'])." คน",
+			// 		'count'=>intval($result1[0]['NUM'])
+			// );
 			$temp_data[] = array(
 					'lable'=>'สมาชิก 2 สหกรณ์ '.number_format($result2[0]['NUM'])." คน",
 					'count'=>intval($result2[0]['NUM'])
@@ -1425,7 +1428,7 @@ class Report3 extends MY_Controller {
 			$output['result'] = $temp_data;
 			$output['list_total_type1'] = number_format($query3[0]['NUM']);
 			// 			$output['all']=$count_all;
-			$output['query1'] = $sql1;
+			// $output['query1'] = $sql1;
 			$output['query2'] = $sql2;
 			$output['query3'] = $sql3;
 			$output['date'] = $this->changemonth();
@@ -2166,14 +2169,16 @@ class Report3 extends MY_Controller {
 		$sqla_count1 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
 		  				FROM COOP_INFO 
 		  				LEFT JOIN ( 
-							SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) AS TOTAL_COOP 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
 							FROM ( 
-								SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME 
-		       					FROM moiuser.master_data 
-		       					WHERE OU_D_FLAG IN (1, 2) 
-								AND OU_D_STATUS_TYPE NOT IN (1, 11, 13) 
-		       					AND DECODE(REPLACE(TRANSLATE(IN_D_COOP, '1234567890', '##########'), '#'), NULL, 'NUMBER', 'NON NUMER') = 'NUMBER' 
-								AND LENGTH (moiuser.master_data.IN_D_COOP) = 13 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND OU_D_STATUS_TYPE NOT IN (1, 11, 13)
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.IN_D_COOP IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
 							) tb
 							GROUP BY tb.IN_D_COOP 
 		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
@@ -2182,21 +2187,23 @@ class Report3 extends MY_Controller {
 		$temp1 = $this->db->query($sqla_count1)->result_array();
 		
 		$sqla_count2 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
-						FROM COOP_INFO 
-						LEFT JOIN ( 
-		  					SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) AS TOTAL_COOP 
-		  					FROM ( 
-			  					SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME 
-				 				FROM moiuser.master_data 
-				 				WHERE OU_D_FLAG IN (1, 2) 
-			  					AND OU_D_STATUS_TYPE IN (1, 11, 13) 
-				 				AND DECODE(REPLACE(TRANSLATE(IN_D_COOP, '1234567890', '##########'), '#'), NULL, 'NUMBER', 'NON NUMER') = 'NUMBER' 
-			  					AND LENGTH (moiuser.master_data.IN_D_COOP) = 13 
-		  					) tb
-		  					GROUP BY tb.IN_D_COOP 
-						) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
-	  					GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
-						ORDER BY COOP_INFO.ORG_ID";
+		  				FROM COOP_INFO 
+		  				LEFT JOIN ( 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
+							FROM ( 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND OU_D_STATUS_TYPE IN (1, 11, 13)
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.IN_D_COOP IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
+							) tb
+							GROUP BY tb.IN_D_COOP 
+		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
+						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
+		  				ORDER BY COOP_INFO.ORG_ID";
 		$temp2 = $this->db->query($sqla_count2)->result_array();
 		
 		$sqla_count3 ="SELECT COL004, COL003, COL007 FROM KHET ORDER BY ABS(COL004), COL007";
