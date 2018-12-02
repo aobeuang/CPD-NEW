@@ -1262,6 +1262,11 @@ class Report2 extends MY_Controller {
 			
 			// $sunm_keycache = $export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
 			// $sunm_keycache_ex = 'export'.$export.'-'.$filter_count_coop.'-'.$filter_khet.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$more_coop.'-'.$life_status.'-'.$show_query.'-'.$search.'-'.$start.'-'.$length.'-'.$citizen_id;
+
+			if(strlen($filter_provinces) == 2){
+				$ss = getOrgIdByProvinceId($filter_provinces);
+				$filter_provinces = $ss[0]['org_org_id'];
+			}
 			
 
 
@@ -1343,6 +1348,8 @@ class Report2 extends MY_Controller {
 				}
 				
 			}
+
+
 
 			//New Query
 			$sql = "SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
