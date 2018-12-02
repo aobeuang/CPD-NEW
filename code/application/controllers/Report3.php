@@ -2178,6 +2178,7 @@ class Report3 extends MY_Controller {
                                 AND OU_D_STATUS_TYPE NOT IN (1, 11, 13)
                                 AND LENGTH (A.OU_D_ID) = 13
                                 AND A.IN_D_COOP IS NOT NULL
+                                AND A.OU_D_ID IS NOT NULL
                                 GROUP BY OU_D_ID,IN_D_COOP
 							) tb
 							GROUP BY tb.IN_D_COOP 
@@ -2197,6 +2198,7 @@ class Report3 extends MY_Controller {
                                 AND LENGTH (A.IN_D_COOP) = 13
                                 AND OU_D_STATUS_TYPE IN (1, 11, 13)
                                 AND LENGTH (A.OU_D_ID) = 13
+                                AND A.OU_D_ID IS NOT NULL
                                 AND A.IN_D_COOP IS NOT NULL
                                 GROUP BY OU_D_ID,IN_D_COOP
 							) tb

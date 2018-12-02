@@ -313,6 +313,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 							<th>สถานะสมาชิก</th>
 							<th>จังหวัด</th>
 							<th>ชื่อ สหกรณ์</th>
+							<th></th>
 						</tr>
 					</thead>
 				</table>
@@ -888,6 +889,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	        { "width": "auto" },
 	        { "width": "auto" },
 	        { "width": "auto" },
+	        { "width": "auto" },
 	        { "width": "auto" }
 	    ],
 	   	"lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
@@ -967,6 +969,68 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 }
 
 
+
+function getUserDetailReport2(citizen_id){
+	$("#pageLoading").fadeIn();
+	var query=true;
+	$.ajax({
+		url:"<?php echo site_url('report2/getMemberReport2ByCitizenID')?>",
+	    type:"GET",
+	    dataType: 'json',
+	    data:{
+	    	citizen_id:citizen_id,
+	    	query:query,
+	    	check:true,
+	    },
+       	success:function(result){
+    	   //$('#data_respone').html(result.items.query);
+    	   // console.log(result.items);
+    	   $("#pageLoading").fadeOut();
+    	   	if(result.items != null){
+    	   		
+    	   			var road = '';
+    	   			var lane = '';
+    	   			if(result.items.road){
+    	   				road = result.items[0].road;
+    	   			}
+    	   			if(result.items.lane){
+    	   				lane = result.items[0].lane;
+    	   			}
+		    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
+					$('#mem_citizen_id').text(result.items[0].citizen_id);
+					var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district;
+					if(result.permission != 'nopermission'){
+						$('#mem_addr').text(address + ' ' + result.items[0].province_name);
+					}
+					var coop_list = '';
+					for(var i = 0;i<result.items.length;i++){
+				   		coop_list = coop_list+result.items[i].coop_name + ' จ.'+ result.items[i].in_province_name +'<br>';
+				   	}
+					$('#mem_coop_name').html(coop_list);
+					$('#mem_province_name').text(result.items[0].province_name);
+					$("#myModal").modal();
+				
+    	   	}else{
+    	   		/*$('#error-box').html(result).show();
+				setInterval(function(){
+			        $('#error-box').fadeOut();
+			    }, 6000);*/
+			    $("#msg-modal-txt").html('ไม่พบข้อมูลที่ค้นหา');
+		    	$("#message-modal").modal();
+    	   	}
+    	    
+	    },
+	    error:function(){
+	    	$("#pageLoading").fadeOut();
+	    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			setInterval(function(){
+		        $('#error-box').fadeOut();
+		    }, 5000);*/
+		    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+		    $("#message-modal").modal();
+	    }
+	});
+}
 
 function getUserDetail(citizen_id){
 	$("#pageLoading").fadeIn();
