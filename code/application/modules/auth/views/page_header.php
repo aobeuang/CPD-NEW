@@ -241,20 +241,20 @@ $current_url = $_SERVER['REQUEST_URI'];
            		
                      <?php if  ((!empty($this->session->userdata('auth_user_id')) && $this->session->userdata('auth_user_id')) && ($this->session->userdata('auth_role')=="admin" || canViewReport())):
            		if (getStringSystemProperties("disable.phase2") != "yes"):	?>
-		            <li class=" <?php if (strpos($current_url, "/report1")!==FALSE) echo "active"?>">     
+		            <li class="dropdown <?php if (strpos($current_url, "/report1")!==FALSE) echo "active"?> ">     
 		              <a href="#" class="dropdown-toggle nav-ic ic-analyze disble-a-gray" data-toggle="dropdown" ></span> รายงานวิเคราะห์ <br>(อยู่ในระหว่างการแก้ไข)<span class="caret"></span></a>
  		              <ul class="dropdown-menu" role="menu"> 
 							<li class=""><a href="<?php echo site_url('report1/index1')?>">รายงานข้อมูลทั่วไป</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index2')?>">รายงานพื้นที่ครอบครอง (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index3')?>">รายงานข้อมูลการผลิตทางการเกษตรในรอบปีที่ผ่านมา (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index4')?>">รายงานปัญหาที่พบในการประกอบอาชีพ (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index5')?>">รายงานข้อมูลหนี้สิน จำนวนลูกหนี้ และยอดหนี้สิน (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index6')?>">รายงานข้อมูลการผลิตปีปัจจุบัน (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index7')?>">รายงานข้อมูลการเลี้ยงโคนม (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index8')?>">รายงานข้อมูลผลไม้ (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index9')?>">รายงานข้อมูลพันธ์ข้าว (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index10')?>">รายงานข้อมูลการใช้ปุ๋ย (อยู่ในระหว่างการแก้ไข)</a></li>
-							<li class="disble-gray"><a href="#<?php //echo site_url('report1/index11')?>">รายงานการปลูกพืชทั่วประเทศไทย 10 ชนิด (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index2')?>">รายงานพื้นที่ครอบครอง (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index3')?>">รายงานข้อมูลการผลิตทางการเกษตรในรอบปีที่ผ่านมา (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index4')?>">รายงานปัญหาที่พบในการประกอบอาชีพ (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index5')?>">รายงานข้อมูลหนี้สิน จำนวนลูกหนี้ และยอดหนี้สิน (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index6')?>">รายงานข้อมูลการผลิตปีปัจจุบัน (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index7')?>">รายงานข้อมูลการเลี้ยงโคนม (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index8')?>">รายงานข้อมูลผลไม้ (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index9')?>">รายงานข้อมูลพันธ์ข้าว (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index10')?>">รายงานข้อมูลการใช้ปุ๋ย (อยู่ในระหว่างการแก้ไข)</a></li>
+							<li class="disble-gray"><a href="<?php echo site_url('report1/index11')?>">รายงานการปลูกพืชทั่วประเทศไทย 10 ชนิด (อยู่ในระหว่างการแก้ไข)</a></li>
 		              </ul>
 		            </li>
 					
