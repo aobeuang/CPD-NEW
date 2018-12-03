@@ -792,8 +792,8 @@ class Report3 extends MY_Controller {
 					'count'=>intval($query2[0]['NUM'])
 			);
 			$temp_data[] = array(
-					'lable'=>'ตาย จำนวน '.number_format($query[0]['NUM'])." คน",
-					'count'=>intval($query[0]['NUM'])
+					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
+					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
 			);
 
 			$output = array();
@@ -902,8 +902,8 @@ class Report3 extends MY_Controller {
 					'count'=>intval($query2[0]['NUM'])
 			);
 			$temp_data[] = array(
-					'lable'=>'ตาย จำนวน '.number_format($query[0]['NUM'])." คน",
-					'count'=>intval($query[0]['NUM'])
+					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
+					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
 			);
 
 			$output = array();
@@ -2207,6 +2207,26 @@ class Report3 extends MY_Controller {
 						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
 		  				ORDER BY COOP_INFO.ORG_ID";
 		$temp2 = $this->db->query($sqla_count2)->result_array();
+
+		$sqla_all =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
+		  				FROM COOP_INFO 
+		  				LEFT JOIN ( 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
+							FROM ( 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.OU_D_ID IS NOT NULL
+                                AND A.IN_D_COOP IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
+							) tb
+							GROUP BY tb.IN_D_COOP 
+		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
+						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
+		  				ORDER BY COOP_INFO.ORG_ID";
+		$temp_all = $this->db->query($sqla_all)->result_array();
 		
 		$sqla_count3 ="SELECT COL004, COL003, COL007 FROM KHET ORDER BY ABS(COL004), COL007";
 		$result = $this->db->query($sqla_count3)->result_array();
@@ -2226,7 +2246,7 @@ class Report3 extends MY_Controller {
 
 		//TODO
 		$temp_data_sum_die =array();
-		foreach ($temp2 as $temp)
+		foreach ($temp_all as $temp)
 		{
 			$k = $temp['ORG_NAME'];
 			$k = str_replace("สำนักงานสหกรณ์จังหวัด", "", $k);
@@ -2247,10 +2267,14 @@ class Report3 extends MY_Controller {
 			$k = str_replace("สำนักงานส่งเสริมสหกรณ์ พื้นที่ 2", "กรุงเทพฯ พื้นที่ 2", $k);
 
 			$merge_data[$k]['1'] = intval($v);
-			$merge_data[$k]['2'] = intval($temp_data_sum_die[$k]);
+			$merge_data[$k]['2'] = intval($temp_data_sum_die[$k])-intval($v);
 			$total_normal = $total_normal+intval($v);
-			$total_die = $total_die+intval($temp_data_sum_die[$k]);
+			$total_die = $total_die+(intval($temp_data_sum_die[$k])-intval($v));
 		}
+
+		// echo print_r($merge_data);die();
+
+
 		$merge_data['ยอดรวม']['1'] = $total_normal;
 		$merge_data['ยอดรวม']['2'] = $total_die;
 
