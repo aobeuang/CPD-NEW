@@ -174,7 +174,7 @@ function drawType() {
 						style: 'header'
 					},
 					{
-						text: 'จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด'+parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en')+' ตัว',
+						text: 'จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด '+parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en')+' ตัว',
 						alignment: 'center',
 						style: 'header',
 						margin : [0,0,0,30],
