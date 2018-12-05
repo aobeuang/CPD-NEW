@@ -122,6 +122,29 @@ $db['default'] = array(
 	'save_queries' => TRUE
 );
 
+$db['defaultext'] = array(
+    'dsn'   => '',
+    'hostname' => '172.17.2.45:1521/CPDSHAREABLE',
+    'username' => 'user1',
+    'password' => 'test1',
+    'database' => '',
+    'dbdriver' => 'oci8',
+    'dbprefix' => '',
+    'pconnect' => FALSE,
+    'db_debug' => (ENVIRONMENT !== 'production'),
+    'cache_on' => FALSE,
+    'cachedir' => APPPATH . 'cache',
+    'char_set' => 'AL32UTF8',
+    'dbcollat' => 'AL32UTF8',
+    'swap_pre' => '',
+    'encrypt' => TRUE,
+    'compress' => FALSE,
+    'stricton' => FALSE,
+    'autoinit' => TRUE,
+    'failover' => array(),
+    'save_queries' => TRUE
+);
+
 $db['cooplog'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',

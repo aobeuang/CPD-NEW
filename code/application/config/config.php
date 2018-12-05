@@ -25,8 +25,8 @@ date_default_timezone_set('Asia/Bangkok');
 | a PHP script and you can easily do that on your own.
 |
 */
-// $config['domain'] = 'analytic-uat.cpd.go.th';
-$config['domain'] = '127.0.0.1';
+ $config['domain'] = 'analytic-uat.cpd.go.th';
+//$config['domain'] = '127.0.0.1';
 $config['base_url'] = 'http://'.$config['domain'];
 
 /*
