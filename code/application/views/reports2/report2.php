@@ -1200,10 +1200,10 @@ $(document).ready(function() {
 	    		<div class="col-sm-3 text-right"><strong>หมายเลขบัตรประชาชน:</strong></div>
 	    		<div class="col-sm-9" id="mem_citizen_id"></div>
 	    	</div>
-	    	<div class="row b10">
+	    	<!-- <div class="row b10">
 	    		<div class="col-sm-3 text-right"><strong>ที่อยู่:</strong></div>
 	    		<div class="col-sm-9" id="mem_addr"></div>
-	    	</div>
+	    	</div> -->
 	    	<div class="row b10">
 	    		<div class="col-sm-3 text-right"><strong>สังกัดสหกรณ์:</strong></div>
 	    		<div class="col-sm-9" id="mem_coop_name"></div>

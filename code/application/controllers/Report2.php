@@ -1378,7 +1378,7 @@ class Report2 extends MY_Controller {
 
 
 			$sql_count = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
-			// $sql_count_row = "SELECT SUM(AMT) AS TOTAL FROM($sql)";
+			$sql_count_row = "SELECT COUNT(AMT) AS TOTAL FROM($sql)";
 
 
 			// Query
@@ -1481,7 +1481,7 @@ class Report2 extends MY_Controller {
 			// }
 
 			$query_count = $this->db->query($sql_count)->result_array();
-			// $query_count_row = $this->db->query($sql_count_row)->result_array();
+			$query_count_row = $this->db->query($sql_count_row)->result_array();
 
 			
 			
@@ -1683,8 +1683,8 @@ class Report2 extends MY_Controller {
 				// die();
 		
 			
-			$recordsTotal = $query_count[0]['TOTAL'];
-			$recordsFiltered = $query_count[0]['TOTAL'];
+			$recordsTotal = $query_count_row[0]['TOTAL'];
+			$recordsFiltered = $query_count_row[0]['TOTAL'];
 		
 			if(!empty($search)){
 				$recordsTotal = $query_count[0]['TOTAL'];

@@ -63,16 +63,13 @@ $this->load->helper('survey');
 			    
 			    </div>
 				
-				<div id="myProgress" class="display">
-					  <div id="myBar">0%</div>
-				</div>
 				
 				<div class="row" id ="save">
 					<input id="save-pdf"  class="btn btn-default t5" type="button" value="บันทึกเป็น PDF" style="float:  right;" onclick="downloadExcel();" />
 			    </div>	
 				
 				<center><h2  class="report-title-center" style="text-align:center">รายงานข้อมูลการทำประมง</h2></center>
-						<center><h4>จำนวนข้อมูลทั้งหมด  <span id="total"></span> แถว</center></h4>
+						<center><h4>จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด  <span id="total"></span> ตัว</center></h4>
 				
 					<div class="row" id="canvas"> 	
 				 		<div id="dual_x_div" style="margin: auto;width: 900px;height: 500px;"></div>
@@ -103,20 +100,10 @@ select  count(TOT_ANN) from TA_MEMBER_AN where TYPE_ANN = 'ประมง'
 google.charts.load('current', {'packages':['bar',"corechart"]});
 
 var listresult;
-var elem = document.getElementById("myBar");   
+  
 var width = 10;
-var time = (((10*0.15)/100)+5)*10;
-var id = setInterval(frame, time);
-function frame() {
-  if (width >= 98) {
-    clearInterval(id);
-  } else {
-    width++; 
-    elem.style.width = width + '%'; 
-    elem.innerHTML = width * 1  + '%';
-    
-  }
-} 
+
+ 
 var now = new Date(); 
 var thmonth = new Array ("มกราคม","กุมภาพันธ์","มีนาคม",
 "เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน",
@@ -183,7 +170,7 @@ function drawType() {
 						style: 'header'
 					},
 					{
-						text: 'จำนวนข้อมูลทั้งหมด '+listresult.total_animal['0']['ROW_ANN']+' แถว',
+						text: 'จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด '+parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en')+' แถว',
 						alignment: 'center',
 						style: 'header',
 						margin : [0,0,0,30],
@@ -226,6 +213,11 @@ function drawType() {
     elem.style.width = 100 + '%'; 
     elem.innerHTML = 100  + '%';
 };
+
+var formatNumber = function(num) {
+   return parseFloat((Math.round(num*100)/100)).toFixed(2).toLocaleString();
+};
+
 $(document).ready(function() {
 	
 	$.ajax({
@@ -235,7 +227,7 @@ $(document).ready(function() {
 	    success:function(result){
 			console.log(result);
 			listresult = result;
-			$('#total').html(listresult.total_animal['0']['ROW_ANN'].toLocaleString());
+			$('#total').html(parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en'));
 			google.charts.setOnLoadCallback(drawType);
 			
 	        

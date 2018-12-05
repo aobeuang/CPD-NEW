@@ -159,8 +159,17 @@ if ( ! function_exists('addLogUsers'))
 			$actor = getUser($ci->session->userdata('auth_user_id'));
 			$actor_role = getUsersRole($ci->session->userdata('auth_user_id'));
 			// $actor = $ci->session->userdata('auth_user_id');
-			// echo print_r($actor_role);die();
+			// echo print_r($actor);die();
 			// echo $actor_role['auth_level'];die();
+			$role_name = array(	'1' => 'ผู้ใช้งานส่วนกลางระดับจัดการ',
+							'2' => 'ผู้ใช้งานส่วนกลางระดับบริหาร',
+							'5' => 'ผู้ใช้งานส่วนภูมิภาคระดับจัดการ',
+							'6' => 'ผู้ใช้งานส่วนภูมิภาคระดับบริหาร' ,
+							'8' => 'ผู้ดูแลระบบระดับจัดการ' ,
+							'9' => 'ผู้ดูแลระบบระดับบริหาร');
+
+			// echo $role_name[$actor_role['auth_level'][0]];die();
+
 
 			$ci->db->set('name', $action_name);
 			$currenttime = date('Y-m-d H:i:s',time());
@@ -175,7 +184,7 @@ if ( ! function_exists('addLogUsers'))
 
 			$ci->db->set('actor_province', $province_user->PROVINCE_NAME);
 			$ci->db->set('actor_name', $actor['name']);
-			$ci->db->set('actor_auth', $actor_role['auth_level']);
+			$ci->db->set('actor_auth', $role_name[$actor_role['auth_level'][0]]);
 			$ci->db->set('actor_agency', $actor['agency']);
 			
 			$ci->db->insert($ci->db->dbprefix('logusers'));

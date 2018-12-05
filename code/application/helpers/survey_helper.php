@@ -3090,11 +3090,11 @@ if ( ! function_exists('getAllSurveyYears'))
 			if ( ! $data_cache = $ci->cache->get($cache_key))
 			{
 				$ci->load->database();
-				$query = $ci->db->select('SUM(TOT_ANN) as TOT_ANN ,TYPE_NAME')
+				$query = $ci->db->select('SUM(TOT_ANN) as TOT_ANN ,TYPE_NAME,TYPE_ANN')
 				->from($ci->db->dbprefix('TA_MEMBER_AN'))
 				->where('TYPE_ANN','เลี้ยงสัตว์')
-				->group_by('TYPE_NAME')
-				->order_by('TYPE_NAME')
+				->group_by('TYPE_ANN,TYPE_NAME')
+				// ->order_by('TYPE_NAME')
 				->get();
 				
 				$temp = array();
@@ -3120,8 +3120,9 @@ if ( ! function_exists('getAllSurveyYears'))
 			if ( ! $data_cache = $ci->cache->get($cache_key))
 			{
 				$ci->load->database();
-				$query = $ci->db->select('count(TOT_ANN) as ROW_ANN')
+				$query = $ci->db->select('TYPE_ANN,SUM(TOT_ANN) as ROW_ANN')
 				->from($ci->db->dbprefix('TA_MEMBER_AN'))
+				->group_by('TYPE_ANN')
 				->where('TYPE_ANN','เลี้ยงสัตว์')
 				->get();
 				
@@ -3149,11 +3150,11 @@ if ( ! function_exists('getAllSurveyYears'))
 			if ( ! $data_cache = $ci->cache->get($cache_key))
 			{
 				$ci->load->database();
-				$query = $ci->db->select('SUM(TOT_ANN) as TOT_ANN ,TYPE_NAME')
+				$query = $ci->db->select('SUM(TOT_ANN) as TOT_ANN ,TYPE_NAME,TYPE_ANN')
 				->from($ci->db->dbprefix('TA_MEMBER_AN'))
 				->where('TYPE_ANN','ประมง')
-				->group_by('TYPE_NAME')
-				->order_by('TYPE_NAME')
+				->group_by('TYPE_ANN,TYPE_NAME')
+				// ->order_by('TYPE_NAME')
 				->get();
 				
 				$temp = array();
@@ -3179,9 +3180,10 @@ if ( ! function_exists('getAllSurveyYears'))
 			if ( ! $data_cache = $ci->cache->get($cache_key))
 			{
 				$ci->load->database();
-				$query = $ci->db->select('count(TOT_ANN) as ROW_ANN')
+				$query = $ci->db->select('TYPE_ANN,SUM(TOT_ANN) as ROW_ANN')
 				->from($ci->db->dbprefix('TA_MEMBER_AN'))
 				->where('TYPE_ANN','ประมง')
+				->group_by('TYPE_ANN')
 				->get();
 				
 				$temp = array();

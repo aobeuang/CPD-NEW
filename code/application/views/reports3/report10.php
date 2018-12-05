@@ -67,9 +67,6 @@ $this->load->helper('survey');
 				
 			
 				
-				<div id="myProgress" class="display">
-					  <div id="myBar">0%</div>
-				</div>
 				
 				<div class="row" id ="save">
 					<input id="save-pdf"  class="btn btn-default t5" type="button" value="บันทึกเป็น PDF" style="float:  right;" onclick="downloadExcel();" />
@@ -77,7 +74,7 @@ $this->load->helper('survey');
 				
 				
 				<center><h2  class="report-title-center" style="text-align:center">รายงานข้อมูลการเลี้ยงสัตว์</h2></center>
-				<center><h4>จำนวนข้อมูลทั้งหมด  <span id="total"></span> แถว</center></h4>
+				<center><h4>จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด  <span id="total"></span> ตัว</center></h4>
 				<div class="date" style="text-align:  center;"></div>
 				
 				<div class="row" id="canvas"> 
@@ -108,10 +105,9 @@ select  count(TOT_ANN) from TA_MEMBER_AN where TYPE_ANN = 'เลี้ยงส
 <script>
 google.charts.load('current', {'packages':['bar',"corechart"]});
 
-var elem = document.getElementById("myBar");   
+ 
 var width = 10;
-var time = (((10*0.15)/100)+5)*10;
-var id = setInterval(frame, time);
+
 var listresult;
 
 var now = new Date(); 
@@ -178,7 +174,7 @@ function drawType() {
 						style: 'header'
 					},
 					{
-						text: 'จำนวนข้อมูลทั้งหมด '+listresult.total_animal['0']['ROW_ANN']+' แถว',
+						text: 'จำนวนข้อมูลสัตว์เลี้ยงทั้งหมด'+parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en')+' ตัว',
 						alignment: 'center',
 						style: 'header',
 						margin : [0,0,0,30],
@@ -224,16 +220,7 @@ function drawType() {
     elem.style.width = 100 + '%'; 
     elem.innerHTML = 100  + '%'; 
 };
-function frame() {
-	  if (width >= 98) {
-	    clearInterval(id);
-	  } else {
-	    width++; 
-	    elem.style.width = width + '%'; 
-	    elem.innerHTML = width * 1  + '%';
-	    
-	  }
-	} 
+
 $(document).ready(function() {
 	$.ajax({
 		url:"ajexreport10",
@@ -241,7 +228,7 @@ $(document).ready(function() {
 	    dataType: 'json',
 	    success:function(result){
 			listresult = result;
-			$('#total').html(listresult.total_animal['0']['ROW_ANN'].toLocaleString());
+			$('#total').html(parseFloat(listresult.total_animal['0']['ROW_ANN']).toLocaleString('en'));
 			google.charts.setOnLoadCallback(drawType);
 		}
 	}); 
