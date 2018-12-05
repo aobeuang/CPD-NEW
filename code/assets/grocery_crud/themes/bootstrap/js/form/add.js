@@ -91,7 +91,7 @@ jQuery(function ($) {
                             }
                             else
                             {
-                                alert( message_insert_error );
+                                //alert( message_insert_error );
                             }
                         },
                         error: function(){

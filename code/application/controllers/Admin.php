@@ -161,9 +161,16 @@ class Admin extends MY_Controller {
 
 		if (!$this->checkDuplicateCitizen($citizen)) {
 			header('Content-Type: application/json');
-            echo json_encode(array('success'=>false, 'message'=> 'มีหมายเลขบัตรประชาชนี้ในระบบแล้ว'));
+            echo json_encode(array('success'=>false, 'message'=> 'มีหมายเลขบัตรประชาชนนี้ในระบบแล้ว'));
             die();
 		}
+
+		if (!$this->checkDuplicateEmail($email)) {
+			header('Content-Type: application/json');
+            echo json_encode(array('success'=>false, 'message'=> 'มีอีเมล์นี้ในระบบแล้ว'));
+            die();
+		}
+		
 
 		
 
@@ -2651,6 +2658,23 @@ public function changeUsersCall($citizen = null)
 		public function checkDuplicateCitizen($citizen) {
 
 		    $this->db->where('username', $citizen);
+
+		    $query = $this->db->get('users');
+
+		    $count_row = $query->num_rows();
+
+		    if ($count_row > 0) {
+		      //if count row return any row; that means you have already this email address in the database. so you must set false in this sense.
+		        return FALSE; // here I change TRUE to false.
+		     } else {
+		      // doesn't return any row means database doesn't have this email
+		        return TRUE; // And here false to TRUE
+		     }
+		}
+
+		public function checkDuplicateEmail($email) {
+
+		    $this->db->where('email', $email);
 
 		    $query = $this->db->get('users');
 

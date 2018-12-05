@@ -305,7 +305,7 @@ class Loginlog extends MY_Controller {
 			// $crud->field_type('detail', 'text');
 			
 
-			$crud->set_subject('ประวัติการเข้าใช้งานระบบ');
+			$crud->set_subject('ประวัติการเรียกดูข้อมูลสหกรณ์');
 			$crud->field_type('created_at', 'text');
 			$crud->callback_column('search_province', array($this, 'column_bonus_right_align'));		
 			$crud->callback_column('created_at', array($this, 'callback_date'));

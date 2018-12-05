@@ -193,6 +193,7 @@
             <div class="form-group text-center">
             	<button type="button" class="btn btn-info" id="btn-submit">เพิ่มผู้ใช้งานระบบ</button>
             	<button type="reset" class="btn btn-danger" id="btn-reset">คืนค่า</button>
+                <button class="btn btn-default cancel-button" type="button" onclick="window.location = '/index.php/admin/users_management'"><i class="fa fa-arrow-left"></i>&nbsp;กลับ </button>
             </div>
 
         </form>

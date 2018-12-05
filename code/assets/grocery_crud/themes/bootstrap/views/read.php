@@ -72,7 +72,7 @@ include(__DIR__ . '/common_javascript_vars.php');
                             $strHour= date("H",strtotime($t));
                             $strMinute= date("i",strtotime($t));
                             $strSeconds= date("s",strtotime($t));
-                            echo "$strYear-$strMonth-$strDay $strHour:$strMinute:$strSeconds";
+                            echo "$strDay-$strMonth-$strYear $strHour:$strMinute:$strSeconds";
                             // echo print_r($input_fields[$field->field_name]->input);die();
                             }
                           ?>

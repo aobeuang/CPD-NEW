@@ -1,3 +1,28 @@
+<style type="text/css">
+.fileUpload {
+    position: relative;
+    overflow: hidden;
+    float: left;
+}
+.fileUpload input.upload {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    padding: 0;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+}
+.flieName {    
+    float: left;
+    display: inline-block;
+    width: 60%;
+    margin-left: 10px;
+}
+
+</style>
 <div class="container box">
 
 <?php 
@@ -14,10 +39,14 @@ $attributes = array('id' => 'import_csv');
     <label id="status-respone">นำเข้าข้อมูลผู้ใช้งาน</label>
     
    </div>
-   <div class="form-group col-sm-6">
-    <input type="file" name="csv_file" id="csv_file" required accept=".csv" />
+   <div class="form-group col-sm-8">
+      <div class="fileUpload btn btn-primary">
+          <span>เลือกไฟล์ข้อมูล</span>
+          <input type="file" name="csv_import_file" id="csv_import_file" class="upload" required accept=".csv" />
+      </div>
+      <input id="import_file" class="form-control flieName" placeholder="" disabled="disabled" />
    </div>
-   <div class="col-sm-6">
+   <div class="col-sm-4">
     <div class="form-group">
     <button type="submit" name="import_csv" class="btn btn-info" id="import_csv_btn">นำเข้าข้อมูล</button>
     </div>
@@ -31,13 +60,17 @@ $attributes = array('id' => 'import_csv');
 
 <form method="post" id="update_csv" enctype="multipart/form-data">
    <div class="form-group">
-    <label id="status-respone">อัพเดทข้อมูลสิทธ์ผู้ใช้งาน</label>
+    <label id="status-respone">ปรับปรุงข้อมูลสิทธิ์ผู้ใช้งาน</label>
     
    </div>
-   <div class="form-group col-sm-6">
-    <input type="file" name="csv_file" id="csv_file" required accept=".csv" />
+   <div class="form-group col-sm-8">
+    <div class="fileUpload btn btn-primary">
+          <span>เลือกไฟล์ข้อมูล</span>
+          <input type="file" name="csv_update_file" id="csv_update_file" class="upload" required accept=".csv" />
+      </div>
+      <input id="update_file" class="form-control flieName" placeholder="" disabled="disabled" />
    </div>
-   <div class="col-sm-6">
+   <div class="col-sm-4">
     <div class="form-group">
     <button type="submit" name="import_csv" class="btn btn-warning" id="update_csv_btn">อัพเดทข้อมูล</button>
       </div>
@@ -124,6 +157,14 @@ $(document).ready(function(){
      }
     })
    });
+
+   document.getElementById("csv_import_file").onchange = function () {
+      document.getElementById("import_file").value = this.files[0].name;
+   };
+
+   document.getElementById("csv_update_file").onchange = function () {
+      document.getElementById("update_file").value = this.files[0].name;
+   };
 
 
  

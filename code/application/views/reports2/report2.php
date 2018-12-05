@@ -760,23 +760,25 @@ function getlistkhet()
 				$("#filter_khet_hidden").val('0');
 			}
 
+			
 			for(var i = 0;i<result.items.length;i++)
 				{
 				if(i==0){
-						if (result.check) {
+						
+					if(result.items[result.items.length-1].COL004 == 99){
+						html +='<option value="'+result.items[result.items.length-1].COL004+'">'+result.items[result.items.length-1].COL003+'</option>';
+					}
+					if (result.check) {
+						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
+						$("#filter_khet_hidden").val('0');
+					}else{
+						html +='<option selected value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
+						$("#filter_khet_hidden").val(result.items[i].COL004);
+					}
+				}else if(result.items[i].COL004 <20){
 							html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
-							$("#filter_khet_hidden").val('0');
-						}else{
-							html +='<option selected value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
-							$("#filter_khet_hidden").val(result.items[i].COL004);
-						}
-					}else 
-						if(result.items[i].COL004 >=20){
-						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
-						}else{
-						html +='<option value="'+result.items[i].COL004+'">'+result.items[i].COL003+'</option>';
-						}
 				}
+			}
 			$('#filter_khet').html(html);
 			$('#filter_khet').attr('disabled',false);
 			getlistProvine();
