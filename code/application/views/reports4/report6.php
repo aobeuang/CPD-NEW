@@ -5,6 +5,8 @@
 
 <script type="text/javascript">
 
+    google.charts.load('current', { packages: ['corechart', 'table']});
+
     var report4_6= angular.module('report4_6', []);
 
     // Define the `PhoneListController` controller on the `phonecatApp` module
@@ -15,7 +17,7 @@
         var options = {
             title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
             width: '100%',
-            height: '100%',
+            height: '350',
             fontName:'Kanit',
             // is3D: true,
             sliceVisibilityThreshold: 0.0,

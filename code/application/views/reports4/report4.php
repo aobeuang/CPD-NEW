@@ -10,7 +10,7 @@
 
 <script type="text/javascript">
 
-
+    google.charts.load('current', { packages: ['corechart', 'table']});
 
 var report4_4= angular.module('report4_4', []);
 
@@ -18,12 +18,12 @@ var report4_4= angular.module('report4_4', []);
 report4_4.controller('report4_4Controller', function MyController($scope) {
 
     // google.charts.load('current', {'packages':['bar',"corechart","table"]});
-    google.charts.load('current', {'packages':['bar',"corechart"]});
+    // google.charts.load('current', {'packages':['bar',"corechart"]});
 
     var options = {
         title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
         width: '100%',
-        height: '100%',
+        height: '350',
         fontName:'Kanit',
         // is3D: true,
         sliceVisibilityThreshold: 0.0,

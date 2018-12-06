@@ -4,6 +4,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 
 <script type="text/javascript">
+    google.charts.load('current', { packages: ['corechart', 'table']});
 
     var report4_5= angular.module('report4_5', []);
 
@@ -11,12 +12,12 @@
     report4_5.controller('report4_5Controller', function MyController($scope) {
 
 
-        google.charts.load('current', {'packages':['bar',"corechart","table"]});
+        // google.charts.load('current', {'packages':['bar',"corechart","table"]});
 
         var options = {
             title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
             width: '100%',
-            height: '100%',
+            height: '350',
             fontName:'Kanit',
             // is3D: true,
             sliceVisibilityThreshold: 0.0,

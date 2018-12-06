@@ -3,44 +3,17 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 
 <script type="text/javascript">
+    // google.charts.load('current', {'packages':['bar',"corechart","table"]});
+    google.charts.load('current', { packages: ['corechart', 'table']});
 
-var report4_2= angular.module('report4_2', []);
+    var report4_2= angular.module('report4_2', []);
+
 
 // Define the `PhoneListController` controller on the `phonecatApp` module
 report4_2.controller('report4_2Controller', function MyController($scope) {
 
-    google.charts.load('current', {'packages':['bar',"corechart","table"]});
-
-
-    function drawChart() {
-
-        var data = google.visualization.arrayToDataTable([
-            ['Task', 'Hours per Day'],
-            ['Work', 11],
-            ['Eat', 2],
-            ['Commute', 2],
-            ['Watch TV', 2],
-            ['Sleep', 7]
-        ]);
-
-        var options = {
-            title: 'My Daily Activities',
-            chartArea: {width: '80%',height:'100%',top:50},
-            fontName:'Kanit',
-            'is3D':true,
-            titleTextStyle: {
-                color: '#455A64',
-                fontSize: 16
-            }
-        };
-
-        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-
-        chart.draw(data, options);
-    }
 
 	$scope.resultList = {};
-
 
     $scope.queryRiceAreaAllRegion = function() {
 
@@ -62,6 +35,8 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
                 });
 
                 console.log('totalArea:' + $scope.totalArea);
+
+
                 google.charts.setOnLoadCallback(drawType(result));
 
 
@@ -132,94 +107,6 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
         })
     };
 
-	$scope.queryRiceAreaNonOrganic = function() {
-		
-		$scope.resultListYearly = {};
-
-		$('#pageLoading').fadeIn();
-		$.ajax({
-			url:"queryRiceAreaNonOrganic",
-		    type:"GET",
-		    dataType: 'json',
-		    success:function(result){
-
-		    	$scope.resultListYearly = result;
-
-		    	// google.charts.setOnLoadCallback(drawChart(JSON.stringify($scope.resultListYearly)));
-		    	// google.charts.setOnLoadCallback(drawChart);
-                google.charts.setOnLoadCallback(drawType);
-
-
-				$('#pageLoading').fadeOut();
-				$scope.$apply();
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-                alert('An error occurred... ' + errorThrown);
-
-                $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-                console.log('jqXHR:');
-                console.log(jqXHR);
-                console.log('textStatus:');
-                console.log(textStatus);
-                console.log('errorThrown:');
-                console.log(errorThrown);
-                
-                $('#pageLoading').fadeOut();
-            }
-		})  
-	};
-
-	
-	$scope.queryRiceAreaNonOrganicDetail = function() {
-		
-		$scope.resultList = {};
-		$scope.resultListGroup = [];
-		$('#pageLoading').fadeIn();
-		$.ajax({
-			url:"queryRiceAreaNonOrganicDetail",
-		    type:"GET",
-		    dataType: 'json',
-		    success:function(result){
-		    	$scope.resultList = result;
-
-		    	$scope.resultListGroup = {};
-
-		    	
-		    	result.forEach(function(entry) {
-
-		    		if ($scope.resultListGroup[entry.PROJECT_CODE] == null) {
-		    			var obj = {};
-		    			obj.PROJECT_CODE = entry.PROJECT_CODE;
-			    		obj.members = [];
-			    		$scope.resultListGroup[entry.PROJECT_CODE] = obj;
-			    		$scope.resultListGroup[entry.PROJECT_CODE].members.push(entry);
-
-		    		}
-		    		else {
-		    			$scope.resultListGroup[entry.PROJECT_CODE].members.push(entry);
-		    		}
-		    		
-		    	});
-
-
-				$('#pageLoading').fadeOut();
-				$scope.$apply();
-			},
-			error: function(jqXHR, textStatus, errorThrown) {
-                alert('An error occurred... ' + errorThrown);
-
-                $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-                console.log('jqXHR:');
-                console.log(jqXHR);
-                console.log('textStatus:');
-                console.log(textStatus);
-                console.log('errorThrown:');
-                console.log(errorThrown);
-                
-                $('#pageLoading').fadeOut();
-            }
-		})  
-	};
 
 
 	 function resetStyling(id) {
@@ -247,7 +134,7 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
     var options = {
         title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
         width: '100%',
-        height: '100%',
+        height: '350',
         fontName:'Kanit',
         // is3D: true,
         sliceVisibilityThreshold: 0,
@@ -258,7 +145,7 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
         },
         chartArea: {
             width: '100%',
-            height: '700'
+            height: '900'
         },
 
         pieSliceText: 'label',
@@ -427,10 +314,10 @@ table.center {
 
 
                 <div class="row" style="padding-top: 20px; display: block; margin-left: auto; margin-right: auto;  width: 80%; ">
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div id="chart_div"></div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <div id="" style="display: block; margin-left: auto; margin-right: auto;  width: 80%;" class="text-center">
                             <table class="table table-bordered table-condensed table-data table-striped table-hover " ng-show="resultSummaryArea.length > 0">
                                 <tr>

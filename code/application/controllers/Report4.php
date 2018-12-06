@@ -140,32 +140,27 @@ class Report4 extends MY_Controller {
             //         $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
             $ci->dbext = $ci->load->database('defaultext', TRUE);
             $data_cache = null;
-            
-            
-            if ( ! $data_cache = $ci->cache->get($cache_key)) {
-                
-                // -------
-                
-                $refcur = $this->dbext->get_cursor();
-                //             $refcur = oci_new_cursor($this->dbext->conn_id);
-                $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_organic(:p_cur_result); end;");
-                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
-                
-                $r = ociexecute($stmt);
-                oci_execute($refcur, OCI_DEFAULT);
-                
-                oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-                
-                print_r(json_encode($data));
-                
-                die();
-            }
-            print_r(json_encode($data_cache));
+
+            // -------
+
+            $refcur = $this->dbext->get_cursor();
+            //             $refcur = oci_new_cursor($this->dbext->conn_id);
+            $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_organic(:p_cur_result); end;");
+            oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
+
+            $r = ociexecute($stmt);
+            oci_execute($refcur, OCI_DEFAULT);
+
+            oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+
+            print_r(json_encode($data));
+
+            die();
+
         }
         catch (Exception $e) {
-            $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-            
-            print_r(json_encode($arr));
+
+            print_r(json_encode($e));
             die();
         }
         
@@ -185,83 +180,31 @@ class Report4 extends MY_Controller {
             //         $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
             $ci->dbext = $ci->load->database('defaultext', TRUE);
             $data_cache = null;
-            
-            
-            if ( ! $data_cache = $ci->cache->get($cache_key)) {
-                
-                // -------
-                
-                $refcur = $this->dbext->get_cursor();
-                //             $refcur = oci_new_cursor($this->dbext->conn_id);
-                $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_organic_d(:p_cur_result); end;");
-                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
-                
-                $r = ociexecute($stmt);
-                oci_execute($refcur, OCI_DEFAULT);
-                
-                oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-                
-                print_r(json_encode($data));
-                
-                die();
-            }
-            print_r(json_encode($data_cache));
+            // -------
+
+            $refcur = $this->dbext->get_cursor();
+            //             $refcur = oci_new_cursor($this->dbext->conn_id);
+            $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_organic_d(:p_cur_result); end;");
+            oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
+
+            $r = ociexecute($stmt);
+            oci_execute($refcur, OCI_DEFAULT);
+
+            oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+
+            print_r(json_encode($data));
+
+            die();
+
         }
         catch (Exception $e) {
-            $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-            
-            print_r(json_encode($arr));
+            print_r(json_encode($e));
             die();
         }
         
         
     }
-    
-    
-    // Report4/report2
-    public function queryRiceAreaNonOrganic() {
-        
-        
-        try {
-            
-            ini_set('max_execution_time', 0);
-            ini_set("memory_limit", '-1');
-            $cache_key = "Report42";
-            $ci =& get_instance();
-            //         $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-            $ci->dbext = $ci->load->database('defaultext', TRUE);
-            $data_cache = null;
-            
-            
-            if ( ! $data_cache = $ci->cache->get($cache_key)) {
-                
-                // -------
-                
-                $refcur = $this->dbext->get_cursor();
-                //             $refcur = oci_new_cursor($this->dbext->conn_id);
-                $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_nonorganic(:p_cur_result); end;");
-                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
-                
-                $r = ociexecute($stmt);
-                oci_execute($refcur, OCI_DEFAULT);
-                
-                oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-                
-                print_r(json_encode($data));
-                
-                die();
-            }
-            print_r(json_encode($data_cache));
-        }
-        catch (Exception $e) {
-            $arr = array('a' => 1, 'b' => 2, 'c' => 3, 'd' => 4, 'e' => 5);
-            
-            print_r(json_encode($arr));
-            die();
-        }
-        
-        
-    }
+
 
     // Report4/report2
     public function queryRiceAreaAllRegion() {
@@ -329,7 +272,7 @@ class Report4 extends MY_Controller {
                 $ci->dbext = $ci->load->database('defaultext', TRUE);
                 $data_cache = null;
 
-                if ( ! $data_cache = $ci->cache->get($cache_key)) {
+
 
                     $refcur = $this->dbext->get_cursor();
                     //             $refcur = oci_new_cursor($this->dbext->conn_id);
@@ -345,10 +288,7 @@ class Report4 extends MY_Controller {
 
                     print_r(json_encode($data));
                     die();
-                }
-                else {
-                    print_r(json_encode($data_cache));
-                }
+
             }
             finally {
 
@@ -363,56 +303,7 @@ class Report4 extends MY_Controller {
         }
     }
     
-    // Report4/report2
-    public function queryRiceAreaNonOrganicDetail() {
-        
-      
-        try {
-            
-            ini_set('max_execution_time', 0);
-            ini_set("memory_limit", '-1');
-            $cache_key = "Report42queryRiceAreaNonOrganicDetail";
-            $ci =& get_instance();
-
-            try {
-                $ci->dbext = $ci->load->database('defaultext', TRUE);
-                $data_cache = null;
-
-                if ( ! $data_cache = $ci->cache->get($cache_key)) {
-
-                    $refcur = $this->dbext->get_cursor();
-                    //             $refcur = oci_new_cursor($this->dbext->conn_id);
-                    $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_nonorganic_d(:p_cur_result); end;");
-                    oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
-
-                    $r = ociexecute($stmt);
-                    oci_execute($refcur, OCI_DEFAULT);
-
-                    oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-                    oci_free_statement($stmt);
-
-                    print_r(json_encode($data));
-                    die();
-                }
-                else {
-                    print_r(json_encode($data_cache));
-                }
-            }
-            finally {
-
-                    oci_close($ci);
-            }
-
-        }
-        catch (Exception $e) {
-
-            print_r(json_encode($arr));
-            die();
-        }
-    }
-    
-    
-    // Report4/report4
+     // Report4/report4
     // Report4/report5
     // Report4/report6
     public function queryFarmer1Type() {
@@ -430,7 +321,7 @@ class Report4 extends MY_Controller {
                 $ci->dbext = $ci->load->database('defaultext', TRUE);
                 $data_cache = null;
 
-                if ( ! $data_cache = $ci->cache->get($cache_key)) {
+
 
                     $refcur = $this->dbext->get_cursor();
                     //             $refcur = oci_new_cursor($this->dbext->conn_id);
@@ -449,10 +340,7 @@ class Report4 extends MY_Controller {
                     print_r(json_encode($data));
 //                    print_r(json_encode($arr));
                     die();
-                }
-                else {
-                    print_r(json_encode($data_cache));
-                }
+
             }
             finally {
 
@@ -484,29 +372,24 @@ class Report4 extends MY_Controller {
                 $ci->dbext = $ci->load->database('defaultext', TRUE);
                 $data_cache = null;
 
-                if ( ! $data_cache = $ci->cache->get($cache_key)) {
+                $refcur = $this->dbext->get_cursor();
+                //             $refcur = oci_new_cursor($this->dbext->conn_id);
+                $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_farmer1_type_detail(:p_cur_result, :p_group_code); end;");
+                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
+                oci_bind_by_name($stmt, ":p_group_code", $groupCode, -1, SQLT_CHR   );
 
-                    $refcur = $this->dbext->get_cursor();
-                    //             $refcur = oci_new_cursor($this->dbext->conn_id);
-                    $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_farmer1_type_detail(:p_cur_result, :p_group_code); end;");
-                    oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
-                    oci_bind_by_name($stmt, ":p_group_code", $groupCode, -1, SQLT_CHR   );
+                $r = ociexecute($stmt);
+                oci_execute($refcur, OCI_DEFAULT);
 
-                    $r = ociexecute($stmt);
-                    oci_execute($refcur, OCI_DEFAULT);
-
-                    oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
-                    oci_free_statement($stmt);
+                oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+                oci_free_statement($stmt);
 
 
 //                    $arr = array('a' => $groupCode);
-                    print_r(json_encode($data));
+                print_r(json_encode($data));
 //                    print_r(json_encode($arr));
-                    die();
-                }
-                else {
-                    print_r(json_encode($data_cache));
-                }
+                die();
+
             }
             finally {
 
@@ -521,9 +404,5 @@ class Report4 extends MY_Controller {
         }
     }
 
-
-
-
-   
    
 }
