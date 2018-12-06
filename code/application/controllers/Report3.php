@@ -2162,7 +2162,7 @@ class Report3 extends MY_Controller {
 		$data_cache = null;
 
 		$count_data_all = array();
-		if ( ! $data_cache = $ci->cache->get($cache_key)) {
+//		if ( ! $data_cache = $ci->cache->get($cache_key)) {
 
 		$temp_data = array();
 		
@@ -2337,14 +2337,14 @@ class Report3 extends MY_Controller {
 		$output['query3'] = $sqla_count3;
 		// echo print_r($output);die();
 
-			$ci->cache->save($cache_key, $output, 30000);
+//        $ci->cache->save($cache_key, $output, 30000);
 				// return $to_return;
 		print_r(json_encode($output));
 		die();
-	}
+//	}
 	
 
-		print_r(json_encode($data_cache));
+//		print_r(json_encode($data_cache));
 
 	}
 
