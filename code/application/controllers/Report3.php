@@ -1750,8 +1750,8 @@ class Report3 extends MY_Controller {
 
 		$count_data_all = array();
 
-				if ( ! $data_cache = $ci->cache->get($cache_key))
-				{
+//				if ( ! $data_cache = $ci->cache->get($cache_key))
+//				{
 		$temp_data = array();
 		
 		$sqla_count1 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
@@ -1903,9 +1903,9 @@ class Report3 extends MY_Controller {
 
 		return $final_data;
 
-		}
+//		}
 
-		return $data_cache;
+//		return $data_cache;
 
 
 	}
