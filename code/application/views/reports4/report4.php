@@ -5,6 +5,18 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 
 <script type="text/javascript">
+
+</script>
+
+<script type="text/javascript">
+
+
+
+var report4_4= angular.module('report4_4', []);
+
+// Define the `PhoneListController` controller on the `phonecatApp` module
+report4_4.controller('report4_4Controller', function MyController($scope) {
+
     // google.charts.load('current', {'packages':['bar',"corechart","table"]});
     google.charts.load('current', {'packages':['bar',"corechart"]});
 
@@ -89,18 +101,6 @@
         }
 
     };
-</script>
-
-<script type="text/javascript">
-
-
-
-var report4_4= angular.module('report4_4', []);
-
-// Define the `PhoneListController` controller on the `phonecatApp` module
-report4_4.controller('report4_4Controller', function MyController($scope) {
-
-	
 
 	$scope.resultListType = {};
 

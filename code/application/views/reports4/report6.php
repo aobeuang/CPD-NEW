@@ -5,18 +5,6 @@
 
 <script type="text/javascript">
 
-
-
-
-
-
-
-
-
-</script>
-
-<script type="text/javascript">
-
     var report4_6= angular.module('report4_6', []);
 
     // Define the `PhoneListController` controller on the `phonecatApp` module

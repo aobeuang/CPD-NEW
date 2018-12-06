@@ -4,6 +4,11 @@
 
 <script type="text/javascript">
 
+var report4_2= angular.module('report4_2', []);
+
+// Define the `PhoneListController` controller on the `phonecatApp` module
+report4_2.controller('report4_2Controller', function MyController($scope) {
+
     google.charts.load('current', {'packages':['bar',"corechart","table"]});
 
 
@@ -33,43 +38,6 @@
 
         chart.draw(data, options);
     }
-
-
-
-
-    function drawMap2() {
-        var data = google.visualization.arrayToDataTable([
-            ['City', 'Popularity'],
-            ['New York', 200],
-            ['Boston', 300],
-            ['Miami', 400],
-            ['Chicago', 500],
-            ['Los Angeles', 600],
-            ['Houston', 700]
-        ]);
-
-        var options = {};
-        options['region'] = 'US';
-        options['colors'] = [0xFF8747, 0xFFB581, 0xc06000]; //orange colors
-        options['dataMode'] = 'markers';
-
-        var container = document.getElementById('map_canvas');
-        var geomap = new google.visualization.GeoMap(container);
-        geomap.draw(data, options);
-    };
-
-
-
-</script>
-
-<script type="text/javascript">
-
-var report4_2= angular.module('report4_2', []);
-
-// Define the `PhoneListController` controller on the `phonecatApp` module
-report4_2.controller('report4_2Controller', function MyController($scope) {
-
-	
 
 	$scope.resultList = {};
 

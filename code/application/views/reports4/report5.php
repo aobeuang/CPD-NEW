@@ -4,100 +4,6 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 
 <script type="text/javascript">
-    google.charts.load('current', {'packages':['bar',"corechart","table"]});
-
-    var options = {
-        title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
-        width: '100%',
-        height: '100%',
-        fontName:'Kanit',
-        // is3D: true,
-        sliceVisibilityThreshold: 0.0,
-        // legend: { position: 'labeled' },
-        pieSliceText: 'value',
-        legend: {
-            position: 'labeled',
-            labeledValueText: 'both',
-            textStyle: {
-                color: 'blue',
-                fontSize: 14
-            }
-        },
-        titleTextStyle: {
-            color: '#455A64',
-            fontSize: 16
-        },
-        chartArea: {
-            width: '100%',
-            height: '700'
-        },
-        slices: {
-            0: { color: '#6588C4' },
-            1: { color: '#D5702C' },
-            2: { color: '#56978c' },
-            3: { color: '#FFBF00' },
-            4: { color: '#7B749B' },
-            5: { color: '#a971a7' },
-            6: { color: '#70AB46' },
-            7: { color: '#35507F' },
-            8: { color: '#FFAEDB' },
-            9: { color: '#A3A3A3' },
-        },
-
-        tooltip: {
-            isHtml: true,
-            trigger: 'selection'
-        },
-    };
-
-    function drawType(jsonData) {
-        try{
-            var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
-
-            console.log(jsonData.length);
-
-            for(var i=0;i<jsonData.length;i++)
-            {
-
-                // var temp = [jsonData[i].REGION_NAME, jsonData[i].RAI];
-                var temp = [];
-                console.log(jsonData[i].TYPE_DETAIL + '-->' + jsonData[i].RAI);
-
-                temp.push(jsonData[i].TYPE_DETAIL);
-                temp.push(parseInt(jsonData[i].RAI));
-
-                data_coop.push(temp);
-            }
-            // console.log(data_coop);
-
-            // alert(JSON.stringify( data_coop));
-            var dataChart = google.visualization.arrayToDataTable(data_coop);
-
-            options.title = 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท';
-
-            var chart_div = document.getElementById('chart_div');
-            chart = new google.visualization.PieChart(chart_div);
-            // google.visualization.events.addListener(chart, 'select', selectChartHandler);
-
-
-            chart.draw(dataChart ,options);
-
-        }catch(err) {
-            console.log(err);
-        }
-
-    };
-
-
-
-
-
-
-
-
-</script>
-
-<script type="text/javascript">
 
     var report4_5= angular.module('report4_5', []);
 
@@ -105,6 +11,89 @@
     report4_5.controller('report4_5Controller', function MyController($scope) {
 
 
+        google.charts.load('current', {'packages':['bar',"corechart","table"]});
+
+        var options = {
+            title: 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท',
+            width: '100%',
+            height: '100%',
+            fontName:'Kanit',
+            // is3D: true,
+            sliceVisibilityThreshold: 0.0,
+            // legend: { position: 'labeled' },
+            pieSliceText: 'value',
+            legend: {
+                position: 'labeled',
+                labeledValueText: 'both',
+                textStyle: {
+                    color: 'blue',
+                    fontSize: 14
+                }
+            },
+            titleTextStyle: {
+                color: '#455A64',
+                fontSize: 16
+            },
+            chartArea: {
+                width: '100%',
+                height: '700'
+            },
+            slices: {
+                0: { color: '#6588C4' },
+                1: { color: '#D5702C' },
+                2: { color: '#56978c' },
+                3: { color: '#FFBF00' },
+                4: { color: '#7B749B' },
+                5: { color: '#a971a7' },
+                6: { color: '#70AB46' },
+                7: { color: '#35507F' },
+                8: { color: '#FFAEDB' },
+                9: { color: '#A3A3A3' },
+            },
+
+            tooltip: {
+                isHtml: true,
+                trigger: 'selection'
+            },
+        };
+
+        function drawType(jsonData) {
+            try{
+                var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
+
+                console.log(jsonData.length);
+
+                for(var i=0;i<jsonData.length;i++)
+                {
+
+                    // var temp = [jsonData[i].REGION_NAME, jsonData[i].RAI];
+                    var temp = [];
+                    console.log(jsonData[i].TYPE_DETAIL + '-->' + jsonData[i].RAI);
+
+                    temp.push(jsonData[i].TYPE_DETAIL);
+                    temp.push(parseInt(jsonData[i].RAI));
+
+                    data_coop.push(temp);
+                }
+                // console.log(data_coop);
+
+                // alert(JSON.stringify( data_coop));
+                var dataChart = google.visualization.arrayToDataTable(data_coop);
+
+                options.title = 'จำนวนสมาชิกสหกรณ์แบ่งตามประเภท';
+
+                var chart_div = document.getElementById('chart_div');
+                chart = new google.visualization.PieChart(chart_div);
+                // google.visualization.events.addListener(chart, 'select', selectChartHandler);
+
+
+                chart.draw(dataChart ,options);
+
+            }catch(err) {
+                console.log(err);
+            }
+
+        };
 
         $scope.resultListType = {};
 
