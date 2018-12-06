@@ -64,10 +64,11 @@ report4_4.controller('report4_4Controller', function MyController($scope) {
         },
     };
 
-    function drawType(jsonData) {
+    $scope.drawType = function() {
+    // function drawType(jsonData) {
         try{
             var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
-
+            var jsonData = $scope.resultListType;
             console.log(jsonData.length);
 
             for(var i=0;i<jsonData.length;i++)
@@ -129,7 +130,7 @@ report4_4.controller('report4_4Controller', function MyController($scope) {
                     e.percentRai = parseFloat(e.RAI) / $scope.totalRai * 100;
                 });
 
-                google.charts.setOnLoadCallback(drawType(result));
+                google.charts.setOnLoadCallback($scope.drawType);
 
 
 				$('#pageLoading').fadeOut();

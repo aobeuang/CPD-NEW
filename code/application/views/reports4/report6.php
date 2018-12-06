@@ -7,7 +7,7 @@
 
     google.charts.load('current', { packages: ['corechart', 'table']});
 
-    var report4_6= angular.module('report4_6', []);
+    var report4_6 = angular.module('report4_6', []);
 
     // Define the `PhoneListController` controller on the `phonecatApp` module
     report4_6.controller('report4_6Controller', function MyController($scope) {
@@ -58,10 +58,12 @@
             },
         };
 
-        function drawType(jsonData) {
+        $scope.drawType = function() {
+
+        // function drawType() {
             try{
                 var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
-
+                var jsonData = $scope.resultListTypeDetail;
                 console.log(jsonData.length);
 
                 for(var i=0;i<jsonData.length;i++)
@@ -172,7 +174,7 @@
                         e.percentRai = parseFloat(e.RAI) / $scope.totalRai * 100;
                     });
 
-                    google.charts.setOnLoadCallback(drawType(result));
+                    google.charts.setOnLoadCallback($scope.drawType);
 
                     $('#pageLoading').fadeOut();
                     $scope.$apply();

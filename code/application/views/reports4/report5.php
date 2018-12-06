@@ -58,12 +58,12 @@
             },
         };
 
-        function drawType(jsonData) {
+        $scope.drawType = function() {
+
             try{
                 var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
-
+                var jsonData = $scope.resultListTypeDetail;
                 console.log(jsonData.length);
-
                 for(var i=0;i<jsonData.length;i++)
                 {
 
@@ -170,7 +170,7 @@
                         e.percentRai = parseFloat(e.RAI) / $scope.totalRai * 100;
                     });
 
-                    google.charts.setOnLoadCallback(drawType(result));
+                    google.charts.setOnLoadCallback($scope.drawType);
 
                     $('#pageLoading').fadeOut();
                     $scope.$apply();
