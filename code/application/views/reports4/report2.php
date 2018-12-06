@@ -37,7 +37,7 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
                 console.log('totalArea:' + $scope.totalArea);
 
 
-                google.charts.setOnLoadCallback(drawType(result));
+                google.charts.setOnLoadCallback($scope.drawType);
 
 
                 $('#pageLoading').fadeOut();
@@ -175,9 +175,11 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
 
     var dataChart = null;
 
-    function drawType(jsonData) {
+    $scope.drawType = function() {
+    // function drawType() {
         try{
             var data_coop = [['ประเภท', 'จำนวนสมาชิก']];
+            var jsonData = $scope.resultSummaryArea;
 
             console.log(jsonData.length);
 
