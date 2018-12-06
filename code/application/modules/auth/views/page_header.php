@@ -277,21 +277,48 @@ $current_url = $_SERVER['REQUEST_URI'];
             <!-- Pooh7t -->
             <?php if  ((!empty($this->session->userdata('auth_user_id')) && $this->session->userdata('auth_user_id')) && ($this->session->userdata('auth_role')=="admin" || canViewReport() || canAdd())):
                 if (getStringSystemProperties("disable.phase2") != "yes"):	?>
-                    <li class="dropdown <?php if (strpos($current_url, "/report2")!==FALSE) echo "active"?>">
+                    <li class="dropdown <?php if (strpos($current_url, "/report4")!==FALSE) echo "active"?>">
                         <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown"> รายงานบูรณาการ</br>ข้อมูลหน่วยงาน <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
-                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลผู้ปลูกข้าว (ที่มา : ข้อมูลกรมการข้าว)</a></li>
-                            <!--                            <li class="disble-gray"><a style="padding-left: 25px" href="--><?php //echo site_url('report4/index1')?><!--">ผู้ปลูกข้าวอินทรีย์ (อยู่ในระหว่างการแก้ไข)</a></li>-->
-                            <li class="disble-gray"><a style="padding-left: 35px" href="<?php echo site_url('')?>">ผู้ปลูกข้าวอินทรีย์ (อยู่ในระหว่างการแก้ไข)</a></li>
-                            <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index2')?>">ผู้ปลูกข้าวทั่วไป</a></li>
-                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลผู้ปลูกยาง (ที่มา : ข้อมูลกรมการยาง)</a></li>
-                            <!--                            <li class="disble-gray"><a style="padding-left: 25px" href="--><?php //echo site_url('report4/index3')?><!--">ผู้ปลูกยาง (อยู่ในระหว่างการแก้ไข)</a></li>-->
-                            <li class="disble-gray"><a style="padding-left: 35px" href="<?php echo site_url('')?>">ผู้ปลูกยาง (อยู่ในระหว่างการแก้ไข)</a></li>
+                            <!--                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลผู้ปลูกข้าว (ที่มา : ข้อมูลกรมการข้าว)</a></li>-->
+                            <!--                            <li class="disble-gray"><a style="padding-left: 35px" href="--><?php //echo site_url('')?><!--">ผู้ปลูกข้าวอินทรีย์ (อยู่ในระหว่างการแก้ไข)</a></li>-->
+                            <!--                            <li class=""><a style="padding-left: 35px" href="--><?php //echo site_url('report4/index2')?><!--">ผู้ปลูกข้าวทั่วไป</a></li>-->
 
-                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลสำนักงานเศรษฐกิจการเกษตร. (ที่มา : ข้อมูลสศก.)</a></li>
-                            <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index4')?>">ทะเบียนเกษตรกร</a></li>
-                            <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index5')?>">ทะเบียนเลี้ยงสัตว์</a></li>
-                            <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index6')?>">ทะเบียนประมง</a></li>
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown">ข้อมูลกรมการข้าว</a>
+                                <ul class="dropdown-menu">
+                                    <li class="disble-gray"><a style="padding-left: 35px" href="<?php echo site_url('')?>">ผู้ปลูกข้าวอินทรีย์ (อยู่ในระหว่างการแก้ไข)</a></li>
+                                    <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index2')?>">ผู้ปลูกข้าวทั่วไป</a></li>
+
+                                </ul>
+                            </li>
+                            <!--                            <li class=""><a style="color: #8ba8af" href="">ข้อมูล กยท.</a></li>-->
+                            <!--                            <li class="disble-gray"><a style="padding-left: 35px" href="--><?php //echo site_url('')?><!--">ผู้ปลูกยาง (อยู่ในระหว่างการแก้ไข)</a></li>-->
+
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown">ข้อมูล กยท.</a>
+                                <ul class="dropdown-menu">
+                                    <li class="disble-gray"><a style="padding-left: 35px" href="<?php echo site_url('')?>">ผู้ปลูกยาง (อยู่ในระหว่างการแก้ไข)</a></li>
+
+                                </ul>
+                            </li>
+
+                            <!--                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลสำนักงานเศรษฐกิจการเกษตร. (ที่มา : ข้อมูลสศก.)</a></li>-->
+                            <!--                            <li class=""><a style="padding-left: 35px" href="--><?php //echo site_url('report4/index4')?><!--">ทะเบียนเกษตรกร</a></li>-->
+                            <!--                            <li class=""><a style="padding-left: 35px" href="--><?php //echo site_url('report4/index5')?><!--">ทะเบียนเลี้ยงสัตว์</a></li>-->
+                            <!--                            <li class=""><a style="padding-left: 35px" href="--><?php //echo site_url('report4/index6')?><!--">ทะเบียนประมง</a></li>-->
+
+                            <li class="dropdown dropdown-submenu">
+                                <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown">ข้อมูล สศก</a>
+                                <ul class="dropdown-menu">
+                                    <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index4')?>">ทะเบียนเกษตรกร</a></li>
+                                    <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index5')?>">ทะเบียนเลี้ยงสัตว์</a></li>
+                                    <li class=""><a style="padding-left: 35px" href="<?php echo site_url('report4/index6')?>">ทะเบียนประมง</a></li>
+
+                                </ul>
+                            </li>
+
+
                         </ul>
                     </li>
 
