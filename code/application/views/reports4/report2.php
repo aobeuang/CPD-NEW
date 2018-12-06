@@ -1,4 +1,67 @@
 <script src="/assets/default/js/angular.min.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
+
+<script type="text/javascript">
+
+    google.charts.load('current', {'packages':['bar',"corechart","table"]});
+
+
+    function drawChart() {
+
+        var data = google.visualization.arrayToDataTable([
+            ['Task', 'Hours per Day'],
+            ['Work', 11],
+            ['Eat', 2],
+            ['Commute', 2],
+            ['Watch TV', 2],
+            ['Sleep', 7]
+        ]);
+
+        var options = {
+            title: 'My Daily Activities',
+            chartArea: {width: '80%',height:'100%',top:50},
+            fontName:'Kanit',
+            'is3D':true,
+            titleTextStyle: {
+                color: '#455A64',
+                fontSize: 16
+            }
+        };
+
+        var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
+
+        chart.draw(data, options);
+    }
+
+
+
+
+    function drawMap2() {
+        var data = google.visualization.arrayToDataTable([
+            ['City', 'Popularity'],
+            ['New York', 200],
+            ['Boston', 300],
+            ['Miami', 400],
+            ['Chicago', 500],
+            ['Los Angeles', 600],
+            ['Houston', 700]
+        ]);
+
+        var options = {};
+        options['region'] = 'US';
+        options['colors'] = [0xFF8747, 0xFFB581, 0xc06000]; //orange colors
+        options['dataMode'] = 'markers';
+
+        var container = document.getElementById('map_canvas');
+        var geomap = new google.visualization.GeoMap(container);
+        geomap.draw(data, options);
+    };
+
+
+
+</script>
+
 <script type="text/javascript">
 
 var report4_2= angular.module('report4_2', []);
@@ -521,68 +584,7 @@ th
 }
 </style>
 
-  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.3.5/jspdf.min.js"></script>
 
-    <script type="text/javascript">
-
-        google.charts.load('current', {'packages':['bar',"corechart","table"]});
-
-
-      function drawChart() {
-
-          var data = google.visualization.arrayToDataTable([
-              ['Task', 'Hours per Day'],
-              ['Work', 11],
-              ['Eat', 2],
-              ['Commute', 2],
-              ['Watch TV', 2],
-              ['Sleep', 7]
-          ]);
-
-          var options = {
-              title: 'My Daily Activities',
-              chartArea: {width: '80%',height:'100%',top:50},
-              fontName:'Kanit',
-              'is3D':true,
-              titleTextStyle: {
-                  color: '#455A64',
-                  fontSize: 16
-              }
-          };
-
-          var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-
-          chart.draw(data, options);
-      }
-
-
-
-
-      function drawMap2() {
-          var data = google.visualization.arrayToDataTable([
-              ['City', 'Popularity'],
-              ['New York', 200],
-              ['Boston', 300],
-              ['Miami', 400],
-              ['Chicago', 500],
-              ['Los Angeles', 600],
-              ['Houston', 700]
-          ]);
-
-          var options = {};
-          options['region'] = 'US';
-          options['colors'] = [0xFF8747, 0xFFB581, 0xc06000]; //orange colors
-          options['dataMode'] = 'markers';
-
-          var container = document.getElementById('map_canvas');
-          var geomap = new google.visualization.GeoMap(container);
-          geomap.draw(data, options);
-      };
-      
-
-    
-    </script>
 
 
 
