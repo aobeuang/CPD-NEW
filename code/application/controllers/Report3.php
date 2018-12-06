@@ -188,42 +188,42 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query_sql = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query_sql = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+//				$ci->cache->save($cache_key_sql, $query_sql, 30000);
 				// return $query_sql;
-			}else{
-				$query_sql = $data_cache_sql;
-			}
+//			}else{
+//				$query_sql = $data_cache_sql;
+//			}
 
 			$cache_key_sql_c_farm = md5($sql_count_farm);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql_c_farm = "";
 			$query_sql_c_farm = null;
-			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
+//			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
 				$query_sql_c_farm = $this->db->query($sql_count_farm)->result_array();
 
-				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
+//				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
 				// return $query_sql_c_farm;
-			}else{
-				$query_sql_c_farm = $data_cache_sql_c_farm;
-			}
+//			}else{
+//				$query_sql_c_farm = $data_cache_sql_c_farm;
+//			}
 
 			$cache_key_sql_c_nfarm = md5($sql_count_nonfarm);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql_c_nfarm = "";
 			$query_sql_c_nfarm = null;
-			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
+//			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
 				$query_sql_c_nfarm = $this->db->query($sql_count_nonfarm)->result_array();
 
-				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
+//				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
 				// return $query_sql_c_nfarm;
-			}else{
-				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
-			}
+//			}else{
+//				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
+//			}
 
 
 
@@ -386,14 +386,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query_sql = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query_sql = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+//				$ci->cache->save($cache_key_sql, $query_sql, 30000);
 				// return $query_sql;
-			}else{
-				$query_sql = $data_cache_sql;
-			}
+//			}else{
+//				$query_sql = $data_cache_sql;
+//			}
 
 
 			$cache_key_sql_c_farm = md5($sql_count_farm);
@@ -401,14 +401,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql_c_farm = "";
 			$query_sql_c_farm = null;
-			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
+//			if ( ! $data_cache_sql_c_farm = $ci->cache->get($cache_key_sql_c_farm)) {
 				$query_sql_c_farm = $this->db->query($sql_count_farm)->result_array();
 
-				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
+//				$ci->cache->save($cache_key_sql_c_farm, $query_sql_c_farm, 30000);
 				// return $query_sql_c_farm;
-			}else{
-				$query_sql_c_farm = $data_cache_sql_c_farm;
-			}
+//			}else{
+//				$query_sql_c_farm = $data_cache_sql_c_farm;
+//			}
 
 
 			foreach ($query_sql_c_farm as $value) {
@@ -536,14 +536,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query_sql = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query_sql = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query_sql, 30000);
+//				$ci->cache->save($cache_key_sql, $query_sql, 30000);
 				// return $query_sql;
-			}else{
-				$query_sql = $data_cache_sql;
-			}
+//			}else{
+//				$query_sql = $data_cache_sql;
+//			}
 
 
 			$cache_key_sql_c_nfarm = md5($sql_count_nonfarm);
@@ -551,14 +551,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql_c_nfarm = "";
 			$query_sql_c_nfarm = null;
-			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
+//			if ( ! $data_cache_sql_c_nfarm = $ci->cache->get($cache_key_sql_c_nfarm)) {
 				$query_sql_c_nfarm = $this->db->query($sql_count_nonfarm)->result_array();
 
-				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
+//				$ci->cache->save($cache_key_sql_c_nfarm, $query_sql_c_nfarm, 30000);
 				// return $query_sql_c_nfarm;
-			}else{
-				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
-			}
+//			}else{
+//				$query_sql_c_nfarm = $data_cache_sql_c_nfarm;
+//			}
 
 
 			foreach ($query_sql_c_nfarm as $value) {
@@ -746,42 +746,42 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query, 30000);
+//				$ci->cache->save($cache_key_sql, $query, 30000);
 				// return $query;
-			}else{
-				$query = $data_cache_sql;
-			}
+//			}else{
+//				$query = $data_cache_sql;
+//			}
 
 			$cache_key_sql2 = md5($sql2);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql2 = "";
 			$query2 = null;
-			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
 				$query2 = $this->db->query($sql2)->result_array();
 
-				$ci->cache->save($cache_key_sql2, $query2, 30000);
+//				$ci->cache->save($cache_key_sql2, $query2, 30000);
 				// return $query2;
-			}else{
-				$query2 = $data_cache_sql2;
-			}
+//			}else{
+//				$query2 = $data_cache_sql2;
+//			}
 
 			$cache_key_sql3 = md5($sql3);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql3 = "";
 			$query3 = null;
-			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
-				$query3 = $this->db->query($sql3)->result_array();
+//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+//				$query3 = $this->db->query($sql3)->result_array();
 
 				$ci->cache->save($cache_key_sql3, $query3, 30000);
 				// return $query3;
-			}else{
-				$query3 = $data_cache_sql3;
-			}
+//			}else{
+//				$query3 = $data_cache_sql3;
+//			}
 
 
 
@@ -857,42 +857,42 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query, 30000);
+//				$ci->cache->save($cache_key_sql, $query, 30000);
 				// return $query;
-			}else{
-				$query = $data_cache_sql;
-			}
+//			}else{
+//				$query = $data_cache_sql;
+//			}
 
 			$cache_key_sql2 = md5($sql2);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql2 = "";
 			$query2 = null;
-			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
 				$query2 = $this->db->query($sql2)->result_array();
 
 				$ci->cache->save($cache_key_sql2, $query2, 30000);
 				// return $query2;
-			}else{
-				$query2 = $data_cache_sql2;
-			}
+//			}else{
+//				$query2 = $data_cache_sql2;
+//			}
 
 			$cache_key_sql3 = md5($sql3);
 			$ci =& get_instance();
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql3 = "";
 			$query3 = null;
-			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
 				$query3 = $this->db->query($sql3)->result_array();
 
-				$ci->cache->save($cache_key_sql3, $query3, 30000);
+//				$ci->cache->save($cache_key_sql3, $query3, 30000);
 				// return $query3;
-			}else{
-				$query3 = $data_cache_sql3;
-			}
+//			}else{
+//				$query3 = $data_cache_sql3;
+//			}
 
 
 			$temp_data = array();
@@ -934,8 +934,8 @@ class Report3 extends MY_Controller {
 			$data_cache = null;
 
 			$count_data_all = array();
-			if ( ! $data_cache = $ci->cache->get($cache_key))
-			{
+//			if ( ! $data_cache = $ci->cache->get($cache_key))
+//			{
 	// 		$this->db->distinct('COL001');
 			$query = $this->db->get($this->db->dbprefix('KHET'));
 			$datas = $query->result_array();
@@ -1143,8 +1143,8 @@ class Report3 extends MY_Controller {
 			$ci->cache->save($cache_key, $output, 30000);
 			print_r(json_encode($output));
 			die();
-		}
-		print_r(json_encode($data_cache));
+//		}
+//		print_r(json_encode($data_cache));
 
 	}
 		
@@ -1289,14 +1289,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql = "";
 			$query3 = null;
-			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
 				$query3 = $this->db->query($sql)->result_array();
 
-				$ci->cache->save($cache_key_sql, $query3, 30000);
+//				$ci->cache->save($cache_key_sql, $query3, 30000);
 				// return $query3;
-			}else{
-				$query3 = $data_cache_sql;
-			}
+//			}else{
+//				$query3 = $data_cache_sql;
+//			}
 
 			// $sql1 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
 			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
@@ -1326,14 +1326,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql1 = "";
 			$result1 = null;
-			if ( ! $data_cache_sql1 = $ci->cache->get($cache_key_sql1)) {
+//			if ( ! $data_cache_sql1 = $ci->cache->get($cache_key_sql1)) {
 				$result1 = $this->db->query($sql1)->result_array();
 
-				$ci->cache->save($cache_key_sql1, $result1, 30000);
+//				$ci->cache->save($cache_key_sql1, $result1, 30000);
 				// return $result1;
-			}else{
-				$result1 = $data_cache_sql1;
-			}
+//			}else{
+//				$result1 = $data_cache_sql1;
+//			}
 
 			// $sql2 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
 			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
@@ -1363,14 +1363,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql2 = "";
 			$result2 = null;
-			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
 				$result2 = $this->db->query($sql2)->result_array();
 
-				$ci->cache->save($cache_key_sql2, $result2, 30000);
+//				$ci->cache->save($cache_key_sql2, $result2, 30000);
 				// return $result2;
-			}else{
-				$result2 = $data_cache_sql2;
-			}
+//			}else{
+//				$result2 = $data_cache_sql2;
+//			}
 
 			// $sql3 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
 			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
@@ -1400,14 +1400,14 @@ class Report3 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache_sql3 = "";
 			$result3 = null;
-			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
 				$result3 = $this->db->query($sql3)->result_array();
 
 				$ci->cache->save($cache_key_sql3, $result3, 30000);
 				// return $result3;
-			}else{
-				$result3 = $data_cache_sql3;
-			}
+//			}else{
+//				$result3 = $data_cache_sql3;
+//			}
 
 			$temp_data = array();
 
@@ -1542,7 +1542,7 @@ class Report3 extends MY_Controller {
 				$this->cache->save($cache_key, $data_all, 30000);
 				unset($list_coop_id);
 // 			}
-			$data = $this->cache->get($cache_key);
+//			$data = $this->cache->get($cache_key);
 			$output = array();
 			// 		echo "<pre>";print_r($result_data);echo "</pre>";
 			$output['div_heigth'] = $div_heigth;

@@ -25,8 +25,8 @@ date_default_timezone_set('Asia/Bangkok');
 | a PHP script and you can easily do that on your own.
 |
 */
- $config['domain'] = 'analytic-uat.cpd.go.th';
-// $config['domain'] = '127.0.0.1';
+// $config['domain'] = 'analytic-uat.cpd.go.th';
+ $config['domain'] = 'localhost';
 $config['base_url'] = 'http://'.$config['domain'];
 
 /*
@@ -217,7 +217,7 @@ $config['directory_trigger'] = 'd';
 | your log files will fill up very fast.
 |
 */
-$config['log_threshold'] = 0;
+$config['log_threshold'] = 3;
 
 /*
 |--------------------------------------------------------------------------
@@ -228,7 +228,7 @@ $config['log_threshold'] = 0;
 | application/logs/ directory. Use a full server path with trailing slash.
 |
 */
-$config['log_path'] = '';
+$config['log_path'] = 'C:/LOGGING/CPD/';
 
 /*
 |--------------------------------------------------------------------------

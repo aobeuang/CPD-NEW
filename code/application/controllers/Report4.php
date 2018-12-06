@@ -278,25 +278,27 @@ class Report4 extends MY_Controller {
                 $ci->dbext = $ci->load->database('defaultext', TRUE);
                 $data_cache = null;
 
-                if ( ! $data_cache = $ci->cache->get($cache_key)) {
+//                if ( ! $data_cache = $ci->cache->get($cache_key)) {
 
                     $refcur = $this->dbext->get_cursor();
                     //             $refcur = oci_new_cursor($this->dbext->conn_id);
+                log_message('debug', 'begin analyticrdo.pkg_report.rpt_rice_area_all_region(:p_cur_result); end;');
+
                     $stmt = oci_parse($this->dbext->conn_id, "begin analyticrdo.pkg_report.rpt_rice_area_all_region(:p_cur_result); end;");
                     oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
 
                     $r = ociexecute($stmt);
                     oci_execute($refcur, OCI_DEFAULT);
-
+                log_message('debug', 'executed.');
                     oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                     oci_free_statement($stmt);
-
+                log_message('debug', 'oci_fetch_all.');
                     print_r(json_encode($data));
                     die();
-                }
-                else {
-                    print_r(json_encode($data_cache));
-                }
+//                }
+//                else {
+//                    print_r(json_encode($data_cache));
+//                }
             }
             finally {
 
