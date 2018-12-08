@@ -919,7 +919,7 @@ class Report2 extends MY_Controller {
 				$text .=!empty($filter_khet)?$filter_khet."":"";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
-				$text .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
+				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด /";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" จังหวัดทั้งหมด";	
 			}
 			$text .=!empty($filter_district)?" ".$filter_district." /":"";
@@ -941,7 +941,7 @@ class Report2 extends MY_Controller {
 				$textlog .=!empty($filter_khet)?$filter_khet."":"";
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
-				$textlog .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
+				$textlog .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด /";
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":" จังหวัดทั้งหมด";	
 			}
 			// $textlog.=!empty($filter_khet)?$filter_khet." ":"";
