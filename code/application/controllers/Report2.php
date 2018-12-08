@@ -850,6 +850,9 @@ class Report2 extends MY_Controller {
 			$status_array = array('1'=>"ปกติ",'2'=>"ตาย");
 			$coop_data = getCoopByID($filter_coop);
 			
+			// echo print_r($filter_khet);die();
+
+
 			$list_province = $this->getlistProvince($filter_khet,true);
 			if(!empty($filter_khet))
 			{
@@ -906,8 +909,19 @@ class Report2 extends MY_Controller {
 
 
 			$text ="";
-			$text .=!empty($filter_khet)?$filter_khet." /":"";
-			$text .=!empty($filter_provinces)?" ".$filter_provinces." /":"";
+			
+			if (!empty($filter_khet) && !empty($filter_provinces)) {
+				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด";
+			}elseif (empty($filter_khet) && !empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet." /":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+			}elseif (!empty($filter_khet) && empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet."":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+			}elseif (empty($filter_khet) && empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด /";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces." /":" จังหวัดทั้งหมด";
+			}
 			$text .=!empty($filter_district)?" ".$filter_district." /":"";
 			$text .=!empty($filter_coop)?" ".$filter_coop." /":"";
 			// $text .=!empty($life_status)?" ".$status_array[$life_status]." /":"";
@@ -1035,7 +1049,7 @@ class Report2 extends MY_Controller {
 		$khet_id = $this->input->get('khet');
 		
 		if($khet_id == 0 ){
-			$province = getAllProvinces();
+			$province = getAllOrgNew();
 			// echo print_r($province);die();
 
 		}else{
@@ -1057,11 +1071,11 @@ class Report2 extends MY_Controller {
 		// 		$org_id = '4559';
 		// }
 		
-// 		print_r($khet_id);
+		// echo print_r($province);die();
 		$temp_data = array();
 		if ($khet_id == 0 ) {
 			foreach ($province as $v) {
-				$temp_data[] = array('id'=>$v->PROVINCE_ID,'name'=>$v->PROVINCE_NAME);
+				$temp_data[] = array('id'=>$v['COL011'],'name'=>$v['COL007']);
 			}
 		}else{
 
@@ -2096,6 +2110,7 @@ class Report2 extends MY_Controller {
 			
 			
 			// echo $this->input->get('filter_khet');die();
+			
 			if ($this->input->get('filter_khet') == 0) {
 				$filter_khet = $this->input->get('filter_khet');
 			}else if ($this->input->get('filter_khet') == ''){
@@ -2104,11 +2119,11 @@ class Report2 extends MY_Controller {
 				$filter_khet = $this->input->get('filter_khet');
 			}
 			
-			
 			$filter_khet = !empty($this->input->get('filter_khet'))?$this->input->get('filter_khet'):$filter_khet;
 			$filter_tambon = !empty($this->input->get('filter_tambon'))?$this->input->get('filter_tambon'):"";
 			$filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):"";
 			$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):"";
+			
 			
 			// echo $filter_khet;die();
 			

@@ -2188,6 +2188,40 @@ if ( ! function_exists('getAllSurveyYears'))
 		}
 	}
 
+	if (! function_exists('getAllOrgNew'))
+	{
+		function getAllOrgNew()
+		{
+			$cache_key = "getAllOrgNew";
+			$ci =& get_instance();
+			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+			$ci->load->helper('properties');
+			
+			$data_cache = "";
+			//if ( ! $data_cache = $ci->cache->get($cache_key))
+			if (true)
+			{
+				$ci->load->database();
+				$query = $ci->db->SELECT('*')
+				->from($ci->db->dbprefix('KHET'))
+				->order_by('COL007')
+				->get();
+				
+				$to_return = array();
+				$results = $query->result_array();
+				
+				foreach ($results as $key => $row ) {
+					$to_return[$key] = $row;
+				}
+				
+				$ci->cache->save($cache_key, $to_return, 300000);
+				
+				return $to_return;
+			}
+			return $data_cache;
+		}
+	}
+
 	if (! function_exists('getOrgIdByProvinceId'))
 	{
 		function getOrgIdByProvinceId($province_id)

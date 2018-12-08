@@ -641,7 +641,7 @@ function getlistProvine()
 
 	$('#filter_district').attr('disabled',true);
 	var khet = $('#filter_khet_hidden').val();
-
+	$("#pageLoading").fadeIn();
 	$.ajax({
 		url:'<?php echo site_url('report2/getlistProvince')?>',
 		dataType:'json',		
@@ -673,6 +673,7 @@ function getlistProvine()
 					
 					getCoop();
 				}
+				$("#pageLoading").fadeOut();
 			}
 
 	});
@@ -713,6 +714,7 @@ function getDistrict()
 var xhr;
 function getCoop()
 {
+	$("#pageLoading").fadeIn();
 	$('#filter_district_hidden').val($('#filter_district').val());
 	var province = $('#filter_province_hidden').val();
 	var filter_district = $('#filter_district_hidden').val();
@@ -738,6 +740,7 @@ function getCoop()
 			
 			$('#filter_coop').html(html);
 			$('#filter_coop').attr('disabled',false);
+			$("#pageLoading").fadeOut();
 	      }
 	});
 }
