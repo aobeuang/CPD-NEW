@@ -35,6 +35,47 @@
 	})
 	</script>
 	<div id="main-wrapper">
+		<?php
+                $current_url = $_GET['khetID'];
+                    if ($current_url == 99): ?>	
+                        <span>Page Code : MIS299</span>
+                    <?php elseif ($current_url == 1): ?>
+                        <span>Page Code : MIS201</span>
+                        <?php elseif ($current_url == 2): ?>
+                        <span>Page Code : MIS202</span>
+                        <?php elseif ($current_url == 3): ?>
+                        <span>Page Code : MIS203</span>
+                        <?php elseif ($current_url == 4): ?>
+                        <span>Page Code : MIS204</span>
+                        <?php elseif ($current_url == 5): ?>
+                        <span>Page Code : MIS205</span>
+                        <?php elseif ($current_url == 6): ?>
+                        <span>Page Code : MIS206</span>
+                        <?php elseif ($current_url == 7): ?>
+                        <span>Page Code : MIS207</span>
+                        <?php elseif ($current_url == 8): ?>
+                        <span>Page Code : MIS208</span>
+                        <?php elseif ($current_url == 9): ?>
+                        <span>Page Code : MIS209</span>
+                        <?php elseif ($current_url == 10): ?>
+                        <span>Page Code : MIS210</span>
+                        <?php elseif ($current_url == 11): ?>
+                        <span>Page Code : MIS211</span>
+                        <?php elseif ($current_url == 12): ?>
+                        <span>Page Code : MIS212</span>
+                        <?php elseif ($current_url == 13): ?>
+                        <span>Page Code : MIS213</span>
+                        <?php elseif ($current_url == 14): ?>
+                        <span>Page Code : MIS214</span>
+                        <?php elseif ($current_url == 15): ?>
+                        <span>Page Code : MIS215</span>
+                        <?php elseif ($current_url == 16): ?>
+                        <span>Page Code : MIS216</span>
+                        <?php elseif ($current_url == 17): ?>
+                        <span>Page Code : MIS217</span>
+                        <?php elseif ($current_url == 18): ?>
+                        <span>Page Code : MIS218</span>
+                <?php endif;?>
 		<div class="report-result">
 			
 			<!-- <h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร</h2> -->

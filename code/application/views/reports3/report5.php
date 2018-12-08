@@ -25,6 +25,7 @@ $this->load->helper('survey');
 	})
 	</script>
 	<div id="main-wrapper">
+    <span>Page Code : MIS600</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12 display">
 		
 			<h2><span class="glyphicon glyphicon-stats"></span> รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</h2>

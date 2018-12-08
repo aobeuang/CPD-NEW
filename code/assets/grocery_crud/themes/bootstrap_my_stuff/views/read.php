@@ -24,7 +24,13 @@ include(__DIR__ . '/common_javascript_vars.php');
         <div class="container-fluid col-md-12 col-xs-12" >
             <div class="row form-result">
             	<!--  <p>Page Code : ACC002</p> -->
-            	<div class="form-result-header">ข้อมูลบัญชีผู้ใช้</div>
+            	<div class="form-result-header">ข้อมูลบัญชีผู้ใช้
+                    <?php
+                $current_url = $_SERVER['REQUEST_URI'];
+                    if (strpos($current_url, "/mystuffs/home/read/")==TRUE): ?>
+                        <span style="float: right;">Page Code : MNG005</span>
+                <?php endif;?>
+                </div>
                 <!-- <div class="table-label">
                     <div class="floatL l5">
                         

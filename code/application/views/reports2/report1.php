@@ -21,7 +21,7 @@ input::-webkit-inner-spin-button {
 <?php $this->load->helper('form');?>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
 <div id="main-wrapper" >
-	<!-- <p>Page Code : CPD001</p> -->
+	<p>Page Code : RE100</p>
 	<div class="">
 		<div class="row" style="text-align:left">
 		

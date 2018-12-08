@@ -19,12 +19,21 @@ include(__DIR__ . '/common_javascript_vars.php');
 
 
 ?>
+
 <div class="crud-form" data-unique-hash="<?php echo $unique_hash; ?>">
     <div id="main-wrapper">
         <div class="container-fluid col-md-12 col-xs-12" >
             <div class="row form-result">
                 <div class="form-result-header">
                     <?php echo $this->l('list_view'); ?><?php echo $subject?>
+                    <?php
+                $current_url = $_SERVER['REQUEST_URI'];
+                    if (strpos($current_url, "/admin/users_management/read/")==TRUE): ?>
+                        <span style="float: right;">Page Code : MNG004</span>
+                    <?php elseif (strpos($current_url, "/mystuffs/home/read/222")==TRUE): ?>
+                        <span style="float: right;">Page Code : MNG004</span>
+                <?php endif;?>
+
                 </div>
                 <!-- <div class="table-label">
                     <div class="floatL l5">

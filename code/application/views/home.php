@@ -18,6 +18,9 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
 </style>
+<div id="main-wrapper">
+<p>Page Code : HM100</p>
+</div>
 <?php if(false){ ?>
 <div id="main-wrapper">
 

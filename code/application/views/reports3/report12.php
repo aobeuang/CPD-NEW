@@ -26,6 +26,7 @@ $this->load->helper('survey');
 	})
 	</script>
 	<div id="main-wrapper">
+    <span>Page Code : MIS500</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12 display">
 			<h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง</h2>
 			<div id="right-container" class="col-md-12 col-xs-12">

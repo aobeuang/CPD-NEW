@@ -91,6 +91,8 @@
 						<p>Page Code : LOG002</p>
 				<?php elseif (strpos($current_url, "/suspiciouslog_management")==TRUE): ?>
 						<p>Page Code : LOG001</p>
+                <?php elseif (strpos($current_url, "/admin/logusers")==TRUE): ?>
+                        <p>Page Code : LOG003</p>
 				<?php elseif (strpos($current_url, "/users_management")==TRUE): ?>
 				<p>Page Code : MNG001</p>
 				<?php endif;?>

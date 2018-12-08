@@ -108,7 +108,7 @@
 </style>
     <div class="registration-form">
     	<div class="form-result-header" style="background-color: #c1c1c1;max-width: 900px;margin: auto;">
-                    อัพเดทรหัสผ่านผู้ใช้งานระบบ                </div>
+                    อัพเดทรหัสผ่านผู้ใช้งานระบบ     <span style="float: right;">Page Code : MNG006</span>           </div>
         <form method="post" id="add_users">
             <div class="row">
                 <div class="form-group">

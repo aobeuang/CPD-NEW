@@ -39,6 +39,8 @@ $this->load->helper('survey');
   100% { transform: rotate(360deg); }
 }
 </style>
+
+
 <div id="report" class="mis">
 
 	
@@ -53,6 +55,7 @@ $this->load->helper('survey');
 	})
 	</script>
 	<div id="main-wrapper">
+		<span>Page Code : MIS100</span>
 			<!-- <h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ (ภาคเกษตร-นอกภาคเกษตร)</h2> -->
 			
 			<!-- 

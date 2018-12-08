@@ -60,6 +60,7 @@ text-align: center !important;
 	</script>
 <div id="report" class="mis">
 		<div id="main-wrapper">
+			<span>Page Code : MIS300</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12">
 
 			<h2 style="float:  right;"><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</h2>

@@ -19,7 +19,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 ?>
 
 <div id="main-wrapper" class="report-content">
-	<!-- <p>Page Code : CPD003</p> -->
+	<p>Page Code : RE300</p>
 	<!-- <div id="main-container" class="container-fluid col-md-12 col-xs-12">
 		<div id="main-container2" class="container-fluid col-md-12 col-xs-12"> -->
 		

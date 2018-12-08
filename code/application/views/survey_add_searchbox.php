@@ -31,11 +31,11 @@ input#citizen_id{width: 200px!important;}
 <div id="main-wrapper">
 	<div id="main-container" class="container-fluid col-md-12 col-xs-12">
 		<div id="main-container2" class="container-fluid col-md-12 col-xs-12">
-		
+
 			<form id="searchbox" name="searchbox" method="GET"   action='<?php echo site_url("survey/add_survey")?>'>
 			
 			<div class="container-fluid col-md-12 col-xs-12" >
-				
+				<span>Page Code : SV100</span>
 				<h2>เริ่มกรอกข้อมูลเพื่อเก็บข้อมูลแบบสำรวจ</h2>
 				
 			    <div class="row">

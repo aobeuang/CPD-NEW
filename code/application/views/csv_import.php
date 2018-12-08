@@ -30,8 +30,11 @@
 
 $attributes = array('id' => 'import_csv');
 ?>
+<p>Page Code : MNG007</p>
 <div class="row">
+
 <div class="col-sm-6">
+
 <?php echo form_open_multipart('csv_import/import',$attributes);?>
 
 <form method="post" id="import_csv" enctype="multipart/form-data">

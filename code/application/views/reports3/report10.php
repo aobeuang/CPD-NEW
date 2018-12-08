@@ -49,6 +49,7 @@ $this->load->helper('survey');
 	})
 </script>
 	<div id="main-wrapper">
+		<span>Page Code : MIS800</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12">
 			<h2><span class="glyphicon glyphicon-stats"></span> รายงานข้อมูลการเลี้ยงสัตว์</h2>
 		

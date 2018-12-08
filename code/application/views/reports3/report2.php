@@ -47,6 +47,7 @@ $this->load->helper('survey');
 	})
 	</script>
 	<div id="main-wrapper">
+		<span>Page Code : MIS101</span>
 		<div class="report-result">
 			
 			<!-- <h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร</h2> -->
