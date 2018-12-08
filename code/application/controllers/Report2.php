@@ -919,8 +919,7 @@ class Report2 extends MY_Controller {
 				$text .=!empty($filter_khet)?$filter_khet."":"";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
-				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด /";
-				$text .=!empty($filter_provinces)?" ".$filter_provinces." /":" จังหวัดทั้งหมด";
+				$text .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
 			}
 			$text .=!empty($filter_district)?" ".$filter_district." /":"";
 			$text .=!empty($filter_coop)?" ".$filter_coop." /":"";
@@ -1553,8 +1552,19 @@ class Report2 extends MY_Controller {
 			}
 			
 			$text ="";
-			$text .= !empty($filter_khet)?$filter_khet." /":"";
-			$text .=!empty($filter_provinces)?" ".$filter_provinces." /":"";
+			// $text .= !empty($filter_khet)?$filter_khet." /":"";
+			// $text .=!empty($filter_provinces)?" ".$filter_provinces." /":"";
+			if (!empty($filter_khet) && !empty($filter_provinces)) {
+				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด";
+			}elseif (empty($filter_khet) && !empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet."":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+			}elseif (!empty($filter_khet) && empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet."":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+			}elseif (empty($filter_khet) && empty($filter_provinces)){
+				$text .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
+			}
 			$text .=!empty($filter_district)?" ".$filter_district." /":"";
 			$text .=!empty($filter_coop)?" ".$filter_coop." /":"";
 			$text .=!empty($life_status)?" ".$status_array_text[$life_status]." /":"";
