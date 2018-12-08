@@ -30,7 +30,7 @@ a:hover {
     opacity: 0.6;
     text-overflow:ellipsis;
 }   
-input[type="checkbox"] { position: absolute; opacity: 0; z-index: -1; }
+input[type="checkbox"] { position: absolute; opacity: 0; z-index: 2; }
 input[type="checkbox"]+span { display: flex; }
 input[type="checkbox"]+span:before { font: 16px FontAwesome; content: '\00f096'; display: inline-block; padding: 2px 0 0 3px; margin-right: 0.5em; }
 input[type="checkbox"]:checked+span:before { content: '\f14a'; }
@@ -686,3 +686,32 @@ div.google-visualization-tooltip {
 
 
 /* End Sub Menu */
+
+/**** Select2 ****/
+.select2-container .select2-selection--single,.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 34px;
+}
+.select2-container--default .select2-selection--single .select2-selection__rendered {
+    line-height: 34px;
+}
+
+/**** end Select2 ****/
+
+/***** form *****/
+.formg-c3 {
+    width: 25%;
+    float: left;
+    display: flex;
+    vertical-align: middle;
+}
+
+.formg-c4 {
+    width: 33.33333333%;
+    float: left;
+    display: flex;
+    vertical-align: middle;
+}
+
+.formg-c3 label ,.formg-c4 label {
+    line-height: 2.5;
+}

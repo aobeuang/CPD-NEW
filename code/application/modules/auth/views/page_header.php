@@ -212,7 +212,7 @@ $current_url = $_SERVER['REQUEST_URI'];
            				echo "active"?>
            	
            	
-           	"><a href="#<?php //echo site_url('survey/add_survey')?>" class="nav-ic ic-survey disble-a-gray">กรอกข้อมูลแบบสำรวจ<br>(อยู่ในระหว่างการแก้ไข)</a></li>
+           	"><a href="<?php echo site_url('survey/index1')?>" class="nav-ic ic-survey">กรอกข้อมูลแบบสำรวจ</a></li>
 			<?php endif?>          
 			
 			

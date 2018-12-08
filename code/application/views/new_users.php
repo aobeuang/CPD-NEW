@@ -102,8 +102,7 @@
 }
 </style>
     <div class="registration-form">
-    	<div class="form-result-header" style="background-color: #c1c1c1;max-width: 900px;margin: auto;">
-                    เพิ่มผู้ใช้งานระบบ                </div>
+    	<div class="form-result-header" style="background-color: #c1c1c1;max-width: 900px;margin: auto;"> เพิ่มผู้ใช้งานระบบ  </div>
         <form method="post" id="add_users">
             <div class="form-group">
             	<label class="control-label col-sm-3 form-right" for="username">ชื่อผู้ใช้งาน</label>

@@ -12,32 +12,28 @@
 </style>
 
 
-<h4 class="h_sub_title">ข้อมูลด้านหนี้สิน</h4>
-
-
-
-
-<div class="row mar_ned">
+<div class="form-result-header">ข้อมูลด้านหนี้สิน</div>
+<div class="row mar_ned" style="padding: 15px 30px;">
 
     <div class="row fixed-row">
 
-        <div class="col-md-12 col-xs-12 wdth">
+        <div class="col-md-12 table-responsive">
 
 
-            <table class="table table-striped table-condensed fixed-table fixed-input-center"  >
+            <table class="table table-striped table-bordered"  >
                 <?php /*    <table id="tblAddRow" border="1"> */ ?>
                 <thead>
                 <tr>
-                    <th rowspan="2" >ที่</th>
-                    <th style="text-align: center;" rowspan="2">เจ้าหนี้</th>
+                    <th style="vertical-align: middle;" rowspan="2" >ที่</th>
+                    <th style="text-align: center;vertical-align: middle;" rowspan="2">เจ้าหนี้</th>
                     <!-- > th style="text-align: center;" rowspan="2">จำนวนเงินเป็นหนี้ (บาท)</th>  -->
-                    <th style="text-align: center;" colspan="2" class="text-center">สถานะหนี้ (ทำเครื่องหมาย)</th>
+                    <th style="text-align: center;vertical-align: middle;" colspan="2" class="text-center">สถานะหนี้ (ทำเครื่องหมาย)</th>
 
                 </tr>
 
                 <tr style="text-align: center;">
-                    <th style="text-align: center;">หนี้ปกติ</th>
-                    <th style="text-align: center;">หนี้ค้าง/<br>ฟ้องดำเนินคดี</th>
+                    <th style="text-align: center;vertical-align: middle;">หนี้ปกติ</th>
+                    <th style="text-align: center;vertical-align: middle;">หนี้ค้าง/<br>ฟ้องดำเนินคดี</th>
 
                 </tr>
                 </thead>
@@ -81,7 +77,7 @@
                         <td>     <input type="number" class="form-control input-no-spinner" id="tab5_debt_num[<?php //echo $list_arr_name[$j]; ?>]" name="tab5_debt_num[<?php //echo $list_arr_name[$j]; ?>]"  value="<?php
                             //if(isset($tab5_debt_num[$list_arr_name[$j]])){ echo $tab5_debt_num[$list_arr_name[$j]]; } ?>"  placeholder=""></td>
                              -->
-                        <td style="text-align: center;">
+                        <td style="text-align: center;vertical-align: middle;">
                         
                              <input type="text" class="form-control allownumericwithdecimal" onkeypress="return isDecimal(event)" <?php
                         	$val1 = ""; 
@@ -92,7 +88,7 @@
                             	$val1 = "";
                             	
                          ?>  name="tab5_debt_normal[<?php echo $list_arr_name[$j]; ?>]" id="tab5_debt_normal[<?php echo $list_arr_name[$j]; ?>]" value="<?php echo $val1?>"></td>
-                        <td style="text-align: center;">
+                        <td style="text-align: center;vertical-align: middle;">
                          
                              <input type="text" onkeypress="return isDecimal(event)" class="form-control allownumericwithdecimal"
                                        <?php

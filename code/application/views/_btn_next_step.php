@@ -1,23 +1,23 @@
 <?php if($mode!="view"){ ?>
-<div class="group-button-step">
+<div class="col-md-12" style="padding: 30px 15px;">
 		<?php
 		if($intab_id>1 && $intab_id<7){  ?>
-            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="$('#st<?php echo $intab_id-1; ?>').click()" data-toggle="tab" title="steb<?php echo $intab_id-1; ?>"   type="button" class="btn btn-secondary pull-left" style="">Previous</button>
+            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="$('#st<?php echo $intab_id-1; ?>').click()" data-toggle="tab" title="step<?php echo $intab_id-1; ?>"   type="button" class="btn btn-outline-purple pull-left" style=""><i class="fa fa-arrow-left"></i> ก่อนหน้า</button>
         <?php }
         ?>  
  		<?php
  		if($intab_id==7){  ?>
-            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="$('#st5').click()" data-toggle="tab" title="steb<?php echo $intab_id-1; ?>"   type="button" class="btn btn-secondary  pull-left" style="">Previous</button>
+            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="$('#st5').click()" data-toggle="tab" title="step<?php echo $intab_id-1; ?>"   type="button" class="btn btn-outline-purple  pull-left" style=""><i class="fa fa-arrow-left"></i> ก่อนหน้า</button>
         <?php }
         ?>         
         
         <?php
         if($intab_id+1==8){  ?>
-            <button     data-toggle="tab" id="moveOn"    type="submit" class="btn btn-primary pull-right" style="">Save</button>
+            <button     data-toggle="tab" id="moveOn"    type="submit" class="btn btn-outline-blue pull-right" >บันทึก</button>
 
             <?php
         }else{ ?>
-            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="tab_active(<?php echo $intab_id+1; ?>)" data-toggle="tab" title="steb<?php echo $intab_id+1; ?>"   type="button" class="btn btn-primary pull-right" style="">Next</button>
+            <button <?php /*href="#steb<?php echo $intab_id+1; ?>" */ ?> onclick="tab_active(<?php echo $intab_id+1; ?>)" data-toggle="tab" title="step<?php echo $intab_id+1; ?>"   type="button" class="btn btn-outline-blue pull-right" style="">ถัดไป <i class="fa fa-arrow-right"></i></button>
         <?php }
         ?>
 </div>

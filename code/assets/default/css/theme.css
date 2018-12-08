@@ -645,7 +645,7 @@ div.board-inner
 .step-form-wrapper .personal-form #adress #district .select2{width: 290px !important;}
 .step-form-wrapper .personal-form #adress #sub-district .select2 { width: 290px !important;margin-left: -15px;}
 .step-form-wrapper .fixed-row { margin-left: -15px; margin-right: -15px; }	
-.step-form-wrapper .table-striped select { height: 30px; }
+.step-form-wrapper .table-striped select { height: 35px; }
 .step-form-wrapper label { white-space: nowrap; }
 .step-form-wrapper .other-choise { width: 200px; }
 .step-form-wrapper .list-unstyled li { float: left; }
