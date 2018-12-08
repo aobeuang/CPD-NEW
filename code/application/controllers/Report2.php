@@ -917,7 +917,7 @@ class Report2 extends MY_Controller {
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (!empty($filter_khet) && empty($filter_provinces)){
 				$text .=!empty($filter_khet)?$filter_khet."":"";
-				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
 				$text .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" จังหวัดทั้งหมด";	
@@ -939,7 +939,7 @@ class Report2 extends MY_Controller {
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (!empty($filter_khet) && empty($filter_provinces)){
 				$textlog .=!empty($filter_khet)?$filter_khet."":"";
-				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
 				$textlog .=!empty($filter_khet)?$filter_khet." /":"ทั้งหมด /";
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":" จังหวัดทั้งหมด";	
@@ -1538,6 +1538,11 @@ class Report2 extends MY_Controller {
 				$AMPHUR = getAmphurNameByAmphurId($filter_district);
 				$filter_district = $AMPHUR['AMPHUR_NAME'];
 			}
+
+
+
+
+
 			if(!empty($filter_provinces))
 			{
 				foreach ($list_province as $province)
@@ -1574,7 +1579,7 @@ class Report2 extends MY_Controller {
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (!empty($filter_khet) && empty($filter_provinces)){
 				$text .=!empty($filter_khet)?$filter_khet."":"";
-				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
 				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด /";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":" จังหวัดทั้งหมด";	
@@ -1596,7 +1601,7 @@ class Report2 extends MY_Controller {
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (!empty($filter_khet) && empty($filter_provinces)){
 				$textlog .=!empty($filter_khet)?$filter_khet."":"";
-				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":"";
+				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":" ทั้งหมด";
 			}elseif (empty($filter_khet) && empty($filter_provinces)){
 				$textlog .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด";			
 				$textlog .=!empty($filter_provinces)?" ".$filter_provinces."":"/ จังหวัดทั้งหมด";	
