@@ -913,7 +913,7 @@ class Report2 extends MY_Controller {
 			if (!empty($filter_khet) && !empty($filter_provinces)) {
 				$text .=!empty($filter_khet)?$filter_khet." /":"เขตทั้งหมด";
 			}elseif (empty($filter_khet) && !empty($filter_provinces)){
-				$text .=!empty($filter_khet)?$filter_khet." /":"";
+				$text .=!empty($filter_khet)?$filter_khet."":"";
 				$text .=!empty($filter_provinces)?" ".$filter_provinces."":"";
 			}elseif (!empty($filter_khet) && empty($filter_provinces)){
 				$text .=!empty($filter_khet)?$filter_khet."":"";
