@@ -190,7 +190,7 @@ $this->load->helper('survey');
       $(document).ready(function() {
         $("#pageLoading").fadeIn();
   		$.ajax({
-  			url:"ajexreport5",
+  			url:"ajaxreport5",
   		    type:"GET",
   		    dataType: 'json',
   		    success:function(result){
