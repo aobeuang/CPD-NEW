@@ -1614,7 +1614,7 @@ public function changeUsersCall($citizen = null)
 
 				if(!empty($mode) && $mode=='view')
 				{
-					echo $this->load->view('view_survey', $output, true);
+					echo $this->load->view('survey_add', $output, true);
 					
 				}else{
 					echo $this->load->view('survey_add', $output, true);

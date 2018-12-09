@@ -1,15 +1,6 @@
 <?php $intab_id =3; ?>
 
 <style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;    
-}
-
 	.input-no-spinner {
     -moz-appearance: textfield;
     }
@@ -19,15 +10,16 @@ th, td {
         margin: 0;
     }
 </style>
-<fieldset>
-	<legend class="h_sub_title">1.  พืช</legend>
+<div class="form-result-header">การปลูกพืชและเลี้ยงสัตว์</div>
+<section>
+	<div class="h_sub_title">1.  พืช</div>
 
 
 
 <div class="row mar_ned">
 
-    <div class="col-md-12 col-xs-9">
-        <div class="row" id="box31">
+    <div class="col-md-12">
+        <div class="col-md-12" id="box31">
 
 <!--             <thead> -->
             <?php $table_id = 31; include("inc_js_table_active_row.php"); ?>
@@ -39,24 +31,21 @@ th, td {
 <!--             </tr> -->
 
 			<tr>
-	            <th style="text-align: center;"  rowspan="2">ชนิด</th>
-	            <th style="text-align: center;"  rowspan="2">พันธุ์ที่ปลูก</th>
-	            <th style="text-align: center;"  rowspan="2">จำนวนครั้งที่ปลูกต่อปี</th>
-	            <th style="text-align: center;"  rowspan="2">พื้นที่ปลูก (ไร่)</th>
-	            <th style="text-align: center;"  rowspan="2">พื้นที่จะปลูก (ไร่)</th>
-	            <th style="text-align: center;" rowspan="2">ผลผลิตที่คาดว่าได้ต่อปี (ตัน)</th>
-	            <th style="text-align: center;"  colspan="3" style="text-align:  center;">ขายผลผลิต</th>
-	            <th style="text-align: center;"  rowspan="2">ประมาณรายได้ ขาย ผลิตต่อปี(บาท)</th>
-	            <th style="text-align: center;"  rowspan="2">ประมาณรายได้ค่าใช้จ่ายการเกษตร(บาท)</th>
-	            <th style="text-align: center;"  rowspan="2">ลบ</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">ชนิด</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">พันธุ์ที่ปลูก</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">จำนวนครั้งที่ปลูกต่อปี</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">พื้นที่ปลูก (ไร่)</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">พื้นที่จะปลูก (ไร่)</th>
+	            <th style="text-align: center;vertical-align: middle;" rowspan="2">ผลผลิตที่คาดว่าได้ต่อปี (ตัน)</th>
+	            <th style="text-align: center;vertical-align: middle;"  colspan="3" style="text-align:  center;">ขายผลผลิต</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">ประมาณรายได้ ขาย ผลิตต่อปี(บาท)</th>
+	            <th style="text-align: center;vertical-align: middle;"  rowspan="2">ประมาณรายได้ค่าใช้จ่ายการเกษตร(บาท)</th>
             </tr>
             
             <tr>
-            	<th></th> 
                 <th style="text-align: center;" >พ่อค้า</th> 
                 <th style="text-align: center;" >สหกรณ์</th> 
                 <th style="text-align: center;" >อื่นๆ</th>
-
             </tr>
 
 <!-- Read more: https://html.com/tables/rowspan-colspan/#ixzz5JvI82H48 -->
@@ -136,11 +125,11 @@ th, td {
             for($ir=0;$ir<$all_row;$ir++){
             ?>
             <tr>
-                <td class="checkboxcol">
-                    <input name="ckcDel[]" type="checkbox"  />
+                <td class="checkboxcol"> <span></span>
+                    <input name="ckcDel[]" type="checkbox"  /><span></span>
                 </td>
                 <td>
-                    <select  name="plant_type[]"  class="plant_type1" >
+                    <select  name="plant_type[]"  class="plant_type1 form-control" >
                         <option value="">==กรุณาเลือกชนิด==</option>
                         <?php for($i=0;$i<=count($plan_name);$i++){
                             if(isset($plan_name[$i])){ if(trim($plan_name[$i])!=""){?>
@@ -166,30 +155,30 @@ th, td {
                 <td>
                     <input type="text" class="form-control allownumericwithdecimal input-no-spinner" name="plant_product_num_per_year[]" value="<?php if(isset($product_num_per_year[$ir])){ echo trimleft($product_num_per_year[$ir],'0'); } ?>" onkeypress="return isDecimal(event)" />
                 </td>
-                <td style="text-align:  center;">
+                <td>
 					<?php $plant_sell_merchant[$ir] = isset( $plant_sell_merchant[$ir]) ?  $plant_sell_merchant[$ir]: 0;
-					if (empty($plant_sell_merchant[$ir]))
-						$plant_sell_merchant[$ir] = "";
+					/*if (empty($plant_sell_merchant[$ir]))
+						$plant_sell_merchant[$ir] = "";*/
 					?>
-					<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_merchant[$ir]) && $plant_sell_merchant[$ir]==1){ echo "checked"; } ?> />
+					<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_merchant[$ir]) && $plant_sell_merchant[$ir]==1){ echo "checked"; } ?> /><span></span>
                     <input type="hidden" class="runningnumber" id="plant_sell_merchant<?php echo $ir?>" name="plant_sell_merchant[]" value="<?php if(isset($plant_sell_merchant[$ir])){ echo $plant_sell_merchant[$ir]; } ?>" />
                 </td>
-                <td style="text-align:  center;">                
+                <td>                
                 	<?php $plant_sell_coop[$ir] = isset( $plant_sell_coop[$ir]) ?  $plant_sell_coop[$ir]: 0;
-	                	if (empty($plant_sell_coop[$ir]))
-	                		$plant_sell_coop[$ir] = "";
+	                	/*if (empty($plant_sell_coop[$ir]))
+	                		$plant_sell_coop[$ir] = "";*/
 	                	
                 	?>
-                	<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_coop[$ir]) && $plant_sell_coop[$ir]==1){ echo "checked"; } ?> />
+                	<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_coop[$ir]) && $plant_sell_coop[$ir]==1){ echo "checked"; } ?> /><span></span>
                     <input type="hidden" class="" name="plant_sell_coop[]" value="<?php if(isset($plant_sell_coop[$ir])){ echo $plant_sell_coop[$ir]; } ?>" />
                 </td>
-                <td style="text-align:  center;">
+                <td>
                 	<?php $plant_sell_other[$ir] = isset( $plant_sell_other[$ir]) ?  $plant_sell_other[$ir]: 0;
-		                	if (empty($plant_sell_other[$ir]))
-		                		$plant_sell_other[$ir] = "";
+		                	/*if (empty($plant_sell_other[$ir]))
+		                		$plant_sell_other[$ir] = ""*/;
                 	?>
                 	
-                	<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_other[$ir]) && $plant_sell_other[$ir]==1){ echo "checked"; } ?> />
+                	<input onclick="" type="checkbox" class="" name="plant_sell_merchantxxx[]" value="" <?php if(isset($plant_sell_other[$ir]) && $plant_sell_other[$ir]==1){ echo "checked"; } ?> /><span></span>
                     <input type="hidden" class="" name="plant_sell_other[]" value="<?php if(isset($plant_sell_other[$ir])){ echo $plant_sell_other[$ir]; } ?>" />
                 </td>
                 <td>
@@ -198,24 +187,10 @@ th, td {
                 <td>
                     <input type="text" class="form-control allownumericwithdecimal input-no-spinner" name="estimated_sales_revenue_per_year[]" value="<?php if(isset($estimated_sales_revenue_per_year[$ir])){ echo trimleft($estimated_sales_revenue_per_year[$ir],'0');; } ?>" placeholder="บาท" onkeypress="return isDecimal(event)" />
                 </td>
-                <td class="align-middle"><a href="#" class="delrow nowrap">ลบแถว</a></td>
             </tr>
 
             <?php } ?>
 
-            <?php /*
-                <tr>
-                    <td>
-                        <input name="ckcDel[]" type="checkbox" />
-                    </td>
-                    <td>
-                        <input name="txtName[]" value="" />
-                    </td>
-                    <td>
-                        <input name="txtCity[]" value="" />
-                    </td>
-                </tr>
- */ ?>
             </tbody>
             </table>
             
@@ -238,13 +213,13 @@ th, td {
     </div>
 </div>
 </div>
-</fieldset>
+</section>
 
-<fieldset>
-	<legend class="h_sub_title">2.  วิธีการขาย</legend>
+<section class="form-inline">
+	<div class="h_sub_title">2.  วิธีการขาย</div>
 
 
-<div class="row mar_ned">
+<div class="row mar_ned" style="padding: 0 15px;">
 
 
 
@@ -258,20 +233,20 @@ th, td {
         <div class="row">
             <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="how2sell[0]" id="how2sell1" onclick=""  <?php if(isset($how2sell[0])){ if($how2sell[0]==1){  echo ' checked ';     }   } ?> value="1"> นำไปขายที่ตลาดกลาง
-                </label>
-            </div>
-            <div class="col-md-2 col-xs-12">
-                <label>
-                    <input type="checkbox" name="how2sell[1]" id="how2sell2" onclick="" <?php if(isset($how2sell[1])){ if($how2sell[1]==1){  echo ' checked ';     }   } ?>    value="1"> พ่อค้ามาซื้อที่ผลิต
+                    <input type="checkbox" name="how2sell[0]" id="how2sell1" onclick=""  <?php if(isset($how2sell[0])){ if($how2sell[0]==1){  echo ' checked ';     }   } ?> value="1">  <span>นำไปขายที่ตลาดกลาง</span>
                 </label>
             </div>
             <div class="col-md-3 col-xs-12">
-                <label class="nowrap" style="padding-left: 35px;">
-                    <input type="checkbox" name="how2sell[2]" id="how2sell3" onclick=""  <?php if(isset($how2sell[2])){ if($how2sell[2]==1){  echo ' checked ';     }   } ?>   value="1"> ขายผลผลิตล่วงหน้า
+                <label>
+                    <input type="checkbox" name="how2sell[1]" id="how2sell2" onclick="" <?php if(isset($how2sell[1])){ if($how2sell[1]==1){  echo ' checked ';     }   } ?>    value="1">  <span>พ่อค้ามาซื้อที่ผลิต</span>
                 </label>
             </div>
-            <div class="col-md-1 col-xs-12">
+            <div class="col-md-3 col-xs-12">
+                <label>
+                    <input type="checkbox" name="how2sell[2]" id="how2sell3" onclick=""  <?php if(isset($how2sell[2])){ if($how2sell[2]==1){  echo ' checked ';     }   } ?>   value="1">  <span>ขายผลผลิตล่วงหน้า</span>
+                </label>
+            </div>
+            <div class="col-md-3 col-xs-12">
             		<script>
 						function checkOtherow2sell(){
 							$('#how2sell3_others_reason').focus();
@@ -279,39 +254,29 @@ th, td {
 						}					
 					</script>
                 <label class="nowrap">
-                    <input type="checkbox"   onclick="checkOtherow2sell();" name="how2sell[3]" id="is_how2sell_others"   <?php if(isset($how2sell[3])){ if($how2sell[3]==1){  echo ' checked ';     }   } ?> value="1"  >  อื่นๆ
+                    <input type="checkbox"   onclick="checkOtherow2sell();" name="how2sell[3]" id="is_how2sell_others"   <?php if(isset($how2sell[3])){ if($how2sell[3]==1){  echo ' checked ';     }   } ?> value="1"  >   <span>อื่นๆ</span>
                 </label>
-            </div>
-            <div class="col-md-3 col-xs-4 wdth">
-            	<label>
                 <input type="text" onclick="$('#is_how2sell_others').prop('checked', true);" onkeyup="$('#is_how2sell_others').prop('checked', true);"   onkeypress="$('#is_how2sell_others').prop('checked', true);return isAlphaNumeric(event);"     value="<?php if(isset($user_survey_data[strtoupper('how2sell_others_reason')])){ echo $user_survey_data[strtoupper('how2sell_others_reason')]; } ?>"  class="form-control" id="how2sell3_others_reason" name="how2sell3_others_reason" placeholder="" >
-            	</label>
             </div>
         </div>
     </div>
 
 
 </div>
-</fieldset>
-<fieldset>
-	<legend class="h_sub_title">ปัญหาที่พบในการขาย</legend>
+</section>
+<section class="form-inline">
+	<div class="h_sub_title">ปัญหาที่พบในการขาย</div>
 	
 
 
 
-<div class="row mar_ned">
+<div class="row mar_ned" style="padding: 0 15px;">
 
     <div class="row">
 
-        <div class="col-md-5 col-xs-4 wdth">
+        <div class="col-md-12">
             <p align="left"><stong> ความคิดเห็นในการขายผลผลิตให้กับสหกรณ์</stong></p>
 
-        </div>
-        <div class="col-md-5 col-xs-4 wdth">
-            <p align="left"><stong> </stong></p>
-        </div>
-        <div class="col-md-2 col-xs-4 wdth">
-            <p align="left"><stong> </stong></p>
         </div>
     </div>
 
@@ -326,19 +291,24 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
         <div class="row">
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(4,$product_sale_comment)){  echo ' checked ';     }   ?> value="4">  เป็นทางเลือกที่เหมาะสม
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(4,$product_sale_comment)){  echo ' checked ';     }   ?> value="4">   <span>เป็นทางเลือกที่เหมาะสม</span>
                 </label>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(5,$product_sale_comment)){  echo ' checked ';     }   ?>  value="5"> การชั่วตวง เชื่อถือได้
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(5,$product_sale_comment)){  echo ' checked ';     }   ?>  value="5">  <span>การชั่วตวง เชื่อถือได้</span>
                 </label>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(6,$product_sale_comment)){  echo ' checked ';     }   ?> value="6"> รับเงินค่าผลผลิตตามข้อตกลง
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(6,$product_sale_comment)){  echo ' checked ';     }   ?> value="6">  <span>รับเงินค่าผลผลิตตามข้อตกลง</span>
+                </label>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <label>
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(7,$product_sale_comment)){  echo ' checked ';     }   ?> value="7">   <span>ราคาซื้อ ขาย เป็นธรรม</span>
                 </label>
             </div>
         </div>
@@ -346,70 +316,38 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
         <div class="row">
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(7,$product_sale_comment)){  echo ' checked ';     }   ?> value="7">  ราคาซื้อ ขาย เป็นธรรม
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(8,$product_sale_comment)){  echo ' checked ';     }   ?> value="8"> <span>ความสะดวก</span>
+                </label>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <label>
+                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(9,$product_sale_comment)){  echo ' checked ';     }   ?> value="9">  <span>พอใจในการบริการ</span>
                 </label>
             </div>
             <div class="col-md-4 col-xs-12">
-                <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(8,$product_sale_comment)){  echo ' checked ';     }   ?> value="8"> ความสะดวก
+                <label class="pull-left">
+                    <script>
+                        function checkSaleComment(){
+                            $('#product_sale_comment_other').focus();
+                            $('#product_sale_comment_other').val('');
+                        }                   
+                    </script>
+                    <input type="checkbox" onclick="checkSaleComment();" name="product_sale_comment[]" id="product_sale_comment" class="orther" data-target="product_sale_comment_other" <?php if(in_array(10,$product_sale_comment)){  echo ' checked ';     }   ?> value="10">  <span>อื่นๆ</span>
                 </label>
+                <input onclick="$('#product_sale_comment').prop('checked', true);" onkeyup="$('#product_sale_comment').prop('checked', true);"   onkeypress="$('#product_sale_comment').prop('checked', true);return isAlphaNumeric(event);"    type="text" class="form-control" id="product_sale_comment_other" name="product_sale_comment_other" placeholder="เหตุผลอื่นๆ" style="margin-left: 7px;" <?php //if(!in_array(10,$product_sale_comment)){  echo ' disabled ';     }   ?>  value="<?php if(isset($user_survey_data[strtoupper('product_sale_other')])){ echo $user_survey_data[strtoupper('product_sale_other')]; } ?>"  >
             </div>
-            <div class="col-md-4 col-xs-12">
-                <label>
-                    <input type="checkbox" name="product_sale_comment[]" id="product_sale_comment[]" <?php if(in_array(9,$product_sale_comment)){  echo ' checked ';     }   ?> value="9"> พอใจในการบริการ
-                </label>
-            </div>
-        </div>
-
-
-        <div class="row">
-            <div class="col-md-4 col-xs-12">
-                <label>
-            		<script>
-						function checkSaleComment(){
-							$('#product_sale_comment_other').focus();
-							$('#product_sale_comment_other').val('');
-						}					
-					</script>
-                    <input type="checkbox" onclick="checkSaleComment();" name="product_sale_comment[]" id="product_sale_comment" class="orther" data-target="product_sale_comment_other" <?php if(in_array(10,$product_sale_comment)){  echo ' checked ';     }   ?> value="10">  อื่นๆ
-                   <input onclick="$('#product_sale_comment').prop('checked', true);" onkeyup="$('#product_sale_comment').prop('checked', true);"   onkeypress="$('#product_sale_comment').prop('checked', true);return isAlphaNumeric(event);"    type="text" class="form-control" id="product_sale_comment_other" name="product_sale_comment_other" placeholder="เหตุผลอื่นๆ" style="margin-left: 7px;" <?php //if(!in_array(10,$product_sale_comment)){  echo ' disabled ';     }   ?>  value="<?php if(isset($user_survey_data[strtoupper('product_sale_other')])){ echo $user_survey_data[strtoupper('product_sale_other')]; } ?>"  >
-                </label>
-            </div>
-<!--             <div class="col-md-8 col-xs-12"> -->
-<!--             </div> -->
-
         </div>
     </div>
-
-
 </div>
 
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="row mar_ned">
+<div class="row mar_ned" style="padding: 0 15px;">
 
     <div class="row">
-
         <div class="col-md-4 col-xs-4 wdth">
             <p align="left"><stong> ความคิดเห็นในการขายผลผลิตให้กับพ่อค้า</stong></p>
-
         </div>
-<!--         <div class="col-md-5 col-xs-4 wdth"> -->
-<!--             <p align="left">        <input type="radio" name="product_sale_comment3[]" id="product_sale_comment3[]"  value="1">  พ่อค้า (เลือกได้มากกว่า 1 ข้อ) -->
-<!--             </p> -->
-<!--         </div> -->
         <div class="col-md-3 col-xs-4 wdth">
             <p align="left"><stong> </stong></p>
         </div>
@@ -427,19 +365,24 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
         ?>
 
         <div class="row">
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]" <?php if(in_array(4,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="4">  เป็นทางเลือกที่เหมาะสม
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]" <?php if(in_array(4,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="4">   <span>เป็นทางเลือกที่เหมาะสม</span>
                 </label>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(5,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="5"> การชั่วตวง เชื่อถือได้
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(5,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="5">  <span>การชั่วตวง เชื่อถือได้</span>
                 </label>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(6,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="6"> รับเงินค่าผลผลิตตามข้อตกลง
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(6,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="6">  <span>รับเงินค่าผลผลิตตามข้อตกลง</span>
+                </label>
+            </div>
+            <div class="col-md-3 col-xs-12">
+                <label>
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(7,$product_sale_comment2)){  echo ' checked ';     }   ?>     value="7">   <span>ราคาซื้อ ขาย เป็นธรรม</span>
                 </label>
             </div>
         </div>
@@ -447,70 +390,48 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
         <div class="row">
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(7,$product_sale_comment2)){  echo ' checked ';     }   ?>     value="7">  ราคาซื้อ ขาย เป็นธรรม
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(8,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="8">  <span>ความสะดวก</span>
                 </label>
             </div>
-            <div class="col-md-4 col-xs-12">
+            <div class="col-md-3 col-xs-12">
                 <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(8,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="8"> ความสะดวก
+                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(9,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="9">  <span>พอใจในการบริการ</span>
                 </label>
-            </div>
-            <div class="col-md-4 col-xs-12">
-                <label>
-                    <input type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2[]"  <?php if(in_array(9,$product_sale_comment2)){  echo ' checked ';     }   ?>   value="9"> พอใจในการบริการ
-                </label>
-            </div>
-        </div>
-
-
-        <div class="row">
+            </div> 
             <div class="col-md-4 col-xs-12">
                 <label>
                 
-					<script>
-						function checkOtherSaleComment2(){
-							$('#product_sale_comment_other2').focus();
-							$('#product_sale_comment_other2').val('');
-						}					
-					</script>                
-                    <input onclick="checkOtherSaleComment2();" type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2"  class="orther" data-target="product_sale_comment_other2" <?php if(in_array(10,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="10">  อื่นๆ
-                    <input onclick="$('#product_sale_comment2').prop('checked', true);" onkeyup="$('#product_sale_comment2').prop('checked', true);"   onkeypress="$('#product_sale_comment2').prop('checked', true);return isAlphaNumeric(event);"   type="text" class="form-control" id="product_sale_comment_other2" name="product_sale_comment_other2" placeholder="เหตุผลอื่นๆ" <?php //if(!in_array(10,$product_sale_comment2)){  echo ' disabled ';     }   ?>  style="margin-left: 7px;"   value="<?php if(isset($user_survey_data[strtoupper('product_sale_other2')])){ echo $user_survey_data[strtoupper('product_sale_other2')]; } ?>"   >
+                    <script>
+                        function checkOtherSaleComment2(){
+                            $('#product_sale_comment_other2').focus();
+                            $('#product_sale_comment_other2').val('');
+                        }                   
+                    </script>                
+                    <input onclick="checkOtherSaleComment2();" type="checkbox" name="product_sale_comment2[]" id="product_sale_comment2"  class="orther" data-target="product_sale_comment_other2" <?php if(in_array(10,$product_sale_comment2)){  echo ' checked ';     }   ?>  value="10">  <span>อื่นๆ</span>
                 </label>
+                <input onclick="$('#product_sale_comment2').prop('checked', true);" onkeyup="$('#product_sale_comment2').prop('checked', true);"   onkeypress="$('#product_sale_comment2').prop('checked', true);return isAlphaNumeric(event);"   type="text" class="form-control" id="product_sale_comment_other2" name="product_sale_comment_other2" placeholder="เหตุผลอื่นๆ" <?php //if(!in_array(10,$product_sale_comment2)){  echo ' disabled ';     }   ?>  style="margin-left: 7px;"   value="<?php if(isset($user_survey_data[strtoupper('product_sale_other2')])){ echo $user_survey_data[strtoupper('product_sale_other2')]; } ?>"   >
             </div>
-            <div class="col-md-8 col-xs-12">
-                
-            </div>
-
         </div>
     </div>
-
-
 </div>
 	
-</fieldset>
+</section>
 
 
 
 
-<fieldset>
-	<legend class="h_sub_title">3.  สัตว์บก</legend>
+<section>
+	<div class="h_sub_title">3.  สัตว์บก</div>
 
 
 
 
 
-<div class="row mar_ned">
-
-
-
-
+<div class="row mar_ned"  style="padding: 0 15px;">
     <div class="col-md-12 col-xs-9">
         <div class="row">
-
-
-
             <?php $table_id = 321; include("inc_js_table_active_row.php"); ?>
 
             <th style="text-align: center;" >ชนิดสัตว์</th>
@@ -583,11 +504,11 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
             <tr>
-                <td class="checkboxcol">
-                    <input name="ckcDel[]" type="checkbox" />
+                <td class="checkboxcol"> <span></span>
+                    <input name="ckcDel[]" type="checkbox" /> <span></span>
                 </td>
                 <td>
-                     <select  name="ani_type[]"  class="animal_type1"  >
+                     <select  name="ani_type[]"  class="form-control animal_type1"  >
                         <option value="">==กรุณาเลือกชนิด==</option>
                         <?php for($i=0;$i<=count($ani_name);$i++){
                             if(isset($ani_name[$i])){ if(trim($ani_name[$i])!=""){?>
@@ -623,7 +544,9 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 <td>
                     <input type="text" class="form-control allownumericwithdecimal input-no-spinner" name="ani_wetchapan[]" value="<?php if(isset($ani_wetchapan[$ir])){ echo trimleft($ani_wetchapan[$ir],'0'); } ?>" onkeypress="return isDecimal(event)" />
                 </td>
-                <td class="align-middle"><a href="#" class="delrow nowrap">ลบแถว</a></td>
+                <td>
+                    <input type="number" class="form-control allownumericwithoutdecimal input-no-spinner" name="ani_specie[]" value="<?php if(isset($ani_specie[$ir])){ echo $ani_specie[$ir]; } ?>" />
+                </td>
             </tr>
 
             <?php } ?>
@@ -650,18 +573,14 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
 
-</fieldset>
-<fieldset>
-	<legend class="h_sub_title">4.  สัตว์น้ำ</legend>
+</section>
+<section>
+	<div class="h_sub_title">4.  สัตว์น้ำ</div>
 
+    <div class="row mar_ned"  style="padding: 0 15px;">
 
-
-<div class="row mar_ned">
-
-    <div class="col-md-12 col-xs-9">
-        <div class="row">
-
-
+        <div class="col-md-12 col-xs-9">
+            <div class="row">
 
             <?php $table_id = 322; include("inc_js_table_active_row.php"); ?>
 
@@ -733,11 +652,11 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
             <tr>
-                <td class="checkboxcol">
-                    <input name="ckcDel[]" type="checkbox" />
+                <td class="checkboxcol"> <span></span>
+                    <input name="ckcDel[]" type="checkbox" /> <span></span>
                 </td>
                 <td>
-                    <select  name="ani2_type[]"    class="animal_type2"  >
+                    <select  name="ani2_type[]"    class="form-control animal_type2"  >
                         <option value="">==กรุณาเลือกชนิด==</option>
                         <?php for($i=0;$i<=count($ani_name2);$i++){
                             if(isset($ani_name2[$i])){ if(trim($ani_name2[$i])!=""){?>
@@ -772,7 +691,9 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 <td>
                     <input type="text" class="form-control allownumericwithdecimal input-no-spinner" name="ani2_wetchapan[]" value="<?php if(isset($ani2_wetchapan[$ir])){ echo trimleft($ani2_wetchapan[$ir],'0'); } ?>" onkeypress="return isDecimal(event)" />
                 </td>
-                <td class="align-middle"><a href="#" class="delrow nowrap">ลบแถว</a></td>
+                <td>
+                    <input type="number" class="form-control allownumericwithoutdecimal input-no-spinner" name="ani2_specie[]" value="<?php if(isset($ani2specie[$ir])){ echo $ani2_specie[$ir]; } ?>" />
+                </td>
             </tr>
 
             <?php } ?>
@@ -799,12 +720,12 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 </div>
 
-</fieldset>
-<fieldset>
-	<legend class="h_sub_title">5.  ข้อมูลการใช้ปุ๋ย</legend>
+</section>
+<section class="form-inline">
+	<div class="h_sub_title">5.  ข้อมูลการใช้ปุ๋ย</div>
 	
 
-<div class="row mar_ned">
+<div class="row mar_ned"  style="padding: 0 15px;">
 
     <div class="row">
 
@@ -816,21 +737,21 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
             }  //echo "<pre>"; print_r($chm1_46_0_0);
             ?>
             
-            <table class="table table-striped table-condensed fixed-table"  >
+            <table class="table table-striped table-bordered"  >
                 <?php /*    <table id="tblAddRow" border="1"> */ ?>
                 <thead>
                 <tr>
-                    <th rowspan="2" >ที่</th>
-                    <th rowspan="2">รายการ</th>
+                    <th rowspan="2" class="text-center" style="vertical-align: middle;">ที่</th>
+                    <th rowspan="2" class="text-center" style="vertical-align: middle;">รายการ</th>
                     <th colspan="2" class="text-center">ซื้อจากสหกรณ์</th>
                     <th colspan="2" class="text-center"> ซื้อจากพ่อค้า </th>
                 </tr>
 
                 <tr>
-                    <th>จำนวน</th>
-                    <th>หน่วย(ระบุขนาด)</th>
-                    <th>จำนวน</th>
-                    <th>หน่วย(ระบุขนาด)</th>
+                    <th class="text-center">จำนวน</th>
+                    <th class="text-center">หน่วย(ระบุขนาด)</th>
+                    <th class="text-center">จำนวน</th>
+                    <th class="text-center">หน่วย(ระบุขนาด)</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -845,7 +766,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                     <td> </td><td> </td>
                 </tr>
                 <tr><?php  $chm_no = 1; $chm1 = 46; $chm2 = 0; $chm3 = 0; ?>
-                    <td><?php echo $chm_no; ?></td>
+                    <td></td>
 
                     <td>1.<?php echo $chm_no; ?> สูตร <?php echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -1003,7 +924,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 </div>
 
 
-</fieldset>
+</section>
 
 
 

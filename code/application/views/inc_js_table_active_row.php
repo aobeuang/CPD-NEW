@@ -86,8 +86,8 @@
 </div>
 <?php } ?>
 
-<div style="overflow-x: scroll;" >
-    <table id="tblAddRow<?php echo $table_id; ?>"    class="table table-striped table-condensed"  >
+<div class="table-responsive" >
+    <table id="tblAddRow<?php echo $table_id; ?>"    class="table table-striped table-bordered"  >
         <thead>
         <tr>
-            <th rowspan="3"><input type="checkbox" id="checkedAll<?php echo $table_id; ?>"/></th>
+            <th rowspan="3" style="vertical-align: middle;"><input type="checkbox" id="checkedAll<?php echo $table_id; ?>"/><span></span></th>

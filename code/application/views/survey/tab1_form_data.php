@@ -528,6 +528,7 @@ if(isset($_GET['coop'])){
                 	
                 	?>
  
+                    <?php echo $current_amphor; ?> 
                 	<?php $current_amphor_arr = getAmphurByProvinceIDAmphurName($province_id, $current_amphor)?>   
                 	<?php $current_amphur_ID = !empty($current_amphor_arr) ? $current_amphor_arr['amphor_id']:""?>
                 	<?php $current_amphur_code = !empty($current_amphor_arr) ? $current_amphor_arr['amphor_code']:""?>
@@ -536,9 +537,7 @@ if(isset($_GET['coop'])){
                 <select class="form-control" id="district_id" name="district_id" <?php if (!$province_selected):?>disabled<?php endif?> >
                 	
                 	<option value="">==กรุณาเลือก==</option>
-                
                 	<?php foreach ($amphurs as $amphur):?>
-
                 		<?php if ($province=="กรุงเทพมหานคร") :?>
 	             			<?php $amphur['amphor_name'] = str_replace("เขต","", $amphur['amphor_name']);?>
 	             			<?php $amphur['amphor_name'] = str_replace("อ.","", $amphur['amphor_name']);?>    
@@ -1522,7 +1521,7 @@ $(document).ready(function() {
                 
     $(document).ready(function () { //page load
         $('#province_id').val(<?php $temp_field ="province_id"; if (isset($user_survey_data[strtoupper($temp_field)])) echo $user_survey_data[strtoupper($temp_field)]?>);
-
+        console.log($('#province_id').val());
         <?php  if (isset($user_survey_data[strtoupper($temp_field)])){  ?>
         var provinceId=<?php echo $user_survey_data[strtoupper($temp_field)]; ?>;$.ajax({
             type:"GET",url:"<?php echo site_url('admin/listjson_local/')?>"+provinceId,data:{

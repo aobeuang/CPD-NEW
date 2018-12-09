@@ -12,7 +12,7 @@ function trimleft($text, $char)
 
 <link type="text/css" rel="stylesheet" href="/assets/default/vendors/datetime/jquery.datetimepicker.css" />
 <script src="/assets/default/vendors/datetime/jquery.datetimepicker.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 
 <?php $this->load->helper('form');
 
@@ -123,33 +123,9 @@ $ani_name2[$i] = "สัตว์น้ำอื่น ๆ";  $ani_code2[$i] = "
 
 ?>
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <style type="text/css">
 @import
 	url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
-/* written by riliwan balogun http://www.facebook.com/riliwan.rabo*/
-.board {
-	width: 90%;
-	margin: 60px auto;
-	/*  height: 500px; */
-	background: #fff;
-	/*box-shadow: 10px 10px #ccc,-10px 20px #ddd;*/
-}
-
-.board .nav-tabs {
-	position: relative;
-	/* border-bottom: 0; */
-	/* width: 80%; */
-	margin: 2px auto;
-	margin-bottom: 0;
-	box-sizing: border-box;
-}
-
-.board>div.board-inner {
-	background: #fafafa
-		url(http://subtlepatterns.com/patterns/geometry2.png);
-	background-size: 30%;
-}
 
 p.narrow {
 	width: 60%;
@@ -466,8 +442,9 @@ input.form-control.input-sm {
 }
 
 .h_sub_title {
-	color: <?php echo$text_color_theme;
-	?>;
+	font-weight: 600;
+    padding: 20px 30px;
+    font-size: 16px;
 }
 
 .dropselectsec {
@@ -503,34 +480,10 @@ input.form-control.input-sm {
 
 .table-striped>tbody>tr:nth-child(odd)>td, .table-striped>tbody>tr:nth-child(odd)>th
 	{
-	background-color: #ececec;
+	background-color: #E5EEF4;
 	color: #000;
 }
 
-.col-md-6 input[type=text],.col-md-5 input[type=text],.col-md-4 input[type=text],.col-md-3 input[type=text],
-.col-md-6 input[type=number],.col-md-5 input[type=number],.col-md-4 input[type=number],.col-md-3 input[type=number],
-.col-sm-6 input[type=number],.col-sm-5 input[type=number],.col-sm-4 input[type=number],.col-sm-3 input[type=number],
-.col-sm-6 input[type=text],.col-sm-5 input[type=text],.col-sm-4 input[type=text],.col-sm-3 input[type=text]
- {
- 	float: right;
-}
-#adress #province .select2
-{
-	float: right;
-/* 	margin-right: 7px!important; */
-	width: 140px!important;
-} 
-#adress #district .select2
-{
-float: right;
-/* 	margin-right: 25px!important; */
-	width: 150px!important;
-}
-#adress #sub_district .select2
-{
-float: right;
-	width: 150px!important;
-}
 th
 {
 	text-align: center;
@@ -563,10 +516,73 @@ input#home_phone_no,#cell_phone {
 	width: 100px!important;
 }
 
+section {
+    display: inline-block;
+    box-shadow: 1px 2px 15px #e4e7ed;
+    margin: 10px 1%;
+    padding: 20px 0;
+    width: 98%;
+}
+[type="radio"]:not(:checked), [type="radio"]:checked {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+[type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after {
+    border: 2px solid #5a5a5a;
+}
+[type="radio"]:not(:checked)+span:before, [type="radio"]:not(:checked)+span:after, [type="radio"]:checked+span:before, [type="radio"]:checked+span:after, [type="radio"].with-gap:checked+span:before, [type="radio"].with-gap:checked+span:after {
+    border-radius: 50%;
+}
+[type="radio"]:not(:checked)+span, [type="radio"]:checked+span{
+	position: relative;
+    padding-left: 35px;
+    cursor: pointer;
+    display: inline-block;
+    height: 25px;
+    line-height: 25px;
+    -webkit-transition: .28s ease;
+    transition: .28s ease;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+[type="radio"]+span:before, [type="radio"]+span:after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 4px;
+    width: 16px;
+    height: 16px;
+    z-index: 0;
+    -webkit-transition: .28s ease;
+    transition: .28s ease;
+}
+[type="radio"]:not(:checked)+span:after {
+    -webkit-transform: scale(0);
+    transform: scale(0);
+}
+[type="radio"]:checked+span:after {
+    -webkit-transform: scale(0.5);
+    transform: scale(0.5);
+}
+[type="radio"]:checked+span:after {
+	background-color: #005C97;
+}
+[type="radio"]:checked+span:before {
+    border: 2px solid transparent;
+}
+[type="radio"]:checked+span:after, [type="radio"]:checked+span:before {
+    border: 2px solid #005C97;
+}
+input[type="checkbox"]:checked+span:before {
+	color: #005C97;
+}
+
 </style>
-<script src="code.jquery.com/jquery-1.11.1.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
-<script src="netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+<script src="/assets/default/js/notify.min.js"></script>
 <script>
 	function validateEmail(email) {
 	  var re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
@@ -612,41 +628,15 @@ input#home_phone_no,#cell_phone {
 // 		alert(tab_id);
 		var temp_name = '';
 		var flag = true;
-		if(tab_id==2){
-
-			
-// 			$("#accountForm").validate({
-// 				  rules: {
-// 				    name: "required",
-// 				    email: {
-// 				      required: true,
-// 				      email: true
-// 				    }
-// 				  },
-// 				  messages: {
-// 				    name: "Please specify your name",
-// 				    email: {
-// 				      required: "We need your email address to contact you",
-// 				      email: "Your email address must be in the format of name@domain.com"
-// 				    }
-// 				  }
-// 				});
-
-// 			$('#email').valid();
-			
-			
-			$('#steb1').find('input').each(function(){
-				console.log($(this));
-// 				if($(this).find('[type=number]') && ""!=$(this).val())
-// 				{
-// 					console.log($(this));
-// 					}
-// 				return false;
-				});
+		if(tab_id==2){	
 			
 			 temp_name = 'first_name'; txt_word = 'ชื่อ';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+        	);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -654,7 +644,11 @@ input#home_phone_no,#cell_phone {
 			 }
 			 temp_name = 'last_name'; txt_word = 'นามสกุล';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+        	);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -663,15 +657,22 @@ input#home_phone_no,#cell_phone {
 			 
 			 temp_name = 'idcard'; txt_word = 'เลขที่บัตรประจำตัวประชาชน';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
+			 //my_alert(format_words(txt_word));
+			 $('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+        	);
 			 console.log(txt_word);
 			 console.log(temp_name);
 			 return false;
 			 }
 			 txt_word = 'เลขที่บัตรประจำตัวประชาชนให้ถูกต้อง';
 			 if($('#'+temp_name).val()!='' && !checkID($('#'+temp_name).val())){
-				 my_alert(format_words(txt_word));
+				 //my_alert(format_words(txt_word));
+				 $('#'+temp_name).notify(
+	              "โปรดระบุ"+txt_word, 
+	              { position:"left middle" }
+	        	);
 				 $('#'+temp_name).focus();
 				 console.log(txt_word);
 				 console.log(temp_name);
@@ -682,7 +683,11 @@ input#home_phone_no,#cell_phone {
 			 
 			 temp_name = 'household_code'; txt_word = 'รหัสครัวเรือน';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+		 	$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+        	);
 			 $('#'+temp_name).focus();
 			 return false;
 			 }
@@ -690,45 +695,24 @@ input#home_phone_no,#cell_phone {
 
 			 temp_name = 'thebirthdate'; txt_word = 'วันเดือนปีเกิด';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 //$('#'+temp_name).focus();
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+        	);
+			$('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
 			 return false;
 			 }
-
-			 /*
-			 var flag = true; //start radio
-			 temp_name = 'family_status'; txt_word = 'สถานะภาพ';
-			 $(':radio').each(function () {
-			 name = $(this).attr('name');
-			 if (flag && !$(':radio[name="' + temp_name + '"]:checked').length) {
-			 flag = false;
-			 }//if
-
-			 });
-			 if(flag==false){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name+'1').focus();
-			 return false;
-			 }//end radio
-
-			 
-
-			 if($('#family_status4').is(':checked')) {
-			 temp_name = 'family_status_others'; txt_word = 'ระบุเหตุผลอื่นๆ';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-			 }
-			 */
-
 			 
 			 temp_name = 'status'; txt_word = ' ระบุสถานะอื่นๆ';
 			 if($('#'+temp_name).val()=='4' && $('#family_status_others').val()==""){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+		 	$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#family_status_others').focus();
 			 return false;
 			 }
@@ -736,48 +720,44 @@ input#home_phone_no,#cell_phone {
 			 temp_name = 'status'; txt_word = ' ระบุหมายเลขบัตรประชาชนคู่สมรสที่ถูกต้อง';
 			 var family_citizen_id = $('#family_citizen_id').val();
 			 if($('#'+temp_name).val()=='2' && !checkID(family_citizen_id)){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			 $('#family_citizen_id').notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#family_citizen_id').focus();
 			 return false;
 			 }
 
 			 temp_name = 'status'; txt_word = ' ระบุชื่อคู่สมรส';
 			 if($('#'+temp_name).val()=='2' && $('#family_name').val()==""){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			 $('#family_name').notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#family_name').focus();
 			 return false;
 			 }			 
-
-			 
 			
 			 temp_name = 'house_no'; txt_word = 'บ้านเลขที่';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 return false;
 			 }
-
-			 /*
-
-			 temp_name = 'village_no'; txt_word = 'หมู่ที่';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-
-			 temp_name = 'adr'; txt_word = 'ที่อยู่';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-			 */
-
 
 			 temp_name = 'province_id'; txt_word = 'จังหวัด';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			// my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -786,7 +766,11 @@ input#home_phone_no,#cell_phone {
 
 			 temp_name = 'district_id'; txt_word = 'อำเภอ';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -795,85 +779,35 @@ input#home_phone_no,#cell_phone {
 			 
 			 temp_name = 'email'; txt_word = 'อีเมลให้ถูกต้อง';
 			 if($('#'+temp_name).val()!='' && !validateEmail($('#'+temp_name).val())){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
 			 return false;
-			 }			
-			 /*
-			 temp_name = 'sub_district_id'; txt_word = 'ตำบล';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }*/
+			 }		
 
-			 
 			 temp_name = 'postal_code'; txt_word = 'รหัสไปรษณีย์';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 return false;
 			 }
-
-			 /*
-			 temp_name = 'home_phone_no'; txt_word = 'เบอร์โทรศัพท์บ้าน';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }*/
-				
-			 /*
-			 temp_name = 'cell_phone'; txt_word = 'เบอร์มือถือ';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }*/
-
-/*
-			 var flag = true; //start radio
-			 temp_name = 'org_type'; txt_word = 'สมาชิก';
-			 $(':radio').each(function () {
-			 name = $(this).attr('name');
-			 if (flag && !$(':radio[name="' + temp_name + '"]:checked').length) {
-			 flag = false;
-			 }//if
-
-			 });
-			 if(flag==false){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name+'1').focus();
-			 return false;
-			 }//end radio
-
-
-			 if($('#org_type1').is(':checked')) {
-			 temp_name = 'coop_name'; txt_word = 'ชื่อสหกรณ์';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-			 }
-			 
-			 if($('#org_type2').is(':checked')) {
-			 temp_name = 'farmer_group_name'; txt_word = 'ชื่อกลุ่มเกษตรกร';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-			 }
-*/
-			
-
 
 			 temp_name = 'province_code'; txt_word = 'รหัสจังหวัด';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -882,7 +816,11 @@ input#home_phone_no,#cell_phone {
 
 			 temp_name = 'coop_name'; txt_word = 'สหกรณ์';
 			 if($('#'+temp_name).val()=='' && $('#farmer_group_name').val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -891,7 +829,11 @@ input#home_phone_no,#cell_phone {
 			 
 			 temp_name = 'farmer_group_name';  txt_word = 'สหกรณ์';
 			 if($('#'+temp_name).val()=='' && $('#coop_name').val()==''){
-			 my_alert(format_words(txt_word));
+			// my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -907,33 +849,48 @@ input#home_phone_no,#cell_phone {
 				if($('#coop_name_div').hasClass('display') !=true)
 				{
 					 txt_word = 'สหกรณ์';
-					 my_alert(format_words(txt_word));
+					 //my_alert(format_words(txt_word));
+					$('#'+temp_name).notify(
+		              "โปรดระบุ"+txt_word, 
+		              { position:"left middle" }
+    				);
 					$('#coop_name').focus();
 					 console.log('coop_name');
 				}
 				else if($('#coop_group').hasClass('display')!=true)
 				{
 					 txt_word = 'กลุ่มเกษตรกร';
-					 my_alert(format_words(txt_word));
+					 //my_alert(format_words(txt_word));
+
+					$('#'+temp_name).notify(
+		              "โปรดระบุ"+txt_word, 
+		              { position:"left middle" }
+		    		);
 					$('#farmer_group_name').focus();
 
 					 console.log('farmer_group_name');
 				}else{
-					my_alert(format_words(txt_word));
-					}
+					//my_alert(format_words(txt_word));
+					$('#'+temp_name).notify(
+		              "โปรดระบุ"+txt_word, 
+		              { position:"left middle" }
+		    		);
+				}
 
-
-				 
-// 				 $('#'+temp_name).focus();
 				 console.log(txt_word);
 				 return false;
-				 }
+			 }
 
 
 			 
 			 temp_name = 'budget_year'; txt_word = 'ปีงบประมาณ';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -941,7 +898,12 @@ input#home_phone_no,#cell_phone {
 			 }
 			 temp_name = 'budget_year'; txt_word = 'ปีงบประมาณ';
 			 if($('#'+temp_name).val()!='' && $('#'+temp_name).val().length > 4){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -951,8 +913,12 @@ input#home_phone_no,#cell_phone {
 
 			 temp_name = 'joining_date'; txt_word = 'วันที่เข้าเป็นสมาชิก';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 //$('#'+temp_name).focus();
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
+			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
 			 return false;
@@ -960,7 +926,11 @@ input#home_phone_no,#cell_phone {
 			 
 			 temp_name = 'survey_code'; txt_word = 'รหัสแบบสำรวจ';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -968,23 +938,24 @@ input#home_phone_no,#cell_phone {
 			 }
 			 temp_name = 'registration_number'; txt_word = 'เลขทะเบียนสมาชิก';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
 			 return false;
 			 }
-/*
-			 temp_name = 'education_code'; txt_word = 'รหัสการศึกษา';
-			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
-			 $('#'+temp_name).focus();
-			 return false;
-			 }
-*/
+
 			 temp_name = 'stock_register'; txt_word = 'ทะเบียนหุ้น';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -992,7 +963,11 @@ input#home_phone_no,#cell_phone {
 			 }
 			 temp_name = 'shares_num'; txt_word = 'จำนวนหุ้น';
 			 if($('#'+temp_name).val()==''){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 console.log(txt_word);
 			 console.log(temp_name);
@@ -1004,15 +979,13 @@ input#home_phone_no,#cell_phone {
 		}/*go tab 2*/
 
 		if(tab_id==3){ /*go tab4 ,check tab2*/
-
-			
-			
-
-
-			
 			 temp_name = 'land_holding_rai'; txt_word = 'ข้อมูลพื้นที่ครอบครอง';
 			 if(($('#land_holding_rai').val()=='')&&($('#land_holding_ngan').val()=='')&&($('#land_holding_squarewa').val()=='')){
-			 my_alert(format_words(txt_word));
+			 //my_alert(format_words(txt_word));
+			$('#'+temp_name).notify(
+              "โปรดระบุ"+txt_word, 
+              { position:"left middle" }
+    		);
 			 $('#'+temp_name).focus();
 			 return false;
 			 }
@@ -1021,7 +994,11 @@ input#home_phone_no,#cell_phone {
 				txt_word = 'เลขที่บัตรประจำตัวประชาชนให้ถูกต้อง';
 				for(var i = 0; i < pin_own.length; i++){
 					if($(pin_own[i]).val() !="" && !checkID($(pin_own[i]).val())){
-						my_alert(format_words(txt_word));
+						//my_alert(format_words(txt_word));
+						$('#'+temp_name).notify(
+			              "โปรดระบุ"+txt_word, 
+			              { position:"left middle" }
+			    		);
 						$(pin_own[i]).focus();
 						return false;
 						}
@@ -1031,77 +1008,15 @@ input#home_phone_no,#cell_phone {
 				txt_word = 'เลขที่บัตรประจำตัวประชาชนให้ถูกต้อง';
 				for(var i = 0; i < pin_hire.length; i++){
 					if($(pin_hire[i]).val() !="" && !checkID($(pin_hire[i]).val())){
-						my_alert(format_words(txt_word));
+						//my_alert(format_words(txt_word));
+						$('#'+temp_name).notify(
+			              "โปรดระบุ"+txt_word, 
+			              { position:"left middle" }
+			    		);
 						$(pin_hire[i]).focus();
 						return false;
 						}
 				}
-
-
-
-
-// 			 var flag = true; //start radio
-// 			 temp_name = 'water_type'; txt_word = 'แหล่งน้ำเพื่อการเกษตร';
-// 			 $(':radio').each(function () {
-// 			 name = $(this).attr('name');
-// 			 if (flag && !$(':radio[name="' + temp_name + '"]:checked').length) {
-// 			 flag = false;
-// 			 }//if
-
-// 			 });
-// 			 if(flag==false){
-// 			 my_alert(format_words(txt_word));
-// 			 $('#'+temp_name+'1').focus();
-// 			 return false;
-// 			 }//end radio
-
-// 			 if($('#water_type1').is(':checked')) {
-// 			 temp_name = 'water_type1'; txt_word = 'เนื้อที่สระน้ำ';
-// 			 if(($('#water_holding_rai').val()=='')&&($('#water_holding_ngan').val()=='')&&($('#water_holding_squarewa').val()=='')){
-// 			 my_alert(format_words(txt_word));
-// 			 $('#'+temp_name).focus();
-// 			 return false;
-// 			 }
-// 			 }
-
-
-// 			 if($('#water_type4').is(':checked')) {
-// 			 temp_name = 'water_type_others'; txt_word = 'ระบุเหตุผลอื่นๆ';
-// 			 if($('#'+temp_name).val()==''){
-// 			 my_alert(format_words(txt_word));
-// 			 $('#'+temp_name).focus();
-// 			 return false;
-// 			 }
-// 			 }
-
-
-
-// 			 var flag = true; //start radio
-// 			 temp_name = 'farm_equ'; txt_word = ' เครื่องมือ/อุปกรณ์ทำการเกษตร';
-// 			 $(':radio').each(function () {
-// 			 name = $(this).attr('name');
-// 			 if (flag && !$(':radio[name="' + temp_name + '"]:checked').length) {
-// 			 flag = false;
-// 			 }//if
-
-// 			 });
-// 			 if(flag==false){
-// 			 my_alert(format_words(txt_word));
-// 			 $('#'+temp_name+'1').focus();
-// 			 return false;
-// 			 }//end radio
-
-
-// 			 if($('#farm_equ6').is(':checked')) {
-// 			 temp_name = 'farm_equ_thers'; txt_word = 'ระบุเหตุผลอื่นๆ';
-// 			 if($('#'+temp_name).val()==''){
-// 			 my_alert(format_words(txt_word));
-// 			 $('#'+temp_name).focus();
-// 			 return false;
-// 			 }
-// 			 }
-
-
 		}
 		if(tab_id==4){ /*go tab5 ,check tab3*/
 
@@ -1127,7 +1042,11 @@ input#home_phone_no,#cell_phone {
 			if (typeempty)
 			{
 				txt_word = ' เลือกชนิดพันธ์พืชให้ครบ ';
-				my_alert(format_words(txt_word));
+				//my_alert(format_words(txt_word));
+				$(focusObj).notify(
+	              "โปรดระบุ"+txt_word, 
+	              { position:"right middle" }
+	    		);
 				$(focusObj).focus();
 				return false;
 			}
@@ -1153,7 +1072,11 @@ input#home_phone_no,#cell_phone {
 			if (typeempty1)
 			{
 				txt_word = ' เลือกชนิดสัตว์บกให้ครบ ';
-				my_alert(format_words(txt_word));
+				//my_alert(format_words(txt_word));
+				$(focusObj).notify(
+	              "โปรดระบุ"+txt_word, 
+	              { position:"right middle" }
+	    		);
 				$(focusObj1).focus();
 				return false;
 			}
@@ -1179,7 +1102,12 @@ input#home_phone_no,#cell_phone {
 			if (typeempty2)
 			{
 				txt_word = ' เลือกชนิดสัตว์น้ำให้ครบ ';
-				my_alert(format_words(txt_word));
+				//my_alert(format_words(txt_word));
+
+				$(focusObj).notify(
+	              "โปรดระบุ"+txt_word, 
+	              { position:"right middle" }
+	    		);
 				$(focusObj2).focus();
 				return false;
 			}
@@ -1231,7 +1159,7 @@ input#home_phone_no,#cell_phone {
 		}
 		$('#tabtab'+tab_id).removeClass('complete').removeClass('disabled').addClass('active');
 
-
+		$("html, body").animate({ scrollTop: 0 }, "slow");
 	}
 
 </script>
@@ -1242,11 +1170,11 @@ input#home_phone_no,#cell_phone {
 	<div id="main-container2" class="container-fluid col-md-12 col-xs-12">
 
 		<?php if(isset($user_survey_data['citizen_id'])){?>
-				<?php if ($mode=="view"){?>
+			<?php if ($mode=="view"){?>
 	            <h2><span class="glyphicon glyphicon-eye-open"></span> ดูแบบสำรวจ</h2>
 				<?php } else {?>
 	            <h2><span class="glyphicon glyphicon-edit"></span> แก้ไขแบบสำรวจ</h2>
-            	<?php }?>
+        	<?php }?>
         <?php }else {?> 
        		<h2><span class="glyphicon glyphicon-plus"></span> สร้างแบบสำรวจ</h2>
 		<?php } ?>
@@ -1254,19 +1182,11 @@ input#home_phone_no,#cell_phone {
 
 
 		<!--login html -->
-		<section style="background:#efefe9; /*height: 760px;*/">
-
-			<div <?php /* class="container"*/ ?>>
+		<div>
+			<div>
 				<div class="row">
-					
 					<div class="board">
-						<!-- <h2>Welcome to IGHALO!<sup>™</sup></h2>-->
 						<div class="board-inner">
-							<center> <h3 class="my_title_center">แบบสำรวจข้อมูลการผลิตและการตลาดของสมาชิกสหกรณ์/กลุ่มเกษตรกร</h3></center>
-
-
-
-
 							<style type="text/css">
 								.bs-wizard {margin-top: 40px;}
 
@@ -1277,10 +1197,10 @@ input#home_phone_no,#cell_phone {
 								.bs-wizard > .bs-wizard-step + .bs-wizard-step {}
 								.bs-wizard > .bs-wizard-step .bs-wizard-stepnum {color: #595959; font-size: 16px; margin-bottom: 5px;}
 								.bs-wizard > .bs-wizard-step .bs-wizard-info {color: #999; font-size: 14px;}
-								.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute; width: 30px; height: 30px; display: block; background: #5bc0de; top: 45px; left: 50%; margin-top: -15px; margin-left: -15px; border-radius: 50%;}
-								.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {content: ' '; width: 14px; height: 14px; background: #ffffff; border-radius: 50px; position: absolute; top: 8px; left: 8px; }
+								.bs-wizard > .bs-wizard-step > .bs-wizard-dot {position: absolute;width: 34px;height: 34px;display: block;background: #234595;top: 22px;left: 50%;margin-top: -15px;margin-left: -15px;border-radius: 50%;}
+								.bs-wizard > .bs-wizard-step > .bs-wizard-dot:after {    content: ' ';width: 28px;height: 28px;background: #234595;border-radius: 50px;position: absolute;top: 3px;left: 3px;border: 5px solid #ffffff;}
 								.bs-wizard > .bs-wizard-step > .progress {position: relative; border-radius: 0px; height: 8px; box-shadow: none; margin: 20px 0;}
-								.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #5bc0de;}
+								.bs-wizard > .bs-wizard-step > .progress > .progress-bar {width:0px; box-shadow: none; background: #234595;}
 								.bs-wizard > .bs-wizard-step.complete > .progress > .progress-bar {width:100%;}
 								.bs-wizard > .bs-wizard-step.active > .progress > .progress-bar {width:50%; }
 								.bs-wizard > .bs-wizard-step:first-child.active > .progress > .progress-bar {width:0%;}
@@ -1290,1179 +1210,794 @@ input#home_phone_no,#cell_phone {
 								.bs-wizard > .bs-wizard-step:first-child  > .progress {left: 50%; width: 50%;}
 								.bs-wizard > .bs-wizard-step:last-child  > .progress {width: 50%;}
 								.bs-wizard > .bs-wizard-step.disabled a.bs-wizard-dot{ pointer-events: none; }
-								.bs-wizard > .bs-wizard-step.active .bs-wizard-info{color:#5bc0de;}
-								.bs-wizard > .bs-wizard-step.active .bs-wizard-stepnum{color:#5bc0de;}
+								.bs-wizard > .bs-wizard-step.active .bs-wizard-info{color:#234595;}
+								.bs-wizard > .bs-wizard-step.active .bs-wizard-stepnum{color:#234595;}
 
-								/*END Form Wizard*/
-			/*
-								#steb2{
-									display:none;
-								}
-								#steb3{
-									display:none;
-								}
-								#steb4{
-									display:none;
-								}
-								#steb5{
-									display:none;
-								}
-								#steb6{
-									display:none;
-								}
-								#steb7{
-									display:none;
-								}*/
 							</style>
 
 							<div id="myDIVprogress" class="row bs-wizard" style="border-bottom:0;  ">
 
-<?php if($mode=="view"){ ?>
-	<div id="tabtab1" class="col-xs-2 bs-wizard-step complete">
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 1</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb1"  data-toggle="tab" onclick="" title="steb1" class="bs-wizard-dot" id="st1"></a>
-		<div class="bs-wizard-info text-center">ข้อมูลทั่วไป</div>
-	</div>
+								<?php if($mode=="view"){ ?>
+									<script type="text/javascript">
+										$(document).ready(function(){
+											$("#accountForm :input").prop("disabled", true);
+											/*$("#accountForm :select").prop("disabled", true);*/
+											$("#accountForm :checkbox").prop("disabled", true);
+											$("#accountForm :radio").prop("disabled", true);
+										});
+									</script>
+								<?php }else{ ?>
 
-	<div id="tabtab2" class="col-xs-2 bs-wizard-step complete "><!-- complete -->
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 2</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb2"   data-toggle="tab"  title="steb2" class="bs-wizard-dot"  id="st2"></a>
-		<div class="bs-wizard-info text-center">ข้อมูลเอกสารสิทธิ์</div>
-	</div>
+									<div id="tabtab1" class="col-md-2 bs-wizard-step active">
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb1" onclick="tab_active(1);" data-toggle="tab" onclick="" title="steb1" class="bs-wizard-dot"  id="st1"></a>
+										<div class="bs-wizard-info text-center">ข้อมูลทั่วไป</div>
+									</div>
 
-	<div id="tabtab3" class="col-xs-2 bs-wizard-step complete "><!-- complete -->
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 3</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb3"   data-toggle="tab"  title="steb3" class="bs-wizard-dot"  id="st3"></a>
-		<div class="bs-wizard-info text-center">ส่วนการปลูกพืชและสัตว์<br/>(ปีที่ผ่านมา)</div>
-	</div>
+									<div id="tabtab2" class="col-md-2 bs-wizard-step disabled"><!-- complete -->
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb2" onclick="tab_active(2);" data-toggle="tab"  title="steb2" class="bs-wizard-dot"  id="st2"></a>
+										<div class="bs-wizard-info text-center">พื้นที่ครอบครอง</div>
+									</div>
 
-	<div id="tabtab4" class="col-xs-2 bs-wizard-step complete "><!-- active -->
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 4</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb4"   data-toggle="tab"  title="steb4" class="bs-wizard-dot"  id="st4"></a>
-		<div class="bs-wizard-info text-center">ส่วนปัญหาที่พบ<br/>ในการประกอบอาชีพ</div>
-	</div>
+									<div id="tabtab3" class="col-md-2 bs-wizard-step disabled"><!-- complete -->
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb3" onclick="tab_active(3);" data-toggle="tab"  title="steb3" class="bs-wizard-dot"  id="st3"></a>
+										<div class="bs-wizard-info text-center">การปลูกพืชและเลี้ยงสัตว์</div>
+									</div>
 
-	<div id="tabtab5" class="col-xs-2 bs-wizard-step  complete"><!-- active -->
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 5</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb5"   data-toggle="tab"  title="steb5" class="bs-wizard-dot"  id="st5"></a>
-		<div class="bs-wizard-info text-center">ส่วนข้อมูลหนี้สิน</div>
-	</div>
+									<div id="tabtab4" class="col-md-2 bs-wizard-step disabled"><!-- active -->
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb4" onclick="tab_active(4);" data-toggle="tab"  title="steb4" class="bs-wizard-dot"  id="st4"></a>
+										<div class="bs-wizard-info text-center">ปัญหาที่พบ</div>
+									</div>
 
-	<div id="tabtab6" class="col-xs-2 bs-wizard-step complete "><!-- active -->
-		<div class="text-center bs-wizard-stepnum">ส่วนที่ 6</div>
-		<div class="progress"><div class="progress-bar"></div></div>
-		<a href="#steb6"   data-toggle="tab"  title="steb6" class="bs-wizard-dot"  id="st6"></a>
-		<div class="bs-wizard-info text-center">ส่วนการปลูกพืช<br/>(ปัจจุบัน)</div>
-	</div>
+									<div id="tabtab5" class="col-md-2 bs-wizard-step disabled"><!-- active -->
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb5" onclick="tab_active(5);" data-toggle="tab"  title="steb5" class="bs-wizard-dot"  id="st5"></a>
+										<div class="bs-wizard-info text-center">ข้อมูลหนี้สิน</div>
+									</div>
 
-<!-- 	<div id="tabtab7" class="col-xs-2 bs-wizard-step active "><!-- active -->
-<!-- 		<div class="text-center bs-wizard-stepnum">ส่วนที่ 7</div> -->
-<!-- 		<div class="progress"><div class="progress-bar"></div></div> -->
-<!-- 		<a href="#steb7"   data-toggle="tab"  title="steb7" class="bs-wizard-dot"></a> -->
-<!-- 		<div class="bs-wizard-info text-center">ส่วนข้อมูล<br/>การเลี้ยงโคนม</div> -->
-<!-- 	</div> -->
-	<script type="text/javascript">
-		$(document).ready(function(){
-			$("#accountForm :input").prop("disabled", true);
-			$("#accountForm :select").prop("disabled", true);
-			$("#accountForm :checkbox").prop("disabled", true);
-			$("#accountForm :radio").prop("disabled", true);
-		});
-	</script>
-<?php }else{ ?>
+									<div id="tabtab6" class="col-md-2 bs-wizard-step disabled"><!-- active -->
+										<div class="progress"><div class="progress-bar"></div></div>
+										<a href="#steb6" onclick="tab_active(6);" data-toggle="tab"  title="steb6" class="bs-wizard-dot" id="st6"></a>
+										<div class="bs-wizard-info text-center">ข้อมูลการเลี้ยงโคนม</div>
+									</div>
 
-								<div id="tabtab1" class="col-md-2 bs-wizard-step active">
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 1</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb1" onclick="tab_active(1);" data-toggle="tab" onclick="" title="steb1" class="bs-wizard-dot"  id="st1"></a>
-									<div class="bs-wizard-info text-center">ข้อมูลทั่วไป</div>
-								</div>
-
-								<div id="tabtab2" class="col-md-2 bs-wizard-step disabled"><!-- complete -->
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 2</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb2" onclick="tab_active(2);" data-toggle="tab"  title="steb2" class="bs-wizard-dot"  id="st2"></a>
-									<div class="bs-wizard-info text-center">พื้นที่ครอบครอง</div>
-								</div>
-
-								<div id="tabtab3" class="col-md-2 bs-wizard-step disabled"><!-- complete -->
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 3</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb3" onclick="tab_active(3);" data-toggle="tab"  title="steb3" class="bs-wizard-dot"  id="st3"></a>
-									<div class="bs-wizard-info text-center">การปลูกพืชและเลี้ยงสัตว์</div>
-								</div>
-
-								<div id="tabtab4" class="col-md-2 bs-wizard-step disabled"><!-- active -->
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 4</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb4" onclick="tab_active(4);" data-toggle="tab"  title="steb4" class="bs-wizard-dot"  id="st4"></a>
-									<div class="bs-wizard-info text-center">ส่วนปัญหาที่พบ</div>
-								</div>
-
-								<div id="tabtab5" class="col-md-2 bs-wizard-step disabled"><!-- active -->
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 5</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb5" onclick="tab_active(5);" data-toggle="tab"  title="steb5" class="bs-wizard-dot"  id="st5"></a>
-									<div class="bs-wizard-info text-center">ข้อมูลหนี้สิน</div>
-								</div>
-
-								<div id="tabtab6" class="col-md-2 bs-wizard-step disabled"><!-- active -->
-									<div class="text-center bs-wizard-stepnum">ส่วนที่ 6</div>
-									<div class="progress"><div class="progress-bar"></div></div>
-									<a href="#steb6" onclick="tab_active(6);" data-toggle="tab"  title="steb6" class="bs-wizard-dot" id="st6"></a>
-									<div class="bs-wizard-info text-center">ข้อมูลการเลี้ยงโคนม</div>
-								</div>
-
-<!--								<div id="tabtab7" class="col-xs-2 bs-wizard-step disabled"><!-- active -->
-<!-- 									<div class="text-center bs-wizard-stepnum">ส่วนที่ 7</div> -->
-<!-- 									<div class="progress"><div class="progress-bar"></div></div> 
-									<a href="#steb7" onclick="tab_active(7);" data-toggle="tab"  title="steb7" class="bs-wizard-dot"></a>
-<!-- 									<div class="bs-wizard-info text-center">ส่วนข้อมูล<br/>การเลี้ยงโคนม</div> -->
-<!-- 								</div> -->
-<?php } ?>
-
+								<?php } ?>
 
 							</div>
-
-
-
-
-
-
-
-
-							<?php /*
-
-                    <ul class="nav nav-tabs" id="myTab">
-                        <div class="liner"></div>
-                        <li class="active">
-                            <a href="#home" data-toggle="tab" title="welcome">
-                                    <span class="round-tabs one">
-                              <i class="glyphicon glyphicon-user"></i>
-                      </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#profile" data-toggle="tab" title="profile">
-                                    <span class="round-tabs two">
-                         <i class="glyphicon glyphicon-lock"></i>
-                     </span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#messages" data-toggle="tab" title="bootsnipp goodies">
-                                    <span class="round-tabs three">
-                          <i class="glyphicon glyphicon-pencil"></i>
-                     </span> </a>
-                        </li>
-
-                        <li>
-                            <a href="#settings" data-toggle="tab" title="blah blah">
-                                    <span class="round-tabs four">
-                              <i class="glyphicon glyphicon-shopping-cart"></i>
-                         </span>
-                            </a>
-                        </li>
-
-                        <li>
-                            <a href="#doner" data-toggle="tab" title="completed">
-                                    <span class="round-tabs five">
-                              <i class="glyphicon glyphicon-download-alt"></i>
-                         </span> </a>
-                        </li>
-
-                    </ul>
-*/ ?>
-
-
 						</div>
 						<div class="modal fade" id="myModal" role="dialog">
-					    <div class="modal-dialog" style="width: 500px">
-					    
-					      <!-- Modal content-->
-					      <div class="modal-content">
-					        <div class="modal-header" style="height: 45px;">
-					          <button type="button" class="close" data-dismiss="modal">&times;</button>
-					          
-					        </div>
-					        <div class="modal-body">
-					        
-					        </div>
-					        <div class="modal-footer">
-					          <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
-					        </div>
-					      </div>
-					      
-					</div>
-				  </div>
+						    <div class="modal-dialog" style="width: 500px">
+						    
+							      <!-- Modal content-->
+							      <div class="modal-content">
+							        <div class="modal-header" style="height: 45px;">
+							          <button type="button" class="close" data-dismiss="modal">&times;</button>
+							          
+							        </div>
+							        <div class="modal-body">
+							        
+							        </div>
+							        <div class="modal-footer">
+							          <button type="button" class="btn btn-default" data-dismiss="modal">ปิด</button>
+							        </div>
+							      </div>
+							      
+							</div>
+				  		</div>
 						<?php
 						$action_page = 'do_survey_add';
 					///	if(isset($user_survey_data['citizen_id'])){ $action_page = 'do_survey_edit'; } ?>
-						<form id="accountForm" method="post" action="<?php echo site_url('admin/'.$action_page); ?>" class="form-inline step-form-wrapper">
+						<form id="accountForm" method="post" action="<?php echo site_url('admin/'.$action_page); ?>">
 						<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-							<div id="content_data_area">
-								<div class="tab-content"><?php $tab_idxx=1;?>
+							<div class="row form-result">
+								<div class="tab-content">
+									<?php 
+										$tab_idxx=1;
+										$view_active="";
+										if($mode=="view"){
+											$view_active=" in active";
+										}
+									?>
 									<div class="tab-pane fade in active" id="steb<?php echo $tab_idxx; ?>">
 										<?php include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
-
-									<div class="tab-pane fade" id="steb<?php echo $tab_idxx; ?>">
+									<div class="tab-pane fade <?php echo $view_active; ?>" id="steb<?php echo $tab_idxx; ?>">
 										<?php   include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
-									<div class="tab-pane fade" id="steb<?php echo $tab_idxx; ?>">
+									<div class="tab-pane fade <?php echo $view_active; ?>" id="steb<?php echo $tab_idxx; ?>">
 										<?php include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
-									<div class="tab-pane fade" id="steb<?php echo $tab_idxx; ?>">
+									<div class="tab-pane fade <?php echo $view_active; ?>" id="steb<?php echo $tab_idxx; ?>">
 										<?php include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
-									<div class="tab-pane fade" id="steb<?php echo $tab_idxx; ?>">
+									<div class="tab-pane fade <?php echo $view_active; ?>" id="steb<?php echo $tab_idxx; ?>">
 										<?php   include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
-									<div class="tab-pane fade" id="steb<?php echo $tab_idxx; ?>">
+									<div class="tab-pane fade <?php echo $view_active; ?>" id="steb<?php echo $tab_idxx; ?>">
 										<?php  include_once("tab".$tab_idxx."_form_data.php"); $tab_idxx++; ?>
 									</div>
 									<div class="clearfix"></div>
 								</div>
-
-
-								<?php /*
-                <div class="row">
-                    <div class="col-md-4"></div>
-                    <div class="col-md-4">
-                        <br/><br/>
-                        <button type="button" class="btn btn-primary" style="text-align: center; width: 100%; padding: 10px;margin-bottom:50px;">Next</button>
-                            </div>
-                    <div class="col-md-4"></div>
-                </div>
-*/ ?>
 							</div>
 						</form>
-
-
-
 					</div>
 				</div>
 			</div>
 
-		</section>
+		</div>
 		<!--end  html -->
 		
-		<link rel="stylesheet" type="text/css" href="http://code.jquery.com/ui/1.8.21/themes/base/jquery-ui.css">
-
-
-		<script type="text/javascript">
-			$(window).load(function(){
-
-				$(function(){
-
-
-				    // กรณีใช้แบบ input
-				    $("#thebirthdate").datetimepicker({
-				        timepicker:false,
-				        maxDate:true,
-				        yearStart: 1920,
-						yearEnd: <?php echo date("Y"); ?>,
-				        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
-				        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
-				        onSelectDate:function(dp,$input){
-				            var yearT=new Date(dp).getFullYear()-0;  
-				            var yearTH=yearT+543;
-				            var fulldate=$input.val();
-				            var fulldateTH=fulldate.replace(yearT,yearTH);
-				            $input.val(fulldateTH);
-				        },
-				    });       
-				    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
-				    $("#thebirthdate").on("mouseenter mouseleave",function(e){
-				        var dateValue=$(this).val();
-				        if(dateValue!=""){
-				                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
-				                // ในที่นี้อยู่ในรูปแบบ 00-00-0000 เป็น d-m-Y  แบ่งด่วย - ดังนั้น ตัวแปรที่เป็นปี จะอยู่ใน array
-				                //  ตัวที่สอง arr_date[2] โดยเริ่มนับจาก 0 
-				                if(e.type=="mouseenter"){
-				                    var yearT=arr_date[2]-543;
-				                }       
-				                if(e.type=="mouseleave"){
-				                    var yearT=parseInt(arr_date[2])+543;
-				                }   
-				                dateValue=dateValue.replace(arr_date[2],yearT);
-				                $(this).val(dateValue);                                                 
-				        }       
-				    });
-
-				 // กรณีใช้แบบ input
-				    $("#joining_date").datetimepicker({
-				        timepicker:false,
-				        maxDate:true,
-				        yearStart: 1920,
-				        yearEnd: <?php echo date("Y"); ?>,
-				        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
-				        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
-				        onSelectDate:function(dp,$input){
-				            var yearT=new Date(dp).getFullYear()-0;  
-				            var yearTH=yearT+543;
-				            var fulldate=$input.val();
-				            var fulldateTH=fulldate.replace(yearT,yearTH);
-				            $input.val(fulldateTH);
-				        },
-				    });       
-				    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
-				    $("#joining_date").on("mouseenter mouseleave",function(e){
-				        var dateValue=$(this).val();
-				        if(dateValue!=""){
-				                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
-				                // ในที่นี้อยู่ในรูปแบบ 00-00-0000 เป็น d-m-Y  แบ่งด่วย - ดังนั้น ตัวแปรที่เป็นปี จะอยู่ใน array
-				                //  ตัวที่สอง arr_date[2] โดยเริ่มนับจาก 0 
-				                if(e.type=="mouseenter"){
-				                    var yearT=arr_date[2]-543;
-				                }       
-				                if(e.type=="mouseleave"){
-				                    var yearT=parseInt(arr_date[2])+543;
-				                }   
-				                dateValue=dateValue.replace(arr_date[2],yearT);
-				                $(this).val(dateValue);                                                 
-				        }       
-				    });
-
-/*
-					
-					$('#thebirthdate').datepicker({
-						dateFormat: 'dd-mm-yy',
-						isBuddhist: true,             //Set เป็นปี พ.ศ.
-						changeYear: true,
-			            minDate: '-100Y',
-			            maxDate: '0D',
-				        beforeShow:function(){  
-				            if($(this).val()!=""){
-				                var arrayDate=$(this).val().split("-");     
-				                arrayDate[2]=parseInt(arrayDate[2])-543;
-				                $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);
-				            }
-				            setTimeout(function(){
-				                $.each($(".ui-datepicker-year option"),function(j,k){
-				                    var textYear=parseInt($(".ui-datepicker-year option").eq(j).val())+543;
-				                    $(".ui-datepicker-year option").eq(j).text(textYear);
-				                });             
-				            },50);
-				        },
-				        onChangeMonthYear: function(){
-				            setTimeout(function(){
-				                $.each($(".ui-datepicker-year option"),function(j,k){
-				                    var textYear=parseInt($(".ui-datepicker-year option").eq(j).val())+543;
-				                    $(".ui-datepicker-year option").eq(j).text(textYear);
-				                });             
-				            },50);      
-				        },
-				        onClose:function(){
-				            if($(this).val()!="" && $(this).val()==dateBefore){         
-				                var arrayDate=dateBefore.split("-");
-				                arrayDate[2]=parseInt(arrayDate[2])+543;
-				                $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);    
-				            }       
-				        },
-				        onSelect: function(dateText, inst){ 
-				            dateBefore=$(this).val();
-				            var arrayDate=dateText.split("-");
-				            arrayDate[2]=parseInt(arrayDate[2])+543;
-				            $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);
-				        }   
-						//altField: '#thealtdate',
-						 //altFormat: 'yy-mm-dd'
-					})
-					
-					
-					$('#joining_date').datepicker({
-						dateFormat: 'dd-mm-yy',
-						isBuddhist: true,             //Set เป็นปี พ.ศ.
-						changeYear: true,
-			            minDate: '-100Y',
-			            maxDate: '0D',
-				        beforeShow:function(){  
-				            if($(this).val()!=""){
-				                var arrayDate=$(this).val().split("-");     
-				                arrayDate[2]=parseInt(arrayDate[2])-543;
-				                $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);
-				            }
-				            setTimeout(function(){
-				                $.each($(".ui-datepicker-year option"),function(j,k){
-				                    var textYear=parseInt($(".ui-datepicker-year option").eq(j).val())+543;
-				                    $(".ui-datepicker-year option").eq(j).text(textYear);
-				                });             
-				            },50);
-				        },
-				        onChangeMonthYear: function(){
-				            setTimeout(function(){
-				                $.each($(".ui-datepicker-year option"),function(j,k){
-				                    var textYear=parseInt($(".ui-datepicker-year option").eq(j).val())+543;
-				                    $(".ui-datepicker-year option").eq(j).text(textYear);
-				                });             
-				            },50);      
-				        },
-				        onClose:function(){
-				            if($(this).val()!="" && $(this).val()==dateBefore){         
-				                var arrayDate=dateBefore.split("-");
-				                arrayDate[2]=parseInt(arrayDate[2])+543;
-				                $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);    
-				            }       
-				        },
-				        onSelect: function(dateText, inst){ 
-				            dateBefore=$(this).val();
-				            var arrayDate=dateText.split("-");
-				            arrayDate[2]=parseInt(arrayDate[2])+543;
-				            $(this).val(arrayDate[0]+"-"+arrayDate[1]+"-"+arrayDate[2]);
-				        }   
-						//altField: '#thealtdate',
-						//altFormat: 'yy-mm-dd'
-					})
-*/					
-										
-
-
-				});
-
-			});
-
-			$('select[name="province_id"]').on('change',function(){
-
-				var provinceId=$(this).val();$.ajax({
-					type:"GET",url:"<?php echo site_url('admin/listjson_local/'); ?>"+provinceId,data:{
-						province:provinceId},success:function(data){
-						var a=JSON.parse(data);$('select[name="district_id"]').prop("disabled",false);
-						$("#district_id").html(a.response);
-						console.log(a.response);
-					}});
-
-				$('#district_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกอำเภอ"
-						});
-				});
-				
-				$("#sub_district_id").html('');
-				$('#sub_district_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกตำบล"
-						});
-				});
-				
-			});
-			$('select[name="district_id"]').on('change',function(){
-
-				var district_id=$(this).val();$.ajax({
-					type:"GET",url:"<?php echo site_url('admin/listjson_local2/'); ?>"+district_id,data:{
-						district_id:district_id},success:function(data){
-						var a=JSON.parse(data);$('select[name="sub_district_id"]').prop("disabled",false);
-						$("#sub_district_id").html(a.response);
-						console.log(a.response);
-					}});
-
-				$('#sub_district_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกตำบล"
-						});
-				});
-			});
-
-			$("input").on("keyup", function() {
-				var valueee = $(this).val();
-				var id=$(this).attr('id');
-				if ($(this).attr('id')!='email')
-				{
-					valueee = valueee.replace(/@/g , "");
-				}
-
-				valueee = valueee.replace(/</g , "");
-				valueee = valueee.replace(/>/g , "");
-				valueee = valueee.replace(/#/g , "");
-				valueee = valueee.replace(/#/g , "");
-				valueee = valueee.replace(/&/g , "");
-				valueee = valueee.replace(/\(/g , "");
-				valueee = valueee.replace(/\)/g , "");
-				valueee = valueee.replace(/\$/g , "");
-				valueee = valueee.replace(/!/g , "");
-				valueee = valueee.replace(/\^/g , "");
-				valueee = valueee.replace(/\[/g , "");
-				valueee = valueee.replace(/\]/g , "");
-				valueee = valueee.replace(/{/g , "");
-				valueee = valueee.replace(/}/g , "");
-				valueee = valueee.replace(/\\/g , "");
-				valueee = valueee.replace(/\*/g , "");
-				valueee = valueee.replace(/\+/g , "");
-				valueee = valueee.replace(/~/g , "");
-				valueee = valueee.replace(/\|/g , "");
-				valueee = valueee.replace(/\?/g , "");
-				valueee = valueee.replace(/%/g , "");
-				valueee = valueee.replace(/:/g , "");
-				valueee = valueee.replace(/;/g , "");
-				valueee = valueee.replace(/\_/g , "");
-				
-				$(this).val(valueee);
-			});
-			
-		</script>
-		<script type="text/javascript">
-	
-			function isNumber(evt) {
-			    evt = (evt) ? evt : window.event;
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-			    
-			    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    return true;
-			} 
-
-			// no html
-			function isValidInput(evt) {
-			    evt = (evt) ? evt : window.event;
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-
-			    if (charCode==34 || charCode==39  || charCode==60 || charCode==62 ) {
-			        return false;
-			    }
-			    return true;
-			} 
-			
-			function isAlpha(e) {
-				var reg = /^[a-zA-Zก-๗]+$/i;
-				var reg_num_thai = /^[๑-๗]+$/i;
-				console.log(reg.test(e.key));
-				console.log(reg_num_thai.test(e.key));
-
-				if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-				{
-					return true;
-				}else{
-					return false;
-				}
-			} 
-
-			function isAlphaNumeric(e) {
-				var reg = /^[a-zA-Zก-๗0-9]+$/i;
-				var reg_num_thai = /^[๑-๗]+$/i;
-				console.log(reg.test(e.key));
-				console.log(reg_num_thai.test(e.key));
-				if (e.keyCode==8 || e.keyCode==37 || e.keyCode==39 || e.key==' ' || e.key=='/' || e.key=='-')
-				{
-					return true;
-				}
-				if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-				{
-					return true;
-				}else{
-					return false;
-				}
-			} 	
-			
-			function isDate(e) {
-				var reg = /^[0-9]+$/i;
-				if (e.keyCode==8 || e.keyCode==37 || e.keyCode==39)
-				{
-					return true;
-				}
-				if((reg.test(e.key)||(e.key=='-')) && !e.key !='฿' )
-				{
-					return true;
-				}else{
-					return false;
-				}
-			} 			
-
-			function isHomePhoneNumber(evt) {
-
-			    evt = (evt) ? evt : window.event;
-
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-			    
-			    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    
-			    if (evt.target.value.length>9)
-			    {
-			    	return false;
-			    }
-				
-			    return true;
-			} 
-
-			function isPhoneNumber(evt) {
-
-			    evt = (evt) ? evt : window.event;
-
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-			    
-			    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    
-			    if (evt.target.value.length>9)
-			    {
-			    	return false;
-			    }
-				
-			    return true;
-			} 
-
-
-			function isPostalCode(evt) {
-
-			    evt = (evt) ? evt : window.event;
-
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-			    
-			    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    
-
-			    if (evt.target.value.length>4)
-			    {
-			    	return false;
-			    }
-				
-			    return true;
-			} 
-
-
-			function isPinNumber(evt) {
-
-			    evt = (evt) ? evt : window.event;
-
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-
-			    if (charCode==8)
-				    return true;
-			    
-			    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    
-
-			    if (evt.target.value.length>12)
-			    {
-			    	return false;
-			    }
-				
-			    return true;
-			} 
-
-			function isDecimal(evt) {
-			    evt = (evt) ? evt : window.event;
-			    var charCode = (evt.which) ? evt.which : evt.keyCode;
-			    if ((charCode !=8) && (charCode != 46)  && (charCode < 48 || charCode > 57)) {
-			        return false;
-			    }
-			    return true;
-			}
-			
-			$(window).load(function(){
-
-				$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
-					if ((event.which !=8) && (event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
-						return false;
-					}
-		            return true;
-				});
-
-				$(".allownumericwithoutdecimal").on("keypress",function (event) {
-					console.log($(this).val().length);
-
-					var charCode = (event.which) ? event.which : event.keyCode;
-					if (charCode==8)
-					{
-					    return true;
-					}
-
-					var reg = /^[0-9]+$/i;
-					if(reg.test(event.key))
-					{
-						if($(this).val().length >=13)
-						{
-							return false;
-						}
-						return true;
-					}else{
-						if(event.key ==  '.' || event.shiftKey || (  event.key !=  '0' && event.key !=  '1'  && event.key !=  '2'  && event.key !=  '3' 
-							 && event.key !=  '4'  && event.key !=  '5'  && event.key !=  '6'  && event.key !=  '7' 
-								 && event.key !=  '8'  && event.key !=  '9'   ) && event.keyCode!=8 ){
-							return false;
-						}
-						if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-								// Allow: Ctrl/cmd+A
-							(event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) ||
-								// Allow: Ctrl/cmd+C
-							(event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) ||
-								// Allow: Ctrl/cmd+X
-							(event.keyCode == 88 && (event.ctrlKey === true || event.metaKey === true)) ||
-								// Allow: home, end, left, right
-							(event.keyCode >= 35 && event.keyCode <= 39)) {
-							// let it happen, don't do anything
-							return;
-						}
-						return false;
-					}
-
-					if($(this).val().length >=13)
-						return false;
-				});
-
-				function isNumberKey(evt)
-				{var charCode=(evt.which)?evt.which:event.keyCode
-					if(charCode>31&&(charCode<48||charCode>57))
-						return false;return true;}
-
-
-
-			});
-
-			
-
-			$(document).ready(function() {
-// 				$('.datepicker').datepicker({ dateFormat: 'dd/mm/yy', isBuddhist: true});
-
-
-				$('form').on('keyup keypress', function(e) {
-				  var keyCode = e.keyCode || e.which;
-				  if (keyCode === 13) { 
-				    e.preventDefault();
-				    return false;
-				  }
-				});
-				$('form').on('focus', 'input[type=number]', function (e) {
-					  $(this).on('mousewheel.disableScroll', function (e) {
-					    e.preventDefault()
-					  })
-					})
-					$('form').on('blur', 'input[type=number]', function (e) {
-					  $(this).off('mousewheel.disableScroll')
-					})
-
-
-
-				
-
-				$('#coop_name_div').click(function(){
-					$('#org_type1').click();
-				});
-				$('#province_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกจังหวัด"
-						});
-				});
-				$('#district_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกอำเภอ"
-						});
-				});				
-				$('#sub_district_id').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกตำบล"
-						});
-				});
-				$('#name_title').each(function( index ) {
-					$(this).select2({
-						  placeholder: "เลือกคำนำหน้า",
-						  width:'140px'
-						});
-				});
-
-				$('#status').each(function( index ) {
-					$(this).select2({
-						  placeholder: "สถานะภาพ",
-						  width:'100px'
-						});
-				});
-				
-				$('#education').each(function( index ) {
-					$(this).select2({
-						  placeholder: "ระดับการศึกษา"
-						});
-				});
-
-				
-
-				  $('.hasDatepicker').datepicker({
-		                format: 'dd/mm/yyyy',
-		                todayBtn: true,
-		                language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
-		                thaiyear: true              //Set เป็นปี พ.ศ.
-		            }).datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
-				
-// 				$('#household_code').each(function( index ) {
-// 					$(this).select2({
-// 						  placeholder: "รหัสครัวเรือน",
-// 						  width:'150px'
-// 						});
-// 				});
-				
-// 				$('#thebirthdate').each(function( index ) {
-// 					$(this).select2({
-// 						  placeholder: "วันเดือนปีเกิด",
-// 						  width:'150px'
-// 						});
-// 				});
-				
-				
-				//Number of steps in all
-				var steps = 7;
-				//Current step
-				var current = 1;
-				//progress element
-				var btnContainer = document.getElementById("myDIVprogress");
-				var btns = btnContainer.getElementsByClassName("bs-wizard-dot");
-				/*
-				 for (var i = 0; i < btns.length; i++) {
-				 btns[i].addEventListener("click", function() {
-				 var current = document.getElementsByClassName("active");
-
-
-				 console.log(btns);
-
-				 });
-
-				 }//for */
-
-
-
-// 				 $('.own_land_ngan').each(function () {
-// 					 console.log( $(this));
-// 					 $('.own_land_ngan').keydown(function(e){
-// 						 console.log(e);
-// 						alert('test');
-
-// 		                        function () {
-// 		                            if ((e.val() < 0 || e.val() > 4) ) {
-// 		                                if (e.val() < 1) {
-// 		                                	e.val(0)
-// 		                                }
-
-// 		                                if (e.val() > 4) {
-// 		                                	e.val(3)
-// 		                                }
-
-// 		                            }
-// 		                        }
-// 						 });
-	                    
-// 	                });
-
-
-				$('#first_name').keydown(function(e) {
-					console.log(e.key);
-					var reg = /^[a-zA-Zก-๗]+$/i;
-					var reg_num_thai = /^[๑-๗]+$/i;
-					console.log(reg.test(e.key));
-					console.log(reg_num_thai.test(e.key));
-
-					if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-					{
-						return;
-					}else{
-						e.preventDefault();
-						}				    
-				});
-
-				
-				$('#last_name').keydown(function(e) {
-					console.log(e.key);
-					var reg = /^[a-zA-Zก-๗]+$/i;
-					var reg_num_thai = /^[๑-๗]+$/i;
-					console.log(reg.test(e.key));
-					console.log(reg_num_thai.test(e.key));
-
-					if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-					{
-						return;
-					}else{
-						e.preventDefault();
-						}
-
-				    
-				});
-				$('.first_name_land').keydown(function(e) {
-
-					console.log(e.key);
-					var reg = /^[a-zA-Zก-๗]+$/i;
-					var reg_num_thai = /^[๑-๗]+$/i;
-					console.log(reg.test(e.key));
-					console.log(reg_num_thai.test(e.key));
-
-					if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-					{
-						return;
-					}else{
-						e.preventDefault();
-						}
-
-				    
-				});
-				$('.last_name_land').keydown(function(e) {
-
-					console.log(e.key);
-					var reg = /^[a-zA-Zก-๗]+$/i;
-					var reg_num_thai = /^[๑-๗]+$/i;
-					console.log(reg.test(e.key));
-					console.log(reg_num_thai.test(e.key));
-
-					if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-					{
-						return;
-					}else{
-						e.preventDefault();
-						}			    
-				});
-
-				$('#home_phone_no').keydown(function(e) {
-					var reg = /^[0-9]+$/i;
-					if(reg.test(e.key))
-					{
-						if($(this).val().length >=13)
-						{
-							e.preventDefault();
-						}
-						return;
-					}else{
-						if(e.key ==  '.' || e.shiftKey || (  e.key !=  '0' && e.key !=  '1'  && e.key !=  '2'  && e.key !=  '3' 
-							 && e.key !=  '4'  && e.key !=  '5'  && e.key !=  '6'  && e.key !=  '7' 
-								 && e.key !=  '8'  && e.key !=  '9'   ) && e.keyCode!=8 ){
-							e.preventDefault();
-						}
-						if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-								// Allow: Ctrl/cmd+A
-							(e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: Ctrl/cmd+C
-							(e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: Ctrl/cmd+X
-							(e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: home, end, left, right
-							(e.keyCode >= 35 && e.keyCode <= 39)) {
-							// let it happen, don't do anything
-							return;
-						}
-						e.preventDefault();
-					}
-				});
-
-
-				$('#cell_phone').keydown(function(e) {
-					var reg = /^[0-9]+$/i;
-					if(reg.test(e.key))
-					{
-						if($(this).val().length >=13)
-						{
-							e.preventDefault();
-						}
-						return;
-					}else{
-						if(Number.isInteger(e.key)  || e.key ==  '.' || e.shiftKey || e.key ==  '>'){
-							e.preventDefault();
-						}
-						if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-								// Allow: Ctrl/cmd+A
-							(e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: Ctrl/cmd+C
-							(e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: Ctrl/cmd+X
-							(e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
-								// Allow: home, end, left, right
-							(e.keyCode >= 35 && e.keyCode <= 39)) {
-							// let it happen, don't do anything
-							return;
-						}
-						e.preventDefault();
-					}
-				});
-
-				 
-			});
-			
-			jQuery(document).on('keydown', 'input.own_land_ngan', function(ev) {
-				 var $this = $(this)
-
-                 t = setInterval(
-
-                     function () {
-                         if (($this.val() < 0 || $this.val() >= 4) ) {
-                             if ($this.val() < 1) {
-                                 $this.val(0)
-                             }
-
-                             if ($this.val() >= 4) {
-                                 $this.val(3)
-                             }
-
-                         }
-                     }, 50)
-				    
-				});
-			
-			jQuery(document).on('keydown', 'input.own_land_squarewa', function(ev) {
-				var $this = $(this)
-
-                f = setInterval(
-
-                    function () {
-                        if (($this.val() < 0 || $this.val() >= 100)) {
-                            if ($this.val() < 0) {
-                                $this.val(0)
-                            }
-
-                            if ($this.val() >= 100) {
-                                $this.val(99)
-                            }
-
-                        }
-                    }, 50)
-				    
-				});
-
-			jQuery(document).on('keydown', 'input.hire_land_ngan', function(ev) {
-				 var $this = $(this)
-
-                t = setInterval(
-
-                    function () {
-                        if (($this.val() < 0 || $this.val() >= 4) ) {
-                            if ($this.val() < 1) {
-                                $this.val(0)
-                            }
-
-                            if ($this.val() >= 4) {
-                                $this.val(3)
-                            }
-
-                        }
-                    }, 50)
-				    
-				});
-			
-			jQuery(document).on('keydown', 'input.hire_land_squarewa', function(ev) {
-				var $this = $(this)
-
-               f = setInterval(
-
-                   function () {
-                       if (($this.val() < 0 || $this.val() >= 100)) {
-                           if ($this.val() < 0) {
-                               $this.val(0)
-                           }
-
-                           if ($this.val() >= 100) {
-                               $this.val(99)
-                           }
-
-                       }
-                   }, 50)
-				    
-				});
-// 			jQuery(document).on('change', 'select.water', function(ev) {
-// 				var $this = $(this)
-				
-// // 					console.log(ev.val);
-// // 					console.log(ev.originalEvent.path[2].rowIndex);
-// 					var rowIndex = ev.originalEvent.path[2].rowIndex;
-// 					if($this.val() == 0)
-// 					$('#tblAddRow244 tr:eq('+rowIndex+') input[type=checkbox]' ).each(function ()
-// 							{
-// 						console.log($(this));
-// 						$(this).prop('checked', false); 
-// 						$(this).prop('disabled', true);
-// 						});
-// 					else
-// 						$('#tblAddRow244 tr:eq('+rowIndex+') input[type=checkbox]' ).each(function ()
-// 								{
-// 							console.log($(this));
-// 							$(this).prop('disabled', false);
-// 							});
-					
-// // 					ev.originalEvent.path[2].
-
-
-
-// 				});
-
-			/*
-			jQuery(document).on('click', 'input.orther', function(ev) 
-					{
-// 					console.log(ev.target.id);
-					var id = ev.target.id;
-					var target = $('#'+id).attr('data-target');
-					var isChecked = $('#'+id).is(':checked');
-					disable_text_box_orther(target,isChecked);
-					
-				
-
-				});
-
-			function disable_text_box_orther(orther_id,status)
-			{
-				console.log(orther_id);
-				console.log(status);
-				if(status)
-					{
-					$('#'+orther_id).prop('disabled', false);
-					}
-				else
-				{
-					$("#"+orther_id+"[type=text]").val('');
-					$('#'+orther_id).prop('disabled', true);
-				}
-			}
-
-			*/
-		</script>
-		<script type="text/javascript">
-
-		</script>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-		
 	</div>
-	<?php /*
-	<button class="btn btn-info b10" type="submit" id="save-and-go-back-button">
-          <i class="fa fa-"></i>เริ่มกรอกใหม่ตั้งแต่ต้น</button>
-    <button class="btn btn-info b10" type="submit" id="save-and-go-back-button">
-          <i class="fa fa-"></i>ย้อนกลับ</button>
-	<button class="btn btn-info b10" type="submit" id="save-and-go-back-button">
-          <i class="fa fa-"></i>ขั้นต่อไป</button>
- */ ?>
 </div>
 
+
+<script type="text/javascript">
+	$(window).load(function(){
+
+		$(function(){
+
+		    // กรณีใช้แบบ input
+		    $("#thebirthdate").datetimepicker({
+		        timepicker:false,
+		        maxDate:true,
+		        yearStart: 1920,
+				yearEnd: <?php echo date("Y"); ?>,
+		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
+		        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
+		        onSelectDate:function(dp,$input){
+		            var yearT=new Date(dp).getFullYear()-0;  
+		            var yearTH=yearT+543;
+		            var fulldate=$input.val();
+		            var fulldateTH=fulldate.replace(yearT,yearTH);
+		            $input.val(fulldateTH);
+		        },
+		    });       
+		    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
+		    $("#thebirthdate").on("mouseenter mouseleave",function(e){
+		        var dateValue=$(this).val();
+		        if(dateValue!=""){
+		                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
+		                // ในที่นี้อยู่ในรูปแบบ 00-00-0000 เป็น d-m-Y  แบ่งด่วย - ดังนั้น ตัวแปรที่เป็นปี จะอยู่ใน array
+		                //  ตัวที่สอง arr_date[2] โดยเริ่มนับจาก 0 
+		                if(e.type=="mouseenter"){
+		                    var yearT=arr_date[2]-543;
+		                }       
+		                if(e.type=="mouseleave"){
+		                    var yearT=parseInt(arr_date[2])+543;
+		                }   
+		                dateValue=dateValue.replace(arr_date[2],yearT);
+		                $(this).val(dateValue);                                                 
+		        }       
+		    });
+
+		 // กรณีใช้แบบ input
+		    $("#joining_date").datetimepicker({
+		        timepicker:false,
+		        maxDate:true,
+		        yearStart: 1920,
+		        yearEnd: <?php echo date("Y"); ?>,
+		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
+		        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
+		        onSelectDate:function(dp,$input){
+		            var yearT=new Date(dp).getFullYear()-0;  
+		            var yearTH=yearT+543;
+		            var fulldate=$input.val();
+		            var fulldateTH=fulldate.replace(yearT,yearTH);
+		            $input.val(fulldateTH);
+		        },
+		    });       
+		    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
+		    $("#joining_date").on("mouseenter mouseleave",function(e){
+		        var dateValue=$(this).val();
+		        if(dateValue!=""){
+		                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
+		                // ในที่นี้อยู่ในรูปแบบ 00-00-0000 เป็น d-m-Y  แบ่งด่วย - ดังนั้น ตัวแปรที่เป็นปี จะอยู่ใน array
+		                //  ตัวที่สอง arr_date[2] โดยเริ่มนับจาก 0 
+		                if(e.type=="mouseenter"){
+		                    var yearT=arr_date[2]-543;
+		                }       
+		                if(e.type=="mouseleave"){
+		                    var yearT=parseInt(arr_date[2])+543;
+		                }   
+		                dateValue=dateValue.replace(arr_date[2],yearT);
+		                $(this).val(dateValue);                                                 
+		        }       
+		    });
+		});
+
+	});
+
+	$('select[name="province_id"]').on('change',function(){
+
+		var provinceId=$(this).val();$.ajax({
+			type:"GET",url:"<?php echo site_url('admin/listjson_local/'); ?>"+provinceId,data:{
+				province:provinceId},success:function(data){
+				var a=JSON.parse(data);$('select[name="district_id"]').prop("disabled",false);
+				$("#district_id").html(a.response);
+				console.log(a.response);
+			}});
+
+		/*$('#district_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกอำเภอ"
+				});
+		});
+		
+		$("#sub_district_id").html('');
+		$('#sub_district_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกตำบล"
+				});
+		});*/
+		
+	});
+	$('select[name="district_id"]').on('change',function(){
+
+		var district_id=$(this).val();$.ajax({
+			type:"GET",url:"<?php echo site_url('admin/listjson_local2/'); ?>"+district_id,data:{
+				district_id:district_id},success:function(data){
+				var a=JSON.parse(data);$('select[name="sub_district_id"]').prop("disabled",false);
+				$("#sub_district_id").html(a.response);
+				console.log(a.response);
+			}});
+
+		/*$('#sub_district_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกตำบล"
+				});
+		});*/
+	});
+
+	$("input").on("keyup", function() {
+		var valueee = $(this).val();
+		var id=$(this).attr('id');
+		if ($(this).attr('id')!='email')
+		{
+			valueee = valueee.replace(/@/g , "");
+		}
+
+		valueee = valueee.replace(/</g , "");
+		valueee = valueee.replace(/>/g , "");
+		valueee = valueee.replace(/#/g , "");
+		valueee = valueee.replace(/#/g , "");
+		valueee = valueee.replace(/&/g , "");
+		valueee = valueee.replace(/\(/g , "");
+		valueee = valueee.replace(/\)/g , "");
+		valueee = valueee.replace(/\$/g , "");
+		valueee = valueee.replace(/!/g , "");
+		valueee = valueee.replace(/\^/g , "");
+		valueee = valueee.replace(/\[/g , "");
+		valueee = valueee.replace(/\]/g , "");
+		valueee = valueee.replace(/{/g , "");
+		valueee = valueee.replace(/}/g , "");
+		valueee = valueee.replace(/\\/g , "");
+		valueee = valueee.replace(/\*/g , "");
+		valueee = valueee.replace(/\+/g , "");
+		valueee = valueee.replace(/~/g , "");
+		valueee = valueee.replace(/\|/g , "");
+		valueee = valueee.replace(/\?/g , "");
+		valueee = valueee.replace(/%/g , "");
+		valueee = valueee.replace(/:/g , "");
+		valueee = valueee.replace(/;/g , "");
+		valueee = valueee.replace(/\_/g , "");
+		
+		$(this).val(valueee);
+	});
+	
+</script>
+<script type="text/javascript">
+
+	function isNumber(evt) {
+	    evt = (evt) ? evt : window.event;
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+	    
+	    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    return true;
+	} 
+
+	// no html
+	function isValidInput(evt) {
+	    evt = (evt) ? evt : window.event;
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+
+	    if (charCode==34 || charCode==39  || charCode==60 || charCode==62 ) {
+	        return false;
+	    }
+	    return true;
+	} 
+	
+	function isAlpha(e) {
+		var reg = /^[a-zA-Zก-๗]+$/i;
+		var reg_num_thai = /^[๑-๗]+$/i;
+		console.log(reg.test(e.key));
+		console.log(reg_num_thai.test(e.key));
+
+		if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+		{
+			return true;
+		}else{
+			return false;
+		}
+	} 
+
+	function isAlphaNumeric(e) {
+		var reg = /^[a-zA-Zก-๗0-9]+$/i;
+		var reg_num_thai = /^[๑-๗]+$/i;
+		console.log(reg.test(e.key));
+		console.log(reg_num_thai.test(e.key));
+		if (e.keyCode==8 || e.keyCode==37 || e.keyCode==39 || e.key==' ' || e.key=='/' || e.key=='-')
+		{
+			return true;
+		}
+		if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+		{
+			return true;
+		}else{
+			return false;
+		}
+	} 	
+	
+	function isDate(e) {
+		var reg = /^[0-9]+$/i;
+		if (e.keyCode==8 || e.keyCode==37 || e.keyCode==39)
+		{
+			return true;
+		}
+		if((reg.test(e.key)||(e.key=='-')) && !e.key !='฿' )
+		{
+			return true;
+		}else{
+			return false;
+		}
+	} 			
+
+	function isHomePhoneNumber(evt) {
+
+	    evt = (evt) ? evt : window.event;
+
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+	    
+	    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    
+	    if (evt.target.value.length>9)
+	    {
+	    	return false;
+	    }
+		
+	    return true;
+	} 
+
+	function isPhoneNumber(evt) {
+
+	    evt = (evt) ? evt : window.event;
+
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+	    
+	    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    
+	    if (evt.target.value.length>9)
+	    {
+	    	return false;
+	    }
+		
+	    return true;
+	} 
+
+
+	function isPostalCode(evt) {
+
+	    evt = (evt) ? evt : window.event;
+
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+	    
+	    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    
+
+	    if (evt.target.value.length>4)
+	    {
+	    	return false;
+	    }
+		
+	    return true;
+	} 
+
+
+	function isPinNumber(evt) {
+
+	    evt = (evt) ? evt : window.event;
+
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+
+	    if (charCode==8)
+		    return true;
+	    
+	    if (charCode!=8 && charCode > 31 && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    
+
+	    if (evt.target.value.length>12)
+	    {
+	    	return false;
+	    }
+		
+	    return true;
+	} 
+
+	function isDecimal(evt) {
+	    evt = (evt) ? evt : window.event;
+	    var charCode = (evt.which) ? evt.which : evt.keyCode;
+	    if ((charCode !=8) && (charCode != 46)  && (charCode < 48 || charCode > 57)) {
+	        return false;
+	    }
+	    return true;
+	}
+	
+	$(window).load(function(){
+
+		$(".allownumericwithdecimal").on("keypress keyup blur",function (event) {
+			if ((event.which !=8) && (event.which != 46 || $(this).val().indexOf('.') != -1) && (event.which < 48 || event.which > 57)) {
+				return false;
+			}
+            return true;
+		});
+
+		$(".allownumericwithoutdecimal").on("keypress",function (event) {
+			console.log($(this).val().length);
+
+			var charCode = (event.which) ? event.which : event.keyCode;
+			if (charCode==8)
+			{
+			    return true;
+			}
+
+			var reg = /^[0-9]+$/i;
+			if(reg.test(event.key))
+			{
+				if($(this).val().length >=13)
+				{
+					return false;
+				}
+				return true;
+			}else{
+				if(event.key ==  '.' || event.shiftKey || (  event.key !=  '0' && event.key !=  '1'  && event.key !=  '2'  && event.key !=  '3' 
+					 && event.key !=  '4'  && event.key !=  '5'  && event.key !=  '6'  && event.key !=  '7' 
+						 && event.key !=  '8'  && event.key !=  '9'   ) && event.keyCode!=8 ){
+					return false;
+				}
+				if ($.inArray(event.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+						// Allow: Ctrl/cmd+A
+					(event.keyCode == 65 && (event.ctrlKey === true || event.metaKey === true)) ||
+						// Allow: Ctrl/cmd+C
+					(event.keyCode == 67 && (event.ctrlKey === true || event.metaKey === true)) ||
+						// Allow: Ctrl/cmd+X
+					(event.keyCode == 88 && (event.ctrlKey === true || event.metaKey === true)) ||
+						// Allow: home, end, left, right
+					(event.keyCode >= 35 && event.keyCode <= 39)) {
+					// let it happen, don't do anything
+					return;
+				}
+				return false;
+			}
+
+			if($(this).val().length >=13)
+				return false;
+		});
+
+		function isNumberKey(evt)
+		{
+			var charCode=(evt.which)?evt.which:event.keyCode
+			if(charCode>31&&(charCode<48||charCode>57))
+				return false;return true;
+		}
+
+	});
+
+	
+
+	$(document).ready(function() {
+		$('form').on('keyup keypress', function(e) {
+		  var keyCode = e.keyCode || e.which;
+		  if (keyCode === 13) { 
+		    e.preventDefault();
+		    return false;
+		  }
+		});
+		$('form').on('focus', 'input[type=number]', function (e) {
+			  $(this).on('mousewheel.disableScroll', function (e) {
+			    e.preventDefault()
+			  })
+		});
+		$('form').on('blur', 'input[type=number]', function (e) {
+			  $(this).off('mousewheel.disableScroll')
+		});
+
+
+		$('#coop_name_div').click(function(){
+			$('#org_type1').click();
+		});
+		/*$('#province_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกจังหวัด"
+				});
+		});
+		$('#district_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกอำเภอ"
+				});
+		});				
+		$('#sub_district_id').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกตำบล"
+				});
+		});
+		$('#name_title').each(function( index ) {
+			$(this).select2({
+				  placeholder: "เลือกคำนำหน้า",
+				  width:'140px'
+				});
+		});*/
+
+		$('#status').each(function( index ) {
+			$(this).select2({
+				  placeholder: "สถานะภาพ",
+				  width:'100px'
+				});
+		});
+		
+		$('#education').each(function( index ) {
+			$(this).select2({
+				  placeholder: "ระดับการศึกษา"
+				});
+		});
+
+	  	$('.hasDatepicker').datepicker({
+            format: 'dd/mm/yyyy',
+            todayBtn: true,
+            language: 'th',             //เปลี่ยน label ต่างของ ปฏิทิน ให้เป็น ภาษาไทย   (ต้องใช้ไฟล์ bootstrap-datepicker.th.min.js นี้ด้วย)
+            thaiyear: true              //Set เป็นปี พ.ศ.
+        }).datepicker("setDate", "0");  //กำหนดเป็นวันปัจุบัน
+						
+		//Number of steps in all
+		var steps = 7;
+		//Current step
+		var current = 1;
+		//progress element
+		var btnContainer = document.getElementById("myDIVprogress");
+		var btns = btnContainer.getElementsByClassName("bs-wizard-dot");
+
+		$('#first_name').keydown(function(e) {
+			console.log(e.key);
+			var reg = /^[a-zA-Zก-๗]+$/i;
+			var reg_num_thai = /^[๑-๗]+$/i;
+			console.log(reg.test(e.key));
+			console.log(reg_num_thai.test(e.key));
+
+			if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+			{
+				return;
+			}else{
+				e.preventDefault();
+				}				    
+		});
+
+		
+		$('#last_name').keydown(function(e) {
+			console.log(e.key);
+			var reg = /^[a-zA-Zก-๗]+$/i;
+			var reg_num_thai = /^[๑-๗]+$/i;
+			console.log(reg.test(e.key));
+			console.log(reg_num_thai.test(e.key));
+
+			if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+			{
+				return;
+			}else{
+				e.preventDefault();
+				}
+
+		    
+		});
+		$('.first_name_land').keydown(function(e) {
+
+			console.log(e.key);
+			var reg = /^[a-zA-Zก-๗]+$/i;
+			var reg_num_thai = /^[๑-๗]+$/i;
+			console.log(reg.test(e.key));
+			console.log(reg_num_thai.test(e.key));
+
+			if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+			{
+				return;
+			}else{
+				e.preventDefault();
+				}
+
+		    
+		});
+		$('.last_name_land').keydown(function(e) {
+
+			console.log(e.key);
+			var reg = /^[a-zA-Zก-๗]+$/i;
+			var reg_num_thai = /^[๑-๗]+$/i;
+			console.log(reg.test(e.key));
+			console.log(reg_num_thai.test(e.key));
+
+			if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+			{
+				return;
+			}else{
+				e.preventDefault();
+				}			    
+		});
+
+		$('#home_phone_no').keydown(function(e) {
+			var reg = /^[0-9]+$/i;
+			if(reg.test(e.key))
+			{
+				if($(this).val().length >=13)
+				{
+					e.preventDefault();
+				}
+				return;
+			}else{
+				if(e.key ==  '.' || e.shiftKey || (  e.key !=  '0' && e.key !=  '1'  && e.key !=  '2'  && e.key !=  '3' 
+					 && e.key !=  '4'  && e.key !=  '5'  && e.key !=  '6'  && e.key !=  '7' 
+						 && e.key !=  '8'  && e.key !=  '9'   ) && e.keyCode!=8 ){
+					e.preventDefault();
+				}
+				if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+						// Allow: Ctrl/cmd+A
+					(e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: Ctrl/cmd+C
+					(e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: Ctrl/cmd+X
+					(e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: home, end, left, right
+					(e.keyCode >= 35 && e.keyCode <= 39)) {
+					// let it happen, don't do anything
+					return;
+				}
+				e.preventDefault();
+			}
+		});
+
+
+		$('#cell_phone').keydown(function(e) {
+			var reg = /^[0-9]+$/i;
+			if(reg.test(e.key))
+			{
+				if($(this).val().length >=13)
+				{
+					e.preventDefault();
+				}
+				return;
+			}else{
+				if(Number.isInteger(e.key)  || e.key ==  '.' || e.shiftKey || e.key ==  '>'){
+					e.preventDefault();
+				}
+				if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+						// Allow: Ctrl/cmd+A
+					(e.keyCode == 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: Ctrl/cmd+C
+					(e.keyCode == 67 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: Ctrl/cmd+X
+					(e.keyCode == 88 && (e.ctrlKey === true || e.metaKey === true)) ||
+						// Allow: home, end, left, right
+					(e.keyCode >= 35 && e.keyCode <= 39)) {
+					// let it happen, don't do anything
+					return;
+				}
+				e.preventDefault();
+			}
+		});
+
+		 
+	});
+	
+	jQuery(document).on('keydown', 'input.own_land_ngan', function(ev) {
+		 var $this = $(this)
+
+         t = setInterval(
+
+             function () {
+                 if (($this.val() < 0 || $this.val() >= 4) ) {
+                     if ($this.val() < 1) {
+                         $this.val(0)
+                     }
+
+                     if ($this.val() >= 4) {
+                         $this.val(3)
+                     }
+
+                 }
+             }, 50)
+		    
+		});
+	
+	jQuery(document).on('keydown', 'input.own_land_squarewa', function(ev) {
+		var $this = $(this)
+
+        f = setInterval(
+
+            function () {
+                if (($this.val() < 0 || $this.val() >= 100)) {
+                    if ($this.val() < 0) {
+                        $this.val(0)
+                    }
+
+                    if ($this.val() >= 100) {
+                        $this.val(99)
+                    }
+
+                }
+            }, 50)
+		    
+		});
+
+	jQuery(document).on('keydown', 'input.hire_land_ngan', function(ev) {
+		 var $this = $(this)
+
+        t = setInterval(
+
+            function () {
+                if (($this.val() < 0 || $this.val() >= 4) ) {
+                    if ($this.val() < 1) {
+                        $this.val(0)
+                    }
+
+                    if ($this.val() >= 4) {
+                        $this.val(3)
+                    }
+
+                }
+            }, 50)
+		    
+		});
+	
+	jQuery(document).on('keydown', 'input.hire_land_squarewa', function(ev) {
+		var $this = $(this)
+
+       f = setInterval(
+
+           function () {
+               if (($this.val() < 0 || $this.val() >= 100)) {
+                   if ($this.val() < 0) {
+                       $this.val(0)
+                   }
+
+                   if ($this.val() >= 100) {
+                       $this.val(99)
+                   }
+
+               }
+           }, 50)
+		    
+	});
+</script>	
