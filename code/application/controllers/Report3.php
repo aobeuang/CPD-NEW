@@ -1960,40 +1960,66 @@ class Report3 extends MY_Controller {
 		$temp_data = array();
 		
 		$sqla_count1 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
-						FROM COOP_INFO 
-						LEFT JOIN ( 
-		  					SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) AS TOTAL_COOP 
-		  					FROM ( 
-			  					SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME 
-				 				FROM moiuser.master_data 
-				 				WHERE OU_D_FLAG IN (1, 2) 
-			  					AND OU_D_STATUS_TYPE NOT IN (1, 11, 13) 
-				 				AND DECODE(REPLACE(TRANSLATE(IN_D_COOP, '1234567890', '##########'), '#'), NULL, 'NUMBER', 'NON NUMER') = 'NUMBER' 
-			  					AND LENGTH (moiuser.master_data.IN_D_COOP) = 13 
-		  					) tb
-		  					GROUP BY tb.IN_D_COOP 
-						) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
-	  					GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
-						ORDER BY COOP_INFO.ORG_ID";
+		  				FROM COOP_INFO 
+		  				LEFT JOIN ( 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
+							FROM ( 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND OU_D_STATUS_TYPE NOT IN (1, 11, 13)
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.IN_D_COOP IS NOT NULL
+                                AND A.OU_D_ID IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
+							) tb
+							GROUP BY tb.IN_D_COOP 
+		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
+						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
+		  				ORDER BY COOP_INFO.ORG_ID";
 		$temp1 = $this->db->query($sqla_count1)->result_array();
 		
 		$sqla_count2 =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
-						FROM COOP_INFO 
-						LEFT JOIN ( 
-			  				SELECT tb.IN_D_COOP, COUNT(tb.OU_D_ID) AS TOTAL_COOP 
-			  				FROM ( 
-				  				SELECT DISTINCT IN_D_COOP, OU_D_ID, OU_D_PNAME, OU_D_SNAME, OU_D_STATUS_TYPE, IN_PROVICE_NAME 
-				 				FROM moiuser.master_data 
-				 				WHERE OU_D_FLAG IN (1, 2) 
-				  				AND OU_D_STATUS_TYPE IN (1, 11, 13) 
-				 				AND DECODE(REPLACE(TRANSLATE(IN_D_COOP, '1234567890', '##########'), '#'), NULL, 'NUMBER', 'NON NUMER') = 'NUMBER' 
-				  				AND LENGTH (moiuser.master_data.IN_D_COOP) = 13 
-			  				) tb
-			  				GROUP BY tb.IN_D_COOP 
-						) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
-		  				GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
-						ORDER BY COOP_INFO.ORG_ID";
+		  				FROM COOP_INFO 
+		  				LEFT JOIN ( 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
+							FROM ( 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND OU_D_STATUS_TYPE IN (1, 11, 13)
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.OU_D_ID IS NOT NULL
+                                AND A.IN_D_COOP IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
+							) tb
+							GROUP BY tb.IN_D_COOP 
+		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
+						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
+		  				ORDER BY COOP_INFO.ORG_ID";
 		$temp2 = $this->db->query($sqla_count2)->result_array();
+
+		$sqla_all =	"SELECT COOP_INFO.ORG_NAME, SUM(a.TOTAL_COOP) 
+		  				FROM COOP_INFO 
+		  				LEFT JOIN ( 
+							SELECT tb.IN_D_COOP, COUNT(DISTINCT tb.OU_D_ID||tb.IN_D_COOP) AS TOTAL_COOP 
+							FROM ( 
+								SELECT OU_D_ID,IN_D_COOP,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                                FROM MOIUSER.MASTER_DATA A
+                                WHERE A.OU_D_FLAG IN(1,2)
+                                AND LENGTH (A.IN_D_COOP) = 13
+                                AND LENGTH (A.OU_D_ID) = 13
+                                AND A.OU_D_ID IS NOT NULL
+                                AND A.IN_D_COOP IS NOT NULL
+                                GROUP BY OU_D_ID,IN_D_COOP
+							) tb
+							GROUP BY tb.IN_D_COOP 
+		  				) a on COOP_INFO.REGISTRY_NO_2 = a.IN_D_COOP
+						GROUP BY COOP_INFO.ORG_NAME, COOP_INFO.ORG_ID
+		  				ORDER BY COOP_INFO.ORG_ID";
+		$temp_all = $this->db->query($sqla_all)->result_array();
 
 		$sqla_count3 ="SELECT COL004, COL003, COL007 FROM KHET ORDER BY ABS(COL004), COL007";
 		$result = $this->db->query($sqla_count3)->result_array();
@@ -2041,7 +2067,7 @@ class Report3 extends MY_Controller {
 
 		//TODO
 		$temp_data_sum_die =array();
-		foreach ($temp2 as $temp)
+		foreach ($temp_all as $temp)
 		{
 			$k = $temp['ORG_NAME'];
 			$k = str_replace("สำนักงานสหกรณ์จังหวัด", "", $k);
@@ -2062,11 +2088,16 @@ class Report3 extends MY_Controller {
 			$k = str_replace("สำนักงานส่งเสริมสหกรณ์ พื้นที่ 1", "กรุงเทพฯ พื้นที่ 1", $k);
 			$k = str_replace("สำนักงานส่งเสริมสหกรณ์ พื้นที่ 2", "กรุงเทพฯ พื้นที่ 2", $k);
 
-			$merge_data[$k]['1'] = intval($v);
+			// $merge_data[$k]['1'] = intval($v);
 
-			$merge_data[$k]['2'] = intval($temp_data_sum_die[$k]);
+			// $merge_data[$k]['2'] = intval($temp_data_sum_die[$k]);
+			// $total_normal = $total_normal+intval($v);
+			// $total_die = $total_die+intval($temp_data_sum_die[$k]);
+
+			$merge_data[$k]['1'] = intval($v);
+			$merge_data[$k]['2'] = intval($temp_data_sum_die[$k])-intval($v);
 			$total_normal = $total_normal+intval($v);
-			$total_die = $total_die+intval($temp_data_sum_die[$k]);
+			$total_die = $total_die+(intval($temp_data_sum_die[$k])-intval($v));
 		}
 		$merge_data['ยอดรวม']['1'] = $total_normal;
 		$merge_data['ยอดรวม']['2'] = $total_die;
