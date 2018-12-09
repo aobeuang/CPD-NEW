@@ -697,227 +697,359 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
-	public function ajexreport5()
-	{
-		if(canViewReport())
-		{
+
+    public function ajaxreport5()
+    {
+        if(canViewReport())
+        {
 
 
-			$sql ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					AND A.OU_D_STATUS_TYPE IN (1,11,13)
-					AND A.OU_D_ID IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+            try {
+                $userId = $this->session->userdata('auth_user_id');
+                log_message('info', ' *************** ajaxreport5 userId : '.$userId.' *************** ');
+
+                ini_set('max_execution_time', 0);
+                ini_set("memory_limit", '-1');
+                $ci =& get_instance();
+
+                try {
+                    $data_cache = null;
+
+                    log_message('debug', 'begin pkg_report_mis.rpt_sum_member_eq1_st(:p_out_sum_eq_1, :p_out_sum_avai, :p_out_sum_die); end;');
+
+                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_eq1_st(:p_out_sum_eq_1, :p_out_sum_avai, :p_out_sum_die); end;");
+
+                    oci_bind_by_name($stmt, ":p_out_sum_eq_1", $sumEq1, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_avai", $sumAvai, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_die", $sumDie, -1, OCI_B_INT);
+                    $r = ociexecute($stmt);
+
+                    log_message('debug',"p_out_sum_eq_1 : ".$sumEq1);
+                    log_message('debug',"p_out_sum_avai : ".$sumAvai);
+                    log_message('debug',"p_out_sum_die : ".$sumDie);
 
 
+                    $temp_data = array();
 
-			$sql2 ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+                    $temp_data[] = array(
+                        'lable'=>'ปกติ  จำนวน '.number_format($sumAvai)." คน",
+                        'count'=>intval($sumAvai)
+                    );
+                    $temp_data[] = array(
+                        'lable'=>'ตาย จำนวน '.number_format($sumDie)." คน",
+                        'count'=>intval($sumDie)
+                    );
 
+                    $output = array();
+                    $output['result'] = $temp_data;
+                    $output['list_total_type1'] = number_format($sumEq1);
+        // 			  $output['all']=$count_all;
+        //            $output['query1'] = $sql;
+        //            $output['query2'] = $sql2;
+        //            $output['query3'] = $sql3;
+                    $output['date'] = $this->changemonth();
+                    print_r(json_encode($output));
+                    die();
+                }
+                finally {
+                    oci_close($ci);
+                }
 
+            }
+            catch (Exception $e) {
+                log_message('error', $e);
+                print_r(json_encode($e));
+                die();
+            }
+        }
+    }
 
-			$sql3 ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
-
-
-			$cache_key_sql = md5($sql);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql = "";
-			$query = null;
-//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
-				$query = $this->db->query($sql)->result_array();
-
-//				$ci->cache->save($cache_key_sql, $query, 30000);
-				// return $query;
-//			}else{
-//				$query = $data_cache_sql;
-//			}
-
-			$cache_key_sql2 = md5($sql2);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql2 = "";
-			$query2 = null;
-//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
-				$query2 = $this->db->query($sql2)->result_array();
-
-//				$ci->cache->save($cache_key_sql2, $query2, 30000);
-				// return $query2;
-//			}else{
-//				$query2 = $data_cache_sql2;
-//			}
-
-			$cache_key_sql3 = md5($sql3);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql3 = "";
-			$query3 = null;
-//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
-//				$query3 = $this->db->query($sql3)->result_array();
-
-				$ci->cache->save($cache_key_sql3, $query3, 30000);
-				// return $query3;
-//			}else{
-//				$query3 = $data_cache_sql3;
-//			}
-
-
-
-			$temp_data = array();
-
-			$temp_data[] = array(
-					'lable'=>'ปกติ  จำนวน '.number_format($query2[0]['NUM'])." คน",
-					'count'=>intval($query2[0]['NUM'])
-			);
-			$temp_data[] = array(
-					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
-					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
-			);
-
-			$output = array();
-			$output['result'] = $temp_data;
-			$output['list_total_type1'] = number_format($query3[0]['NUM']);
-// 			$output['all']=$count_all;
-			$output['query1'] = $sql;
-			$output['query2'] = $sql2;
-			$output['query3'] = $sql3;
-			$output['date'] = $this->changemonth();
-			print_r(json_encode($output));
-		}
-	}
-
-	public function ajexreport15()
-	{
-		if(canViewReport())
-		{
-
-			$sql ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					AND A.OU_D_STATUS_TYPE IN (1,11,13)
-					AND A.OU_D_ID IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
-
-
-
-
-			$sql2 ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
-
-
-
-			$sql3 ="SELECT SUM(AMT) AS num FROM(
-					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
-
-
-			$cache_key_sql = md5($sql);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql = "";
-			$query = null;
-//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
-				$query = $this->db->query($sql)->result_array();
-
-//				$ci->cache->save($cache_key_sql, $query, 30000);
-				// return $query;
-//			}else{
-//				$query = $data_cache_sql;
-//			}
-
-			$cache_key_sql2 = md5($sql2);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql2 = "";
-			$query2 = null;
-//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
-				$query2 = $this->db->query($sql2)->result_array();
-
-				$ci->cache->save($cache_key_sql2, $query2, 30000);
-				// return $query2;
-//			}else{
-//				$query2 = $data_cache_sql2;
-//			}
-
-			$cache_key_sql3 = md5($sql3);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql3 = "";
-			$query3 = null;
-//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
-				$query3 = $this->db->query($sql3)->result_array();
-
+    // Backup 2018-12-09
+//	public function ajexreport5()
+//	{
+//		if(canViewReport())
+//		{
+//
+//
+//			$sql ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					AND A.OU_D_STATUS_TYPE IN (1,11,13)
+//					AND A.OU_D_ID IS NOT NULL
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+//
+//
+//
+//			$sql2 ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+//
+//
+//
+//			$sql3 ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+//
+//
+//			$cache_key_sql = md5($sql);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql = "";
+//			$query = null;
+////			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//				$query = $this->db->query($sql)->result_array();
+//
+////				$ci->cache->save($cache_key_sql, $query, 30000);
+//				// return $query;
+////			}else{
+////				$query = $data_cache_sql;
+////			}
+//
+//			$cache_key_sql2 = md5($sql2);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql2 = "";
+//			$query2 = null;
+////			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//				$query2 = $this->db->query($sql2)->result_array();
+//
+////				$ci->cache->save($cache_key_sql2, $query2, 30000);
+//				// return $query2;
+////			}else{
+////				$query2 = $data_cache_sql2;
+////			}
+//
+//			$cache_key_sql3 = md5($sql3);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql3 = "";
+//			$query3 = null;
+////			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+////				$query3 = $this->db->query($sql3)->result_array();
+//
 //				$ci->cache->save($cache_key_sql3, $query3, 30000);
-				// return $query3;
-//			}else{
-//				$query3 = $data_cache_sql3;
-//			}
+//				// return $query3;
+////			}else{
+////				$query3 = $data_cache_sql3;
+////			}
+//
+//
+//
+//			$temp_data = array();
+//
+//			$temp_data[] = array(
+//					'lable'=>'ปกติ  จำนวน '.number_format($query2[0]['NUM'])." คน",
+//					'count'=>intval($query2[0]['NUM'])
+//			);
+//			$temp_data[] = array(
+//					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
+//					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
+//			);
+//
+//			$output = array();
+//			$output['result'] = $temp_data;
+//			$output['list_total_type1'] = number_format($query3[0]['NUM']);
+//// 			$output['all']=$count_all;
+//			$output['query1'] = $sql;
+//			$output['query2'] = $sql2;
+//			$output['query3'] = $sql3;
+//			$output['date'] = $this->changemonth();
+//			print_r(json_encode($output));
+//		}
+//	}
 
+    public function ajaxreport15()
+    {
+        if(canViewReport())
+        {
+            try {
+                $userId = $this->session->userdata('auth_user_id');
+                log_message('info', ' *************** ajaxreport15 userId : '.$userId.' *************** ');
 
-			$temp_data = array();
+                ini_set('max_execution_time', 0);
+                ini_set("memory_limit", '-1');
+                $ci =& get_instance();
 
-			$temp_data[] = array(
-					'lable'=>'ปกติ  จำนวน '.number_format($query2[0]['NUM'])." คน",
-					'count'=>intval($query2[0]['NUM'])
-			);
-			$temp_data[] = array(
-					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
-					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
-			);
+                try {
+                    $data_cache = null;
 
-			$output = array();
-			$output['result'] = $temp_data;
-			$output['list_total_type1'] = number_format($query3[0]['NUM']);
-			// 			$output['all']=$count_all;
-			$output['query1'] = $sql;
-			$output['query2'] = $sql2;
-			$output['query3'] = $sql3;
-			$output['date'] = $this->changemonth();
-			print_r(json_encode($output));
+                    log_message('debug', 'begin pkg_report_mis.rpt_sum_member_gt1_st(:p_out_sum_gt_1, :p_out_sum_avai, :p_out_sum_die); end;');
 
-		}
-	}
+                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_gt1_st(:p_out_sum_gt_1, :p_out_sum_avai, :p_out_sum_die); end;");
+
+                    oci_bind_by_name($stmt, ":p_out_sum_gt_1", $sumGt1, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_avai", $sumAvai, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_die", $sumDie, -1, OCI_B_INT);
+                    $r = ociexecute($stmt);
+
+                    log_message('debug',"p_out_sum_gt_1 : ".$sumGt1);
+                    log_message('debug',"p_out_sum_avai : ".$sumAvai);
+                    log_message('debug',"p_out_sum_die : ".$sumDie);
+
+                    $temp_data = array();
+
+                    $temp_data[] = array(
+                            'lable'=>'ปกติ  จำนวน '.number_format($sumAvai)." คน",
+                            'count'=>intval($sumAvai)
+                    );
+                    $temp_data[] = array(
+                            'lable'=>'ตาย จำนวน '.number_format($sumDie)." คน",
+                            'count'=>intval($sumDie)
+                    );
+
+                    $output = array();
+                    $output['result'] = $temp_data;
+                    $output['list_total_type1'] = number_format($sumGt1);
+                    // 			$output['all']=$count_all;
+        //			$output['query1'] = $sql;
+        //			$output['query2'] = $sql2;
+        //			$output['query3'] = $sql3;
+                    $output['date'] = $this->changemonth();
+                    print_r(json_encode($output));
+                    die();
+                }
+                finally {
+                    oci_close($ci);
+                }
+
+            }
+            catch (Exception $e) {
+                log_message('error', $e);
+                print_r(json_encode($e));
+                die();
+            }
+        }
+    }
+
+    // backup 2018-12-09
+//	public function ajexreport15()
+//	{
+//		if(canViewReport())
+//		{
+//
+//			$sql ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					AND A.OU_D_STATUS_TYPE IN (1,11,13)
+//					AND A.OU_D_ID IS NOT NULL
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
+//
+//
+//
+//
+//			$sql2 ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
+//
+//
+//
+//			$sql3 ="SELECT SUM(AMT) AS num FROM(
+//					SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
+//
+//
+//			$cache_key_sql = md5($sql);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql = "";
+//			$query = null;
+////			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//				$query = $this->db->query($sql)->result_array();
+//
+////				$ci->cache->save($cache_key_sql, $query, 30000);
+//				// return $query;
+////			}else{
+////				$query = $data_cache_sql;
+////			}
+//
+//			$cache_key_sql2 = md5($sql2);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql2 = "";
+//			$query2 = null;
+////			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//				$query2 = $this->db->query($sql2)->result_array();
+//
+//				$ci->cache->save($cache_key_sql2, $query2, 30000);
+//				// return $query2;
+////			}else{
+////				$query2 = $data_cache_sql2;
+////			}
+//
+//			$cache_key_sql3 = md5($sql3);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql3 = "";
+//			$query3 = null;
+////			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+//				$query3 = $this->db->query($sql3)->result_array();
+//
+////				$ci->cache->save($cache_key_sql3, $query3, 30000);
+//				// return $query3;
+////			}else{
+////				$query3 = $data_cache_sql3;
+////			}
+//
+//
+//			$temp_data = array();
+//
+//			$temp_data[] = array(
+//					'lable'=>'ปกติ  จำนวน '.number_format($query2[0]['NUM'])." คน",
+//					'count'=>intval($query2[0]['NUM'])
+//			);
+//			$temp_data[] = array(
+//					'lable'=>'ตาย จำนวน '.number_format($query3[0]['NUM']-$query2[0]['NUM'])." คน",
+//					'count'=>intval($query3[0]['NUM'])-intval($query2[0]['NUM'])
+//			);
+//
+//			$output = array();
+//			$output['result'] = $temp_data;
+//			$output['list_total_type1'] = number_format($query3[0]['NUM']);
+//			// 			$output['all']=$count_all;
+//			$output['query1'] = $sql;
+//			$output['query2'] = $sql2;
+//			$output['query3'] = $sql3;
+//			$output['date'] = $this->changemonth();
+//			print_r(json_encode($output));
+//
+//		}
+//	}
 
 	public function ajexreport6 ()
 	{
@@ -1250,192 +1382,265 @@ class Report3 extends MY_Controller {
 		print_r(json_encode($output));
 	}
 
-	public function ajexreport12()
-	{
-		if(canViewReport())
-		{
 
-			ini_set('max_execution_time', -1);
-			ini_set("memory_limit", "8124M");
-			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
-			header("Cache-Control: post-check=0, pre-check=0", false);
-			header("Pragma: no-cache");
+    public function ajaxreport12()
+    {
+        if(canViewReport())
+        {
 
-			// $sql ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
-			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-			// 		                          FROM MOIUSER.MASTER_DATA 
-			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-			// 		                          AND OU_D_FLAG IN(1,2)
-			// 		                          GROUP BY OU_D_ID
-			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
+            try {
+                $userId = $this->session->userdata('auth_user_id');
+                log_message('info', ' *************** ajaxreport15 userId : '.$userId.' *************** ');
 
-			$sql = "SELECT SUM(AMT) AS num FROM(
-			SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS AMT
-					FROM MOIUSER.MASTER_DATA A
-					WHERE A.OU_D_FLAG IN(1,2)
-					AND LENGTH (A.IN_D_COOP) = 13 
-					AND LENGTH (A.OU_D_ID) = 13
-					AND A.IN_D_COOP IS NOT NULL
-					GROUP BY OU_D_ID
-					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
-			// echo print_r($sql);die();
-			// $query3 = $this->db->query($sql)->result_array();
+                ini_set('max_execution_time', 0);
+                ini_set("memory_limit", '-1');
+                $ci =& get_instance();
 
-			$cache_key_sql = md5($sql);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql = "";
-			$query3 = null;
-//			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
-				$query3 = $this->db->query($sql)->result_array();
+                try {
+                    $data_cache = null;
 
-//				$ci->cache->save($cache_key_sql, $query3, 30000);
-				// return $query3;
-//			}else{
-//				$query3 = $data_cache_sql;
-//			}
+                    log_message('debug', 'begin pkg_report_mis.rpt_sum_member_st(:p_out_sum_all, :p_out_sum_eq1, :p_out_sum_eq2, :p_out_sum_gt3); end;');
 
-			// $sql1 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
-			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-			// 		                          FROM MOIUSER.MASTER_DATA 
-			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-			// 		                          AND OU_D_FLAG IN(1,2)
-			// 		                          GROUP BY OU_D_ID
-			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ) S))";
+                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_st(:p_out_sum_all, :p_out_sum_eq1, :p_out_sum_eq2, :p_out_sum_gt3); end;");
 
-			$sql1 = "SELECT SUM(AMT) AS num FROM(
-						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-						FROM MOIUSER.MASTER_DATA A
-						WHERE A.OU_D_FLAG IN(1,2)
-						AND LENGTH (A.IN_D_COOP) = 13 
-						AND LENGTH (A.OU_D_ID) = 13
-						AND A.IN_D_COOP IS NOT NULL
-						GROUP BY OU_D_ID
-						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+                    oci_bind_by_name($stmt, ":p_out_sum_all", $sumAll, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_eq1", $sumEq1, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_eq2", $sumEq2, -1, OCI_B_INT);
+                    oci_bind_by_name($stmt, ":p_out_sum_gt3", $sumGt3, -1, OCI_B_INT);
+                    $r = ociexecute($stmt);
 
-			// $result1 = $this->db->query($sql1)->result_array();
+                    log_message('debug',"p_out_sum_all : ".$sumAll);
+                    log_message('debug',"p_out_sum_eq1 : ".$sumEq1);
+                    log_message('debug',"p_out_sum_eq2 : ".$sumEq2);
+                    log_message('debug',"p_out_sum_gt3 : ".$sumGt3);
 
-			$cache_key_sql1 = md5($sql1);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql1 = "";
-			$result1 = null;
-//			if ( ! $data_cache_sql1 = $ci->cache->get($cache_key_sql1)) {
-				$result1 = $this->db->query($sql1)->result_array();
 
-//				$ci->cache->save($cache_key_sql1, $result1, 30000);
-				// return $result1;
-//			}else{
-//				$result1 = $data_cache_sql1;
-//			}
+                    $temp_data = array();
 
-			// $sql2 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
-			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-			// 		                          FROM MOIUSER.MASTER_DATA 
-			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-			// 		                          AND OU_D_FLAG IN(1,2)
-			// 		                          GROUP BY OU_D_ID
-			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
+                    $temp_data[] = array(
+                        'lable'=>'สมาชิก 2 สหกรณ์ '.number_format($sumEq2)." คน",
+                        'count'=>intval($sumEq2)
+                    );
+                    $temp_data[] = array(
+                        'lable'=>'สมาชิก 3 สหกรณ์ขึ้นไป '.number_format($sumGt3)." คน",
+                        'count'=>intval($sumGt3)
+                    );
 
-			$sql2 = "SELECT SUM(AMT) AS num FROM(
-						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-						FROM MOIUSER.MASTER_DATA A
-						WHERE A.OU_D_FLAG IN(1,2)
-						AND LENGTH (A.IN_D_COOP) = 13 
-						AND LENGTH (A.OU_D_ID) = 13
-						AND A.IN_D_COOP IS NOT NULL
-						GROUP BY OU_D_ID
-						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =2)";
+                    $output = array();
+                    $output['result'] = $temp_data;
+                    $output['list_total_type1'] = number_format($sumAll);
+                    // 			$output['all']=$count_all;
+                    // $output['query1'] = $sql1;
+//            $output['query2'] = $sql2;
+//            $output['query3'] = $sql3;
+                    $output['date'] = $this->changemonth();
+                    print_r(json_encode($output));
+                    die();
+                }
+                finally {
+                    oci_close($ci);
+                }
 
-			// $result2 = $this->db->query($sql2)->result_array();
+            }
+            catch (Exception $e) {
+                log_message('error', $e);
+                print_r(json_encode($e));
+                die();
+            }
 
-			$cache_key_sql2 = md5($sql2);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql2 = "";
-			$result2 = null;
-//			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
-				$result2 = $this->db->query($sql2)->result_array();
 
-//				$ci->cache->save($cache_key_sql2, $result2, 30000);
-				// return $result2;
-//			}else{
-//				$result2 = $data_cache_sql2;
-//			}
 
-			// $sql3 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
-			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
-			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
-			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
-			// 		                          FROM MOIUSER.MASTER_DATA 
-			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER' 
-			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13 
-			// 		                          AND OU_D_FLAG IN(1,2)
-			// 		                          GROUP BY OU_D_ID
-			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ) S))";
+        }
+    }
 
-			$sql3 = "SELECT SUM(AMT) AS num FROM(
-						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
-						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
-						WHERE A.IN_D_COOP=B.REGISTRY_NO_2
-						AND A.OU_D_FLAG IN(1,2)
-						AND LENGTH (A.IN_D_COOP) = 13 
-						AND LENGTH (A.OU_D_ID) = 13
-						AND A.IN_D_COOP IS NOT NULL
-						GROUP BY OU_D_ID
-						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2)";
-			// $result3 = $this->db->query($sql3)->result_array();
 
-			$cache_key_sql3 = md5($sql3);
-			$ci =& get_instance();
-			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-			$data_cache_sql3 = "";
-			$result3 = null;
-//			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
-				$result3 = $this->db->query($sql3)->result_array();
-
-				$ci->cache->save($cache_key_sql3, $result3, 30000);
-				// return $result3;
-//			}else{
-//				$result3 = $data_cache_sql3;
-//			}
-
-			$temp_data = array();
-
-			// $temp_data[] = array(
-			// 		'lable'=>'สมาชิก  1 สหกรณ์ '.number_format($result1[0]['NUM'])." คน",
-			// 		'count'=>intval($result1[0]['NUM'])
-			// );
-			$temp_data[] = array(
-					'lable'=>'สมาชิก 2 สหกรณ์ '.number_format($result2[0]['NUM'])." คน",
-					'count'=>intval($result2[0]['NUM'])
-			);
-			$temp_data[] = array(
-					'lable'=>'สมาชิก 3 สหกรณ์ขึ้นไป '.number_format($result3[0]['NUM'])." คน",
-					'count'=>intval($result3[0]['NUM'])
-			);
-
-			$output = array();
-			$output['result'] = $temp_data;
-			$output['list_total_type1'] = number_format($query3[0]['NUM']);
-			// 			$output['all']=$count_all;
-			// $output['query1'] = $sql1;
-			$output['query2'] = $sql2;
-			$output['query3'] = $sql3;
-			$output['date'] = $this->changemonth();
-			print_r(json_encode($output));
-
-		}
-	}
+//backup 2018-12-09
+//	public function ajexreport12()
+//	{
+//		if(canViewReport())
+//		{
+//
+//			ini_set('max_execution_time', -1);
+//			ini_set("memory_limit", "8124M");
+//			header("Cache-Control: no-store, no-cache, must-revalidate, max-age=0");
+//			header("Cache-Control: post-check=0, pre-check=0", false);
+//			header("Pragma: no-cache");
+//
+//			// $sql ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+//			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+//			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+//			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+//			// 		                          FROM MOIUSER.MASTER_DATA
+//			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
+//			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13
+//			// 		                          AND OU_D_FLAG IN(1,2)
+//			// 		                          GROUP BY OU_D_ID
+//			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 0 ) S))";
+//
+//			$sql = "SELECT SUM(AMT) AS num FROM(
+//			SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AS AMT
+//					FROM MOIUSER.MASTER_DATA A
+//					WHERE A.OU_D_FLAG IN(1,2)
+//					AND LENGTH (A.IN_D_COOP) = 13
+//					AND LENGTH (A.OU_D_ID) = 13
+//					AND A.IN_D_COOP IS NOT NULL
+//					GROUP BY OU_D_ID
+//					HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1)";
+//			// echo print_r($sql);die();
+//			// $query3 = $this->db->query($sql)->result_array();
+//
+//			$cache_key_sql = md5($sql);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql = "";
+//			$query3 = null;
+////			if ( ! $data_cache_sql = $ci->cache->get($cache_key_sql)) {
+//				$query3 = $this->db->query($sql)->result_array();
+//
+////				$ci->cache->save($cache_key_sql, $query3, 30000);
+//				// return $query3;
+////			}else{
+////				$query3 = $data_cache_sql;
+////			}
+//
+//			// $sql1 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+//			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+//			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+//			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+//			// 		                          FROM MOIUSER.MASTER_DATA
+//			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
+//			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13
+//			// 		                          AND OU_D_FLAG IN(1,2)
+//			// 		                          GROUP BY OU_D_ID
+//			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 1 ) S))";
+//
+//			$sql1 = "SELECT SUM(AMT) AS num FROM(
+//						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//						FROM MOIUSER.MASTER_DATA A
+//						WHERE A.OU_D_FLAG IN(1,2)
+//						AND LENGTH (A.IN_D_COOP) = 13
+//						AND LENGTH (A.OU_D_ID) = 13
+//						AND A.IN_D_COOP IS NOT NULL
+//						GROUP BY OU_D_ID
+//						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1)";
+//
+//			// $result1 = $this->db->query($sql1)->result_array();
+//
+//			$cache_key_sql1 = md5($sql1);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql1 = "";
+//			$result1 = null;
+////			if ( ! $data_cache_sql1 = $ci->cache->get($cache_key_sql1)) {
+//				$result1 = $this->db->query($sql1)->result_array();
+//
+////				$ci->cache->save($cache_key_sql1, $result1, 30000);
+//				// return $result1;
+////			}else{
+////				$result1 = $data_cache_sql1;
+////			}
+//
+//			// $sql2 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+//			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+//			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+//			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+//			// 		                          FROM MOIUSER.MASTER_DATA
+//			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
+//			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13
+//			// 		                          AND OU_D_FLAG IN(1,2)
+//			// 		                          GROUP BY OU_D_ID
+//			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) = 2 ) S))";
+//
+//			$sql2 = "SELECT SUM(AMT) AS num FROM(
+//						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//						FROM MOIUSER.MASTER_DATA A
+//						WHERE A.OU_D_FLAG IN(1,2)
+//						AND LENGTH (A.IN_D_COOP) = 13
+//						AND LENGTH (A.OU_D_ID) = 13
+//						AND A.IN_D_COOP IS NOT NULL
+//						GROUP BY OU_D_ID
+//						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =2)";
+//
+//			// $result2 = $this->db->query($sql2)->result_array();
+//
+//			$cache_key_sql2 = md5($sql2);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql2 = "";
+//			$result2 = null;
+////			if ( ! $data_cache_sql2 = $ci->cache->get($cache_key_sql2)) {
+//				$result2 = $this->db->query($sql2)->result_array();
+//
+////				$ci->cache->save($cache_key_sql2, $result2, 30000);
+//				// return $result2;
+////			}else{
+////				$result2 = $data_cache_sql2;
+////			}
+//
+//			// $sql3 ="SELECT count(DISTINCT OU_D_ID) AS num from (SELECT DISTINCT OU_D_ID
+//			// 		FROM MOIUSER.MASTER_DATA A LEFT OUTER JOIN ANALYTICPRD.COOP_INFO B ON (A.IN_D_COOP=B.REGISTRY_NO_2)
+//			// 		WHERE A.OU_D_ID IN (SELECT S.OU_D_ID FROM (
+//			// 		                          SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+//			// 		                          FROM MOIUSER.MASTER_DATA
+//			// 		                          WHERE DECODE(REPLACE(TRANSLATE(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'
+//			// 		                          AND LENGTH (MOIUSER.MASTER_DATA.IN_D_COOP) = 13
+//			// 		                          AND OU_D_FLAG IN(1,2)
+//			// 		                          GROUP BY OU_D_ID
+//			// 		                          HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2 ) S))";
+//
+//			$sql3 = "SELECT SUM(AMT) AS num FROM(
+//						SELECT OU_D_ID,COUNT(DISTINCT OU_D_ID||IN_D_COOP) AMT
+//						FROM MOIUSER.MASTER_DATA A,ANALYTICPRD.COOP_INFO B
+//						WHERE A.IN_D_COOP=B.REGISTRY_NO_2
+//						AND A.OU_D_FLAG IN(1,2)
+//						AND LENGTH (A.IN_D_COOP) = 13
+//						AND LENGTH (A.OU_D_ID) = 13
+//						AND A.IN_D_COOP IS NOT NULL
+//						GROUP BY OU_D_ID
+//						HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) > 2)";
+//			// $result3 = $this->db->query($sql3)->result_array();
+//
+//			$cache_key_sql3 = md5($sql3);
+//			$ci =& get_instance();
+//			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+//			$data_cache_sql3 = "";
+//			$result3 = null;
+////			if ( ! $data_cache_sql3 = $ci->cache->get($cache_key_sql3)) {
+//				$result3 = $this->db->query($sql3)->result_array();
+//
+//				$ci->cache->save($cache_key_sql3, $result3, 30000);
+//				// return $result3;
+////			}else{
+////				$result3 = $data_cache_sql3;
+////			}
+//
+//			$temp_data = array();
+//
+//			// $temp_data[] = array(
+//			// 		'lable'=>'สมาชิก  1 สหกรณ์ '.number_format($result1[0]['NUM'])." คน",
+//			// 		'count'=>intval($result1[0]['NUM'])
+//			// );
+//			$temp_data[] = array(
+//					'lable'=>'สมาชิก 2 สหกรณ์ '.number_format($result2[0]['NUM'])." คน",
+//					'count'=>intval($result2[0]['NUM'])
+//			);
+//			$temp_data[] = array(
+//					'lable'=>'สมาชิก 3 สหกรณ์ขึ้นไป '.number_format($result3[0]['NUM'])." คน",
+//					'count'=>intval($result3[0]['NUM'])
+//			);
+//
+//			$output = array();
+//			$output['result'] = $temp_data;
+//			$output['list_total_type1'] = number_format($query3[0]['NUM']);
+//			// 			$output['all']=$count_all;
+//			// $output['query1'] = $sql1;
+//			$output['query2'] = $sql2;
+//			$output['query3'] = $sql3;
+//			$output['date'] = $this->changemonth();
+//			print_r(json_encode($output));
+//
+//		}
+//	}
 
 	public function ajexreport13()
 	{

@@ -204,7 +204,7 @@ var listresult;
       $(document).ready(function() {
       $("#pageLoading").fadeIn();
   		$.ajax({
-  			url:"ajexreport15",
+  			url:"ajaxreport15",
   		    type:"GET",
   		    dataType: 'json',
   		    success:function(result){
