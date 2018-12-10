@@ -1,7 +1,8 @@
 <script src="/assets/default/js/angular.min.js"></script>
+<script src="/assets/default/js/angular-datatables.min.js"></script>
 <script src="https://code.angularjs.org/1.7.5/angular-sanitize.min.js"></script>
 <!--<script src="/assets/default/js/angular-select2.min.js"></script>-->
-<script src="/assets/default/js/ui.select2.js"></script>
+<!--<script src="/assets/default/js/ui.select2.js"></script>-->
 
 
 
@@ -73,15 +74,12 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 							<div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 13px;">
 								<label for="filter_district">เขตตรวจราชการ: </label>
 								<input type="hidden" id="filter_khet_hidden" value=""/>
-<!--								<select id="filter_khet" name="filter_khet">-->
-<!--									<option value="">อยู่ระหว่างการหาข้อมูลเพิ่มเติม</option>-->
-<!--								</select>-->
 
-<!--                                <select2 ng-model="values.query" options="queryOptions"></select2>-->
-
-                                <select id="filter_khetCode" ng-model="khetCode" name="khetCode" ng-change="changeKhet()" style="width: 220px">
+                                <select id="filter_khetCode" ng-model="khet" name="khetCode" ng-change="changeKhet()" style="width: 220px">
                                     <option value="">ทั้งหมด</option>
-                                    <option ng-repeat="row in resultKhet track by $index" value="{{row.KHET_CODE}}">{{row.KHET_NAME}}</option>
+                                    <option ng-repeat="row in resultKhet track by $index" ng-value="row"">
+                                        {{row.KHET_NAME}}
+                                    </option>
                                 </select>
 
 							</div>
@@ -90,14 +88,12 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 							<div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 13px;">				
 								<label for="filter_province">จังหวัด: </label>		
 								<input type="hidden" id="filter_province_hidden" value=""/>
-								<?php $all_provinces = getAllProvinces();?>
-<!--								<select id="filter_province" name="filter_province">-->
-<!--									<option value="">อยู่ระหว่างการหาข้อมูลเพิ่มเติม</option>-->
-<!--								</select>-->
-<!--                                {{ resultProvince}}-->
-                                <select id="filter_provinceId" ng-model="provinceId" name="provinceId" ng-change="changeProvince()" style="width: 220px">
+
+                                <select id="filter_provinceId" ng-model="province" name="provinceId" ng-change="changeProvince()" style="width: 220px">
                                     <option value="">ทั้งหมด</option>
-                                    <option ng-repeat="row in resultProvince track by $index" value="{{row.PROVINCE_ID}}">{{row.PROVINCE_NAME}}</option>
+                                    <option ng-repeat="row in resultProvince track by $index" ng-value="row"">
+                                        {{row.PROVINCE_NAME}}
+                                    </option>
                                 </select>
 							</div>
 						</div>
@@ -106,39 +102,35 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
  						<div class="form-group"> 
 							<div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 13px;">
 								<label for="filter_coop">สหกรณ์: </label>
-								<input type="hidden" id="filter_coop_hidden" value=""/>
-<!--								<select id="filter_coop" name="filter_coop">-->
-<!--								<option value="">อยู่ระหว่างการหาข้อมูลเพิ่มเติม</option>	-->
-<!--								</select>-->
 
-                                <select id="filter_coop" ng-model="coopId" name="coopId" style="width: 250px">
+                                <select id="filter_coop" ng-model="coop" name="coopId" ng-change="changeCoop()" style="width: 250px">
                                     <option value="">ทั้งหมด</option>
-                                    <option ng-repeat="row in resultCoop track by $index" value="{{row.COOP_ID}}">{{row.COOP_NAME_TH}}</option>
+                                    <option ng-repeat="row in resultCoop track by $index" ng-value="row"">
+                                        {{row.COOP_NAME_TH}}
+                                    </option>
                                 </select>
 							</div>	
 						</div>
 
-								
-								
-								
 							<div>
-								<center>
+                                >>{{khet}} | {{khetCode}} {{provinceId}} {{coopId}}<<
+                                <center>
 									<div id="btnchange">
 										<button id="search_btn"
-                                                ng-click="doFilterAvailableMember()"
+                                                ng-click="doFilterAvailableMember(0)"
                                                 class="btn btn-outline-purple"><span class="glyphicon glyphicon-search"></span> ค้นหา</button>
 									</div>
 								</center>
 							</div>
-						
 					</form>
 
 					
 					</div>
 
-					<div style="margin: 25px 0 0;">
+					<div style="margin: 25px 0 0;" ng-show="resultText">
+
 						<span id="result_view" class="display"><lable style='font-weight: 500;'>จำนวนผลการค้นหา  :</lable></span>
-						<span id="search_result"></span>
+						<span id="search_result">จำนวนผลการค้นหา : {{resultText}}</span>
 					</div>
 				</div>
 				<?php //if ($total_number>0):?>
@@ -147,8 +139,9 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 			    		<script>
 
 			    		</script>
-			    		
-				    </div>		
+
+
+                    </div>
 			    
 			    </div>	
 			    <?php //endif?>			
@@ -156,61 +149,20 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 			    <div class="row">
 
 
-					<div id="result_view_table" class="display row report-result">
-					
+<!--					<div id="result_view_table" class="display row report-result">-->
+					<div id="" class="row report-result" ng-show="recordsTotal > 0">
+
 						<div class="container-fluid col-md-12 col-xs-12" style="padding-left:0px;" >
 									<!-- <strong>จำนวนผลลัพธ์ทั้งหมด:</strong> <?php //echo $total_number?><br/> -->	
-									<?php if ($total_number>0):?>								
-										<?php	
-										$displaying_page = 10;
-										$range = 1;
-										
-											$total_page = ceil($total_number/$range);
-											$start = $current_page*$range;
-											$end = ($start+$range)>$total_number? $total_number:$start+$range;	
-									
-											$first_page = 0;
-											$last_page = $first_page+$displaying_page;
-											if ($current_page < ($displaying_page/2))
-											{
-												$first_page = 0;
-											}
-											if (($current_page+$displaying_page/2) > $total_page)
-											{
-												$first_page = $total_page-$displaying_page;											
-												$last_page = $total_page;
-											}									
-											if ($total_page<($first_page+$displaying_page))
-											{
-												$last_page = $first_page+$displaying_page;
-											}
-											if ($first_page<0) $first_page = 0;
-											if ($last_page>$total_page) $last_page = $total_page;
-										?>
-	
-										
-										<strong>กำลังแสดงผลรายการ:</strong> <?php echo $start+1?> ถึง <?php echo $end?><br/>	
-										
-										<?php if($total_page>1):?>
-										<ul class="pagination">
-											<?php for($i=$first_page;$i<$last_page;$i++):?>
-											<?php if ($current_page==$i):?>
-												<li class="page-item  active"><a class="page-link" href="#"><?php echo $i+1?></a></li>
-											<?php else:?>
-												<li class="page-item"><a class="page-link" href="<?php echo site_url('report2/index2')?>?frompost=yes&filter_year=<?php echo $filter_year?>&filter_province=<?php echo $filter_province?>&filter_coop=<?php echo $filter_coop?>&page=<?php echo $i?>&range=<?php echo $range?>"><?php echo $i+1?></a></li>
-											<?php endif?>
-											<?php endfor;?>
-										</ul>
-										<?php endif?>
-									
-									<?php endif?>
-									
-								</div>
-							
-							
-						<table id="example"  class="stripe">
-							<div id="btn-export" class="display" style="float: right;">
-					        	<a onclick="downloadExcel();" class="btn btn-save-dl gc-export">
+
+
+                        </div>
+<!--						<table id="tableResult"  class="stripe" datatable="ng" dt-options="dtOptions" >-->
+						<table id="tableResult"  class="stripe">
+<!--						<table >-->
+
+							<div id="btn-export" class="" style="float: right;">
+					        	<a ng-click="downloadExcel();" class="btn btn-save-dl gc-export">
 									<img  src="<?php $this->load->helper('properties_helper');
 					     	 print_r(getStringSystemProperties("icon-excel", "/assets/default/images/icon-excel.png"))?>">
 									<span class="btn-text hidden-xs">บันทึกเป็น EXCEL</span>
@@ -218,6 +170,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 							</div>
 							<thead>
 								<tr>
+									<th>ลำดับ</th>
 									<th>ชื่อสหกรณ์</th>
 									<th>จังหวัด</th>
 									<th>เขต|อำเภอ</th>
@@ -226,6 +179,16 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 									<th>จำนวนสมาชิกทั้งหมด</th>
 								</tr>
 							</thead>
+<!--                            <tbody>-->
+<!--                            <tr ng-repeat="row in resultList track by $index">-->
+<!--                                <td>{{row.COOP_NAME_TH}}</td>-->
+<!--                                <td>{{row.PROVINCE_NAME}}</td>-->
+<!--                                <td>{{row.AMPHUR_NAME}}</td>-->
+<!--                                <td align="right">{{row.TOTAL_AVAILABLE| number}}</td>-->
+<!--                                <td align="right">{{row.TOTAL_DIE| number}}</td>-->
+<!--                                <td align="right">{{row.TOTAL_COOP | number}}</td>-->
+<!--                            </tr>-->
+<!--                            </tbody>-->
 						</table>
 						<?php if ($total_number>0 && !empty($surveys)):?>
 						<div class="" style="font-size:20px;" >
@@ -240,20 +203,20 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 									
 									<ul style="list-style: none;list-style: none;padding-left: 0;margin-top:20px">
 									
-									<?php foreach ($surveys as $k=>$v):?>
-										
-										<li style="background-color:#eeeeee;padding-top:8px;padding-bottom:8px;padding-left:16px;width:90%;margin-top: 3px;border-bottom:1px #ddd">
-										
-										<?php if(!empty($coop)):?>
-										
-										<?php echo $v['citizen_firstname']?> <?php echo $v['citizen_lastname']?> ( หมายเลขบัตรประชาชน <a href="<?php echo site_url('report2/index1')?>?citizen_id=<?php echo $v['citizen_id']?>"><?php echo $v['citizen_id']?></a>  - <?php if (!empty($v['PROVINCE_NAME'])):?><?php echo $v['PROVINCE_NAME']?>)<?php endif?>
-										
-										<?php endif?>
-										
-										</li>
-										
-										
-									<?php endforeach;?>
+<!--									--><?php //foreach ($surveys as $k=>$v):?>
+<!--										-->
+<!--										<li style="background-color:#eeeeee;padding-top:8px;padding-bottom:8px;padding-left:16px;width:90%;margin-top: 3px;border-bottom:1px #ddd">-->
+<!--										-->
+<!--										--><?php //if(!empty($coop)):?>
+<!--										-->
+<!--										--><?php //echo $v['citizen_firstname']?><!-- --><?php //echo $v['citizen_lastname']?><!-- ( หมายเลขบัตรประชาชน <a href="--><?php //echo site_url('report2/index1')?><!--?citizen_id=--><?php //echo $v['citizen_id']?><!--">--><?php //echo $v['citizen_id']?><!--</a>  - --><?php //if (!empty($v['PROVINCE_NAME'])):?><!----><?php //echo $v['PROVINCE_NAME']?><!--)--><?php //endif?>
+<!--										-->
+<!--										--><?php //endif?>
+<!--										-->
+<!--										</li>-->
+<!--										-->
+<!--										-->
+<!--									--><?php //endforeach;?>
 									
 									</ul>
 								</div>
@@ -407,11 +370,13 @@ $('#filter_tambom').each(function( index ) {
 
 <script type="text/javascript">
 
-    var report4new= angular.module('report4new', ['ngSanitize', 'ui.select2']);
+
+    var report4new= angular.module('report4new', ['ngSanitize', 'datatables']);
 
 
-    report4new.controller('report4newController', function MyController($scope) {
+    report4new.controller('report4newController', function MyController($scope, DTOptionsBuilder, DTColumnDefBuilder) {
 
+        var tableResultId = "#tableResult";
 
         $('#filter_khetCode').select2();
         $('#filter_provinceId').select2();
@@ -509,7 +474,8 @@ $('#filter_tambom').each(function( index ) {
         };
 
         $scope.queryAuthCoop = function(khetCode, provinceId) {
-            console.log('queryAuthProvince>' + khetCode)
+            // console.log('queryAuthProvince>' + khetCode);
+            // return;
 
             $scope.resultCoop = {};
 
@@ -526,8 +492,6 @@ $('#filter_tambom').each(function( index ) {
 
                     // $scope.resultListYearly = result;
                     $scope.resultCoop = result;
-
-
 
                     $('#pageLoading').fadeOut();
                     $scope.$apply();
@@ -548,136 +512,181 @@ $('#filter_tambom').each(function( index ) {
             })
         };
 
+        $scope.downloadExcel = function() {
+
+            var url = "/index.php/report2new/exportExcelRE300NEW?khetCode="+($scope.khetCode?$scope.khetCode:'')+
+                                                        "&provinceId="+($scope.provinceId?$scope.provinceId:'')+"" +
+                                                        "&coopId="+($scope.coopId?$scope.coopId:'');
+            var win = window.open(url, '_blank');
+
+        }
+
+        // $scope.khet = {};
+        // $scope.province = {};
+        // $scope.coop = {};
+
+        $scope.khet = null;
+        $scope.province = null;
+        $scope.coop = null;
+
         $scope.changeKhet = function() {
+            // alert(JSON.stringify($scope.khet));
+            $scope.khetCode = $scope.khet.KHET_CODE;
             $scope.queryAuthProvince($scope.khetCode);
         }
 
         $scope.changeProvince = function() {
+            $scope.provinceId = $scope.province.PROVINCE_ID;
             $scope.queryAuthCoop($scope.khetCode, $scope.provinceId);
         }
 
-        $scope.doFilterAvailableMember = function() {
-            console.log('queryAuthProvince>' + khetCode)
+        $scope.changeCoop = function() {
+            $scope.coopId = $scope.coop.COOP_ID;
+        }
 
-            $scope.resultCoop = {};
+
+
+        // $scope.doFilterAvailableMember = function(currentPage) {
+        //     // console.log('doFilterAvailableMember>' + khetCode)
+        //
+        //     $scope.resultList = {};
+        //     $scope.test = {};
+        //
+        //     $('#pageLoading').fadeIn();
+        //     $.ajax({
+        //         url:"doFilterAvailableMember",
+        //         type:"GET",
+        //         dataType: 'json',
+        //         data : {
+        //             "khetCode" : $scope.khetCode,
+        //             "provinceId" : $scope.provinceId,
+        //             "coopId" : $scope.coopId,
+        //             "pageSize" : $scope.pageSize,
+        //             "currentPage" : currentPage,
+        //         },
+        //         success:function(result){
+        //
+        //             $scope.test = result;
+        //
+        //             // $scope.resultListYearly = result;
+        //             $scope.resultList = result[0].resultList;
+        //
+        //             $('#pageLoading').fadeOut();
+        //             $scope.$apply();
+        //         },
+        //         error: function(jqXHR, textStatus, errorThrown) {
+        //             alert('An error occurred... ' + errorThrown);
+        //
+        //             $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
+        //             console.log('jqXHR:');
+        //             console.log(jqXHR);
+        //             console.log('textStatus:');
+        //             console.log(textStatus);
+        //             console.log('errorThrown:');
+        //             console.log(errorThrown);
+        //
+        //             $('#pageLoading').fadeOut();
+        //         }
+        //     })
+        // };
+
+
+        $scope.doFilterAvailableMember = function(currentPage) {
+            // console.log('doFilterAvailableMember>' + khetCode)
+
+            $scope.resultList = {};
+            $scope.test = {};
+            $scope.recordsTotal = 0;
+
+            $scope.resultArea = null;
+
+
 
             $('#pageLoading').fadeIn();
-            $.ajax({
-                url:"queryAuthCoop",
-                type:"GET",
-                dataType: 'json',
-                data : {
-                    "khetCode" : khetCode,
-                    "provinceId" : provinceId
+
+            $(tableResultId).DataTable().destroy();
+            var table =$(tableResultId).DataTable({
+                pageResize: true,
+                "bServerSide": true,
+                "autoWidth": false,
+                drawCallback: function( settings ) {
+                    console.log('callback')
+                    $("#pageLoading").fadeOut();
                 },
-                success:function(result){
+                initComplete :  function( settings, json ) {
+                    console.log('initComplete')
+                    $('#search_btn').prop('disabled', false);
+                    $scope.recordsTotal = json.recordsTotal;
+                    $scope.resultText   = json.textlog;
 
-                    // $scope.resultListYearly = result;
-                    $scope.resultCoop = result;
 
-
-
-                    $('#pageLoading').fadeOut();
                     $scope.$apply();
-                },
-                error: function(jqXHR, textStatus, errorThrown) {
-                    alert('An error occurred... ' + errorThrown);
-
-                    $('#result').html('<p>status code: '+jqXHR.status+'</p><p>errorThrown: ' + errorThrown + '</p><p>jqXHR.responseText:</p><div>'+jqXHR.responseText + '</div>');
-                    console.log('jqXHR:');
-                    console.log(jqXHR);
-                    console.log('textStatus:');
-                    console.log(textStatus);
-                    console.log('errorThrown:');
-                    console.log(errorThrown);
-
                     $('#pageLoading').fadeOut();
+                },
+                "columns": [
+                    { "width": "auto","className": "text-center" },
+                    { "width": "auto" },
+                    { "width": "auto" },
+                    { "width": "auto","className": "text-left"},
+                    { "width": "auto","className": "text-right" },
+                    { "width": "auto","className": "text-right" },
+                    { "width": "auto","className": "text-right" }
+                ],
+                "language": {
+                    "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
+                    "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ สหกรณ์",
+                    "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
+                    "lengthMenu":     "แสดงจำนวน  _MENU_ ",
+                    "search":         "ค้นหา : ",
+                    "loadingRecords": "",
+                    "paginate": {
+                        "next":       ">",
+                        "previous":   "<"
+                    }
+                },
+                'columnDefs': [
+                    {
+                        "targets": 3, // your case first column
+                        "className": "text-right",
+                        "width": "4%"
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                "ordering": false,
+                "searching": false,
+                ajax : {
+                    url:"doFilterAvailableMember",
+                    type:"GET",
+                    data : {
+                        // "khetCode" : $scope.khetCode,
+                        // "provinceId" : $scope.provinceId,
+                        // "coopId" : $scope.coopId
+                        khetCode : $scope.khetCode,
+                        provinceId : $scope.provinceId,
+                        coopId : $scope.coopId
+                    }
+                },
+                error: function(){
+                    $("#pageLoading").fadeOut();
+
+                    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+                    $("#message-modal").modal();
+                    $('#filter-search').prop('disabled', false);
                 }
-            })
+            });
+            table.on( 'preDraw', function () {
+                $("#pageLoading").fadeIn();
+                console.log('preDraw')
+                if(typeof table != 'undefined')
+                    table.settings()[0].jqXHR.abort();
+            });
         };
 
         $scope.queryAuthKhet();
         // $scope.queryAuthProvince(null);
 
-
+        $scope.pageSize = 10;
         $scope.resultList = {};
-
-
-        var table =$('#example').DataTable({
-            pageResize: true,
-            "bServerSide": true,
-            "autoWidth": false,
-            drawCallback: function( settings ) {
-                console.log('callback')
-                $("#pageLoading").fadeOut();
-            },
-            initComplete : function() {
-                $('#search_btn').prop('disabled', false);
-                $('#pageLoading').fadeOut();
-            },
-            "columns": [
-                { "width": "auto" },
-                { "width": "auto" },
-                { "width": "auto" },
-                { "width": "auto","className": "text-right" },
-                { "width": "auto","className": "text-right" },
-                { "width": "auto","className": "text-right" }
-            ],
-            "language": {
-                "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
-                "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ สหกรณ์",
-                "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
-                "lengthMenu":     "แสดงจำนวน  _MENU_ ",
-                "search":         "ค้นหา : ",
-                "loadingRecords": "",
-                "paginate": {
-                    "next":       ">",
-                    "previous":   "<"
-                }
-            },
-            'columnDefs': [
-                {
-                    "targets": 3, // your case first column
-                    "className": "text-right",
-                    "width": "4%"
-                }
-            ],
-            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
-            "ordering": false,
-            ajax : {
-                url:"getTotalResultNomalOrDieOfCoop",
-                type:"GET",
-                data:{
-                    citizen_id:citizen_id,
-                    province:province,
-                    filter_khet:khet,
-                    filter_more_coop:filter_more_coop,
-                    filter_coop:filter_coop,
-                    filter_life_status:filter_life_status
-                }
-            },
-            error: function(){
-                $("#pageLoading").fadeOut();
-                /*$('#error-box').html('มีข้อผิดพลาดเกิดขึ้น ไม่สามารถดึงข้อมูลได้').show();
-                $('html,body').animate({
-                 scrollTop: $('#error-box').offset().top - 100
-             }, 'slow');
-             setInterval(function(){
-                 $('#error-box').fadeOut();
-             }, 5000);*/
-                $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
-                $("#message-modal").modal();
-                $('#filter-search').prop('disabled', false);
-            }
-        });
-        table.on( 'preDraw', function () {
-            $("#pageLoading").fadeIn();
-            console.log('preDraw')
-            if(typeof table != 'undefined')
-                table.settings()[0].jqXHR.abort();
-        });
-
-
 
 
 

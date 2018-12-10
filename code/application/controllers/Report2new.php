@@ -662,6 +662,7 @@ class Report2new extends MY_Controller {
 		header('Content-Disposition: attachment; filename="รายงานสรุปยอดสถานะสมาชิกสหกรณ์.xlsx"');
 		$writer->save("php://output");
 	}
+
 	public function getTotalResultNomalOrDieOfCoop($export = false,$filter_khet=null,$filter_provinces=null,$filter_district=null,$filter_coop=null,$life_status=null,$start=0,$length=10)
 	{
 		ini_set("memory_limit", "8124M");
@@ -972,7 +973,7 @@ class Report2new extends MY_Controller {
 				// echo print_r($data_temp);die();
 				$query_count_die = getDie($data_temp['REGISTRY_NO_2']);
 				$die = null;
-				
+
 				// echo $die['TOTAL_DIE'];
 				// echo print_r($die);die();
 				if (!empty($query_count_die['TOTAL_DIE'])) {
@@ -985,7 +986,7 @@ class Report2new extends MY_Controller {
 				$temp[] = $data_temp['AMPHUR_NAME'];
 				$temp[] = number_format($data_temp['TOTAL_COOP'] - $die);
 				$temp[] = number_format($die);
-				$temp[] = number_format($data_temp['TOTAL_COOP']);	
+				$temp[] = number_format($data_temp['TOTAL_COOP']);
 				$data_key_coop_id[] =$temp;
 			}
 			// addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
@@ -3183,7 +3184,7 @@ class Report2new extends MY_Controller {
                 log_message('debug', 'executed.');
                 oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                 oci_free_statement($stmt);
-                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
+//                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
                 print_r(json_encode($data));
                 die();
             }
@@ -3229,7 +3230,7 @@ class Report2new extends MY_Controller {
                 log_message('debug', 'executed.');
                 oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                 oci_free_statement($stmt);
-                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
+//                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
                 print_r(json_encode($data));
                 die();
             }
@@ -3268,16 +3269,16 @@ class Report2new extends MY_Controller {
 
                 $stmt = oci_parse($this->db->conn_id, "begin pkg_master_query.query_auth_coop(:p_cur_result, :p_user_id, :p_khet_code, :p_province_id); end;");
                 oci_bind_by_name($stmt, ":p_cur_result", $refcur,  -1,OCI_B_CURSOR);
-                oci_bind_by_name($stmt, ":p_user_id", $userId, -1, SQLT_CHR);
-                oci_bind_by_name($stmt, ":p_khet_code", $khetCode, -1, SQLT_CHR);
-                oci_bind_by_name($stmt, ":p_province_id", $provinceId, -1, SQLT_CHR);
+                oci_bind_by_name($stmt, ":p_user_id", $userId);
+                oci_bind_by_name($stmt, ":p_khet_code", $khetCode);
+                oci_bind_by_name($stmt, ":p_province_id", $provinceId);
 
                 $r = ociexecute($stmt);
                 oci_execute($refcur, OCI_DEFAULT);
                 log_message('debug', 'executed.');
                 oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                 oci_free_statement($stmt);
-                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
+//                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
                 print_r(json_encode($data));
                 die();
             }
@@ -3301,7 +3302,14 @@ class Report2new extends MY_Controller {
             $userId = $this->session->userdata('auth_user_id');
             $khetCode = $this->input->get('khetCode');
             $provinceId = $this->input->get('provinceId');
-            log_message('info', ' *************** queryAuthCoop userId : '.$userId.' *************** ');
+            $coopId = $this->input->get('coopId');
+            $pageSize = $this->input->get('length');
+            $start = $this->input->get('start');
+
+            $currentPage = ((intval($start)/intval($pageSize)));
+            $offset = $currentPage * $pageSize;
+
+            log_message('info', ' *************** doFilterAvailableMember userId : '.$userId.' *************** ');
 
             ini_set('max_execution_time', 0);
             ini_set("memory_limit", '-1');
@@ -3312,21 +3320,84 @@ class Report2new extends MY_Controller {
 
                 $refcur = $this->db->get_cursor();
 
-                log_message('debug', 'begin pkg_master_query.query_auth_coop(:p_cur_result, :p_user_id, :p_khet_code, :p_province_id); end;');
+                $outMsg = '';
 
-                $stmt = oci_parse($this->db->conn_id, "begin pkg_master_query.query_auth_coop(:p_cur_result, :p_user_id, :p_khet_code, :p_province_id); end;");
-                oci_bind_by_name($stmt, ":p_cur_result", $refcur,  -1,OCI_B_CURSOR);
-                oci_bind_by_name($stmt, ":p_user_id", $userId, -1, SQLT_CHR);
-                oci_bind_by_name($stmt, ":p_khet_code", $khetCode, -1, SQLT_CHR);
-                oci_bind_by_name($stmt, ":p_province_id", $provinceId, -1, SQLT_CHR);
+                log_message('debug', 'begin pkg_report_member.rpt_sum_member_available(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id '.$userId.'          ,
+                                     :p_offset_index '.$offset.'      ,
+                                     :p_page_size '.$pageSize.'         ,
+                                     :p_year              ,
+                                     :p_khet_code '.$khetCode.'         ,
+                                     :p_province_id '.$provinceId.'       ,
+                                     :p_coop_id '.$coopId.'           ); end;');
+
+                $stmt = oci_parse($this->db->conn_id, "begin pkg_report_member.rpt_sum_member_available(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id           ,
+                                     :p_offset_index      ,
+                                     :p_page_size         ,
+                                     :p_year              ,
+                                     :p_khet_code         ,
+                                     :p_province_id       ,
+                                     :p_coop_id           ); end;");
+                oci_bind_by_name($stmt, ":p_out_cur_result", $refcur,  -1,OCI_B_CURSOR);
+                oci_bind_by_name($stmt, ":p_out_total_record", $totalRecords,  -1,OCI_B_INT);
+                oci_bind_by_name($stmt, ":p_out_msg", $outMsg,  200,SQLT_CHR );
+
+                oci_bind_by_name($stmt, ":p_user_id", $userId);
+                oci_bind_by_name($stmt, ":p_offset_index", $offset);
+                oci_bind_by_name($stmt, ":p_page_size", $pageSize);
+                oci_bind_by_name($stmt, ":p_year", $year);
+                oci_bind_by_name($stmt, ":p_khet_code", $khetCode);
+                oci_bind_by_name($stmt, ":p_province_id", $provinceId);
+                oci_bind_by_name($stmt, ":p_coop_id", $coopId);
 
                 $r = ociexecute($stmt);
                 oci_execute($refcur, OCI_DEFAULT);
                 log_message('debug', 'executed.');
                 oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                 oci_free_statement($stmt);
-                log_message('debug', 'oci_fetch_all. : '.json_encode($data));
-                print_r(json_encode($data));
+
+//                log_message('debug', '$data. : '.json_encode($data));
+
+                $dataOut = array();
+                $index = intval($offset);
+                log_message('debug', '$pageSize. : '.$pageSize);
+                log_message('debug', '$offset. : '.$offset);
+                log_message('debug', '$index. : '.$index);
+
+                foreach ($data as $data_temp)
+                {
+                    $index++;
+                    $temp = array();
+                    $temp[] = number_format($index);
+                    $temp[] = $data_temp['COOP_NAME_TH'];
+                    $temp[] = $data_temp['PROVINCE_NAME'];
+                    $temp[] = $data_temp['AMPHUR_NAME'];
+                    $temp[] = number_format($data_temp['TOTAL_AVAILABLE']);
+                    $temp[] = number_format($data_temp['TOTAL_DIE']);
+                    $temp[] = number_format($data_temp['TOTAL_COOP']);
+                    $dataOut[] =$temp;
+                }
+
+                $draw = !empty($_GET["draw"])?$_GET["draw"]:0;
+                $text ="";
+
+
+                // output formatted for jquery dataTables
+                $output = array(
+                    "draw"    => intval($draw),
+                    "recordsTotal"  => intval($totalRecords),
+                    "recordsFiltered" => intval($totalRecords),
+                    "data"   => $dataOut,
+                    "textlog" => $outMsg
+                );
+
+                log_message('debug', 'oci_fetch_all. : '.json_encode($output));
+                print_r(json_encode($output));
                 die();
             }
             finally {
@@ -3339,6 +3410,141 @@ class Report2new extends MY_Controller {
             print_r(json_encode($e));
             die();
         }
+    }
+
+
+    public function exportExcelRE300NEW()
+    {
+        set_time_limit(0);
+        $filter_khet = !empty($this->input->get('khet'))?$this->input->get('khet'):"";
+        $filter_tambon = !empty($this->input->get('filter_tambon'))?$this->input->get('filter_tambon'):"";
+        $filter_district = !empty($this->input->get('filter_district'))?$this->input->get('filter_district'):"";
+        $filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):"";
+        $filter_coop = !empty($this->input->get('filter_coop'))?$this->input->get('filter_coop'):"";
+        $life_status = isset($_GET['filter_life_status'])? trim($_GET['filter_life_status']): "";
+
+        $userId = $this->session->userdata('auth_user_id');
+        $khetCode = $this->input->get('khetCode');
+        $provinceId = $this->input->get('provinceId');
+        $coopId = $this->input->get('coopId');
+
+        $offset = 0;
+        $pageSize = 10000;
+
+
+
+        if(empty($khetCode) && empty($provinceId) && empty($coopId))
+            exit();
+
+        try {
+            $data_cache = null;
+
+            $refcur = $this->db->get_cursor();
+            $outMsg = '';
+
+            log_message('debug', 'begin pkg_report_member.rpt_sum_member_available(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id '.$userId.'          ,
+                                     :p_offset_index '.$offset.'      ,
+                                     :p_page_size '.$pageSize.'         ,
+                                     :p_year              ,
+                                     :p_khet_code '.$khetCode.'         ,
+                                     :p_province_id '.$provinceId.'       ,
+                                     :p_coop_id '.$coopId.'           ); end;');
+
+            $stmt = oci_parse($this->db->conn_id, "begin pkg_report_member.rpt_sum_member_available(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id           ,
+                                     :p_offset_index      ,
+                                     :p_page_size         ,
+                                     :p_year              ,
+                                     :p_khet_code         ,
+                                     :p_province_id       ,
+                                     :p_coop_id           ); end;");
+            oci_bind_by_name($stmt, ":p_out_cur_result", $refcur,  -1,OCI_B_CURSOR);
+            oci_bind_by_name($stmt, ":p_out_total_record", $totalRecords,  -1,OCI_B_INT);
+            oci_bind_by_name($stmt, ":p_out_msg", $outMsg,  200,SQLT_CHR );
+
+            oci_bind_by_name($stmt, ":p_user_id", $userId);
+            oci_bind_by_name($stmt, ":p_offset_index", $offset);
+            oci_bind_by_name($stmt, ":p_page_size", $pageSize);
+            oci_bind_by_name($stmt, ":p_year", $year);
+            oci_bind_by_name($stmt, ":p_khet_code", $khetCode);
+            oci_bind_by_name($stmt, ":p_province_id", $provinceId);
+            oci_bind_by_name($stmt, ":p_coop_id", $coopId);
+
+            $r = ociexecute($stmt);
+            oci_execute($refcur, OCI_DEFAULT);
+            log_message('debug', 'executed.');
+            oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+            oci_free_statement($stmt);
+
+//            log_message('debug', '$data. : '.json_encode($data));
+
+            log_message('debug', '$pageSize. : '.$pageSize);
+            log_message('debug', '$offset. : '.$offset);
+//            log_message('debug', '$index. : '.$index);
+
+            $index = 0;
+            $dataOut = array();
+            foreach ($data as $data_temp)
+            {
+                $index++;
+                $temp = array();
+                $temp[] = number_format($index);
+                $temp[] = $data_temp['COOP_NAME_TH'];
+                $temp[] = $data_temp['PROVINCE_NAME'];
+                $temp[] = $data_temp['AMPHUR_NAME'];
+                $temp[] = $data_temp['TOTAL_AVAILABLE'];
+                $temp[] = $data_temp['TOTAL_DIE'];
+                $temp[] = $data_temp['TOTAL_COOP'];
+                $dataOut[] =$temp;
+            }
+
+            $filename = 'EXPORT-DATA-RE300NEW';
+
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(__DIR__.'\template_excel\templateRE300NEW.xlsx');
+
+
+            $sheet = $spreadsheet->getActiveSheet();
+
+            $reportDate = $this->changemonth();
+
+            $sheet->setCellValue('A2', $outMsg);
+            $sheet->setCellValue('A3', $reportDate);
+
+            $sheet->fromArray($dataOut , null, "A6");
+
+            $styleArray = [
+                'borders' => [
+                    'allBorders' => [
+                        'borderStyle' => \PhpOffice\PhpSpreadsheet\Style\Border::BORDER_THIN,
+                    ],
+                ]
+            ];
+
+            $sheet->getStyle('A6:G'.(6 + count($dataOut)))->applyFromArray($styleArray);
+
+            $sheet->getStyle('G'.(6 + count($dataOut) + 1));
+
+
+            $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+            header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+            header('Content-Disposition: attachment; filename="รายงานสรุปยอดสถานะสมาชิกสหกรณ์.xlsx"');
+            $writer->save("php://output");
+
+
+            die();
+        }
+        finally {
+//            oci_close($ci);
+        }
+
+
+
+
     }
 
 }
