@@ -9,242 +9,28 @@
         margin: 0;
     }
 </style>
-<!-- <fieldset> -->
-<!-- 	<legend class="h_sub_title">1.  พื้นที่ครอบครองทั้งสิ้น</legend> -->
-
-<!-- <div class="row mar_ned"> -->
-
-
-<!--     <div class="col-md-12 col-xs-9"> -->
-<!--         <div class="row"> -->
-
-<!--             <div class="col-md-4 col-xs-4 wdth"> -->
-<!-- 				<label>ไร่</label> 
-                <input type="number" class="form-control" id="land_holding_rai" name="land_holding_rai" placeholder="ไร่" value="<?php //$temp_field = 'land_holding_rai'; if(isset($user_survey_data[strtoupper($temp_field)])){ echo $user_survey_data[strtoupper($temp_field)]; } ?>">
-<!--             </div> -->
-<!--             <div class="col-md-4 col-xs-4 wdth"> -->
-<!--             <label>งาน</label> 
-                <input type="number" class="form-control" id="land_holding_ngan" name="land_holding_ngan" placeholder="งาน" value="<?php //$temp_field = 'land_holding_ngan'; if(isset($user_survey_data[strtoupper($temp_field)])){ echo $user_survey_data[strtoupper($temp_field)]; } ?>">
--->
-            <script>
-//                 var t = false
-
-//                 $('#land_holding_ngan').focus(function () {
-//                     var $this = $(this)
-
-//                     t = setInterval(
-
-//                         function () {
-//                             if (($this.val() < 0 || $this.val() >= 4) ) {
-//                                 if ($this.val() < 1) {
-//                                     $this.val(0)
-//                                 }
-
-//                                 if ($this.val() >= 4) {
-//                                     $this.val(3)
-//                                 }
-
-//                             }
-//                         }, 50)
-//                 })
-
-//                 $('#land_holding_ngan').blur(function () {
-//                     if (t != false) {
-//                         window.clearInterval(t)
-//                         t = false;
-//                     }
-//                 })
-
-
-//                 var f = false
-
-
-
-            </script>
-<!--             </div> -->
-<!--             <div class="col-md-4 col-xs-4 wdth"> -->
-<!--             <label>ตารางวา</label>
-                <input type="number" class="form-control" id="land_holding_squarewa" name="land_holding_squarewa" placeholder="ตารางวา" value="<?php //$temp_field = 'land_holding_squarewa'; if(isset($user_survey_data[strtoupper($temp_field)])){ echo $user_survey_data[strtoupper($temp_field)]; } ?>">
-<!--             </div> -->
-            <script>
-//                 $('#land_holding_squarewa').focus(function () {
-//                     var $this = $(this)
-
-//                     f = setInterval(
-
-//                         function () {
-//                             if (($this.val() < 0 || $this.val() >= 100)) {
-//                                 if ($this.val() < 0) {
-//                                     $this.val(0)
-//                                 }
-
-//                                 if ($this.val() >= 100) {
-//                                     $this.val(99)
-//                                 }
-
-//                             }
-//                         }, 50)
-//                 })
-
-//                 $('#land_holding_squarewa').blur(function () {
-//                     if (f != false) {
-//                         window.clearInterval(f)
-//                         f = false;
-//                     }
-//                 })
-            </script>
-<!--         </div> -->
-<!--     </div> -->
-
-
-<!-- </div> -->
-<!-- </fieldset> -->
 
 <?php  $intab_id =2; ?>
-<!-- <h4 class="h_sub_title"></h4> -->
+<div class="form-result-header">พื้นที่ครอบครอง</div>
+<section>
+	<div class="h_sub_title">1.  ที่ดินทำการเกษตร </div>
 
-<!-- <fieldset> -->
-<!-- 	<legend class="h_sub_title">1.  ที่ตั้งแปลง/ฟาร์ม</legend> -->
-
-<!-- 	<div class="row mar_ned"> -->
-
-<!-- 		<div class="row"> -->
-
-<!-- 			<div class="col-md-4 col-xs-4 wdth"> -->
-<!-- 				<p align="left"><stong></stong></p> -->
-<!-- 			</div> -->
-<!-- 			<div class="col-md-4 col-xs-4 wdth"> -->
-<!-- 				<p align="left"><stong></stong></p> -->
-<!-- 			</div> -->
-<!-- 			<div class="col-md-4 col-xs-4 wdth"> -->
-<!-- 				<p align="left"><stong></stong></p> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
-<!-- 	</div> -->
-	
-<!--     <div class="col-md-12 col-xs-9"> -->
-<!--         <div class="row"> 
-
-
-
-            <?php //$table_id = 241; include("inc_js_table_active_row.php"); ?>
-
-            <th style="text-align: center;">หมู่ที่</th>
-            <th style="text-align: center;">ตรอก/ซอย</th>
-            <th style="text-align: center;">ตำบล/แขวง</th>
-            <th style="text-align: center;">จังหวัด</th>
-            <th style="text-align: center;">การถือครอง</th>
-<!-- 			<th></th> -->
-<!--             </tr> -->
-<!--             </thead> -->
-<!--             <tbody> -->
- <?php
-//             // echo "<pre>"; print_r($user_survey_data);
-//             $ani_specie = '';
-//             $all_row = 1;
-//             if(isset($user_survey_data[strtoupper('ani_specie')])) {
-//                 $ani_specie = unserialize($user_survey_data[strtoupper('ani_specie')]); // print_r($plant_type);
-//                 $all_row = count($plant_type);
-//             }
-//             //echo "<pre>"; print_r($plant_type);
-//             $ani_specie = '';
-//             if(isset($user_survey_data[strtoupper('ani_specie')])) {
-//                 $ani_specie = unserialize($user_survey_data[strtoupper('ani_specie')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_num_per_year = '';
-//             if(isset($user_survey_data[strtoupper('ani_num_per_year')])) {
-//                 $ani_num_per_year = unserialize($user_survey_data[strtoupper('ani_num_per_year')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_growing_area = '';
-//             if(isset($user_survey_data[strtoupper('ani_growing_area')])) {
-//                 $ani_growing_area = unserialize($user_survey_data[strtoupper('ani_growing_area')]);   //print_r($plant_specie);
-//             }
-
-
-//             $ani_product_num_per_year = '';
-//             if(isset($user_survey_data[strtoupper('ani_product_numyear')])) {
-//                 $ani_product_num_per_year = unserialize($user_survey_data[strtoupper('ani_product_numyear')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_area_rai = '';
-//             if(isset($user_survey_data[strtoupper('ani_area_rai')])) {
-//                 $ani_area_rai = unserialize($user_survey_data[strtoupper('ani_area_rai')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_area_rai = '';
-//             if(isset($user_survey_data[strtoupper('ani_area_rai')])) {
-//                 $ani_area_rai = unserialize($user_survey_data[strtoupper('ani_area_rai')]);   //print_r($plant_specie);
-//             }
-
-//             for($ir=0;$ir<$all_row;$ir++){ //echo $ani_specie[$ir]."<br/>";
-//             ?>
-
-
-<!--             <tr> -->
-           
-<!--                 <td> -->
-<!--                     <input name="ckcDel[]" type="checkbox" /> -->
-<!--                 </td> -->
-                
-<!--                 <td> -->
-<!--                     <input  type="number" class="input-no-spinner" name="ani_area_rai[]" value="" /> -->
-<!--                 </td> -->
-<!--                 <td> -->
-<!--                     <input type="number" class="input-no-spinner" name="ani_specie[]" value="" /> -->
-<!--                 </td> -->
-<!--                 <td> -->
-<!--                     <input type="number" class="input-no-spinner" name="ani_specie[]" value="" /> -->
-<!--                 </td> -->
-<!--                 <td> -->
-<!--                     <input type="number" class="input-no-spinner" name="ani_num_per_year[]" value="" /> -->
-<!--                 </td> -->
-                
-<!--                 <td> -->
-<!--                     <select id="multiselect" class="form-control"> -->
-<!-- 						<option value=""> ครัวเรือน</option> -->
-<!-- 					    <optgroup  label="เช่า">  -->
-<!-- 							<option>มีสัญญา</option> -->
-<!-- 							<option>ไม่มีสัญญา</option> -->
-<!-- 						</optgroup > -->
-<!-- 					    <option value=> อื่นๆ</option> -->
-<!--                     </select> -->
-<!--                 </td> -->
-                
-<!--                 <td><a href="#" class="delrow">ลบแถว</a></td> -->
-<!--             </tr> -->
- <?php //}?>
-<!--             </tbody> -->
-<!--             </table> -->
-<!--         </div> -->
-
-<!--     </div> -->
-<!-- </div> -->
-<!-- </fieldset> -->
-<fieldset>
-	<legend class="h_sub_title">1.  ที่ดินทำการเกษตร </legend>
-
-    <div class="col-md-12 col-xs-9">
-        <div class="row">
-
-
-
+    <div class="col-md-12">
+        <div class="col-md-12">
             <?php $table_id = 242; include("inc_js_table_active_row.php"); ?>
-				<th style="text-align: center;" rowspan="2" >ลักษณะที่ดิน</th>
-               <th style="text-align: center;" rowspan="2" >ประเภท</th>
-               <th style="text-align: center;" rowspan="2" >เลขที่</th>
-               <th style="text-align: center;" rowspan="2" >ระวาง</th>
-               <th style="text-align: center;" colspan="3" class="text-center">พื่นที่</th>
-               <th style="text-align: center;" rowspan="2" >เลขที่บัตรประชาชน</th>
-               <th style="text-align: center;" rowspan="2" >ชื่อ</th>
-               <th style="text-align: center;" rowspan="2" >นามสกุล</th>
-               <th rowspan="2" ></th>
+                <th style="text-align: center;vertical-align: middle;" rowspan="2" >ลักษณะที่ดิน</th>
+                <th style="text-align: center;vertical-align: middle;" rowspan="2" >ประเภท</th>
+                <th style="text-align: center;vertical-align: middle;width: 80px;" rowspan="2" >เลขที่</th>
+                <th style="text-align: center;vertical-align: middle;width: 80px;" rowspan="2" >ระวาง</th>
+                <th style="text-align: center;vertical-align: middle;" colspan="3" class="text-center">พื่นที่</th>
+                <th style="text-align: center;vertical-align: middle;" rowspan="2" >เลขที่บัตรประชาชน</th>
+                <th style="text-align: center;vertical-align: middle;" rowspan="2" >ชื่อ</th>
+                <th style="text-align: center;vertical-align: middle;" rowspan="2" >นามสกุล</th>
             </tr>
             <tr>
-            <th style="text-align: center;" >ไร่</th>
-            <th style="text-align: center;" >งาน</th>
-            <th style="text-align: center;" >ตร.วา</th>
+            <th style="text-align: center;width: 80px;" >ไร่</th>
+            <th style="text-align: center;width: 80px;" >งาน</th>
+            <th style="text-align: center;width: 80px;" >ตร.วา</th>
             </tr>
             </thead>
             <tbody>
@@ -337,36 +123,36 @@
             <tr>
            
                 <td class="checkboxcol">
-                    <input name="ckcDel[]" type="checkbox" />
+                    <input name="ckcDel[]" type="checkbox" /><span></span>
                 </td>
                 <td >
-                	<select id="own_land_type" name="own_land_type[]">               	
+                	<select id="own_land_type" name="own_land_type[]" class="form-control">               	
                 		<?php foreach ($own_land_type_code as $k=>$v){?>
                 			<option <?php if(isset($own_land_type[$ir])){  if($own_land_type[$ir]==$k){ echo ' selected ';  }    }?> value="<?php echo $k?>"><?php echo $v?></option>
                 		<?php }  ?>
                 	</select>
                 </td>
                 <td >
-                	<select id="land_type" name="own_land_type_type[]">
+                	<select id="land_type" name="own_land_type_type[]" class="form-control">
                 		<option <?php if(isset($land_type[$ir])){  if($land_type[$ir]==1){ echo ' selected ';  }    }?>  value="1">โฉนด/น.ส.3 ก./น.ส.3</option>
                 		<option <?php if(isset($land_type[$ir])){  if($land_type[$ir]==2){ echo ' selected ';  }    }?>  value="2">สปก.4-01/น.คส.ท.ก./ก.ส.น.</option>
                 		<option <?php if(isset($land_type[$ir])){  if($land_type[$ir]==3){ echo ' selected ';  }    }?>  value="3">น.ส.2/น.ส.1/ภบท.5/<option>
                 	</select>
                 </td>
-                <td>
+                <td style="width: 80px;">
                     <input type="number" class="form-control input-no-spinner"  name="own_land_number[]" value="<?php if (isset($own_land_number[$ir])) echo trimleft($own_land_number[$ir], '0');?>"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"/>
                 </td>
-                <td>
+                <td style="width: 80px;">
                     <input type="text" class="form-control input-no-spinner"  name="own_land_ravang[]" value="<?php if (isset($own_land_ravang[$ir])) echo trimleft($own_land_ravang[$ir], '0')?>"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"   onkeypress="return isAlphaNumeric(event);" />
                 </td>
-                <td>
+                <td style="width: 80px;">
                     <input type="number" class="form-control allownumericwithoutdecimal input-no-spinner own_land_rai" name="own_land_rai[]" value="<?php if (isset($own_land_rai[$ir])) echo trimleft($own_land_rai[$ir], '0')?>" onkeypress="return isNumber(event)"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"/>
                 </td>
                 
-                <td>
+                <td style="width: 80px;">
                      <input type="number" class="form-control allownumericwithoutdecimal input-no-spinner own_land_ngan" name="own_land_ngan[]" value="<?php if (isset($own_land_ngan[$ir])) echo trimleft($own_land_ngan[$ir], '0')?>" onkeypress="return isNumber(event)"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"/>
                 </td>
-                 <td>
+                 <td style="width: 80px;">
                      <input type="number" class="form-control allownumericwithdecimal input-no-spinner own_land_squarewa" name="own_land_squarewa[]" value="<?php if (isset($own_land_squarewa[$ir])) echo trimleft($own_land_squarewa[$ir], '0')?>" onkeypress="return isNumber(event)"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"/>
                 </td>
                 <td>
@@ -378,7 +164,6 @@
                 <td>
                      <input type="text" class="form-control input-no-spinner last_name_land" name="own_land_sname[]"  value="<?php if (isset($own_land_sname[$ir])) echo $own_land_sname[$ir]?>" onkeypress="return isAlpha(event)"  autocomplete="off" oncopy="return false"  oncut="return false" onpaste="return false"/>
                 </td>
-                <td class="align-middle"><a href="#" class="delrow nowrap">ลบแถว</a></td>
             </tr>
 <?php }?>
             </tbody>
@@ -387,146 +172,11 @@
 
     </div>
 </div>
-</fieldset>
-<!-- 
-<fieldset>
-	<legend class="h_sub_title">3.  พื้นที่ทำการเกษร (เช่า)</legend>
+</section>
 
-	<div class="row mar_ned">
-
-		<div class="row">
-
-			<div class="col-md-12 col-xs-4 wdth">
-				<p align="left"><stong></stong></p>
-			</div>
-		</div>
-	</div>
-	
-    <div class="col-md-12 col-xs-9">
-        <div class="row">
-
-
-
-            <?php //$table_id = 243; include("inc_js_table_active_row.php"); ?>
-
-             <th style="text-align: center;" rowspan="2" >ประเภท</th>
-               <th style="text-align: center;" rowspan="2" >เลขที่</th>
-               <th style="text-align: center;" rowspan="2" >ระวาง</th>
-               <th style="text-align: center;" colspan="3" class="text-center">พื่นที่</th>
-               <th style="text-align: center;" rowspan="2" >เลขที่บัตรประชาชน</th>
-               <th style="text-align: center;" rowspan="2" >ชื่อ</th>
-               <th style="text-align: center;" rowspan="2" >นามสกุล</th>
-               <th rowspan="2" ></th>
-            </tr>
-            <tr>
-            <th style="text-align: center;" >ไร่</th>
-            <th style="text-align: center;" >งาน</th>
-            <th style="text-align: center;" >ตร.วา</th>
-            </tr>
-            </thead>
-            <tbody>
-<?php
-            // echo "<pre>"; print_r($user_survey_data);
-//             $ani_specie = '';
-//             $all_row = 1;
-//             if(isset($user_survey_data[strtoupper('ani_specie')])) {
-//                 $ani_specie = unserialize($user_survey_data[strtoupper('ani_specie')]); // print_r($plant_type);
-//                 $all_row = count($plant_type);
-//             }
-//             //echo "<pre>"; print_r($plant_type);
-//             $ani_specie = '';
-//             if(isset($user_survey_data[strtoupper('ani_specie')])) {
-//                 $ani_specie = unserialize($user_survey_data[strtoupper('ani_specie')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_num_per_year = '';
-//             if(isset($user_survey_data[strtoupper('ani_num_per_year')])) {
-//                 $ani_num_per_year = unserialize($user_survey_data[strtoupper('ani_num_per_year')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_growing_area = '';
-//             if(isset($user_survey_data[strtoupper('ani_growing_area')])) {
-//                 $ani_growing_area = unserialize($user_survey_data[strtoupper('ani_growing_area')]);   //print_r($plant_specie);
-//             }
-
-
-//             $ani_product_num_per_year = '';
-//             if(isset($user_survey_data[strtoupper('ani_product_numyear')])) {
-//                 $ani_product_num_per_year = unserialize($user_survey_data[strtoupper('ani_product_numyear')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_area_rai = '';
-//             if(isset($user_survey_data[strtoupper('ani_area_rai')])) {
-//                 $ani_area_rai = unserialize($user_survey_data[strtoupper('ani_area_rai')]);   //print_r($plant_specie);
-//             }
-
-//             $ani_area_rai = '';
-//             if(isset($user_survey_data[strtoupper('ani_area_rai')])) {
-//                 $ani_area_rai = unserialize($user_survey_data[strtoupper('ani_area_rai')]);   //print_r($plant_specie);
-//             }
-
-           // for($ir=0;$ir<$all_row;$ir++){ //echo $ani_specie[$ir]."<br/>";
-            ?>
-
-
-            <tr>
-           
-                <td>
-                    <input name="ckcDel[]" type="checkbox" />
-                </td>
-                
-                <td >
-                	<select id="hire_land_type[]">
-                		<option>โฉนด/น.ส.3 ก./น.ส.3</option>
-                		<option>สปก.4-01/น.คส.ท.ก./ก.ส.น.</option>
-                		<option>น.ส.2/น.ส.1/ภบท.5/<option>
-                	</select>
-                </td>
-                <td>
-                    <input type="number" class="input-no-spinner" name="hire_land_number[]" value="" />
-                </td>
-                <td>
-                    <input type="text" class="input-no-spinner" name="hire_land_ravang[]" value="" />
-                </td>
-                <td>
-                    <input type="number" class="input-no-spinner hire_land_rai" name="hire_land_rai[]" value="" />
-                </td>
-                
-                <td>
-                     <input type="number" class="input-no-spinner hire_land_ngan" name="hire_land_ngan[]" value="" />
-                </td>
-                 <td>
-                     <input type="number" class="input-no-spinner hire_land_squarewa" name="hire_land_squarewa[]" value="" />
-                </td>
-                <td>
-                     <input type="number" class="input-no-spinner hire_land_pin" name="hire_land_pin[]" value="" />
-                </td>
-                  <td>
-                     <input type="number" class="input-no-spinner" name="hire_land_pname[]" value="" />
-                </td>
-                <td>
-                     <input type="number" class="input-no-spinner" name="hire_land_sname[]" value="" />
-                </td>
-                <td><a href="#" class="delrow">ลบแถว</a></td>
-            </tr>
-<?php //}?>
-            </tbody>
-            </table>
-            
-        </div>
-	</div>
-</div>
-	
-
-</fieldset>
- -->
  
- 
- 
- 
- 
-<fieldset>
-<legend class="h_sub_title">2.  แหล่งน้ำ</legend>
+<section>
+<div class="h_sub_title">2.  แหล่งน้ำ</div>
 
 	
             <?php $table_id = 244; //include("inc_js_table_active_row_checkbox.php"); ?>
@@ -619,8 +269,8 @@
             
             ?>
             
-	<div class="row">
-            <div class="col-md-12 col-xs-12">
+	<div class="col-md-12">
+            <div class="col-md-12">
                 <label>
                     <strong>มีแหล่งน้ำที่ใช้ในการเกษตร</strong>
                 </label>
@@ -629,12 +279,12 @@
             <input type="hidden" name="water[]" id="water" value="<?php echo $water[$ir]?>" />
             <div class="col-md-2 col-xs-12">
                 <label>
-                    <input type="radio" name="water_option"  id="water-radio" onclick="waterSwitch(false)" <?php if (isset($water) && $water[$ir]==0) echo "checked"?> value="0" > ไม่มี
+                    <input type="radio" name="water_option"  id="water-radio" onclick="waterSwitch(false)" <?php if (isset($water) && $water[$ir]==0) echo "checked"?> value="0" > <span>ไม่มี</span>
                 </label>
             </div>
             <div class="col-md-2 col-xs-12">
                 <label>
-                    <input type="radio" name="water_option" id="water-radio" onclick="waterSwitch(true)" <?php if (isset($water) && $water[$ir]==1) echo "checked"?> alue="1" > มี
+                    <input type="radio" name="water_option" id="water-radio" onclick="waterSwitch(true)" <?php if (isset($water) && $water[$ir]==1) echo "checked"?> alue="1" > <span>มี</span>
                 </label>
             </div>
             
@@ -643,59 +293,62 @@
            </div>
             <ul class="list-unstyled">
             <li class="col-md-3 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_shallow_well_own" name="water_shallow_well_own[]"  class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_shallow_well_own[$ir]) && $water_shallow_well_own[$ir]==true) echo "checked=checked"?>     value="1"> บ่อน้ำตื้นของตนเอง
+                <label class="water">
+                    <input type="checkbox" id="water_shallow_well_own" name="water_shallow_well_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_shallow_well_own[$ir]) && $water_shallow_well_own[$ir]==true) echo "checked=checked"?>     value="1"> <span>บ่อน้ำตื้นของตนเอง</span>
                 </label>
             </li>
             <li class="col-md-3 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_groundwater_wells_own" name="water_groundwater_wells_own[]"  class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_groundwater_wells_own[$ir]) && $water_groundwater_wells_own[$ir]==true) echo "checked=checked"?>  value="2"> บ่อบาดาลของตนเอง
+                <label class="water">
+                    <input type="checkbox" id="water_groundwater_wells_own" name="water_groundwater_wells_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_groundwater_wells_own[$ir]) && $water_groundwater_wells_own[$ir]==true) echo "checked=checked"?>  value="2"> <span>บ่อบาดาลของตนเอง</span>
                 </label>
             </li>            
-            <li class="col-md-6 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_ponds_own" name="water_ponds_own[]"  class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_ponds_own[$ir]) && $water_ponds_own[$ir]==true) echo "checked=checked"?>    value="3"> สระน้ำของตนเอง
+            <li class="col-md-3 col-xs-12">
+                <label class="water">
+                    <input type="checkbox" id="water_ponds_own" name="water_ponds_own[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_ponds_own[$ir]) && $water_ponds_own[$ir]==true) echo "checked=checked"?>    value="3"> <span>สระน้ำของตนเอง</span>
                 </label>
             </li>       
             <li class="col-md-3 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_groundwater_wells_public" name="water_groundwater_wells_public[]"  class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_groundwater_wells_public[$ir]) && $water_groundwater_wells_public[$ir]==true) echo "checked=checked"?>     value="4"> บ่อบาดาลสาธารณะ
+                <label class="water">
+                    <input type="checkbox" id="water_groundwater_wells_public" name="water_groundwater_wells_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_groundwater_wells_public[$ir]) && $water_groundwater_wells_public[$ir]==true) echo "checked=checked"?>     value="4"> <span>บ่อบาดาลสาธารณะ</span>
                 </label>
             </li>    
             <li class="col-md-3 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_swamp_public" name="water_swamp_public[]"  class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>   <?php if (isset($water_swamp_public[$ir]) && $water_swamp_public[$ir]==true) echo "checked=checked"?>    value="5"> หนอง/สระสาธารณะ
+                <label class="water">
+                    <input type="checkbox" id="water_swamp_public" name="water_swamp_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>   <?php if (isset($water_swamp_public[$ir]) && $water_swamp_public[$ir]==true) echo "checked=checked"?>    value="5"> <span>หนอง/สระสาธารณะ</span>
                 </label>
             </li>            
-            <li class="col-md-6 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_Irrigation_canal_public" name="water_Irrigation_canal_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_Irrigation_canal_public[$ir]) && $water_Irrigation_canal_public[$ir]==true) echo "checked=checked"?>    value="6"> คลองชลประทานสาธารณะ
+            <li class="col-md-3 col-xs-12">
+                <label class="water">
+                    <input type="checkbox" id="water_Irrigation_canal_public" name="water_Irrigation_canal_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_Irrigation_canal_public[$ir]) && $water_Irrigation_canal_public[$ir]==true) echo "checked=checked"?>    value="6"> <span>คลองชลประทานสาธารณะ</span>
                 </label>
             </li>         
             <li class="col-md-3 col-xs-12">
-                <label>
-                    <input type="checkbox" id="water_river_public" name="water_river_public[]" class="water"   <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_river_public[$ir]) && $water_river_public[$ir]==true) echo "checked=checked"?>   value="7"> แม่น้ำสาธารณะ
+                <label class="water" >
+                    <input type="checkbox" id="water_river_public" name="water_river_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_river_public[$ir]) && $water_river_public[$ir]==true) echo "checked=checked"?>   value="7"> <span>แม่น้ำสาธารณะ</span>
                 </label>
             </li> 
            	</ul>
                                     
             <script type="text/javascript">
+                <?php if($mode!="view"){ ?>$(".water").css('display','none'); <?php } ?>
 				function waterSwitch(value){
 					if(value)
 					{
 						$(".water").prop('disabled', false);
 						$("#water").val('1');
+                        <?php if($mode!="view"){ ?>$(".water").css('display','block'); <?php } ?>
 					}else{
 						$('.water').prop('checked', false); 
 						$(".water").prop('disabled', true);
 						$("#water").val('0');
+                        $(".water").css('display','none');
 					}
 				}
             </script>
     </div>
 
 
-</fieldset>
+</section>
 
 
 

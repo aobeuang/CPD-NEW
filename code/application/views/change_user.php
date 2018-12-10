@@ -1,21 +1,4 @@
 <style type="text/css">
-	body{
-    background-color: #dee9ff;
-}
-
-.registration-form{
-	/*padding: 50px 0;*/
-}
-
-.registration-form form{
-    background-color: #fff;
-    max-width: 900px;
-    margin: auto;
-    padding: 50px 70px;
-    /*border-top-left-radius: 30px;*/
-    /*border-top-right-radius: 30px;*/
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-}
 
 .registration-form .form-icon{
 	text-align: center;
@@ -106,52 +89,57 @@
     }
 }
 </style>
-    <div class="registration-form">
-    	<div class="form-result-header" style="background-color: #c1c1c1;max-width: 900px;margin: auto;">
-                    อัพเดทรหัสผ่านผู้ใช้งานระบบ     <span style="float: right;">Page Code : MNG006</span>           </div>
-        <form method="post" id="add_users">
-            <div class="row">
-                <div class="form-group">
-                    <div class="col-sm-3 form-right">
-                        <label class="control-label" for="name">ชื่อ - นามสกุล</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label form-left" id="name">-</label>                
-                    </div>
+    <div id="main-wrapper">
+        <div class="container-fluid col-md-12 col-xs-12">
+            <div class="row form-result registration-form">
+                <div class="form-result-header" class="col-sm-offset-2 col-sm-8">
+                            อัพเดทรหัสผ่านผู้ใช้งานระบบ     <span style="float: right;">Page Code : MNG006</span>           </div>
+                <div class="row" style="padding: 25px;">
+                    <form method="post" id="add_users" class="col-sm-offset-2 col-sm-8">
+                        <div class="row">
+                            <div class="form-group">
+                                <div class="col-sm-3 form-right">
+                                    <label class="control-label" for="name">ชื่อ - นามสกุล</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="control-label form-left" id="name">-</label>                
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 form-right">
+                                	<label class="control-label" for="username">ชื่อผู้ใช้งาน</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <label class="control-label form-left" id="username">-</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 form-right">
+                                    <label class="control-label" for="password">รหัสผ่าน</label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <input type="password" class="form-control item" id="password" minlength="4" placeholder="รหัสผ่าน">
+                                    <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านตั้งแต่ 4 ตัวขึ้นไป ต้องเป็น ตัวเลข หรือ ตัวอักษร หรือ สัญลักษณ์ หรือ ผสมกัน**</p>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="col-sm-3 form-right">
+                                     <label class="control-label" for="btn-submit"></label>
+                                </div>
+                                <div class="col-sm-9">
+                                    <button type="button" class="btn btn-info" id="btn-submit">อัพเดทรหัสผ่าน</button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
                 </div>
-                <div class="form-group">
-                    <div class="col-sm-3 form-right">
-                    	<label class="control-label" for="username">ชื่อผู้ใช้งาน</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <label class="control-label form-left" id="username">-</label>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-3 form-right">
-                        <label class="control-label" for="password">รหัสผ่าน</label>
-                    </div>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control item" id="password" minlength="4" placeholder="รหัสผ่าน">
-                        <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านตั้งแต่ 4 ตัวขึ้นไป ต้องเป็น ตัวเลข หรือ ตัวอักษร หรือ สัญลักษณ์ หรือ ผสมกัน**</p>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-sm-3 form-right">
-                         <label class="control-label" for="btn-submit"></label>
-                    </div>
-                    <div class="col-sm-9">
-                        <button type="button" class="btn btn-info" id="btn-submit">อัพเดทรหัสผ่าน</button>
-                    </div>
-                </div>
+                <?php 
+                    // echo print_r($province);
+
+                ?>
             </div>
-
-        </form>
-
-        <?php 
-            // echo print_r($province);
-
-        ?>
+        </div>
     </div>
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 <script src="/assets/default/js/notify.min.js"></script>

@@ -521,9 +521,9 @@ public function changeUsersCall($citizen = null)
 			$crud->set_table($table);
 			
 			$crud->set_primary_key('logusersid');
-			$crud->columns('name','created_at','citizen_id','actor_name','actor_auth','actor_agency','actor_province');
-			$crud->display_as('name','การใช้งาน')
-				->display_as('created_at','วันและเวลา')
+			$crud->columns('created_at','name','citizen_id','actor_name','actor_auth','actor_agency','actor_province');
+			$crud->display_as('created_at','วันและเวลา')
+				->display_as('name','การใช้งาน')
 				->display_as('citizen_id','ผู้ใช้งาน')
 				->display_as('actor_name','ชื่อผู้ใช้งาน')
 				->display_as('actor_auth','สิทธิ์การใช้งาน')
@@ -1614,7 +1614,7 @@ public function changeUsersCall($citizen = null)
 
 				if(!empty($mode) && $mode=='view')
 				{
-					echo $this->load->view('view_survey', $output, true);
+					echo $this->load->view('survey_add', $output, true);
 					
 				}else{
 					echo $this->load->view('survey_add', $output, true);

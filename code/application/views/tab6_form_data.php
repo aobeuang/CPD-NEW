@@ -1,15 +1,6 @@
 <?php $intab_id =7; ?>
 
 <style>
-table, th, td {
-    border: 1px solid black;
-    border-collapse: collapse;
-}
-th, td {
-    padding: 5px;
-    text-align: left;    
-}
-
 	.input-no-spinner {
     -moz-appearance: textfield;
     }
@@ -19,44 +10,32 @@ th, td {
         margin: 0;
     }
 </style>
-<h4 class="h_sub_title">การเลี้ยงโคนม</h4>
+<div class="form-result-header">การเลี้ยงโคนม</div>
 
-
-
-<div class="row mar_ned">
-
-
-
-
-    <div class="col-md-12 col-xs-9">
+<div class="row mar_ned" style="padding: 15px 30px;">
+<div class="col-md-12 col-xs-9">
         <div class="row fixed-row">
-
             <?php $table_id = 711; include("inc_js_table_active_row.php"); ?>
 
-            <th  style="text-align: center;" rowspan="2">เบอร์ถัง</th>
-            <th  style="text-align: center;" rowspan="2">ลูกโค  0-1  เดือน(ตัว)</th>
-            <th  style="text-align: center;" rowspan="2">ลูกโค  1เดือน-1ปี(ตัว)</th>
-            <th  style="text-align: center;" rowspan="2">โคสาว  1ปี-2ปี  (ตัว)</th>
-            <th  style="text-align: center;" rowspan="2">โคสาว  2ปี-ไม่ท้อง<br/>(ตัว)</th>
-            <th  style="text-align: center;" rowspan="2">โคสาว   ท้อง  (ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">เบอร์ถัง</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">ลูกโค  0-1  เดือน(ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">ลูกโค  1เดือน-1ปี(ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">โคสาว  1ปี-2ปี  (ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">โคสาว  2ปี-ไม่ท้อง<br/>(ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" rowspan="2">โคสาว   ท้อง  (ตัว)</th>
 
-            <th  style="text-align: center;" colspan="3" class="text-center">แม่โคเตรียมรีดนม</th>
-            <th  style="text-align: center;" colspan="3" class="text-center">แม่โคราย</th>
-            
-                <!-- 
-            <th  style="text-align: center;" rowspan="2">รวม</th>
-              -->
-            <th  style="text-align: center;" rowspan="2" > </th>
+            <th  style="text-align: center;vertical-align: middle;" colspan="3" class="text-center">แม่โคเตรียมรีดนม</th>
+            <th  style="text-align: center;vertical-align: middle;" colspan="3" class="text-center">แม่โคราย</th>
             </tr>
 
             <tr>
 
-                <th style="text-align: center;" >ท้อง (ตัว)</th>
-                <th style="text-align: center;" >ไม่ท้อง (ตัว)</th>
-                <th style="text-align: center;" >รวม (ตัว)</th>
-                <th style="text-align: center;" >ท้อง (ตัว)</th>
-                <th style="text-align: center;" >ไม่ท้อง (ตัว)</th>
-                <th style="text-align: center;" >รวม (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >ท้อง (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >ไม่ท้อง (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >รวม (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >ท้อง (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >ไม่ท้อง (ตัว)</th>
+                <th style="text-align: center;vertical-align: middle;" >รวม (ตัว)</th>
                
             </tr>
             </thead>
@@ -129,7 +108,7 @@ th, td {
 
             <tr>
                 <td class="checkboxcol">
-                    <input name="ckcDel[]" type="checkbox" />
+                    <input name="ckcDel[]" type="checkbox" /> <span></span>
                 </td>
 
                 <td>
@@ -168,15 +147,6 @@ th, td {
                 <td>
                     <input type="number" class="form-control allownumericwithoutdecimal input-no-spinner" name="tab7_a1_cowslay_all[]" value="<?php if(isset($tab7_a1_cowslay_all[$i])){ echo trimleft($tab7_a1_cowslay_all[$i],'0'); } ?>" onkeypress="return isNumber(event)"/>
                 </td>
-                <!-- 
-                <td>
-                    <input type="number" class="input-no-spinner" name="tab7_a1_cows_total[]" value="<?php //if(isset($tab7_a1_cows_total[$i])){ echo $tab7_a1_cows_total[$i]; } ?>" />
-                </td>
-                 -->
-
-
-
-                <td class="align-middle"><a href="#" class="delrow nowrap">ลบแถว</a></td>
             </tr>
 
 <?php } ?>

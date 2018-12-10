@@ -106,7 +106,6 @@ $ani_name2[$i] = "สัตว์น้ำอื่น ๆ";  $ani_code2[$i] = "
 
 ?>
 
-<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <style type="text/css">
 @import
 	url(http://fonts.googleapis.com/css?family=Roboto+Condensed:400,700);
@@ -536,7 +535,6 @@ padding-right: 10px;
 }
 
 </style>
-<script src="code.jquery.com/jquery-1.11.1.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jquery-validation@1.17.0/dist/jquery.validate.js"></script>
 <script src="netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
 
@@ -798,7 +796,7 @@ padding-right: 10px;
 					///	if(isset($user_survey_data['citizen_id'])){ $action_page = 'do_survey_edit'; } ?>
 						<form id="accountForm" method="post" action="<?php echo site_url('admin/'.$action_page); ?>" class="form-inline step-form-wrapper">
 						<input type="hidden" name="<?php echo $this->security->get_csrf_token_name();?>" value="<?php echo $this->security->get_csrf_hash();?>">
-							<div id="content_data_area">
+							<div id="content_data_area"  class="row form-result">
 								<div class="tab-content">
 								
 									<?php $tab_idxx=1;?>

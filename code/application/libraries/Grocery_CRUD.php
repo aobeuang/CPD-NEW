@@ -1710,8 +1710,14 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		 * No need to use an external library here. The only bad thing without using external library is that Microsoft Excel is complaining
 		 * that the file is in a different format than specified by the file extension. If you press "Yes" everything will be just fine.
 		 * */
-
-		$string_to_export = $data->subject_plural;
+		$date = date("Y-m-d H:i:s");
+		$strYear = date("Y",strtotime($date))+543;
+		$strMonth= date("m",strtotime($date));
+		$strDay= date("d",strtotime($date));
+		$strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
+		$strMonthThai=$strMonthCut[$strMonth];
+		$dateString= "$strDay $strMonthThai $strYear";
+		$string_to_export = $data->subject_plural."\t\t\t ข้อมูล ณ วันที่".$dateString;
 		foreach($data->columns as $column){
 			$string_to_export .= "\t";
 		}
@@ -1764,7 +1770,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$string_to_print = "<meta charset=\"utf-8\" /><style type=\"text/css\" >
 		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 14px;text-align: center;}
 		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px; font-size: 10px;}
-		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black;}
+		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black;table-layout: fixed;}
 		#print-table table tr th{text-align: left;background: #ddd;}
 		#print-table table tr:nth-child(odd){background: #eee;}
 		</style>";
