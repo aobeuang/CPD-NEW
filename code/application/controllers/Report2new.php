@@ -3505,7 +3505,7 @@ class Report2new extends MY_Controller {
 
             $filename = 'EXPORT-DATA-RE300NEW';
 
-            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(__DIR__.'\template_excel\templateRE300NEW.xlsx');
+            $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load(__DIR__.'/template_excel/templateRE300NEW.xlsx');
 
 
             $sheet = $spreadsheet->getActiveSheet();

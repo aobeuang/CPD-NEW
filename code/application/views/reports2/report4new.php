@@ -113,7 +113,7 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 						</div>
 
 							<div>
-                                >>{{khet}} | {{khetCode}} {{provinceId}} {{coopId}}<<
+<!--                                >>{{khet}} | {{khetCode}} {{provinceId}} {{coopId}}<<-->
                                 <center>
 									<div id="btnchange">
 										<button id="search_btn"
