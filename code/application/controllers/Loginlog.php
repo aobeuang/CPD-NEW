@@ -288,14 +288,16 @@ class Loginlog extends MY_Controller {
 			
 // 			IP address
 			$crud->set_primary_key('logactivityid');
-			$crud->columns('created_at','detail','search_province','actor_name','actor_province');
-			$crud->fields('created_at','detail','search_province','actor_name','actor_province');
+			/*$crud->columns('created_at','detail','search_province','actor_name','actor_province');
+			$crud->fields('created_at','detail','search_province','actor_name','actor_province');*/
+			$crud->columns('created_at','detail','actor_name','actor_province');
+			$crud->fields('created_at','detail','actor_name','actor_province');
 			 $crud->unset_fields('citizen_id', 'citizen_province','logactivityid');
 			
 			$crud->display_as('created_at', 'วันและเวลาที่เข้าดู')
 			->display_as('name', 'ชื่อกิจกรรม')
 			->display_as('detail', 'ประเภทของประวัติ')
-			->display_as('search_province', 'จังหวัดที่เรียกดู')
+			/*->display_as('search_province', 'จังหวัดที่เรียกดู')*/
 			->display_as('actor_name', 'ชื่อผู้ใช้งาน')
 			->display_as('actor_province','จังหวัดของผู้ใช้งาน')
 			

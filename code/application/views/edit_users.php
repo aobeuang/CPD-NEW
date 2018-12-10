@@ -1,22 +1,4 @@
 <style type="text/css">
-	body{
-    background-color: #dee9ff;
-}
-
-.registration-form{
-	/*padding: 50px 0;*/
-}
-
-.registration-form form{
-    background-color: #fff;
-    max-width: 900px;
-    margin: auto;
-    padding: 50px 70px;
-    /*border-top-left-radius: 30px;*/
-    /*border-top-right-radius: 30px;*/
-    box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.075);
-}
-
 .registration-form .form-icon{
 	text-align: center;
     background-color: #5891ff;
@@ -101,106 +83,110 @@
     }
 }
 </style>
-    <div class="registration-form">
-    	<div class="form-result-header" style="background-color: #c1c1c1;max-width: 900px;margin: auto;">
-                    อัพเดทผู้ใช้งานระบบ   <span style="float: right;">Page Code : MNG003</span>             </div>
-        <form method="post" id="add_users">
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="username">ชื่อผู้ใช้งาน</label>
-            	<div class="col-sm-9">
-	                <input type="text" class="form-control item" id="username" maxlength="13" placeholder="ชื่อผู้ใช้งาน" autocomplete="false">                    
-	                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**โปรดระบุเป็นหมายเลขบัตรประชาชน**</p>
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="password">รหัสผ่าน</label>
-            	<div class="col-sm-9">
-                <input type="password" class="form-control item" id="password" minlength="4" placeholder="รหัสผ่าน">
-                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านต้องมีขนาด 4 ตัวอักษรหรือตัวเลขขึ้นไป**</p>
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="name">ชื่อ - นามสกุล</label>
-            	<div class="col-sm-9">
-	                <input type="text" class="form-control item" id="name" placeholder="ชื่อ - นามสกุล" autocomplete="false">
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="email">อีเมล</label>
-            	<div class="col-sm-9">
-                <input type="text" class="form-control item" id="email" placeholder="Email">
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="auth_level">บทบาท</label>
-            	<div class="col-sm-9">
-            		<select id="auth_level" name="auth_level" class="form-control item" data-placeholder="เลือก บทบาท">
-                        <option value="" disabled selected hidden>เลือกบทบาท</option>
-                        <option value="5">ผู้ใช้งานส่วนภูมิภาคระดับจัดการ</option>
-                        <option value="6">ผู้ใช้งานส่วนภูมิภาคระดับบริหาร</option>
-                        <option value="1">ผู้ใช้งานส่วนกลางระดับจัดการ</option>
-                        <option value="2">ผู้ใช้งานส่วนกลางระดับบริหาร</option>                        
-                        <option value="8">ผู้ดูแลระบบระดับจัดการ</option>
-                        <option value="9">ผู้ดูแลระบบระดับบริหาร</option>      
-                    </select>
-                </div>
-            </div>            
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="agency">สังกัดหน่วยงาน</label>
-            	<div class="col-sm-9">
-            		<select id="agency" name="agency" class="form-control item" data-placeholder="เลือกสังกัดหน่วยงาน">
-                        <option value="" disabled selected hidden>เลือกสังกัดหน่วยงาน</option>
-                        <?php
-                            foreach ($agency as $key => $value) {
-                        ?>
-                            <option value="<?= $key?>"><?= $value?></option>
-                        <?php 
-                            }
-                        ?> 
-                    </select>
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="province">จังหวัด</label>
-            	<div class="col-sm-9">
-            		<select id="province" name="province" class="form-control item" data-placeholder="เลือก จังหวัด">
-                        <option value="" disabled selected hidden>เลือกจังหวัด</option>
-                    <?php
-                        foreach ($province as $key => $value) {
-                    ?>
-                        <option value="<?= $key?>"><?= $value?></option>
-                    <?php 
-                        }
-                    ?>      
-                    </select>
-                    <input type="hidden" name="province_name" id="province_name" value="">
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="org_id">เขตพื้นที่</label>
-            	<div class="col-sm-9">
-            		<select id="org_id" name="org_id" class="form-control item" data-placeholder="เลือก เขตพื้นที่"><option value="" disabled selected hidden></option></select>
-                    <input type="hidden" name="org_name" id="org_name" value="">
-                </div>
-            </div>
-            <div class="form-group">
-            	<label class="control-label col-sm-3 form-right" for="banned">อนุญาตให้ใช้</label>
-            	<div class="col-sm-9">
-            		<select id="banned" name="banned" class="form-control item" data-placeholder="เลือก อนุญาตให้ใช้"><option value="2">ใช้งานได้</option><option value="1">ไม่ให้ใช้</option></select>
-                </div>
-            </div>
-            
-            <div class="form-group text-center">
-            	<button type="button" class="btn btn-info" id="btn-submit">อัพเดทผู้ใช้งานระบบ</button>
-                <button class="btn btn-default cancel-button" type="button" onclick="window.location = '/index.php/admin/users_management'"><i class="fa fa-arrow-left"></i>&nbsp;กลับ </button>
-            </div>
+<div id="main-wrapper">
+        <div class="container-fluid col-md-12 col-xs-12">
+            <div class="row form-result registration-form">
+                <div class="form-result-header" class="col-sm-offset-2 col-sm-8">
+                            อัพเดทผู้ใช้งานระบบ   <span style="float: right;">Page Code : MNG003</span>             </div>
+                <form method="post" id="add_users" class="col-sm-offset-2 col-sm-8">
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="username">ชื่อผู้ใช้งาน</label>
+                    	<div class="col-sm-9">
+        	                <input type="text" class="form-control item" id="username" maxlength="13" placeholder="ชื่อผู้ใช้งาน" autocomplete="false">                    
+        	                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**โปรดระบุเป็นหมายเลขบัตรประชาชน**</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="password">รหัสผ่าน</label>
+                    	<div class="col-sm-9">
+                        <input type="password" class="form-control item" id="password" minlength="4" placeholder="รหัสผ่าน">
+                        <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**รหัสผ่านต้องมีขนาด 4 ตัวอักษรหรือตัวเลขขึ้นไป**</p>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="name">ชื่อ - นามสกุล</label>
+                    	<div class="col-sm-9">
+        	                <input type="text" class="form-control item" id="name" placeholder="ชื่อ - นามสกุล" autocomplete="false">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="email">อีเมล</label>
+                    	<div class="col-sm-9">
+                        <input type="text" class="form-control item" id="email" placeholder="Email">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="auth_level">บทบาท</label>
+                    	<div class="col-sm-9">
+                    		<select id="auth_level" name="auth_level" class="form-control item" data-placeholder="เลือก บทบาท">
+                                <option value="" disabled selected hidden>เลือกบทบาท</option>
+                                <option value="5">ผู้ใช้งานส่วนภูมิภาคระดับจัดการ</option>
+                                <option value="6">ผู้ใช้งานส่วนภูมิภาคระดับบริหาร</option>
+                                <option value="1">ผู้ใช้งานส่วนกลางระดับจัดการ</option>
+                                <option value="2">ผู้ใช้งานส่วนกลางระดับบริหาร</option>                        
+                                <option value="8">ผู้ดูแลระบบระดับจัดการ</option>
+                                <option value="9">ผู้ดูแลระบบระดับบริหาร</option>      
+                            </select>
+                        </div>
+                    </div>            
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="agency">สังกัดหน่วยงาน</label>
+                    	<div class="col-sm-9">
+                    		<select id="agency" name="agency" class="form-control item" data-placeholder="เลือกสังกัดหน่วยงาน">
+                                <option value="" disabled selected hidden>เลือกสังกัดหน่วยงาน</option>
+                                <?php
+                                    foreach ($agency as $key => $value) {
+                                ?>
+                                    <option value="<?= $key?>"><?= $value?></option>
+                                <?php 
+                                    }
+                                ?> 
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="province">จังหวัด</label>
+                    	<div class="col-sm-9">
+                    		<select id="province" name="province" class="form-control item" data-placeholder="เลือก จังหวัด">
+                                <option value="" disabled selected hidden>เลือกจังหวัด</option>
+                            <?php
+                                foreach ($province as $key => $value) {
+                            ?>
+                                <option value="<?= $key?>"><?= $value?></option>
+                            <?php 
+                                }
+                            ?>      
+                            </select>
+                            <input type="hidden" name="province_name" id="province_name" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="org_id">เขตพื้นที่</label>
+                    	<div class="col-sm-9">
+                    		<select id="org_id" name="org_id" class="form-control item" data-placeholder="เลือก เขตพื้นที่"><option value="" disabled selected hidden></option></select>
+                            <input type="hidden" name="org_name" id="org_name" value="">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                    	<label class="control-label col-sm-3 form-right" for="banned">อนุญาตให้ใช้</label>
+                    	<div class="col-sm-9">
+                    		<select id="banned" name="banned" class="form-control item" data-placeholder="เลือก อนุญาตให้ใช้"><option value="2">ใช้งานได้</option><option value="1">ไม่ให้ใช้</option></select>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group text-center">
+                    	<button type="button" class="btn btn-info" id="btn-submit">อัพเดทผู้ใช้งานระบบ</button>
+                        <button class="btn btn-default cancel-button" type="button" onclick="window.location = '/index.php/admin/users_management'"><i class="fa fa-arrow-left"></i>&nbsp;กลับ </button>
+                    </div>
 
-        </form>
+                </form>
 
-        <?php 
-            // echo print_r($province);
+                <?php 
+                    // echo print_r($province);
 
-        ?>
+                ?>
+            </div>
+        </div>
     </div>
 <!-- <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script> -->
 <script src="/assets/default/js/notify.min.js"></script>
