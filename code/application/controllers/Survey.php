@@ -172,10 +172,6 @@ class Survey extends MY_Controller {
 				'surveys' => $existing_surveys,
 				'role'	=> $role_user,
 			);
-
-			if (!empty($citizen_id)) {
-				addLogSuspiciousMessage($citizen_id,'ค้นหาแบบสำรวจ',"มีการเข้าถึงบัตรประชาชน");
-			}
 			
 			
 			echo $this->load->view('survey/survey', $output, TRUE);
@@ -257,9 +253,9 @@ class Survey extends MY_Controller {
 				
 				echo $this->load->view('auth/page_header', '', TRUE);
 
-				if (!empty($citizen_id)) {
+				/*if (!empty($citizen_id)) {
 					addLogSuspiciousMessage($citizen_id,1,"มีการเข้าถึงแบบสำรวจ");
-				}
+				}*/
 
 				$output = array(
 						'citizen_id' => $citizen_id,
