@@ -48,16 +48,29 @@
 	
 	<script>
 	$(document).ready(function(){
-	    $(".dropdown").hover(            
-	        function() {
-	            $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
-	            $(this).toggleClass('open');        
-	        },
-	        function() {
-	            $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
-	            $(this).toggleClass('open');       
-	        }
-	    );
+	    // Original backup
+	    // $(".dropdown").hover(
+	    //     function() {
+	    //         $('.dropdown-menu', this).stop( true, true ).slideDown("fast");
+	    //         $(this).toggleClass('open');
+	    //     },
+	    //     function() {
+	    //         $('.dropdown-menu', this).stop( true, true ).slideUp("fast");
+	    //         $(this).toggleClass('open');
+	    //     }
+	    // );
+
+        // Update
+        // $(".dropdown").hover(
+        //     function () {
+        //             $('.dropdown-menu', this).stop(true, true).slideDown("fast");
+        //             $(this).toggleClass('open');
+        //         },
+        //     function () {
+        //             $('.dropdown-menu', this).stop(true, true).slideUp("fast");
+        //             $(this).toggleClass('open');
+        //         }
+        // ).not('.dropdown-submenu');
 
 	    $.get( '<?php echo site_url("authen/ajax_announcement")?>', function( data ) {
 
@@ -277,6 +290,9 @@ $current_url = $_SERVER['REQUEST_URI'];
             <!-- Pooh7t -->
             <?php if  ((!empty($this->session->userdata('auth_user_id')) && $this->session->userdata('auth_user_id')) && ($this->session->userdata('auth_role')=="admin" || canViewReport() || canAdd())):
                 if (getStringSystemProperties("disable.phase2") != "yes"):	?>
+                    <script type="application/javascript">
+
+                    </script>
                     <li class="dropdown <?php if (strpos($current_url, "/report4")!==FALSE) echo "active"?>">
                         <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown"> รายงานบูรณาการ</br>ข้อมูลหน่วยงาน <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
