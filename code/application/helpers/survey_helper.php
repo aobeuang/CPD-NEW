@@ -3575,8 +3575,11 @@ if ( ! function_exists('getAllSurveyYears'))
         function getCountMemberByNameAndSName($pname, $psurname)
         {
             $pname = trim($pname);
+            $psurname = trim($psurname);
 
             if (is_numeric($pname))
+                return null;
+            if (is_numeric($psurname))
                 return null;
 
             /*

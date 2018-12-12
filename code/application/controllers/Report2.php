@@ -3123,7 +3123,7 @@ class Report2 extends MY_Controller {
 			}
 			//echo $this->load->view('auth/page_header', '', TRUE);
 			
-			if (strlen($pname) == '' || is_numeric($pname))
+			if ((strlen($pname) == '' || is_numeric($pname)) && (strlen($psurname) == '' || is_numeric($psurname)))
 			{
 				echo $this->load->view('survey_error', array('message'=>'กรอกชื่อค้นหาไม่ถูกต้อง'), TRUE);
 				
