@@ -963,7 +963,6 @@ class Report2 extends MY_Controller {
 			}
 			// echo print_r($sql);die();
 			$query_nomal = $this->db->query($sql)->result_array();
-			log_message("debug", "report4 sql : ".$sql);
 
 			// $query_nomal_die = $this->db->query($sql_die)->result_array();
 
@@ -3098,7 +3097,6 @@ class Report2 extends MY_Controller {
 			
 // 			include(APPPATH."third_party/mpdf/mpdf.php");
  			$pname = isset($_GET['coop_membername'])? trim($_GET['coop_membername']): "";
-            $psurname = isset($_GET['coop_membersurname'])? trim($_GET['coop_membersurname']): "";
  			$start = isset($_GET['start'])? trim($_GET['start']): 0;
  			$length = isset($_GET['length'])? trim($_GET['length']): 10;
 			
@@ -3126,7 +3124,7 @@ class Report2 extends MY_Controller {
 
 			$year = getSelectedSurveyYear();
 			
-			$coops = getMemberByNameAndSName($pname, $psurname, $start,$length);
+			$coops = getMemberByName($pname,$start,$length);
 			$query_count = getCountMemberByName($pname);
 			// echo print_r($query_count);die();
 
@@ -3154,7 +3152,6 @@ class Report2 extends MY_Controller {
 
 						$temp_data = array();
 						$temp_data[]=$count;
-						$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";

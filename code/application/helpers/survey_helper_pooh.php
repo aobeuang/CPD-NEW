@@ -3324,8 +3324,9 @@ if ( ! function_exists('getAllSurveyYears'))
 			
 			$data_cache = "";
 			
-			if ( ! $data_cache = $ci->cache->get($cache_key))
-			{				
+//			if ( ! $data_cache = $ci->cache->get($cache_key))
+			if ( true)
+			{
 				$table = getMahadthaiDbTable();
 				$sql = "Select count(OU_D_ID) as num from MOIUSER.MASTER_DATA where OU_D_FLAG in('1','2')   and DECODE(replace(translate(IN_D_COOP,'1234567890','##########'),'#'),NULL,'NUMBER','NON NUMER') = 'NUMBER'  and LENGTH (moiuser.master_data.IN_D_COOP) = 13";
 				$query = $ci->db->query($sql);
@@ -3371,12 +3372,16 @@ if ( ! function_exists('getAllSurveyYears'))
 
 	if (! function_exists('getMemberByName'))
 	{
-		function getMemberByName($pname,$start,$length)
+		function getMemberByName($pname, $psurname, $start,$length)
 		{
 			$pname = trim($pname);
-				
+            $psurname = trim($psurname);
+
 			if (is_numeric($pname))
 				return null;
+
+            if (is_numeric($psurname))
+                return null;
 				
 			/*
 			$test = array();
@@ -3431,6 +3436,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				
 				$table = getMahadthaiDbTable();
 				$search_datatable = "";
+//				$search_datatable = " 1 = 1 ";
 				$search = safeSQLValue($pname);
 				if(!empty($search))
 				{
@@ -3438,13 +3444,24 @@ if ( ! function_exists('getAllSurveyYears'))
 					$search_datatable .="or OU_D_SNAME like '$search' or OU_D_SNAME like '$search%' or OU_D_SNAME like '%$search' or OU_D_SNAME like '%$search%'";
 				}
 
+//                $searchPname = safeSQLValue($pname);
+//                $searchPsurname = safeSQLValue($psurname);
+//                if(!empty($searchPname))
+//				{
+//                    $search_datatable .= " AND OU_D_PNAME like '%$searchPname%'";
+//                }
+//                if(!empty($searchPsurname))
+//                {
+//                    $search_datatable .= " AND OU_D_SNAME like '%$searchPsurname%'";
+//                }
+
 				// $sql = "SELECT * from view_master_data_use where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
 				$sql = "$select where $search_datatable ORDER BY OU_D_ID ASC OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
 
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
 				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
-                log_message("debug", "getMemberByName sql : $sql");
+                log_message("debug", "getMemberByName sql : ".$sql);
 				$query = $ci->db->query($sql);
 
 				$to_return = array();
@@ -3455,120 +3472,14 @@ if ( ! function_exists('getAllSurveyYears'))
 						$to_return[] = $row;
 					}
 				}
-				$ci->cache->save($cache_key, $to_return, 300000);
+//				$ci->cache->save($cache_key, $to_return, 300000);
+                log_message("debug", "getMemberByName return : ".json_encode($to_return));
 	
 				return $to_return;
 			}
 			return $data_cache;
 		}
 	}
-
-    if (! function_exists('getMemberByNameAndSName'))
-    {
-        function getMemberByNameAndSName($pname, $psurname, $start, $length)
-        {
-            $pname = trim($pname);
-            $psurname = trim($psurname);
-
-            if (is_numeric($pname))
-                return null;
-            if (is_numeric($psurname))
-                return null;
-
-            /*
-            $test = array();
-            $test[] = array(
-                    'D_ID' => 509,
-                    'D_YEAR' =>null,
-                    'D_PIN' => '3160300354651',
-                    'D_MDATE' => '09/09/3100',
-                    'D_NSTOCK' => '305',
-                    'D_VSTOCK' => '3050',
-                    'D_TYPE' => 1,
-                    'D_COOP' => '1600000125357',
-                    'D_GROUP' => '01',
-                    'D_PNAME' => 'จินดา',
-                    'D_SNAME' => 'เชื่อมหอม',
-                    'D_PREFIX' => 'นาง',
-                    'D_NATION' => 'ไทย'
-            );
-            return $test;
-            */
-
-            $cache_key = "getMemberByName$pname";
-            $ci =& get_instance();
-            $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
-
-            $data_cache = "";
-            //if ( ! $data_cache = $ci->cache->get($cache_key))
-            if (true)
-            {
-
-                // $select = 'IN_D_ID,IN_D_YEAR,IN_D_PIN,IN_D_PIN as D_PIN, OU_D_ID as "citizen_id",IN_D_PREFIX,IN_D_PNAME,IN_D_SNAME,IN_D_NATION,IN_D_MDATE,IN_D_TYPE,IN_D_COOP,IN_D_COOP as D_COOP, IN_D_COOP as "COOP_ID",IN_D_GROUP,IN_PROVICE_ID,IN_PROVICE_NAME, IN_PROVICE_NAME as PROVICE_NAME,OU_D_ID,OU_D_PREFIX,OU_D_PNAME,OU_D_SNAME,OU_D_BDATE,OU_D_HNO,OU_D_VNO,OU_D_ALLEY,OU_D_LANE,OU_D_ROAD,OU_D_SUBD,OU_D_DISTRICT,OU_D_PROVICE_NAME,OU_D_STATUS_TYPE,OU_D_FLAG';
-
-                $select = "SELECT DISTINCT
-							IN_D_COOP,
-							ANALYTICPRD.GET_COOP(IN_D_COOP) as COOP_NAME_TH,
-							OU_D_PREFIX,
-							OU_D_PNAME,
-							OU_D_SNAME,
-							OU_D_ID,
-							OU_D_BDATE,
-							OU_D_HNO,
-							OU_D_VNO,
-							OU_D_ALLEY,
-							OU_D_LANE,
-							OU_D_ROAD,
-							OU_D_SUBD,
-							OU_D_DISTRICT,
-							OU_D_PROVICE_NAME,
-							OU_D_STATUS_TYPE,
-							IN_PROVICE_NAME 
-							FROM MOIUSER.MASTER_DATA";
-
-                $table = getMahadthaiDbTable();
-                $search_datatable = " 1 = 1";
-                $search = safeSQLValue($pname);
-//                if(!empty($search))
-//                {
-//                    $search_datatable = " OU_D_PNAME like '$search' or OU_D_PNAME like '$search%' or OU_D_PNAME like '%$search' or OU_D_PNAME like '%$search%'";
-//                    $search_datatable .="or OU_D_SNAME like '$search' or OU_D_SNAME like '$search%' or OU_D_SNAME like '%$search' or OU_D_SNAME like '%$search%'";
-//                }
-
-                $searchName = safeSQLValue($pname);
-                $searchSurname = safeSQLValue($psurname);
-
-                if(!empty($searchName))
-                {
-                    $search_datatable .=" and OU_D_PNAME like '%$searchName%'";
-                }
-                if(!empty($searchSurname))
-                {
-                    $search_datatable .=" and OU_D_SNAME like '%$searchSurname%'";
-                }
-
-                // $sql = "SELECT * from view_master_data_use where $search_datatable OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
-                $sql = "$select where $search_datatable ORDER BY OU_D_ID ASC OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
-
-                // $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY";
-                // $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'";
-                // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
-                log_message("debug", "getMemberByNameNSName sql : $sql");
-                $query = $ci->db->query($sql);
-
-                $to_return = array();
-                $results = $query->result_array();
-                if (!empty($results))
-                {
-                    foreach ($results as $row ) {
-                        $to_return[] = $row;
-                    }
-                }
-                return $to_return;
-            }
-            return $data_cache;
-        }
-    }
 
 
 	if (! function_exists('getCountMemberByName'))

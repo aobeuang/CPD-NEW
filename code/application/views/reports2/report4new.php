@@ -531,17 +531,25 @@ $('#filter_tambom').each(function( index ) {
 
         $scope.changeKhet = function() {
             // alert(JSON.stringify($scope.khet));
-            $scope.khetCode = $scope.khet.KHET_CODE;
+            if ($scope.khet) {
+                $scope.khetCode = $scope.khet.KHET_CODE;
+            }
             $scope.queryAuthProvince($scope.khetCode);
         }
 
         $scope.changeProvince = function() {
-            $scope.provinceId = $scope.province.PROVINCE_ID;
+            if ($scope.province)
+            {
+                $scope.provinceId = $scope.province.PROVINCE_ID;
+            }
+
             $scope.queryAuthCoop($scope.khetCode, $scope.provinceId);
         }
 
         $scope.changeCoop = function() {
-            $scope.coopId = $scope.coop.COOP_ID;
+            if ($scope.coop) {
+                $scope.coopId = $scope.coop.COOP_ID;
+            }
         }
 
 

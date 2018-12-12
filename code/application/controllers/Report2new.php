@@ -107,7 +107,7 @@ class Report2new extends MY_Controller {
 	}
 
 	
-	public function index1()
+	public function index1new()
 	{
 		if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id')) 
 				&& (canViewReport() || canAdd()))
@@ -256,7 +256,7 @@ class Report2new extends MY_Controller {
 			}
 			
 			
-			echo $this->load->view('reports2/report1', $output, TRUE);
+			echo $this->load->view('reports2/report1new', $output, TRUE);
 			
 			echo $this->load->view('auth/page_footer', '', TRUE);
 			
@@ -3294,6 +3294,137 @@ class Report2new extends MY_Controller {
         }
     }
 
+    // Report2new/report1new
+    public function doFilterMember() {
+
+
+        try {
+            $userId = $this->session->userdata('auth_user_id');
+            $citizenId = $this->input->get('citizenId');
+            $name = $this->input->get('name');
+            $surname = $this->input->get('surname');
+
+            $pageSize = $this->input->get('length');
+            $start = $this->input->get('start');
+
+            $currentPage = ((intval($start)/intval($pageSize)));
+            $offset = $currentPage * $pageSize;
+
+            log_message('info', ' *************** doFilterMember userId : '.$userId.' *************** ');
+
+            ini_set('max_execution_time', 0);
+            ini_set("memory_limit", '-1');
+            $ci =& get_instance();
+
+            try {
+                $data_cache = null;
+
+                $refcur = $this->db->get_cursor();
+
+                $outMsg = '';
+
+                log_message('debug', 'begin pkg_report_member.rpt_filter_member(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id '.$userId.'          ,
+                                     :p_offset_index '.$offset.'      ,
+                                     :p_page_size '.$pageSize.'         ,
+                                     :p_year              ,
+                                     :p_citizen_id '.$citizenId.'         ,
+                                     :p_name '.$name.'       ,
+                                     :p_surname '.$surname.'           ); end;');
+
+                $stmt = oci_parse($this->db->conn_id, "begin pkg_report_member.rpt_filter_member(:p_out_cur_result,
+                                     :p_out_total_record  ,
+                                     :p_out_msg           ,
+                                     :p_user_id           ,
+                                     :p_offset_index      ,
+                                     :p_page_size         ,
+                                     :p_year              ,
+                                     :p_citizen_id         ,
+                                     :p_name       ,
+                                     :p_surname           ); end;");
+                oci_bind_by_name($stmt, ":p_out_cur_result", $refcur,  -1,OCI_B_CURSOR);
+                oci_bind_by_name($stmt, ":p_out_total_record", $totalRecords,  -1,OCI_B_INT);
+                oci_bind_by_name($stmt, ":p_out_msg", $outMsg,  200,SQLT_CHR );
+
+                oci_bind_by_name($stmt, ":p_user_id", $userId);
+                oci_bind_by_name($stmt, ":p_offset_index", $offset);
+                oci_bind_by_name($stmt, ":p_page_size", $pageSize);
+                oci_bind_by_name($stmt, ":p_year", $year);
+                oci_bind_by_name($stmt, ":p_citizen_id", $khetCode);
+                oci_bind_by_name($stmt, ":p_name", $provinceId);
+                oci_bind_by_name($stmt, ":p_surname", $coopId);
+
+                $r = ociexecute($stmt);
+                oci_execute($refcur, OCI_DEFAULT);
+                log_message('debug', 'executed.');
+                oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+                oci_free_statement($stmt);
+
+//                log_message('debug', '$data. : '.json_encode($data));
+
+                $dataOut = array();
+                $index = intval($offset);
+                log_message('debug', '$pageSize. : '.$pageSize);
+                log_message('debug', '$offset. : '.$offset);
+                log_message('debug', '$index. : '.$index);
+
+
+                $to_return = array();
+
+                if (!empty($data))
+                {
+                    foreach ($data as $row ) {
+                        $dataOut[] = $row;
+                    }
+                }
+
+//                foreach ($data as $data_temp)
+//                {
+//                    $index++;
+//                    $temp = array();
+//                    $temp[] = number_format($index);
+//                    $temp[] = $data_temp['COOP_NAME_TH'];
+//                    $temp[] = $data_temp['PROVINCE_NAME'];
+//                    $temp[] = $data_temp['AMPHUR_NAME'];
+//                    $temp[] = number_format($data_temp['TOTAL_AVAILABLE']);
+//                    $temp[] = number_format($data_temp['TOTAL_DIE']);
+//                    $temp[] = number_format($data_temp['TOTAL_COOP']);
+//
+//
+//                    $dataOut[] =$temp;
+//                }
+
+                $draw = !empty($_GET["draw"])?$_GET["draw"]:0;
+                $text ="";
+
+
+                // output formatted for jquery dataTables
+                $output = array(
+                    "draw"    => intval($draw),
+                    "recordsTotal"  => intval($totalRecords),
+                    "recordsFiltered" => intval($totalRecords),
+                    "data"   => $dataOut,
+                    "textlog" => $outMsg
+                );
+
+                log_message('debug', 'oci_fetch_all. : '.json_encode($dataOut));
+                print_r(json_encode($output));
+                die();
+            }
+            finally {
+                oci_close($ci);
+            }
+
+        }
+        catch (Exception $e) {
+            log_message('error', $e);
+            print_r(json_encode($e));
+            die();
+        }
+    }
+
     // Report2new/report4new
     public function doFilterAvailableMember() {
 
@@ -3396,7 +3527,7 @@ class Report2new extends MY_Controller {
                     "textlog" => $outMsg
                 );
 
-                log_message('debug', 'oci_fetch_all. : '.json_encode($output));
+//                log_message('debug', 'oci_fetch_all. : '.json_encode($output));
                 print_r(json_encode($output));
                 die();
             }

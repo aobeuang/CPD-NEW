@@ -1,3 +1,7 @@
+<script src="/assets/default/js/angular.min.js"></script>
+<script src="/assets/default/js/angular-datatables.min.js"></script>
+<script src="https://code.angularjs.org/1.7.5/angular-sanitize.min.js"></script>
+
 <style>
  input[type=number]::-webkit-inner-spin-button,  
  input[type=number]::-webkit-outer-spin-button {  
@@ -20,28 +24,24 @@ input::-webkit-inner-spin-button {
 
 <?php $this->load->helper('form');?>
 <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/0.9.0rc1/jspdf.min.js"></script> -->
-<div id="main-wrapper" >
-	<p>Page Code : RE100</p>
-	<div class="">
+<div id="main-wrapper" ng-app="report1new">
+	<p>Page Code : RE100NEW</p>
+	<div class="" ng-controller="report1newController">
 		<div class="row" style="text-align:left">
-		
-		
+
 			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> รายงานข้อมูลรายบุคคล</h2>
 			
 		</div>
 		<pre id="data_respone"></pre>
         <div class="row" id="action-bar">
-            <div class="report-action-bar ">
+            <div class="report-action-bar">
 
-                <div class="col-md-5 col-xs-12" >
+                <div class="col-md-6 col-xs-12" >
                     <div id="searchbox" name="searchbox" class="row form-inline searchbox">
                         <div class="form-group" style="margin-bottom: 0;">
                             <label for="citizen_id">ค้นหาข้อมูลสมาชิกด้วยหมายเลขบัตรประชาชน</label>
                             <div class="input-group input-btn-right">
-                                <input type="number" id="citizen_id" name="citizen_id"
-                                       class="form-control mx-sm-3 search-input"
-                                       style="width: 160px"
-                                       placeholder="หมายเลขบัตรประชาชน" aria-label="Search" value="<?php if (isset($citizen_id)) echo $citizen_id?>">
+                                <input type="number" id="citizen_id" name="citizen_id" class="form-control mx-sm-1 search-input" placeholder="หมายเลขบัตรประชาชน" aria-label="Search" value="<?php if (isset($citizen_id)) echo $citizen_id?>">
                                 <div class="input-group-btn">
                                     <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
                                     <button class="btn btn-w-input" id="save-and-go-back-button" onclick="searchCitizenID(this);"><span class="glyphicon glyphicon-search"></span></button>
@@ -50,24 +50,24 @@ input::-webkit-inner-spin-button {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7 col-xs-12" >
+                <div class="col-md-6 col-xs-12" >
                     <!-- ค้นหาด้วยชื่อ นามสกุล -->
                     <div id="searchbox-name" name="searchbox" class="row form-inline searchbox">
                         <div class="form-group bd-left" style="margin-bottom: 0;padding-left: 15px;">
                             <label for="coop_membername">ค้นหาข้อมูลสมาชิกด้วยชื่อ-นามสกุล</label>
                             <div class="input-group">
-                                <input id="coop_membername" name="coop_membername"
-                                       class="form-control"
-                                       style="width: 145px"
-                                       type="text" min="3"  placeholder="ชื่อ" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
+                                <input id="coop_membername" name="coop_membername" class="form-control"
+                                       type="text" min="3"  placeholder="ชื่อ"
+                                       aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
                                 <div class="input-group-btn">
                                     <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
+<!--                                    <button class="btn btn-w-input" id="save-and-go-back-button" onclick="searchName(this);"><span class="glyphicon glyphicon-search"></span></button>-->
                                 </div>
                             </div>
                             <div class="input-group input-btn-right">
-                                <input id="coop_membername" name="coop_membername"
-                                       style="width: 145px"
-                                       class="form-control" type="text" min="3"  placeholder="นามสกุล" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
+                                <input id="coop_membername" name="coop_membername" class="form-control"
+                                       type="text" min="3"  placeholder="นามสกุล" aria-label="Search"
+                                       value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
                                 <div class="input-group-btn">
                                     <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
                                     <button class="btn btn-w-input" id="save-and-go-back-button" onclick="searchName(this);"><span class="glyphicon glyphicon-search"></span></button>
@@ -77,12 +77,39 @@ input::-webkit-inner-spin-button {
                     </div>
                 </div>
 
+<!--                <form class="form-inline searchbox">-->
+<!--                <div class="form-group">-->
+<!--                    <div class="container-fluid col-md-12 col-xs-12" style="margin-top: 13px;">-->
+<!--                        <label for="citizen_id">ค้นหาด้วย หมายเลขบัตรประชาชน</label>-->
+<!--                        <div class="input-group input-btn-right">-->
+<!--                            <input type="number" id="citizen_id" name="citizen_id" class="form-control mx-sm-3 search-input" placeholder="หมายเลขบัตรประชาชน" aria-label="Search" value="--><?php //if (isset($citizen_id)) echo $citizen_id?><!--">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 13px;">-->
+<!--                        <label for="citizen_id">ชื่อ</label>-->
+<!--                        <div class="input-group">-->
+<!--                            <input id="coop_membername" name="coop_membername" class="form-control" type="text" min="3"  placeholder="ชื่อ" aria-label="Search" value="--><?php //echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?><!--">-->
+<!--                        </div>-->
+<!---->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <div class="form-group">-->
+<!--                    <div class="container-fluid col-md-12 col-xs-12"  style="margin-top: 13px;">-->
+<!--                        <label for="citizen_id">นามสกุล</label>-->
+<!--                        <div class="input-group">-->
+<!--                            <input id="coop_membername" name="coop_membername" class="form-control" type="text" min="3"  placeholder="นามสกุล" aria-label="Search" value="--><?php //echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?><!--">-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <button id="search_btn"-->
+<!--                        ng-click="doFilterMember()"-->
+<!--                        class="btn btn-outline-purple"><span class="glyphicon glyphicon-search"></span> ค้นหา</button>-->
+<!--            </form>-->
+
             </div>
-
-			<!-- ปิดฟอร์ม ค้นหาด้วยชื่อ นามสกุล -->
-		</div>	
-
-
+        </div>
 		<!-- new design -->
 		<div id="result_view_table" class="display row report-result">
 			<div class="container-fluid col-md-12 col-xs-12 " >
@@ -149,7 +176,6 @@ input::-webkit-inner-spin-button {
 					<thead>
 						<tr>
 							<th>ลำดับ</th>
-							<th>คำนำหน้า</th>
 							<th>ชื่อ</th>
 							<th>สกุล</th>
 							<th>สังกัดสหกรณ์</th>
@@ -234,31 +260,6 @@ table.dataTable thead .sorting_desc {
 			}
 			
 		});
-        $("#coop_membersurname").keydown(function (e) {
-            if($(this).val().length <= 0){
-                $("#coop_membersurname").parent().find('.close-icon').css('display','none');
-                $("#coop_membersurname").parent().find('#save-and-go-back-button').css('display','block');
-            }
-            if (event.keyCode == 13) {
-                searchName(this);
-            }
-            var reg = /^[a-zA-Zก-๗]+$/i;
-            var reg_num_thai = /^[๑-๗]+$/i;
-            if (e.key==" ")
-                return true;
-
-            if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
-            {
-                if($(this).val().length > 0){
-                    $("#coop_membersurname").parent().find('.close-icon').css('display','block');
-                    $("#coop_membersurname").parent().find('#save-and-go-back-button').css('display','none');
-                }
-                return;
-            }else{
-                e.preventDefault();
-            }
-
-        });
 		$("#citizen_id").keydown(function (e) {
 			if($(this).val().length <= 0){
 				$('#citizen_id').parent().find('.close-icon').css('display','none');
@@ -308,16 +309,15 @@ table.dataTable thead .sorting_desc {
 	});
 	function searchName(eleform){
 		var name  = $("#coop_membername").val();
-        var surname  = $("#coop_membersurname").val();
 		$("#pageLoading").fadeIn();
-		if(name.length == 0 && name.length == 0){
+		if(name.length == 0){
 			$("#pageLoading").fadeOut();
 			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
 			setInterval(function(){
 		        $('#error-box').fadeOut();
 		    }, 3000);
 			return false;	
-		}else if(name.length < 3 && surname.length < 3){
+		}else if(name.length < 3){
 			$("#pageLoading").fadeOut();
 			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร').show();
 			setInterval(function(){
@@ -577,7 +577,6 @@ table.dataTable thead .sorting_desc {
 		    },
 		    initComplete : function() {
 				$('#pageLoading').fadeOut();
-				console.log('getUserListByName initComplete');
 		    },
 		    "autoWidth": false,
 		    "columns": [
@@ -586,16 +585,10 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
-		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		    'columnDefs': [
-                {
-                    "targets": 0, // your case first column
-                    "className": "text-left",
-                    "width": "5%"
-                },
-                {
+	    	{
 	    	      "targets": 0, // your case first column
 	    	      "className": "text-left",
 	    	      "width": "5%"
@@ -645,27 +638,25 @@ table.dataTable thead .sorting_desc {
 			    url:"<?php echo site_url('report2/getUserListByName')?>",
 			    type:"GET",
 			    data:{
-			    	coop_membername:$('#coop_membername').val(),
-                    coop_membersurname:$('#coop_membersurname').val()
+			    	coop_membername:$('#coop_membername').val()
 			    },
-                error: function(jqXHR, textStatus, errorThrown) {
+			    error:function(){
 			    	$("#pageLoading").fadeOut();
 			    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-                    $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
 			    	$("#message-modal").modal();
-			    }
+			    }  
 		 	},
-		    // error:function(){
-            error: function(jqXHR, textStatus, errorThrown) {
+		    error:function(){
 		    	$("#pageLoading").fadeOut();
 		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
 				setInterval(function(){
 			        $('#error-box').fadeOut();
 			    }, 5000);*/
-			    $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
 			    $("#message-modal").modal();
 		    }  
 		});
@@ -732,3 +723,135 @@ table.dataTable thead .sorting_desc {
 	  </div>
 	</div>
 </div>
+
+
+<script type="text/javascript">
+
+
+    var report1new= angular.module('report1new', ['ngSanitize', 'datatables']);
+
+
+    report1new.controller('report1newController', function MyController($scope) {
+
+        var tableResultId = "#tableResult";
+
+        $('#filter_khetCode').select2();
+        $('#filter_provinceId').select2();
+        $('#filter_coop').select2();
+
+
+        $scope.downloadExcel = function() {
+
+            var url = "/index.php/report2new/exportExcelRE300NEW?khetCode="+($scope.khetCode?$scope.khetCode:'')+
+                "&provinceId="+($scope.provinceId?$scope.provinceId:'')+"" +
+                "&coopId="+($scope.coopId?$scope.coopId:'');
+            var win = window.open(url, '_blank');
+
+        }
+
+
+        $scope.khet = null;
+        $scope.province = null;
+        $scope.coop = null;
+
+
+        $scope.doFilterMember = function() {
+
+            $scope.resultList = {};
+            $scope.test = {};
+            $scope.recordsTotal = 0;
+
+            $scope.resultArea = null;
+
+
+
+            $('#pageLoading').fadeIn();
+
+            $(tableResultId).DataTable().destroy();
+            var table =$(tableResultId).DataTable({
+                pageResize: true,
+                "bServerSide": true,
+                "autoWidth": false,
+                drawCallback: function( settings ) {
+                    console.log('callback')
+                    $("#pageLoading").fadeOut();
+                },
+                initComplete :  function( settings, json ) {
+                    console.log('initComplete')
+                    $('#search_btn').prop('disabled', false);
+                    $scope.recordsTotal = json.recordsTotal;
+                    $scope.resultText   = json.textlog;
+
+
+                    $scope.$apply();
+                    $('#pageLoading').fadeOut();
+                },
+                "columns": [
+                    { "width": "auto","className": "text-center" },
+                    { "width": "auto" },
+                    { "width": "auto" },
+                    { "width": "auto","className": "text-left"},
+                    { "width": "auto","className": "text-right" },
+                    { "width": "auto","className": "text-right" },
+                    { "width": "auto","className": "text-right" }
+                ],
+                "language": {
+                    "emptyTable":     "ไม่พบข้อมูลที่ค้นหา",
+                    "info":           "จำนวน _START_ ถึง _END_ ของจำนวนทั้งหมด    _TOTAL_ สหกรณ์",
+                    "infoEmpty":      "แสดงจำนวน  0 ถึง  0 ของจำนวนทั้งหมด  0 คน",
+                    "lengthMenu":     "แสดงจำนวน  _MENU_ ",
+                    "search":         "ค้นหา : ",
+                    "loadingRecords": "",
+                    "paginate": {
+                        "next":       ">",
+                        "previous":   "<"
+                    }
+                },
+                'columnDefs': [
+                    {
+                        "targets": 3, // your case first column
+                        "className": "text-right",
+                        "width": "4%"
+                    }
+                ],
+                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]],
+                "ordering": false,
+                "searching": false,
+                ajax : {
+                    url:"doFilterMember",
+                    type:"GET",
+                    data : {
+                        // "khetCode" : $scope.khetCode,
+                        // "provinceId" : $scope.provinceId,
+                        // "coopId" : $scope.coopId
+                        khetCode : $scope.khetCode,
+                        provinceId : $scope.provinceId,
+                        coopId : $scope.coopId
+                    }
+                },
+                error: function(){
+                    $("#pageLoading").fadeOut();
+
+                    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+                    $("#message-modal").modal();
+                    $('#filter-search').prop('disabled', false);
+                }
+            });
+            table.on( 'preDraw', function () {
+                $("#pageLoading").fadeIn();
+                console.log('preDraw')
+                if(typeof table != 'undefined')
+                    table.settings()[0].jqXHR.abort();
+            });
+        };
+
+        $scope.queryAuthKhet();
+        // $scope.queryAuthProvince(null);
+
+        $scope.pageSize = 10;
+        $scope.resultList = {};
+
+
+
+    });
+</script>
