@@ -65,7 +65,7 @@ input::-webkit-inner-spin-button {
                                 </div>
                             </div>
                             <div class="input-group input-btn-right">
-                                <input id="coop_membername" name="coop_membername"
+                                <input id="coop_membersurname" name="coop_membersurname"
                                        style="width: 145px"
                                        class="form-control" type="text" min="3"  placeholder="นามสกุล" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
                                 <div class="input-group-btn">
@@ -84,7 +84,8 @@ input::-webkit-inner-spin-button {
 
 
 		<!-- new design -->
-		<div id="result_view_table" class="display row report-result">
+		<div id="result_view_table" class="display row report-result" style="margin-left: -15px; margin-right: -15px;">
+<!--		<div id="result_view_table" class="row report-result bordertest" style="margin-left: -15px; margin-right: -15px;">-->
 			<div class="container-fluid col-md-12 col-xs-12 " >
 				<!-- <div class="container-fluid col-md-12 col-xs-12" style="padding-left:0px;" > -->
 							<!-- <strong>จำนวนผลลัพธ์ทั้งหมด:</strong> <?php //echo $total_number?><br/> -->	
@@ -136,6 +137,7 @@ input::-webkit-inner-spin-button {
 					<thead>
 						<tr>
 							<th>ลำดับ</th>
+                            <th>คำนำหน้า</th>
 							<th>ชื่อ</th>
 							<th>สกุล</th>
 							<th>หมายเลขบัตรประชาชน</th>
@@ -310,7 +312,7 @@ table.dataTable thead .sorting_desc {
 		var name  = $("#coop_membername").val();
         var surname  = $("#coop_membersurname").val();
 		$("#pageLoading").fadeIn();
-		if(name.length == 0 && name.length == 0){
+		if(name.length == 0 && surname.length == 0){
 			$("#pageLoading").fadeOut();
 			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
 			setInterval(function(){
@@ -503,6 +505,7 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
+		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		   	"ordering": false,
@@ -596,16 +599,11 @@ table.dataTable thead .sorting_desc {
                     "width": "5%"
                 },
                 {
-	    	      "targets": 0, // your case first column
-	    	      "className": "text-left",
-	    	      "width": "5%"
-	    	 },
+                  "targets": 1, // your case first column
+                  "className": "text-left",
+                  "width": "5%"
+             },
 	    	{
-	    	      "targets": 1, // your case first column
-	    	      "className": "text-left",
-	    	      "width": "20%"
-	    	 },
-	    	 {
 	    	      "targets": 2, // your case first column
 	    	      "className": "text-left",
 	    	      "width": "20%"
@@ -613,15 +611,20 @@ table.dataTable thead .sorting_desc {
 	    	 {
 	    	      "targets": 3, // your case first column
 	    	      "className": "text-left",
-	    	      "width": "35%"
+	    	      "width": "20%"
 	    	 },
 	    	 {
 	    	      "targets": 4, // your case first column
 	    	      "className": "text-left",
-	    	      "width": "15%"
+	    	      "width": "35%"
 	    	 },
 	    	 {
 	    	      "targets": 5, // your case first column
+	    	      "className": "text-left",
+	    	      "width": "15%"
+	    	 },
+	    	 {
+	    	      "targets": 6, // your case first column
 	    	      "className": "text-right",
 	    	      "width": "20%"
 	    	 }

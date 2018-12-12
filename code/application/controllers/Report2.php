@@ -2698,6 +2698,8 @@ class Report2 extends MY_Controller {
 
 						$temp_data = array();
 						$temp_data[]=$count;
+
+                        $temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
@@ -2720,6 +2722,8 @@ class Report2 extends MY_Controller {
 
 						$temp_data = array();
 						$temp_data[]=$count;
+
+                        $temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
@@ -3021,6 +3025,8 @@ class Report2 extends MY_Controller {
 
 						$temp_data = array();
 						$temp_data[]=$count;
+
+//                        $temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
@@ -3043,6 +3049,8 @@ class Report2 extends MY_Controller {
 
 						$temp_data = array();
 						$temp_data[]=$count;
+
+//                        $temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
 						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
 						$temp_data[]=!empty($value['OU_D_ID'])?$value['OU_D_ID']:"-";
@@ -3126,8 +3134,8 @@ class Report2 extends MY_Controller {
 
 			$year = getSelectedSurveyYear();
 			
-			$coops = getMemberByNameAndSName($pname, $psurname, $start,$length);
-			$query_count = getCountMemberByName($pname);
+			$coops = getMemberByNameAndSName($pname, $psurname, $start, $length);
+			$query_count = getCountMemberByNameAndSName($pname, $psurname);
 			// echo print_r($query_count);die();
 
 			// $recordsTotal = $query_count[0]['TOTAL'];
@@ -3144,28 +3152,28 @@ class Report2 extends MY_Controller {
 			die();*/
 			$count = $start+1;
 
-				if (!empty($pname)){
+            if (!empty($pname)){
 
-					foreach ($coops as $key => $value) {
-						$coop = getCoopByID($value['IN_D_COOP']);
-						// array_push($data, $coop);
-						 // echo "<pre>".print_r(strtotime($value['OU_D_BDATE']))."</pre>";die();
-							$data[$key] = getDataCitizen($coop,$value);
+                foreach ($coops as $key => $value) {
+                    $coop = getCoopByID($value['IN_D_COOP']);
+                    // array_push($data, $coop);
+                     // echo "<pre>".print_r(strtotime($value['OU_D_BDATE']))."</pre>";die();
+                        $data[$key] = getDataCitizen($coop,$value);
 
-						$temp_data = array();
-						$temp_data[]=$count;
-						$temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
-						$temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
-						$temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
-						$temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
-						$temp_data[]=!empty($coop['PROVINCE_NAME'])?$coop['PROVINCE_NAME']:"-";
-						$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].",".$value['IN_D_COOP'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
-					
-						$data_temp[]=$temp_data;
-						$count++;	
-					}
+                    $temp_data = array();
+                    $temp_data[]=$count;
+                    $temp_data[]=!empty($value['OU_D_PREFIX'])?$value['OU_D_PREFIX']:"-";
+                    $temp_data[]=!empty($value['OU_D_PNAME'])?$value['OU_D_PNAME']:"-";
+                    $temp_data[]=!empty($value['OU_D_SNAME'])?$value['OU_D_SNAME']:"-";
+                    $temp_data[]=!empty($coop['COOP_NAME_TH'])?$coop['COOP_NAME_TH']:"-";
+                    $temp_data[]=!empty($coop['PROVINCE_NAME'])?$coop['PROVINCE_NAME']:"-";
+                    $temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].",".$value['IN_D_COOP'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 
-				}
+                    $data_temp[]=$temp_data;
+                    $count++;
+                }
+
+            }
 			
 			
 			//$existing_surveys = getAllSurveyRecordByCitizenIDYear($citizen_id);
