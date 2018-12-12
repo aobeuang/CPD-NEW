@@ -256,7 +256,7 @@
                 <label class="nowrap">
                     <input type="checkbox"   onclick="checkOtherow2sell();" name="how2sell[3]" id="is_how2sell_others"   <?php if(isset($how2sell[3])){ if($how2sell[3]==1){  echo ' checked ';     }   } ?> value="1"  >   <span>อื่นๆ</span>
                 </label>
-                <input type="text" onclick="$('#is_how2sell_others').prop('checked', true);" onkeyup="$('#is_how2sell_others').prop('checked', true);"   onkeypress="$('#is_how2sell_others').prop('checked', true);return isAlphaNumeric(event);"     value="<?php if(isset($user_survey_data[strtoupper('how2sell_others_reason')])){ echo $user_survey_data[strtoupper('how2sell_others_reason')]; } ?>"  class="form-control" id="how2sell3_others_reason" name="how2sell3_others_reason" placeholder="" >
+                <input style="max-width: 195px;"> type="text" onclick="$('#is_how2sell_others').prop('checked', true);" onkeyup="$('#is_how2sell_others').prop('checked', true);"   onkeypress="$('#is_how2sell_others').prop('checked', true);return isAlphaNumeric(event);"     value="<?php if(isset($user_survey_data[strtoupper('how2sell_others_reason')])){ echo $user_survey_data[strtoupper('how2sell_others_reason')]; } ?>"  class="form-control" id="how2sell3_others_reason" name="how2sell3_others_reason" placeholder="" >
             </div>
         </div>
     </div>

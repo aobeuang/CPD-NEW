@@ -28,7 +28,7 @@ input::-webkit-inner-spin-button {
 		
 			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> ค้นหาแบบสำรวจ</h2>
 			
-			<a href="<?php echo site_url('survey/add_survey')?>" class="floatR"><i class="glyphicon glyphicon-plus"></i>  เพิ่มแบบสำรวจโดยกรอกข้อมูลสมาชิกเอง</a>
+			<!-- <a href="<?php echo site_url('survey/add_survey')?>" class="floatR"><i class="glyphicon glyphicon-plus"></i>  เพิ่มแบบสำรวจโดยกรอกข้อมูลสมาชิกเอง</a> -->
 		</div>
 		<pre id="data_respone"></pre>
 		<div class="report-action-bar report-search">
@@ -72,8 +72,10 @@ input::-webkit-inner-spin-button {
 					<thead>
 						<tr>
 							<th>ลำดับ</th>
+							<th>คำนำหน้า</th>
 							<th>ชื่อ</th>
 							<th>สกุล</th>
+							<th>หมายเลขบัตรประชาชน</th>
 							<th>หน่วยงาน</th>
 							<th>เขตพื้นที่</th>
 							<th></th>
@@ -84,6 +86,7 @@ input::-webkit-inner-spin-button {
 					<thead>
 						<tr>
 							<th>ลำดับ</th>
+							<th>คำนำหน้า</th>
 							<th>ชื่อ</th>
 							<th>สกุล</th>
 							<th>สังกัดสหกรณ์</th>
@@ -348,6 +351,7 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
+		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		   	"ordering": false,
@@ -369,7 +373,8 @@ table.dataTable thead .sorting_desc {
 			    url:"<?php echo site_url('report2/getMemberByCitizenID')?>",
 			    type:"GET",
 			    data:{
-			    	citizen_id:citizen_id
+			    	citizen_id:citizen_id,
+			    	cmd: 'survey'
 			    },
 			    error:function(){
 			    	$("#pageLoading").fadeOut();
@@ -430,6 +435,7 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" },
 		        { "width": "auto" },
 		        { "width": "auto" },
+		        { "width": "auto" },
 		        { "width": "auto" }
 		    ],
 		    'columnDefs': [
@@ -459,7 +465,7 @@ table.dataTable thead .sorting_desc {
 	    	      "width": "15%"
 	    	 },
 	    	 {
-	    	      "targets": 5, // your case first column
+	    	      "targets": 6, // your case first column
 	    	      "className": "text-right",
 	    	      "width": "20%"
 	    	 }
@@ -483,7 +489,8 @@ table.dataTable thead .sorting_desc {
 			    url:"<?php echo site_url('report2/getUserListByName')?>",
 			    type:"GET",
 			    data:{
-			    	coop_membername:$('#coop_membername').val()
+			    	coop_membername:$('#coop_membername').val(),
+			    	cmd: 'survey'
 			    },
 			    error:function(){
 			    	$("#pageLoading").fadeOut();

@@ -1339,24 +1339,69 @@ input[type="checkbox"]:checked+span:before {
 
 		$(function(){
 
+			/* Thai initialisation for the jQuery UI date picker plugin. */
+			/* Written by pipo (pipo@sixhead.com). */
+			( function( factory ) {
+				if ( typeof define === "function" && define.amd ) {
+
+					// AMD. Register as an anonymous module.
+					define( [ "../widgets/datepicker" ], factory );
+				} else {
+
+					// Browser globals
+					factory( jQuery.datepicker );
+				}
+			}( function( datepicker ) {
+
+			datepicker.regional.th = {
+				closeText: "ปิด",
+				prevText: "&#xAB;&#xA0;ย้อน",
+				nextText: "ถัดไป&#xA0;&#xBB;",
+				currentText: "วันนี้",
+				monthNames: [ "มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน",
+				"กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม" ],
+				monthNamesShort: [ "ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.",
+				"ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค." ],
+				dayNames: [ "อาทิตย์","จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์","เสาร์" ],
+				dayNamesShort: [ "อา.","จ.","อ.","พ.","พฤ.","ศ.","ส." ],
+				dayNamesMin: [ "อา.","จ.","อ.","พ.","พฤ.","ศ.","ส." ],
+				weekHeader: "Wk",
+				dateFormat: "dd/mm/yy",
+				firstDay: 0,
+				isRTL: false,
+				showMonthAfterYear: false,
+				yearSuffix: "" };
+			datepicker.setDefaults( datepicker.regional.th );
+
+			return datepicker.regional.th;
+
+			} ) );
+
+			function DateThai($strDate) {
+			    $strYear = $strDate.getFullYear() + 543;
+			    $strMonth = $strDate.getMonth() + 1;
+			    $strDay = $strDate.getDate();
+			    return $strYear+","+$strMonth+","+$strDay;
+			}
+
 		    // กรณีใช้แบบ input
 		    $("#thebirthdate").datetimepicker({
 		        timepicker:false,
-		        maxDate:true,
-		        yearStart: 1920,
-				yearEnd: <?php echo date("Y"); ?>,
-		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
-		        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
+		        maxDate: new Date(DateThai(new Date())),
+		        yearStart: 2460,
+		        yearEnd: <?php echo date("Y")+543; ?>,
+		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000 
+		        defaultDate:new Date(DateThai(new Date())), 
 		        onSelectDate:function(dp,$input){
 		            var yearT=new Date(dp).getFullYear()-0;  
-		            var yearTH=yearT+543;
+		            var yearTH=yearT;
 		            var fulldate=$input.val();
 		            var fulldateTH=fulldate.replace(yearT,yearTH);
 		            $input.val(fulldateTH);
 		        },
 		    });       
 		    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
-		    $("#thebirthdate").on("mouseenter mouseleave",function(e){
+		    /*$("#thebirthdate").on("mouseenter mouseleave",function(e){
 		        var dateValue=$(this).val();
 		        if(dateValue!=""){
 		                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
@@ -1371,26 +1416,26 @@ input[type="checkbox"]:checked+span:before {
 		                dateValue=dateValue.replace(arr_date[2],yearT);
 		                $(this).val(dateValue);                                                 
 		        }       
-		    });
-
-		 // กรณีใช้แบบ input
+		    });*/
+		 	// กรณีใช้แบบ input
+		 	$.datepicker.setDefaults( $.datepicker.regional[ "th" ] );
 		    $("#joining_date").datetimepicker({
 		        timepicker:false,
-		        maxDate:true,
-		        yearStart: 1920,
-		        yearEnd: <?php echo date("Y"); ?>,
-		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000            
-		        lang:'th',  // ต้องกำหนดเสมอถ้าใช้ภาษาไทย และ เป็นปี พ.ศ.
+		        maxDate: new Date(DateThai(new Date())),
+		        yearStart: 2460,
+		        yearEnd: <?php echo date("Y")+543; ?>,
+		        format:'d-m-Y',  // กำหนดรูปแบบวันที่ ที่ใช้ เป็น 00-00-0000  
+		        defaultDate:new Date(DateThai(new Date())),
 		        onSelectDate:function(dp,$input){
 		            var yearT=new Date(dp).getFullYear()-0;  
-		            var yearTH=yearT+543;
+		            var yearTH=yearT;
 		            var fulldate=$input.val();
 		            var fulldateTH=fulldate.replace(yearT,yearTH);
 		            $input.val(fulldateTH);
 		        },
 		    });       
 		    // กรณีใช้กับ input ต้องกำหนดส่วนนี้ด้วยเสมอ เพื่อปรับปีให้เป็น ค.ศ. ก่อนแสดงปฏิทิน
-		    $("#joining_date").on("mouseenter mouseleave",function(e){
+		    /*$("#joining_date").on("mouseenter mouseleave",function(e){
 		        var dateValue=$(this).val();
 		        if(dateValue!=""){
 		                var arr_date=dateValue.split("-"); // ถ้าใช้ตัวแบ่งรูปแบบอื่น ให้เปลี่ยนเป็นตามรูปแบบนั้น
@@ -1405,7 +1450,8 @@ input[type="checkbox"]:checked+span:before {
 		                dateValue=dateValue.replace(arr_date[2],yearT);
 		                $(this).val(dateValue);                                                 
 		        }       
-		    });
+		    });*/
+
 		});
 
 	});

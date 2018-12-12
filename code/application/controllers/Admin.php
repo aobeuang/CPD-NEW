@@ -209,7 +209,7 @@ class Admin extends MY_Controller {
 		);
 
 		if($this->db->insert_batch('users', $data)){
-			addLogUsers("เพิ่มผู้ใช้งาน","เพิ่มผู้ใช้งาน ".$citizen."เข้าสู่ระบบ");
+			addLogUsers("เพิ่มผู้ใช้งาน-".$citizen,"เพิ่มผู้ใช้งาน-".$citizen);
 			header('Content-Type: application/json');
 	        echo json_encode(array('success'=>true, 'message'=>'สำเร็จ'));
 	        die();
@@ -302,7 +302,7 @@ class Admin extends MY_Controller {
 		
 
 		if($this->db->update('users', $data,array('username' => $citizen))){
-			addLogUsers("อัพเดทผู้ใช้งาน".$citizen,"อัพเดทผู้ใช้งาน ".$citizen);
+			addLogUsers("อัพเดทผู้ใช้งาน-".$citizen,"อัพเดทผู้ใช้งาน-".$citizen);
 			header('Content-Type: application/json');
 	        echo json_encode(array('success'=>true, 'message'=>'สำเร็จ'));
 	        die();
@@ -362,7 +362,7 @@ public function changeUsersCall($citizen = null)
 		
 
 		if($this->db->update('users', $data,array('username' => $citizen))){
-			addLogUsers("เปลี่ยนรหัสผ่านผู้ใช้งาน".$citizen,"เปลี่ยนรหัสผ่านผู้ใช้งาน ".$citizen);
+			addLogUsers("เปลี่ยนรหัสผ่านผู้ใช้งาน-".$citizen,"เปลี่ยนรหัสผ่านผู้ใช้งาน-".$citizen);
 			header('Content-Type: application/json');
 	        echo json_encode(array('success'=>true, 'message'=>'เปลี่ยนรหัสผ่านเรียบร้อย'));
 	        die();

@@ -329,7 +329,7 @@
                   
              	<?php if (!empty($prefix)):?>
              		<label for="sort" class="col-md-5 control-label">คำนำหน้า</label>
-             		<div class="col-md-7"><?php echo $prefix?></div>
+             		<span class="col-md-7" style="line-height: 2.5"><?php echo $prefix?></span>
              		<input class="col-md-7 form-control" type="hidden" name="name_title" value="<?php echo $prefix?>" />
              	<?php else:?>          	
              	
@@ -517,7 +517,7 @@
             <div class="formg-c4">
 				<?php if (isset($user_survey_data['citizen_firstname'])) :?>
             		<label class="col-md-5">ชื่อ</label>
-            		<?php echo $user_survey_data['citizen_firstname']?>
+            		<span class="col-md-7" style="line-height: 2.5"><?php echo $user_survey_data['citizen_firstname']?></span>
                 	<input type="hidden" class="col-md-7 form-control" id="first_name"  name='first_name' placeholder="ชื่อ" required="" value="<?php if (isset($user_survey_data['citizen_firstname'])) echo $user_survey_data['citizen_firstname']?>">
             	<?php else:?>
 					<label  class="col-md-5 required">ชื่อ</label>
@@ -527,7 +527,7 @@
             </div>
             <div class="formg-c4">
             	<?php if (isset($user_survey_data['citizen_lastname'])) :?>
-                	<label class="col-md-5">นามสกุล</label> <?php echo $user_survey_data['citizen_lastname']?>
+                	<label class="col-md-5">นามสกุล</label> <span class="col-md-7" style="line-height: 2.5"><?php echo $user_survey_data['citizen_lastname']?></span>
                 	<input type="hidden" class="col-md-7 form-control" id="last_name" name="last_name" placeholder="นามสกุล" required=""  value="<?php if (isset($user_survey_data['citizen_lastname'])) echo $user_survey_data['citizen_lastname']?>">
             
             	<?php else:?>
@@ -1239,7 +1239,7 @@
 					<div class="col-md-7" style="padding: 0px;">
 						<select id="budget_year" name="budget_year">
 							<?php foreach ($all_years as $v):?>
-							<option value="<?php echo $v?>"  <?php if ($default==$v) echo "selected=selected" ?> ><?php echo $v?></option>
+							<option value="<?php echo $v?>"  <?php if ($default==$v) echo "selected=selected" ?> ><?php echo $v+543?></option>
 							<?php endforeach?>
 						</select>
 					</div>			
@@ -1282,8 +1282,8 @@
                 <label class="col-md-5">วันที่เป็นสมาชิก </label>
                 <input type="<?php echo $temp_type; ?>" class="col-md-7 form-control" id="joining_date" name="joining_date" placeholder="" value="<?php if (isset($user_survey_data[$temp_field])){
                     $date = strtotime($user_survey_data[$temp_field]);
-                    $bdate = date("d-m-Y", $date);
-                    echo $bdate; } ?>" >
+                    $bdate = date("d-m-", $date);$bdate_year=date('Y',$date)+543;
+                    echo $bdate.$bdate_year; } ?>" 
 
                 <span class="col-md-7" style="line-height: 2.5"><?php echo $mdate.$mdate_year?></span>
 
@@ -1292,8 +1292,8 @@
                 <label class="col-md-5 required">วันที่เป็นสมาชิก </label>
                 <input type="<?php echo $temp_type; ?>" class="col-md-7 form-control" id="joining_date" name="joining_date" placeholder="" value="<?php if (isset($user_survey_data[$temp_field])){
                     $date = strtotime($user_survey_data[$temp_field]);
-                    $bdate = date("d-m-Y", $date);
-                    echo $bdate; } ?>" 
+                    $bdate = date("d-m-", $date);$bdate_year=date('Y',$date)+543;
+                    echo $bdate.$bdate_year; } ?>" 
                     
                     onkeypress="return isDate(event)"
                     
@@ -1434,7 +1434,7 @@ if(isset($user_survey_data[strtoupper('do_buz')]) && !empty($user_survey_data[st
 					<input type="checkbox" name="do_buz[7]" id="do_buz8" onclick="" <?php if(isset($user_survey_data[strtoupper('do_buz')])){ if (in_array(8, $do_buz) ){  echo ' checked ';    }     } ?> value="8"> <span>น้ำมันเชื่อเพลิง/แก๊ส</span>
 				</label>
 			</li>
-			<li class="col-md-3">
+			<li class="col-md-4">
 				<label>
 					<script>
 						function checkOtherDobuz91(){

@@ -92,7 +92,7 @@
                     <div class="form-group">
                     	<label class="control-label col-sm-3 form-right" for="username">ชื่อผู้ใช้งาน</label>
                     	<div class="col-sm-9">
-        	                <input type="text" class="form-control item" id="username" maxlength="13" placeholder="ชื่อผู้ใช้งาน" autocomplete="false">                    
+        	                <input type="text" class="form-control item" id="username" maxlength="13" placeholder="ชื่อผู้ใช้งาน" autocomplete="false" disabled>                    
         	                <p class="text-danger" style="margin-top: -10px;font-size: 11px;">**โปรดระบุเป็นหมายเลขบัตรประชาชน**</p>
                         </div>
                     </div>

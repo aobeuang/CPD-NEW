@@ -147,7 +147,7 @@ jQuery(function () {
 	  	tooltip: { 
 	  		isHtml: true,
 	  		textStyle: { 
-	  			fontSize: 14 
+	  			fontSize: 11
 	  		} 
 	  	},
 	};

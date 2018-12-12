@@ -1771,7 +1771,7 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 14px;text-align: center;}
 		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px; font-size: 10px;}
 		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black;table-layout: fixed;}
-		#print-table table tr th{text-align: left;background: #ddd;}
+		#print-table table tr th{text-align: center;background: #ddd;}
 		#print-table table tr:nth-child(odd){background: #eee;}
 		</style>";
 		$string_to_print .= "<div id='print-table'>";

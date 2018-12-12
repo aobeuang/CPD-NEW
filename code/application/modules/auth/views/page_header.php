@@ -294,7 +294,7 @@ $current_url = $_SERVER['REQUEST_URI'];
 
                     </script>
                     <li class="dropdown <?php if (strpos($current_url, "/report4")!==FALSE) echo "active"?>">
-                        <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown"> รายงานบูรณาการ</br>ข้อมูลหน่วยงาน <span class="caret"></span></a>
+                        <a href="#" class="dropdown-toggle nav-ic ic-member-info" data-toggle="dropdown" style="padding: 10px;"> รายงานบูรณาการ</br>ข้อมูลหน่วยงาน <span class="caret"></span></a>
                         <ul class="dropdown-menu" role="menu">
                             <!--                            <li class=""><a style="color: #8ba8af" href="">ข้อมูลผู้ปลูกข้าว (ที่มา : ข้อมูลกรมการข้าว)</a></li>-->
                             <!--                            <li class="disble-gray"><a style="padding-left: 35px" href="--><?php //echo site_url('')?><!--">ผู้ปลูกข้าวอินทรีย์ (อยู่ในระหว่างการแก้ไข)</a></li>-->
