@@ -3444,6 +3444,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				// $sql = "select a.* from (SELECT $select FROM $table) a  WHERE \"IN_D_PNAME\" LIKE '%$pname%' or \"IN_D_SNAME\" LIKE '%$pname%' OFFSET $start ROWS FETCH NEXT $length ROWS ONLY"; 
 				// $sql = "select * from vu_f_name WHERE \"IN_D_PNAME\" LIKE '$pname%'"; 
 				 // OFFSET 20 ROWS FETCH NEXT 10 ROWS ONLY
+                log_message("debug", "getMemberByName sql : $sql")
 				$query = $ci->db->query($sql);
 
 				$to_return = array();
