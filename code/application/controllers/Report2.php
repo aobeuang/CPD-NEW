@@ -3152,7 +3152,7 @@ class Report2 extends MY_Controller {
 			die();*/
 			$count = $start+1;
 
-            if (!empty($pname)){
+            if (!empty($pname) || !empty($psurname)){
 
                 foreach ($coops as $key => $value) {
                     $coop = getCoopByID($value['IN_D_COOP']);
