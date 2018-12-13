@@ -27,6 +27,7 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
             dataType: 'json',
             success:function(result){
 
+
                 // $scope.resultListYearly = result;
                 if (result.error) {
                     alert(result.error);
@@ -37,6 +38,26 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
                     $scope.resultSummaryArea.forEach(function(element) {
                         $scope.totalArea = parseFloat($scope.totalArea) + parseFloat(element.RAI);
                     });
+
+                    var i = 0;
+                    var sumPercent = 0;
+                    $scope.resultSummaryArea.forEach(function(element) {
+                        i = i + 1;
+                        if (i != $scope.resultSummaryArea.length)
+                        {
+                            element.percentRatio = parseFloat(element.RAI) / parseFloat($scope.totalArea) * 100;
+                            element.percentRatio = parseFloat(element.percentRatio).toFixed(2);
+                            sumPercent = sumPercent + parseFloat(element.percentRatio);
+
+                        }
+                        else {
+                            element.percentRatio = 100 - sumPercent;
+                        }
+
+                        // $scope.totalArea = parseFloat($scope.totalArea) + parseFloat(element.RAI);
+                    });
+
+
 
                     console.log('totalArea:' + $scope.totalArea);
 
@@ -81,6 +102,8 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
             },
             success:function(result){
                 // $scope.resultListYearly = result;
+
+                // alert(JSON.stringify(result));
                 $scope.resultProvinceArea = result;
 
                 $scope.resultProvinceArea.forEach(function(element) {
@@ -312,14 +335,7 @@ table.center {
 <div id="report" class="mis" ng-app="report4_2">
 		<div id="main-wrapper" ng-controller="report4_2Controller">
             <p>Page Code : DR102</p>
-            <pre>
-<!--               log_path --><?php //echo$this->load->vars($this->config->item('log_path')); ?>
-               log_path <?php echo $this->config->item('log_path'); ?>
-               is_dir <?php echo is_dir($this->config->item('log_path')); ?>
-               is_writable  <?php echo is_writable ($this->config->item('log_path')); ?>
-<!--               is_really_writeable --><?php //echo is_really_writeable($this->config->item('log_path')); ?>
 
-            </pre>
             <div class="report-result">
 
                 <div style="position: relative;">
@@ -330,29 +346,34 @@ table.center {
                 </div>
 
 
-                <div class="row" style="padding-top: 20px; display: block; margin-left: auto; margin-right: auto;  width: 80%; ">
+                <div class="row" style="padding-top: 40px; display: block; margin-left: auto; margin-right: auto;  width: 80%; ">
                     <div class="col-md-7">
                         <div id="chart_div"></div>
                     </div>
                     <div class="col-md-5">
-                        <div id="" style="display: block; margin-left: auto; margin-right: auto;  width: 80%;" class="text-center">
-                            <table class="table table-bordered table-condensed table-data table-striped table-hover " ng-show="resultSummaryArea.length > 0">
+                        <div id="" style="display: block; margin-left: auto; margin-right: auto;  width: 100%; margin-top: 20px"
+                             class="text-center">
+                            <table class="table table-bordered table-condensed table-data table-striped table-hover "
+                                   width="100%" cellspacing="50" cellpadding="50"
+                                   ng-show="resultSummaryArea.length > 0">
                                 <tr>
                                     <th>ภาค</th>
                                     <th>พื้นที่(ไร่)</th>
+                                    <th>สัดส่วน %</th>
                                 </tr>
                                 <tr ng-repeat="row in resultSummaryArea">
-                                    <td align="center" style="vertical-align: middle;" valign="middle">
+                                    <td align="left" style="vertical-align: middle; padding-left: 30px" valign="middle">
                                         <a ng-click="queryRiceAreaAllProvince(row.REGION_NAME)" style="cursor: pointer;"> {{row.REGION_NAME}} </a>
                                     </td>
                                     <td align="right">{{row.RAI|number}}</td>
+                                    <td align="right">{{row.percentRatio|number : 2}}%</td>
                                 </tr>
-                                <tr >
-                                    <td align="center" style="vertical-align: middle;" valign="middle">
+                                <tr>
+                                    <td align="center" style="vertical-align: middle; font-weight: bold" valign="middle">
                                         <a ng-click="queryRiceAreaAllProvince(null)" style="cursor: pointer;"> รวมทั้งหมด </a>
-
                                     </td>
-                                    <td align="right">{{totalArea|number}}</td>
+                                    <td align="right" style="font-weight: bold">{{totalArea|number}}</td>
+                                    <td align="right" style="font-weight: bold">100.00 %</td>
                                 </tr>
 
                             </table>

@@ -287,6 +287,8 @@ class Report4 extends MY_Controller {
                     oci_fetch_all($refcur, $data, null, null, OCI_FETCHSTATEMENT_BY_ROW);
                     oci_free_statement($stmt);
 
+                    log_message("debug", "output : ".json_encode($data));
+
                     print_r(json_encode($data));
                     die();
 
