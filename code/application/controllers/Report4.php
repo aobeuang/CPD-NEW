@@ -250,8 +250,9 @@ class Report4 extends MY_Controller {
 
         }
         catch (Exception $e) {
-
-            print_r(json_encode($e));
+            log_message("error", $e);
+            $error = array("error" => $e);
+            print_r(json_encode($error));
             die();
         }
     }
@@ -297,7 +298,7 @@ class Report4 extends MY_Controller {
 
         }
         catch (Exception $e) {
-
+            log_message("error", $e);
             print_r(json_encode($e));
             die();
         }
@@ -349,7 +350,7 @@ class Report4 extends MY_Controller {
 
         }
         catch (Exception $e) {
-
+            log_message("error", $e);
             print_r(json_encode($e));
             die();
         }
@@ -398,6 +399,7 @@ class Report4 extends MY_Controller {
 
         }
         catch (Exception $e) {
+            log_message("error", $e);
 
             print_r(json_encode($e));
             die();

@@ -28,16 +28,23 @@ report4_2.controller('report4_2Controller', function MyController($scope) {
             success:function(result){
 
                 // $scope.resultListYearly = result;
-                $scope.resultSummaryArea = result;
+                if (result.error) {
+                    alert(result.error);
+                }
+                else {
+                    $scope.resultSummaryArea = result;
 
-                $scope.resultSummaryArea.forEach(function(element) {
-                    $scope.totalArea = parseFloat($scope.totalArea) + parseFloat(element.RAI);
-                });
+                    $scope.resultSummaryArea.forEach(function(element) {
+                        $scope.totalArea = parseFloat($scope.totalArea) + parseFloat(element.RAI);
+                    });
 
-                console.log('totalArea:' + $scope.totalArea);
+                    console.log('totalArea:' + $scope.totalArea);
 
 
-                google.charts.setOnLoadCallback($scope.drawType);
+                    google.charts.setOnLoadCallback($scope.drawType);
+                }
+
+
 
 
                 $('#pageLoading').fadeOut();
