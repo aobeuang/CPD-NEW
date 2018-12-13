@@ -2769,7 +2769,7 @@ class Report2 extends MY_Controller {
 				echo json_encode($temp);
 				exit();
 			}else{
-				echo "ไม่พบข้อมูลที่ค้นหา";
+				echo "notfound";
 			}
 		}
 		else
@@ -3096,7 +3096,7 @@ class Report2 extends MY_Controller {
 				echo json_encode($temp);
 				exit();
 			}else{
-				echo "ไม่พบข้อมูลที่ค้นหา";
+				echo "notfound";
 			}
 		}
 		else
@@ -3212,7 +3212,7 @@ class Report2 extends MY_Controller {
 				
 				die();
 			}else{
-				echo "ไม่พบข้อมูลที่ค้นหา";
+				echo "notfound";
 			}
 			
 		}

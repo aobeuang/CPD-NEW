@@ -314,17 +314,28 @@ table.dataTable thead .sorting_desc {
 		$("#pageLoading").fadeIn();
 		if(name.length == 0 && surname.length == 0){
 			$("#pageLoading").fadeOut();
-			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
-			setInterval(function(){
-		        $('#error-box').fadeOut();
-		    }, 3000);
-			return false;	
+
+			// $('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
+			// setInterval(function(){
+		    //     $('#error-box').fadeOut();
+		    // }, 3000);
+
+            $("#msg-modal-txt").html('กรุณากรอก ชื่อ หรือ นามสกุล');
+            $("#message-modal").modal();
+            return false;
+
+
+
+            return false;
 		}else if(name.length < 3 && surname.length < 3){
 			$("#pageLoading").fadeOut();
-			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร').show();
-			setInterval(function(){
-		        $('#error-box').fadeOut();
-		    }, 3000);
+			// $('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร').show();
+			// setInterval(function(){
+		    //     $('#error-box').fadeOut();
+		    // }, 3000);
+
+            $("#msg-modal-txt").html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร');
+            $("#message-modal").modal();
 			return false;	
 		}else{
 			getUserListByName();
@@ -474,6 +485,8 @@ table.dataTable thead .sorting_desc {
 			        $('#error-box').fadeOut();
 			    }, 5000);*/
 			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
+
+
 			    $("#message-modal").modal();
 		    }
 		});
@@ -529,25 +542,35 @@ table.dataTable thead .sorting_desc {
 			    data:{
 			    	citizen_id:citizen_id
 			    },
-			    error:function(){
+                error: function(jqXHR, textStatus, errorThrown) {
 			    	$("#pageLoading").fadeOut();
 			    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+				    // $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+
+                    if (jqXHR.responseText == 'notfound') {
+                        $("#msg-modal-txt").html('ไม่พบข้อมูลหมายเลขบัตรประชาชนที่ต้องการค้นหา');
+                    }
+                    else {
+                        $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                    }
+                    $('#example').css('display','none');
+                    $('#example').DataTable().destroy();
 			    	$("#message-modal").modal();
 			    }  
-		 	},
-		    error:function(){
-		    	$("#pageLoading").fadeOut();
-		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
-				setInterval(function(){
-			        $('#error-box').fadeOut();
-			    }, 5000);*/
-			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
-			    $("#message-modal").modal();
-		    }  
+		 	 }
+		 	 // ,
+		    // error:function(){
+		    // 	$("#pageLoading").fadeOut();
+		    // 	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			// 	setInterval(function(){
+			//         $('#error-box').fadeOut();
+			//     }, 5000);*/
+			//     $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+			//     $("#message-modal").modal();
+		    // }
 		});
 		table.on( 'preDraw', function () {
 			 if(typeof table != 'undefined')
@@ -657,20 +680,36 @@ table.dataTable thead .sorting_desc {
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-                    $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+			    	if (jqXHR.responseText == 'notfound') {
+                        $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+                    }
+			    	else {
+                        $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                    }
+
+                    $('#example2').css('display','none');
+                    $('#example2').DataTable().destroy();
 			    	$("#message-modal").modal();
 			    }
 		 	},
 		    // error:function(){
-            error: function(jqXHR, textStatus, errorThrown) {
-		    	$("#pageLoading").fadeOut();
-		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
-				setInterval(function(){
-			        $('#error-box').fadeOut();
-			    }, 5000);*/
-			    $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
-			    $("#message-modal").modal();
-		    }  
+            // error: function(jqXHR, textStatus, errorThrown) {
+		    // 	$("#pageLoading").fadeOut();
+		    // 	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			// 	setInterval(function(){
+			//         $('#error-box').fadeOut();
+			//     }, 5000);*/
+			//     // $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+            //
+            //     if (jqXHR.responseText == 'notfound') {
+            //         $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+            //     }
+            //     else {
+            //         $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+            //     }
+            //
+            //     $("#message-modal").modal();
+		    // }
 		});
 		table.on( 'preDraw', function () {
 			$("#pageLoading").fadeIn();
