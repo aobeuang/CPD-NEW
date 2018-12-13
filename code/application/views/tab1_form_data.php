@@ -1071,7 +1071,7 @@
 		 			$temp = getCoopByID($id);
 		 			$coop_name = isset($temp['COOP_NAME_TH'])? $temp['COOP_NAME_TH']: "";
 		 			?>
-		            		<span class="col-md-7" style="line-height: 2.5"><?php echo $coop_name?></span>
+		            		<span class="col-md-7" style="line-height: 2.5;white-space: nowrap;"><?php echo $coop_name?></span>
 		            		<input id="coop_id" class="form-control col-md-7"  type="hidden" name="coop_id" value="<?php echo $id?>" />
 		            		<?php ?>
  				</div>
@@ -1283,7 +1283,7 @@
                 <input type="<?php echo $temp_type; ?>" class="col-md-7 form-control" id="joining_date" name="joining_date" placeholder="" value="<?php if (isset($user_survey_data[$temp_field])){
                     $date = strtotime($user_survey_data[$temp_field]);
                     $bdate = date("d-m-", $date);$bdate_year=date('Y',$date)+543;
-                    echo $bdate.$bdate_year; } ?>" 
+                    echo $bdate.$bdate_year; } ?>" >
 
                 <span class="col-md-7" style="line-height: 2.5"><?php echo $mdate.$mdate_year?></span>
 

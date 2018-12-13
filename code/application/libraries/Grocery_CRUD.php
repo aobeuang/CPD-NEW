@@ -1769,13 +1769,17 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 	{
 		$string_to_print = "<meta charset=\"utf-8\" /><style type=\"text/css\" >
 		#print-table{ color: #000; background: #fff; font-family: Verdana,Tahoma,Helvetica,sans-serif; font-size: 14px;text-align: center;}
-		#print-table table tr td, #print-table table tr th{ border: 1px solid black; border-bottom: none; border-right: none; padding: 4px 8px 4px 4px; font-size: 10px;}
-		#print-table table{ border-bottom: 1px solid black; border-right: 1px solid black;table-layout: fixed;}
+		#print-table table tr td, #print-table table tr th{ border: 1px solid black;padding: 4px 8px 4px 4px; font-size: 10px;}
+		#print-table table{table-layout: fixed;border-collapse: collapse;}
 		#print-table table tr th{text-align: center;background: #ddd;}
 		#print-table table tr:nth-child(odd){background: #eee;}
+		@media print {
+			table{
+				border-collapse: collapse;
+			}
+		}
 		</style>";
-		$string_to_print .= "<div id='print-table'>";
-		$string_to_print .= "<span>".$data->subject_plural."</span>";
+
 		$date = date("Y-m-d H:i:s");
 		$strYear = date("Y",strtotime($date))+543;
 		$strMonth= date("m",strtotime($date));
@@ -1783,19 +1787,23 @@ class grocery_CRUD_Layout extends grocery_CRUD_Model_Driver
 		$strMonthCut = Array("","มกราคม","กุมภาพันธ์","มีนาคม","เมษายน","พฤษภาคม","มิถุนายน", "กรกฎาคม","สิงหาคม","กันยายน","ตุลาคม","พฤศจิกายน","ธันวาคม");
 		$strMonthThai=$strMonthCut[$strMonth];
 		$dateString= "$strDay $strMonthThai $strYear";
-		$string_to_print .= "<span style='position: absolute;right: 10px;font-size: 12px;'> ข้อมูล ณ วันที่ ".$dateString."</span>";
-		$string_to_print .= '<br><br><table width="100%" cellpadding="0" cellspacing="0" ><tr>';
+		$string_to_print .= "<div id='print-table'>";
+		$string_to_print .= '<table width="100%" cellpadding="0" ><thead><tr>
+		      <th colspan="'.sizeof($data->columns).'"  style="padding:10px;border: 0;">
+		         <span>'.$data->subject_plural.'</span><span style="position:fixed;right:20px;top:10px;font-size: 10px;"> ข้อมูล ณ วันที่ '.$dateString.'</span>
+		      </th>
+		   </tr><tr>';
 		foreach($data->columns as $column){
 			$string_to_print .= "<th>".$column->display_as."</th>";
 		}
-		$string_to_print .= "</tr>";
+		$string_to_print .= "</tr></thead>";
 
 		foreach($data->list as $num_row => $row){
-			$string_to_print .= "<tr>";
+			$string_to_print .= "<TBODY><tr>";
 			foreach($data->columns as $column){
 				$string_to_print .= "<td>".$this->_trim_print_string($row->{$column->field_name})."</td>";
 			}
-			$string_to_print .= "</tr>";
+			$string_to_print .= "</tr></TBODY>";
 		}
 
 		$string_to_print .= "</table></div>";
