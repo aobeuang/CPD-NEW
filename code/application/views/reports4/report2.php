@@ -305,6 +305,14 @@ table.center {
 <div id="report" class="mis" ng-app="report4_2">
 		<div id="main-wrapper" ng-controller="report4_2Controller">
             <p>Page Code : DR102</p>
+            <pre>
+<!--               log_path --><?php //echo$this->load->vars($this->config->item('log_path')); ?>
+               log_path <?php echo $this->config->item('log_path'); ?>
+               is_dir <?php echo is_dir($this->config->item('log_path')); ?>
+               is_writable  <?php echo is_writable ($this->config->item('log_path')); ?>
+<!--               is_really_writeable --><?php //echo is_really_writeable($this->config->item('log_path')); ?>
+
+            </pre>
             <div class="report-result">
 
                 <div style="position: relative;">

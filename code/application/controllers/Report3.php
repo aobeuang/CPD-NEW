@@ -2383,9 +2383,18 @@ class Report3 extends MY_Controller {
 
 		// 		$writer = new Xlsx($spreadsheet);
 		// 		$writer->save('php://output');
-		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
-		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-		header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.xlsx"');
+//		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+//		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+//		header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.xlsx"');
+
+
+        $class = \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf::class;
+        \PhpOffice\PhpSpreadsheet\IOFactory::registerWriter('Pdf', $class);
+        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Pdf');
+//        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "PDF");
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.PDF"');
+
 		$writer->save("php://output");
 	}
 	public function ajexreport17() {
