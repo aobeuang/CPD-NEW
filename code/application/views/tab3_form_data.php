@@ -256,7 +256,7 @@
                 <label class="nowrap">
                     <input type="checkbox"   onclick="checkOtherow2sell();" name="how2sell[3]" id="is_how2sell_others"   <?php if(isset($how2sell[3])){ if($how2sell[3]==1){  echo ' checked ';     }   } ?> value="1"  >   <span>อื่นๆ</span>
                 </label>
-                <input style="max-width: 195px;"> type="text" onclick="$('#is_how2sell_others').prop('checked', true);" onkeyup="$('#is_how2sell_others').prop('checked', true);"   onkeypress="$('#is_how2sell_others').prop('checked', true);return isAlphaNumeric(event);"     value="<?php if(isset($user_survey_data[strtoupper('how2sell_others_reason')])){ echo $user_survey_data[strtoupper('how2sell_others_reason')]; } ?>"  class="form-control" id="how2sell3_others_reason" name="how2sell3_others_reason" placeholder="" >
+                <input style="max-width: 195px;" type="text" onclick="$('#is_how2sell_others').prop('checked', true);" onkeyup="$('#is_how2sell_others').prop('checked', true);"   onkeypress="$('#is_how2sell_others').prop('checked', true);return isAlphaNumeric(event);"     value="<?php if(isset($user_survey_data[strtoupper('how2sell_others_reason')])){ echo $user_survey_data[strtoupper('how2sell_others_reason')]; } ?>"  class="form-control" id="how2sell3_others_reason" name="how2sell3_others_reason" placeholder="" >
             </div>
         </div>
     </div>
@@ -760,7 +760,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
                 <tr>
                     <td>1</td>
-                    <td> ปุ้ยเคมี</td>
+                    <td> ปุ๋ยเคมี</td>
                     <td> </td>
                     <td> </td>
                     <td> </td><td> </td>
@@ -828,7 +828,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 <tr> <?php  $chm_no = 2; $chm1 = 'intr'; $chm2 = 'intr'; $chm3 = 'intr'; ?>
                     <td><?php  echo $chm_no; ?></td>
 
-                    <td> ปุ้ยอินทรีย์ <?php /*echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3;*/ ?></td>
+                    <td> ปุ๋ยอินทรีย์ <?php /*echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3;*/ ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
                         <td> <input type="text" onkeypress="return isDecimal(event)"  class="form-control allownumericwithdecimal input-no-spinner"  name="chm<?php echo $chm_no; ?>_<?php echo $chm1; ?>_<?php echo $chm2; ?>_<?php echo $chm3; ?>[<?php echo $j; ?>]" id="chm<?php echo $chm_no; ?>_<?php echo $chm1; ?>_<?php echo $chm2; ?>_<?php echo $chm3; ?>[<?php echo $chm_no; ?>]"   value="<?php      if(isset($user_survey_data[strtoupper('chm'.$chm_no.'_'.$chm1)])) {
                                 $chm1_46_0_0 = unserialize($user_survey_data[strtoupper('chm'.$chm_no.'_'.$chm1)]);
@@ -841,7 +841,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
                 <tr>
                     <td>3</td>
-                    <td>ยาปราบศํตรูพืช</td>
+                    <td>ยาปราบศัตรูพืช</td>
                     <td> </td>
                     <td> </td>
                     <td> </td><td> </td>
