@@ -25,8 +25,8 @@ class Report3 extends MY_Controller {
             if ($secId == "QWIKRKEIEKJWORE455RKRKIEEJKLKRIR") {
                 $this->session->showSQL = true;
             }
-            if ($secId == "CLEAR") {
-                unset($this->session->showSQL);
+            else if ($secId == "CLEAR") {
+                $this->session->unset_userdata('showSQL');
             }
         }
 
