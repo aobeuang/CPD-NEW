@@ -28,7 +28,21 @@ $this->load->helper('survey');
 	<div id="main-wrapper">
     <span>Page Code : MIS700</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12 display">
-			
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+                 /* Oracle Stored Procedure Package Name */
+                  <span id='sql1'></span>
+                </pre>".
+                    "<pre>
+                 
+                 /* Queries in Stored Procedure.*/
+                  <span id='sql2'></span>
+                </pre>"
+
+                ;
+            }
+            ?>
 			<h2><span class="glyphicon glyphicon-stats"></span> รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</h2>
 		
 			<div id="right-container" class="col-md-12 col-xs-12">
@@ -213,6 +227,14 @@ var listresult;
   		    	$('#total').html(listresult.list_total_type1.toLocaleString());
   				google.charts.setOnLoadCallback(drawChart);
   				$("#pageLoading").fadeOut();
+
+
+                <?php if (isset($_SESSION['showSQL'])) { ?>
+                if (result.sql1) {
+                    $("#sql1").html(result.sql1);
+                    $("#sql2").html(result.sql2);
+                }
+                <?php } ?>
   		        
   			}
 

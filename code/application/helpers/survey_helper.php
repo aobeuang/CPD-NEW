@@ -2399,7 +2399,7 @@ if ( ! function_exists('getAllSurveyYears'))
 				}
 				$ci->cache->save($cache_key, $to_return, 300000);
 	
-				return $to_return;
+				return array($to_return, $sql);
 			}
 			return $data_cache;
 		}
@@ -3564,7 +3564,7 @@ if ( ! function_exists('getAllSurveyYears'))
                         $to_return[] = $row;
                     }
                 }
-                return $to_return;
+                return array($to_return, $sql);
             }
             return $data_cache;
         }

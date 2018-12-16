@@ -48,6 +48,22 @@ $this->load->helper('survey');
 	<div id="main-wrapper">
 		<span>Page Code : MIS103</span>
 		<div class="report-result">
+
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+                         /* จำนวนสมาชิกสหกรณ์ นอกภาคเกษตรแบ่งตามประเภท  */
+                          <span id='sql1'></span>
+                        </pre>".
+                    "<pre>
+                         
+                         /* จำนวนสมาชิกของสหกรณ์ */
+                          <span id='sql2'></span>
+                        </pre>"
+
+                ;
+            }
+            ?>
 			
 			<!-- <h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร</h2> -->
 			
@@ -270,6 +286,16 @@ $(document).ready(function() {
 			google.charts.setOnLoadCallback(drawType1);
 			
 	        $('#pageLoading').fadeOut();
+
+
+            <?php if (isset($_SESSION['showSQL'])) { ?>
+            if (result.sql1) {
+                $("#sql1").html(result.sql1);
+                $("#sql2").html(result.sql2);
+                $("#sql3").html(result.sql3);
+            }
+            <?php } ?>
+
 		},
 		error: function(err){
 			$('#pageLoading').fadeOut();

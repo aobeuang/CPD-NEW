@@ -75,6 +75,26 @@ $this->load->helper('survey');
 			</div> -->			
 			
 			<div class="report-result">
+
+                <?php
+                if (isset($_SESSION['showSQL'])) {
+                    echo "<pre>
+                         /* จำนวนสมาชิกสหกรณ์แบ่งตามประเภท  */
+                          <span id='sql1'></span>
+                        </pre>".
+                        "<pre>
+                         
+                         /* จำนวนสมาชิกสหกรณ์ภาคเกษตร */
+                          <span id='sql2'></span>
+                        </pre>"
+                        .
+                        "<pre>
+                        /* จำนวนสมาชิกสหกรณ์นอกภาคเกษตร */
+                          <span id='sql3'></span>
+                        </pre>"
+                    ;
+                }
+                ?>
 			
 				
 				<div class="row">
@@ -346,6 +366,8 @@ $(document).ready(function() {
 	    success:function(result){
 			
 			listdawr = result;
+
+
 			$('#total').html(listdawr.total.toLocaleString());
 			google.charts.setOnLoadCallback(drawType1);
  			google.charts.setOnLoadCallback(drawType2);
@@ -353,6 +375,14 @@ $(document).ready(function() {
 	        elem.style.width = 100 + '%'; 
 	        elem.innerHTML = 100  + '%';*/
 	        $('#pageLoading').fadeOut();
+
+	        <?php if (isset($_SESSION['showSQL'])) { ?>
+            if (result.sql1) {
+                $("#sql1").html(result.sql1);
+                $("#sql2").html(result.sql2);
+                $("#sql3").html(result.sql3);
+            }
+            <?php } ?>
 		},
 		error: function(err){
 			$('#pageLoading').fadeOut();

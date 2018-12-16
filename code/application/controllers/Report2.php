@@ -1045,7 +1045,8 @@ class Report2 extends MY_Controller {
 					"recordsTotal"  => intval($recordsTotal),
 					"recordsFiltered" => intval($recordsFiltered),
 					"data"   => $data,
-					"textlog" => $text
+					"textlog" => $text,
+                    "sql1" => $sql
 			);
 			// echo print_r($output['data']);die();
 			print_r(json_encode($output));
@@ -1222,7 +1223,8 @@ class Report2 extends MY_Controller {
 		$filter_provinces = !empty($this->input->get('province'))?$this->input->get('province'):null;
 		$filter_coop = !empty($this->input->get('filter_coop'))?$this->input->get('filter_coop'):null;
 
-		if(empty($filter_khet))
+//		if(empty($filter_khet))
+		if(empty($filter_khet) && empty($filter_provinces))
 			exit();
 		// $sunm_keycache_export = $filename.'-'.$filter_khet.'-'.$life_status.'-'.$filter_district.'-'.$filter_provinces.'-'.$filter_coop.'-'.$filter_tambon;
 		// $cache_key = md5($sunm_keycache_export);
@@ -1631,7 +1633,8 @@ class Report2 extends MY_Controller {
 			$ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
 			$data_cache = "";
 			$query_nomal = null;
-			if ( ! $data_cache = $ci->cache->get($cache_key)) {
+//			if ( ! $data_cache = $ci->cache->get($cache_key)) {
+			if ( true) {
 				$query_nomal = $this->db->query($sql)
 								->result_array();
 				$ci->cache->save($cache_key, $query_nomal, 30000);
@@ -1666,7 +1669,9 @@ class Report2 extends MY_Controller {
 				foreach ($query_nomal as $data)
 				{
 
-					$citizen_data = getMemberByCitizenID($data['OU_D_ID']);
+//					$citizen_data = getMemberByCitizenID($data['OU_D_ID']);
+					$resultArray = getMemberByCitizenID($data['OU_D_ID']);
+                    $citizen_data = $resultArray[0];
 					// echo $citizen_data[0]['COOP_NAME_TH'];die();
 					$temp_data = array();
 					
@@ -1721,19 +1726,7 @@ class Report2 extends MY_Controller {
 					// echo print_r($data_temp);
 					// die();
 					$count++;
-					
-
-
-
-
-
-
-
-					
-	
 				}
-
-			
 				// $citicen = null;
 				// echo print_r($data_temp);
 				// die();
@@ -1754,6 +1747,8 @@ class Report2 extends MY_Controller {
 	// 		echo "test11";
 	// 		exit();
 
+//            log_message("debug", "sql report2 ".$sql);
+
 			if($export){
 				// addLogSuspiciousMessageReport('พิมพ์รายงานข้อมูลสมาชิกในสหกรณ์', $textlog,$filter_provinces);
 				// $ci->cache->save($cache_key_export, $data_temp, 30000);
@@ -1767,7 +1762,8 @@ class Report2 extends MY_Controller {
 						"recordsTotal"  => intval($recordsTotal),
 						"recordsFiltered" => intval($recordsFiltered),
 						"data"   => $data_temp,
-						"numtotal"   => $text
+						"numtotal"   => $text,
+                        "sql1"  => $sql."\n -- โดยการนำข้อมูล OU_D_ID ไปหาใน query ในหน้ารายงานข้อมูลรายบุคคล RE100"
 				);
 				// $ci->cache->save($cache_key, $output, 30000);
 				if (!empty($_GET["draw"]) && $_GET["draw"] == 1) {
@@ -2617,7 +2613,12 @@ class Report2 extends MY_Controller {
 			// $length = !empty($this->input->get('length'))?$this->input->get('length'):10;
 			$temp = array();
 			// $coops = getMemberByCitizenID($citizen_id,$start,$length);
-			$coops = getMemberByCitizenID($citizen_id);
+			$resultArray = getMemberByCitizenID($citizen_id);
+            $coops  = $resultArray[0];
+            $sql = $resultArray[1];
+
+
+
 			$pcheck = null;
 
 			$role_user = $this->session->userdata('auth_role');
@@ -2751,7 +2752,11 @@ class Report2 extends MY_Controller {
 			}
 
 			$show_query = !empty($this->input->get('query'))?TRUE:FALSE;
-			if (!empty($data)){
+//			if (!empty($data)){
+			if (true){
+			    if (empty($data_temp)) {
+                    $data_temp = [];
+                }
 				if($show_query)
 				{
 					$temp['items'] = $data;
@@ -2761,7 +2766,8 @@ class Report2 extends MY_Controller {
 				$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
 				$output = array(
 						"draw"    => intval($draw),
-						"data"   => $data_temp
+						"data"   => $data_temp,
+                        "sql1" => $sql
 				);
 				print_r(json_encode($output));
 			}else if ($pcheck == 1){
@@ -2769,7 +2775,12 @@ class Report2 extends MY_Controller {
 				echo json_encode($temp);
 				exit();
 			}else{
-				echo "notfound";
+                $output = array(
+                    "notfound"    => "notfound",
+                    "sql1" => $sql
+                );
+                print_r(json_encode($output));
+//				echo "notfound";
 			}
 		}
 		else
@@ -2792,7 +2803,9 @@ class Report2 extends MY_Controller {
 			// $length = !empty($this->input->get('length'))?$this->input->get('length'):10;
 			$temp = array();
 			// $coops = getMemberByCitizenID($citizen_id,$start,$length);
-			$coops = getMemberByCitizenID($citizen_id);
+//			$coops = getMemberByCitizenID($citizen_id);
+            $resultArray = getMemberByCitizenID($citizen_id);
+            $coops  = $resultArray[0];
 			$pcheck = null;
 
 			$role_user = $this->session->userdata('auth_role');
@@ -3146,7 +3159,9 @@ class Report2 extends MY_Controller {
 
 			$year = getSelectedSurveyYear();
 			
-			$coops = getMemberByNameAndSName($pname, $psurname, $start, $length);
+			$resultArray = getMemberByNameAndSName($pname, $psurname, $start, $length);
+            $coops = $resultArray[0];
+            $sql = $resultArray[1];
 			$query_count = getCountMemberByNameAndSName($pname, $psurname);
 			// echo print_r($query_count);die();
 
@@ -3200,18 +3215,31 @@ class Report2 extends MY_Controller {
 			$recordsFiltered = $query_count[0]['TOTAL'];
 			
 			
-			if(!empty($data_temp)){
+//			if(!empty($data_temp)){
+			if(true){
+			    if (empty($data_temp)) {
+                    $data_temp = [];
+                }
 				$draw = !empty($_GET["draw"])?$_GET["draw"]:0;
 				$output = array(
-						"draw"    => intval($draw),
+
+                        "draw"    => intval($draw),
 						"recordsTotal"  => intval($recordsTotal),
 						"recordsFiltered" => intval($recordsFiltered),
-						"data"   => $data_temp
+						"data"   => $data_temp,
+                        'sql1'   => $sql
+
 				);
 				print_r(json_encode($output));
 				
 				die();
 			}else{
+//                $output = array(
+//                    "notfound"    => "notfound",
+//                    "sql1"   => $sql
+//                );
+//                print_r(json_encode($output));
+//                die();
 				echo "notfound";
 			}
 			

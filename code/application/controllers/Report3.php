@@ -1,12 +1,13 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use Mpdf\Mpdf;
 class Report3 extends MY_Controller {
 
 	public function __construct()
 	{
 		parent::__construct();
-		//include(APPPATH."third_party/mpdf/mpdf.php");
+//		include(APPPATH."third_party/mpdf/mpdf.php");
 		$this->load->database();
 		$this->load->helper('url');
 
@@ -15,6 +16,19 @@ class Report3 extends MY_Controller {
 		$this->load->driver('cache',array('adapter' => 'apc', 'backup' => 'file'));
 		$this->load->library('session');
 		$this->load->library('grocery_CRUD');
+        $this->load->library('fpdf');
+//        $this->load->library('mpdf');
+
+        $secId = $this->input->get('secId');
+        if ( isset($secId)) {
+            $secId = strtoupper($secId);
+            if ($secId == "QWIKRKEIEKJWORE455RKRKIEEJKLKRIR") {
+                $this->session->showSQL = true;
+            }
+            if ($secId == "CLEAR") {
+                unset($this->session->showSQL);
+            }
+        }
 
 		if (!canViewReport())
 		{
@@ -329,6 +343,11 @@ class Report3 extends MY_Controller {
 			$output['type'] = $list_type_in_out;
 			$output['total'] = $total;
 			$output['date'] = $this->changemonth();
+
+            $output['sql1'] = $sql;
+            $output['sql2'] = $sql_count_farm;
+            $output['sql3'] = $sql_count_nonfarm;
+
 			print_r(json_encode($output));
 		}
 		else {
@@ -474,6 +493,10 @@ class Report3 extends MY_Controller {
 			$output['list_total'] = number_format($list_total_type1);
 			$output['list_in_out'] = $list_type_in_out;
 			$output['date'] = $this->changemonth();
+
+            $output['sql1'] = $sql;
+            $output['sql2'] = $sql_count_farm;
+
 			print_r(json_encode($output));
 
 		}
@@ -622,6 +645,10 @@ class Report3 extends MY_Controller {
 			$output['list_in_out'] =$list_type_in_out;
 			$output['list_total'] =  number_format($list_total_type2);
 			$output['date'] = $this->changemonth();
+
+            $output['sql1'] = $sql;
+            $output['sql2'] = $sql_count_nonfarm;
+
 			print_r(json_encode($output));
 
 		}
@@ -714,10 +741,10 @@ class Report3 extends MY_Controller {
 
                 try {
                     $data_cache = null;
-
+                    $storeName = "begin pkg_report_mis.rpt_sum_member_eq1_st(:p_out_sum_eq_1, :p_out_sum_avai, :p_out_sum_die); end;";
                     log_message('debug', 'begin pkg_report_mis.rpt_sum_member_eq1_st(:p_out_sum_eq_1, :p_out_sum_avai, :p_out_sum_die); end;');
 
-                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_eq1_st(:p_out_sum_eq_1, :p_out_sum_avai, :p_out_sum_die); end;");
+                    $stmt = oci_parse($this->db->conn_id, $storeName);
 
                     oci_bind_by_name($stmt, ":p_out_sum_eq_1", $sumEq1, -1, OCI_B_INT);
                     oci_bind_by_name($stmt, ":p_out_sum_avai", $sumAvai, -1, OCI_B_INT);
@@ -743,6 +770,31 @@ class Report3 extends MY_Controller {
                     $output = array();
                     $output['result'] = $temp_data;
                     $output['list_total_type1'] = number_format($sumEq1);
+
+                    $output['sql1'] = $storeName;
+                    $output['sql2'] = " -- สมาชิก 1 สหกรณ์ 
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1;
+            
+                    -- ปกติ 
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1;
+            
+                    -- ตาย  
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    AND A.OU_D_STATUS_TYPE IN (1,11,13)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1;";
+
         // 			  $output['all']=$count_all;
         //            $output['query1'] = $sql;
         //            $output['query2'] = $sql2;
@@ -890,10 +942,10 @@ class Report3 extends MY_Controller {
 
                 try {
                     $data_cache = null;
+                    $storeName = "begin pkg_report_mis.rpt_sum_member_gt1_st(:p_out_sum_gt_1, :p_out_sum_avai, :p_out_sum_die); end;";
+                    log_message('debug', $storeName);
 
-                    log_message('debug', 'begin pkg_report_mis.rpt_sum_member_gt1_st(:p_out_sum_gt_1, :p_out_sum_avai, :p_out_sum_die); end;');
-
-                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_gt1_st(:p_out_sum_gt_1, :p_out_sum_avai, :p_out_sum_die); end;");
+                    $stmt = oci_parse($this->db->conn_id, $storeName);
 
                     oci_bind_by_name($stmt, ":p_out_sum_gt_1", $sumGt1, -1, OCI_B_INT);
                     oci_bind_by_name($stmt, ":p_out_sum_avai", $sumAvai, -1, OCI_B_INT);
@@ -923,6 +975,32 @@ class Report3 extends MY_Controller {
         //			$output['query2'] = $sql2;
         //			$output['query3'] = $sql3;
                     $output['date'] = $this->changemonth();
+
+                    $output['sql1'] = $storeName;
+                    $output['sql2'] = " -- สมาชิก มากกว่า 1 สหกรณ์ 
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1;
+            
+                    -- ปกติ  
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    AND A.OU_D_STATUS_TYPE NOT IN (1,11,13)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1;
+            
+                    -- ตาย 
+                    SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                    FROM MOIUSER.MASTER_DATA A
+                    WHERE A.OU_D_FLAG IN(1,2)
+                    AND A.OU_D_STATUS_TYPE IN (1,11,13)
+                    GROUP BY OU_D_ID
+                    HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >1;";
+
+
                     print_r(json_encode($output));
                     die();
                 }
@@ -1265,13 +1343,18 @@ class Report3 extends MY_Controller {
 			$output = array();
 			$output['khet'] = $merge_data;
 			$output['list_total_type1'] = number_format($result[0]['SUM(A.TOTAL_COOP)']);
-			$output['query1'] = $sqla_count1;
-			$output['query2'] = $sqla_count2;
-			$output['query3'] = $sqla_count3;
+//			$output['query1'] = $sqla_count1;
+//			$output['query2'] = $sqla_count2;
+//			$output['query3'] = $sqla_count3;
 			$output['list_id_khet'] = $sort_data_khet;
 			$output['date'] = $this->changemonth();
 
 			$output['khetid'] = $id_khet;
+
+            $output['sql1'] = $sqla_count1;
+            $output['sql2'] = $sqla_count2;
+            $output['sql3'] = $sqla_count3;
+
 			$ci->cache->save($cache_key, $output, 30000);
 			print_r(json_encode($output));
 			die();
@@ -1399,9 +1482,11 @@ class Report3 extends MY_Controller {
                 try {
                     $data_cache = null;
 
+                    $storeName  = "begin pkg_report_mis.rpt_sum_member_st(:p_out_sum_all, :p_out_sum_eq1, :p_out_sum_eq2, :p_out_sum_gt3); end;";
+
                     log_message('debug', 'begin pkg_report_mis.rpt_sum_member_st(:p_out_sum_all, :p_out_sum_eq1, :p_out_sum_eq2, :p_out_sum_gt3); end;');
 
-                    $stmt = oci_parse($this->db->conn_id, "begin pkg_report_mis.rpt_sum_member_st(:p_out_sum_all, :p_out_sum_eq1, :p_out_sum_eq2, :p_out_sum_gt3); end;");
+                    $stmt = oci_parse($this->db->conn_id, $storeName);
 
                     oci_bind_by_name($stmt, ":p_out_sum_all", $sumAll, -1, OCI_B_INT);
                     oci_bind_by_name($stmt, ":p_out_sum_eq1", $sumEq1, -1, OCI_B_INT);
@@ -1429,6 +1514,38 @@ class Report3 extends MY_Controller {
                     $output = array();
                     $output['result'] = $temp_data;
                     $output['list_total_type1'] = number_format($sumAll);
+
+                    $output['sql1'] = $storeName;
+                    $output['sql2'] = "-- จำนวนสมาชิกของสหกรณ์ทั้งหมด 
+                        SELECT COUNT(DISTINCT OU_D_ID||IN_D_COOP)
+                        into p_out_sum_all
+                        FROM MOIUSER.MASTER_DATA A
+                        WHERE A.OU_D_FLAG IN(1,2);
+                
+                        -- สมาชิก 1 สหกรณ์
+                        SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                        FROM MOIUSER.MASTER_DATA A
+                        WHERE A.OU_D_FLAG IN(1,2)
+                        GROUP BY OU_D_ID
+                        HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =1;
+                
+                
+                        -- สมาชิก 2 สหกรณ์
+                        SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                        FROM MOIUSER.MASTER_DATA A
+                        WHERE A.OU_D_FLAG IN(1,2)
+                        GROUP BY OU_D_ID
+                        HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) =2;
+                
+                        --สมาชิก 3 สหกรณ์ขึ้นไป
+                        SELECT SUM(COUNT(DISTINCT OU_D_ID||IN_D_COOP))
+                        FROM MOIUSER.MASTER_DATA A
+                        WHERE A.OU_D_FLAG IN(1,2)
+                        GROUP BY OU_D_ID
+                        HAVING COUNT(DISTINCT OU_D_ID||IN_D_COOP) >2;";
+
+
+
                     // 			$output['all']=$count_all;
                     // $output['query1'] = $sql1;
 //            $output['query2'] = $sql2;
@@ -2291,10 +2408,61 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
+
+    public function index17PDF()
+    {
+        if(canViewReport())
+        {
+//            echo $this->load->view('auth/page_header', '', TRUE);
+
+            $cache_key = "Report317";
+            $ci =& get_instance();
+//            $ci->load->driver('cache', array('adapter' => 'apc', 'backup' => 'file'));
+            $data_cache = null;
+
+		    if (  $data_cache = $ci->cache->get($cache_key)) {
+                echo $this->load->view('reports3/report17PDF', $data_cache, TRUE);
+
+            }
+
+
+//            echo $this->load->view('reports3/report17PDF', json_decode ($this->input->get('data')), TRUE);
+
+
+//            echo $this->load->view('auth/page_footer', '', TRUE);
+        }
+        else {
+            redirect('/', 'refresh');
+        }
+
+
+
+    }
+
+    public function index17PDF2()
+    {
+        if(canViewReport())
+        {
+
+//            echo $this->load->view('auth/page_header', '', TRUE);
+
+            echo $this->load->view('reports3/report17PDF2', '', TRUE);
+
+//            echo $this->load->view('auth/page_footer', '', TRUE);
+        }
+        else {
+            redirect('/', 'refresh');
+        }
+    }
+
+
 	public function exportdatacsvreport()
 	{
 
-		ob_start();
+
+        ini_set('max_execution_time', 300);
+
+        ob_start();
 		// 		print_graph($data);
 		$data = array();
 		$filename = "รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด";
@@ -2381,19 +2549,22 @@ class Report3 extends MY_Controller {
 					'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,]);
 
 
-		// 		$writer = new Xlsx($spreadsheet);
+//		 		$writer = new Xlsx($spreadsheet);
 		// 		$writer->save('php://output');
-//		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
-//		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-//		header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.xlsx"');
+		$writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "Xlsx");
+		header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+		header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.xlsx"');
 
+//        $this->load->library('mpdf');
+//        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Mpdf');
 
-        $class = \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf::class;
-        \PhpOffice\PhpSpreadsheet\IOFactory::registerWriter('Pdf', $class);
-        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Pdf');
-//        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, "PDF");
-        header('Content-Type: application/pdf');
-        header('Content-Disposition: attachment; filename="รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด.PDF"');
+// Or alternatively
+//        \PhpOffice\PhpSpreadsheet\IOFactory::registerWriter('Pdf', \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf::class);
+//        $writer = \PhpOffice\PhpSpreadsheet\IOFactory::createWriter($spreadsheet, 'Pdf');
+
+// Or alternatively
+//        $writer = new \PhpOffice\PhpSpreadsheet\Writer\Pdf\Mpdf($spreadsheet);
+
 
 		$writer->save("php://output");
 	}
@@ -2576,13 +2747,19 @@ class Report3 extends MY_Controller {
 
 
 		$output['list_total'] = $total_normal+$total_die;
-		$output['query1'] = $sqla_count1;
-		$output['query2'] = $sqla_count2;
+//		$output['query1'] = $sqla_count1;
+//		$output['query2'] = $sqla_count2;
+//		$output['query3'] = $sqla_count3;
+
 		$output['date'] = $this->changemonth();
-		$output['query3'] = $sqla_count3;
 		// echo print_r($output);die();
 
-//        $ci->cache->save($cache_key, $output, 30000);
+        $output['sql1'] = $sqla_count1;
+        $output['sql2'] = $sqla_count2;
+        $output['sql3'] = $sqla_count3;
+
+
+        $ci->cache->save($cache_key, $output, 30000);
 				// return $to_return;
 		print_r(json_encode($output));
 		die();

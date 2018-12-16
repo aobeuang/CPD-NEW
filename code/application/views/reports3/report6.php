@@ -40,6 +40,27 @@ jQuery(function () {
 	<div id="main-wrapper">
 		<span>Page Code : MIS200</span>
 		<div class="report-result">
+
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+            echo "<pre>
+                 /* จำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ OU_D_STATUS_TYPE NOT IN (1, 11, 13) */
+                  <span id='sql1'></span>
+                </pre>".
+            "<pre>
+                 
+                 /* จำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ OU_D_STATUS_TYPE IN (1, 11, 13) */
+                  <span id='sql2'></span>
+                </pre>"
+            .
+            "<pre>
+                 
+                 /* จำนวนสมาชิกของสหกรณ์ */
+                  <span id='sql3'></span>
+                </pre>"
+            ;
+            }
+            ?>
 			
 			<!-- <h2><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ ภาคเกษตร</h2> -->
 			
@@ -306,6 +327,14 @@ jQuery(function () {
 					$('#total').html(result.list_total_type1.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
     				$('#pageLoading').fadeOut();
+
+                    <?php if (isset($_SESSION['showSQL'])) { ?>
+                    if (result.sql1) {
+                        $("#sql1").html(result.sql1);
+                        $("#sql2").html(result.sql2);
+                        $("#sql3").html(result.sql3);
+                    }
+                    <?php } ?>
     			},
 				error: function(err){
 					$('#pageLoading').fadeOut();

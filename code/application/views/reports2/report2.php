@@ -29,6 +29,19 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 		<div id="data_respone3"></div>
 		<div id="data_respone4"></div>
 		<div class="row" id="action-bar">
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+              /* 
+              ค้นหาข้อมูลสมาชิกในสหกรณ์
+              SQL ขึ้นกับเงื่อนไขการค้นหา 
+              */
+              <span id='sql1'></span>
+            </pre>"
+                ;
+            }
+            ?>
+
 			<div class="report-action-bar">
 
 				<form id="trip-luckyForm" class="form-inline">
@@ -861,7 +874,8 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	        // console.log(settings.json.numtotal);
 	        $('#label_search').html('จำนวนการค้นหา '+settings.json.numtotal);
 	    },
-	    initComplete : function() {
+        initComplete : function( settings, json ) {
+
 		    var test = $('.dataTables_filter').find('#search');
 		   	// console.log(test);
 	        var input = $('.dataTables_filter input').unbind(),
@@ -886,6 +900,14 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 			});
 			$('#pageLoading').fadeOut();
 	        $('#filter-search').prop('disabled', false);
+
+            <?php if (isset($_SESSION['showSQL'])) { ?>
+            // alert(JSON.stringify(result));
+            if (json.sql1) {
+                $("#sql1").html(json.sql1);
+            }
+            <?php } ?>
+
 	    },
 	    "autoWidth": false,
 	    "columns": [
@@ -932,8 +954,12 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 				filter_more_coop:filter_more_coop,
 				filter_coop:filter_coop,
 		   	},
-		   	error: function(){
+            error: function(jqXHR, textStatus, errorThrown) {
 		   		$("#pageLoading").fadeOut();
+
+                $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                $("#message-modal").modal();
+
 		   		$('#error-box').html('มีข้อผิดพลาดเกิดขึ้น ไม่สามารถดึงข้อมูลได้').show();
 		   		$('html,body').animate({
 			        scrollTop: $('#error-box').offset().top - 100

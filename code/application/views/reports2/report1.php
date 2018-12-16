@@ -29,8 +29,24 @@ input::-webkit-inner-spin-button {
 			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> รายงานข้อมูลรายบุคคล</h2>
 			
 		</div>
+
+
+
 		<pre id="data_respone"></pre>
         <div class="row" id="action-bar">
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+              /* 
+              ค้นหาข้อมูลรายบุคคล
+              SQL ขึ้นกับเงื่อนไขการค้นหา 
+              */
+              <span id='sql1'></span>
+            </pre>"
+                ;
+            }
+            ?>
+
             <div class="report-action-bar ">
 
                 <div class="col-md-5 col-xs-12" >
@@ -507,8 +523,20 @@ table.dataTable thead .sorting_desc {
 	        pageResize: true,
 	    	"destroy": true,
 			"bServerSide": false,
-		    initComplete : function() {
+            initComplete : function( settings, json ) {
 				$('#pageLoading').fadeOut();
+
+                if (!json.data || json.data.length == 0) {
+                    $("#msg-modal-txt").html('ไม่พบข้อมูลหมายเลขบัตรประชาชนที่ต้องการค้นหา');
+                    $("#message-modal").modal();
+                }
+
+                <?php if (isset($_SESSION['showSQL'])) { ?>
+
+                if (json.sql1) {
+                    $("#sql1").html(json.sql1);
+                }
+                <?php } ?>
 		    },
 		    "autoWidth": false,
 		    "columns": [
@@ -600,10 +628,24 @@ table.dataTable thead .sorting_desc {
 			"bServerSide": true,
 			"drawCallback": function( settings ) {
 		        $("#pageLoading").fadeOut();
+                console.log('getUserListByName drawCallback');
 		    },
-		    initComplete : function() {
+		    initComplete : function( settings, json ) {
 				$('#pageLoading').fadeOut();
 				console.log('getUserListByName initComplete');
+
+                if (!json.data || json.data.length == 0) {
+                    $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+                    $("#message-modal").modal();
+                }
+
+                <?php if (isset($_SESSION['showSQL'])) { ?>
+                // alert(JSON.stringify(result));
+                if (json.sql1) {
+                    $("#sql1").html(json.sql1);
+                }
+                <?php } ?>
+
 		    },
 		    "autoWidth": false,
 		    "columns": [
@@ -692,24 +734,23 @@ table.dataTable thead .sorting_desc {
 			    	$("#message-modal").modal();
 			    }
 		 	},
-		    // error:function(){
-            // error: function(jqXHR, textStatus, errorThrown) {
-		    // 	$("#pageLoading").fadeOut();
-		    // 	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
-			// 	setInterval(function(){
-			//         $('#error-box').fadeOut();
-			//     }, 5000);*/
-			//     // $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
-            //
-            //     if (jqXHR.responseText == 'notfound') {
-            //         $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
-            //     }
-            //     else {
-            //         $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
-            //     }
-            //
-            //     $("#message-modal").modal();
-		    // }
+            error: function(jqXHR, textStatus, errorThrown) {
+		    	$("#pageLoading").fadeOut();
+		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+				setInterval(function(){
+			        $('#error-box').fadeOut();
+			    }, 5000);*/
+			    // $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+
+                if (jqXHR.responseText == 'notfound') {
+                    $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+                }
+                else {
+                    $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                }
+
+                $("#message-modal").modal();
+		    }
 		});
 		table.on( 'preDraw', function () {
 			$("#pageLoading").fadeIn();
@@ -720,6 +761,8 @@ table.dataTable thead .sorting_desc {
 		$('#myInput').on( 'keyup', function () {
 			table.search( this.value ).draw();
 		});
+
+
 			
 	}
 	function resetForm(ele){

@@ -36,6 +36,19 @@ $coop = is_numeric($filter_coop) ? getCoopByID($filter_coop) : array();
 				<div id="data_respone3"></div>
 				<div id="data_respone4"></div>
 				<div class="row" id="action-bar">
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+              /* 
+              ค้นหารายงานข้อมูลสมาชิกในสหกรณ์
+              SQL ขึ้นกับเงื่อนไขการค้นหา 
+              */
+              <span id='sql1'></span>
+            </pre>"
+                ;
+            }
+            ?>
+
 					<div class="report-action-bar">
 
 						<form id="trip-luckyForm" class="form-inline">
@@ -476,7 +489,7 @@ function registerCoop(){
 		      // scrolling can be used
 		      params.page = params.page || 1;
 	
-		      console.log(data);
+		      // console.log(data);
 		      return {
 		        results: data.items,
 		        pagination: {
@@ -696,7 +709,7 @@ function getDistrict()
 	    data:{province:province},
 	    success: function (result) {
 		    console.log("ajax_District");
-		    console.log(result.items);
+		    // console.log(result.items);
 		    var html ='<option value="0">ทั้งหมด</option>';
 			for(i=0;i<result.items.length;i++)
 			{
@@ -730,7 +743,7 @@ function getCoop()
 	    data:{province:province,filter_district:filter_district,filter_khet:filter_khet},
 	    success: function (result) {
 	    	console.log("ajax_coop");
-		    console.log(result.items);
+		    // console.log(result.items);
 		    var html ='<option value="0">ทั้งหมด</option>	';
 			for(i=0;i<result.items.length;i++)
 			{
@@ -763,7 +776,7 @@ function getlistkhet()
 		dataType: 'json',
 		success:function(result){
 			console.log('getlistkhet');
-			console.log(result.items);
+			// console.log(result.items);
 
 			var html ='';
 
@@ -822,7 +835,7 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 	    	  filter_life_status:filter_life_status,
 	       },
 	       success:function(result){
-	    	   console.log(result);
+	    	   // console.log(result);
 	    	   $('#data_respone').html(result.query);
 	    	   $('#search_result').html(result.numrow);
 	       }
@@ -839,10 +852,18 @@ function getdataViewTable(filter_life_status, filter_year,citizen_id,province,fi
 		 	console.log('callback')
 	        $("#pageLoading").fadeOut();
 	    },
-		initComplete : function() {
+        initComplete : function( settings, json ) {
 		        $('#search_btn').prop('disabled', false);
-		        $('#pageLoading').fadeOut();	
-		},
+		        $('#pageLoading').fadeOut();
+
+            <?php if (isset($_SESSION['showSQL'])) { ?>
+            // alert(JSON.stringify(result));
+            if (json.sql1) {
+                $("#sql1").html(json.sql1);
+            }
+            <?php } ?>
+
+        },
 		"columns": [
 			{ "width": "auto" },
 			{ "width": "auto" },

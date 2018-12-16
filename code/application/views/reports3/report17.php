@@ -62,6 +62,26 @@ text-align: center !important;
 		<div id="main-wrapper">
 			<span>Page Code : MIS300</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12">
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+                echo "<pre>
+                 /* จำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ OU_D_STATUS_TYPE NOT IN (1, 11, 13) */
+                  <span id='sql1'></span>
+                </pre>".
+                    "<pre>
+                 
+                 /* จำนวนสมาชิกสหกรณ์ทั้งหมด แบ่งตามเขตตรวจราชการ OU_D_STATUS_TYPE IN (1, 11, 13) */
+                  <span id='sql2'></span>
+                </pre>"
+                    .
+                    "<pre>
+                 
+                 /* เขต */
+                  <span id='sql3'></span>
+                </pre>"
+                ;
+            }
+            ?>
 
 			<h2 style="float:  right;"><span class="glyphicon glyphicon-stats"></span> รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</h2>
 
@@ -71,6 +91,22 @@ text-align: center !important;
 			    	    <div class="row">
 					<div class="actions" style="float:right">
 			    		<script>
+                            function downloadPDF2()
+                            {
+                                // var form = document.createElement("form");
+                                // form.setAttribute("method", "post");
+                                // form.setAttribute("action", "/index.php/report3/index17PDF");
+                                // form.setAttribute("target", "_blank");
+                                //
+                                // var hiddenField = document.createElement("input");
+                                // hiddenField.setAttribute("name", "json");
+                                // hiddenField.setAttribute("value", listresult);
+                                // form.appendChild(hiddenField);
+                                // document.body.appendChild(form);    // Not entirely sure if this is necessary
+                                // form.submit();
+                                // window.location.href = "/index.php/report3/index17PDF;
+                                window.open("/index.php/report3/index17PDF");
+                            }
 							function downloadExcel()
 							{
 								window.location.href = "/index.php/report3/exportdatacsvreport";
@@ -89,6 +125,7 @@ text-align: center !important;
 				<div class="row" id ="save">
 					<input id="save-pdf"  class="btn btn-default t5" type="button" value="บันทึกเป็น Excel" style="float:  right;" onclick="downloadExcel();" />
 					<input id="save-pdff" class="btn btn-default t5" type="button" value="บันทึกเป็น PDF" style="float:  right;margin-right:5px;" onclick="drawPDF();">
+<!--					<input id="save-pdff2" class="btn btn-default t5" type="button" value="บันทึกเป็น PDF2" style="float:  right;margin-right:5px;" onclick="downloadPDF2();">-->
 			    </div>
 
 				<center><h2  class="report-title-center" style="text-align:center">รายงานจำนวนสมาชิกสหกรณ์ทั้งหมด แยกตามจังหวัด</h2></center>
@@ -101,6 +138,7 @@ text-align: center !important;
 
 
 				</div>
+                <div id="testdata"></div>
 
 			</div>
 		</div>
@@ -241,7 +279,7 @@ th
 
 					
 		        table.draw(data, {width: '100%', height: '100%'});
-		    	clearInterval(id_frame);
+		    	// clearInterval(id_frame);
 		        elem.style.width = 100 + '%';
 		        elem.innerHTML = 100  + '%';
 
@@ -638,10 +676,19 @@ th
     		    success:function(result){
     				// console.log(result);
     				listresult = result;
+    				$('#testdata').html(JSON.stringify(listresult));
 
     				$('#total').html(listresult.list_total.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
     				$("#pageLoading").fadeOut();
+
+                    <?php if (isset($_SESSION['showSQL'])) { ?>
+                    if (result.sql1) {
+                        $("#sql1").html(result.sql1);
+                        $("#sql2").html(result.sql2);
+                        $("#sql3").html(result.sql3);
+                    }
+                    <?php } ?>
 
     			}
 
