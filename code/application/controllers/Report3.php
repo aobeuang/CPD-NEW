@@ -1,7 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require 'vendor/autoload.php';
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
-use Mpdf\Mpdf;
+//use Mpdf\Mpdf;
 class Report3 extends MY_Controller {
 
 	public function __construct()
@@ -16,7 +16,7 @@ class Report3 extends MY_Controller {
 		$this->load->driver('cache',array('adapter' => 'apc', 'backup' => 'file'));
 		$this->load->library('session');
 		$this->load->library('grocery_CRUD');
-        $this->load->library('fpdf');
+//        $this->load->library('fpdf');
 //        $this->load->library('mpdf');
 
         $secId = $this->input->get('secId');
