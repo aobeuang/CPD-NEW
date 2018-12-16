@@ -47,20 +47,31 @@ input::-webkit-inner-spin-button {
 				</div>
 			</div>
 			<div class="col-md-6 col-xs-12" >
-				<!-- ค้นหาด้วยชื่อ นามสกุล -->
-				<div id="searchbox-name" name="searchbox" class="row form-inline searchbox">
-					<div class="form-group bd-left" style="margin-bottom: 0;padding-left: 15px;">
-					    <label for="coop_membername">ค้นหาแบบสำรวจด้วยชื่อ-นามสกุล</label>
-			    		<div class="input-group input-btn-right">
-					  		<input id="coop_membername" name="coop_membername" class="form-control" type="text" min="3"  placeholder="ชื่อ-นามสกุล" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
-					  		<div class="input-group-btn">
-					  			<button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
-					    		<button class="btn btn-w-input" id="save-and-go-back-button" onclick="searchName(this);"><span class="glyphicon glyphicon-search"></span></button>
-					  		</div>
-						</div>
-				  	</div>	
-				</div>
-			</div>
+                    <!-- ค้นหาด้วยชื่อ นามสกุล -->
+                    <div id="searchbox-name" name="searchbox" class="row form-inline searchbox">
+                        <div class="form-group bd-left" style="margin-bottom: 0;padding-left: 15px;">
+                            <label for="coop_membername">ค้นหาข้อมูลสมาชิกด้วย ชื่อ-นามสกุล</label>
+                            <div class="input-group">
+                                <input id="coop_membername" name="coop_membername"
+                                       class="form-control"
+                                       style="width: 130px"
+                                       type="text" min="3"  placeholder="ชื่อ" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
+                                </div>
+                            </div>
+                            <div class="input-group input-btn-right">
+                                <input id="coop_membersurname" name="coop_membersurname"
+                                       style="width: 130px"
+                                       class="form-control" type="text" min="3"  placeholder="นามสกุล" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
+                                <div class="input-group-btn">
+                                    <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
+                                    <button class="btn btn-w-input" id="save-and-go-back-button" onclick="searchName(this);"><span class="glyphicon glyphicon-search"></span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 			<!-- ปิดฟอร์ม ค้นหาด้วยชื่อ นามสกุล -->
 		</div>	
 
@@ -171,6 +182,31 @@ table.dataTable thead .sorting_desc {
 			}
 			
 		});
+        $("#coop_membersurname").keydown(function (e) {
+            if($(this).val().length <= 0){
+                $("#coop_membersurname").parent().find('.close-icon').css('display','none');
+                $("#coop_membersurname").parent().find('#save-and-go-back-button').css('display','block');
+            }
+            if (event.keyCode == 13) {
+                searchName(this);
+            }
+            var reg = /^[a-zA-Zก-๗]+$/i;
+            var reg_num_thai = /^[๑-๗]+$/i;
+            if (e.key==" ")
+                return true;
+
+            if(reg.test(e.key) && !reg_num_thai.test(e.key) && e.key !='฿')
+            {
+                if($(this).val().length > 0){
+                    $("#coop_membersurname").parent().find('.close-icon').css('display','block');
+                    $("#coop_membersurname").parent().find('#save-and-go-back-button').css('display','none');
+                }
+                return;
+            }else{
+                e.preventDefault();
+            }
+
+        });
 		$("#citizen_id").keydown(function (e) {
 			if($(this).val().length <= 0){
 				$('#citizen_id').parent().find('.close-icon').css('display','none');
@@ -220,20 +256,32 @@ table.dataTable thead .sorting_desc {
 	});
 	function searchName(eleform){
 		var name  = $("#coop_membername").val();
+        var surname  = $("#coop_membersurname").val();
 		$("#pageLoading").fadeIn();
-		if(name.length == 0){
+		if(name.length == 0 && surname.length == 0){
 			$("#pageLoading").fadeOut();
-			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
-			setInterval(function(){
-		        $('#error-box').fadeOut();
-		    }, 3000);
-			return false;	
-		}else if(name.length < 3){
+
+			// $('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล').show();
+			// setInterval(function(){
+		    //     $('#error-box').fadeOut();
+		    // }, 3000);
+
+            $("#msg-modal-txt").html('กรุณากรอก ชื่อ หรือ นามสกุล');
+            $("#message-modal").modal();
+            return false;
+
+
+
+            return false;
+		}else if(name.length < 3 && surname.length < 3){
 			$("#pageLoading").fadeOut();
-			$('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร').show();
-			setInterval(function(){
-		        $('#error-box').fadeOut();
-		    }, 3000);
+			// $('#error-box').html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร').show();
+			// setInterval(function(){
+		    //     $('#error-box').fadeOut();
+		    // }, 3000);
+
+            $("#msg-modal-txt").html('กรุณากรอก ชื่อ หรือ นามสกุล อย่างน้อย 3 ตัวอักษร');
+            $("#message-modal").modal();
 			return false;	
 		}else{
 			getUserListByName();
@@ -320,9 +368,74 @@ table.dataTable thead .sorting_desc {
 		}
 		
 	}
-	
 	function getUserDetail(citizen_id,org_id){
-		window.location ="/index.php/survey/add_survey?citizen_id="+citizen_id;
+		$("#pageLoading").fadeIn();
+		var query=true;
+		$.ajax({
+			url:"<?php echo site_url('report2/getMemberByCitizenIDOrgID')?>",
+		    type:"GET",
+		    dataType: 'json',
+		    data:{
+		    	citizen_id:citizen_id,
+		    	org_id:org_id,
+		    	query:query,
+		    	check:true,
+		    },
+	       	success:function(result){
+	    	   //$('#data_respone').html(result.items.query);
+	    	   // console.log(result.items);
+	    	   $("#pageLoading").fadeOut();
+	    	   	if(result.items != null){
+	    	   		if(result.items == 'nopermission'){
+				    	/*$('#error-box').html('ไม่มีสิทธิ์เข้าถึงข้อมูล').show();
+						setInterval(function(){
+					        $('#error-box').fadeOut();
+					    }, 6000);*/
+					    $("#msg-modal-txt").html('ไม่สามารถเข้าดูข้อมูลได้');
+			    		$("#message-modal").modal();
+	    	   		}else{
+	    	   			var road = '';
+	    	   			var lane = '';
+	    	   			if(result.items[0].road != ''){
+	    	   				road = result.items[0].road;
+	    	   			}
+	    	   			if(result.items[0].lane){
+	    	   				lane = result.items[0].lane;
+	    	   			}
+			    		$('#mem_name').text(result.items[0].name + '  '+ result.items[0].surname);
+						$('#mem_citizen_id').text(result.items[0].citizen_id);
+						var address = result.items[0].hno+' '+lane+' '+road+' '+result.items[0].subd+' '+result.items[0].district +' '+ result.items[0].province_name;
+						$('#mem_addr').text(address);
+						var coop_list = '';
+						for(var i = 0;i<result.items.length;i++){
+					   		coop_list = coop_list+result.items[i].coop_name +'<br>';
+					   	}
+						$('#mem_coop_name').html(coop_list);
+						$('#mem_province_name').text(result.items[0].in_province_name);
+						$("#myModal").modal();
+					}
+	    	   	}else{
+	    	   		/*$('#error-box').html(result).show();
+					setInterval(function(){
+				        $('#error-box').fadeOut();
+				    }, 6000);*/
+				    $("#msg-modal-txt").html('ไม่พบข้อมูลที่ค้นหา');
+			    	$("#message-modal").modal();
+	    	   	}
+	    	    
+		    },
+		    error:function(){
+		    	$("#pageLoading").fadeOut();
+		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+				setInterval(function(){
+			        $('#error-box').fadeOut();
+			    }, 5000);*/
+			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้าหาไม่สำเร็จ');
+
+
+			    $("#message-modal").modal();
+		    }
+		});
 	}
 
 	function getUserListByID(citizen_id)
@@ -374,27 +487,37 @@ table.dataTable thead .sorting_desc {
 			    type:"GET",
 			    data:{
 			    	citizen_id:citizen_id,
-			    	cmd: 'survey'
+			    	cmd:'survey'
 			    },
-			    error:function(){
+                error: function(jqXHR, textStatus, errorThrown) {
 			    	$("#pageLoading").fadeOut();
 			    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+				    // $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+
+                    if (jqXHR.responseText == 'notfound') {
+                        $("#msg-modal-txt").html('ไม่พบข้อมูลหมายเลขบัตรประชาชนที่ต้องการค้นหา');
+                    }
+                    else {
+                        $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                    }
+                    $('#example').css('display','none');
+                    $('#example').DataTable().destroy();
 			    	$("#message-modal").modal();
 			    }  
-		 	},
-		    error:function(){
-		    	$("#pageLoading").fadeOut();
-		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
-				setInterval(function(){
-			        $('#error-box').fadeOut();
-			    }, 5000);*/
-			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
-			    $("#message-modal").modal();
-		    }  
+		 	 }
+		 	 // ,
+		    // error:function(){
+		    // 	$("#pageLoading").fadeOut();
+		    // 	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			// 	setInterval(function(){
+			//         $('#error-box').fadeOut();
+			//     }, 5000);*/
+			//     $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+			//     $("#message-modal").modal();
+		    // }
 		});
 		table.on( 'preDraw', function () {
 			 if(typeof table != 'undefined')
@@ -427,6 +550,7 @@ table.dataTable thead .sorting_desc {
 		    },
 		    initComplete : function() {
 				$('#pageLoading').fadeOut();
+				console.log('getUserListByName initComplete');
 		    },
 		    "autoWidth": false,
 		    "columns": [
@@ -439,17 +563,17 @@ table.dataTable thead .sorting_desc {
 		        { "width": "auto" }
 		    ],
 		    'columnDefs': [
+                {
+                    "targets": 0, // your case first column
+                    "className": "text-left",
+                    "width": "5%"
+                },
+                {
+                  "targets": 1, // your case first column
+                  "className": "text-left",
+                  "width": "5%"
+             },
 	    	{
-	    	      "targets": 0, // your case first column
-	    	      "className": "text-left",
-	    	      "width": "5%"
-	    	 },
-	    	{
-	    	      "targets": 1, // your case first column
-	    	      "className": "text-left",
-	    	      "width": "20%"
-	    	 },
-	    	 {
 	    	      "targets": 2, // your case first column
 	    	      "className": "text-left",
 	    	      "width": "20%"
@@ -457,10 +581,15 @@ table.dataTable thead .sorting_desc {
 	    	 {
 	    	      "targets": 3, // your case first column
 	    	      "className": "text-left",
-	    	      "width": "35%"
+	    	      "width": "20%"
 	    	 },
 	    	 {
 	    	      "targets": 4, // your case first column
+	    	      "className": "text-left",
+	    	      "width": "35%"
+	    	 },
+	    	 {
+	    	      "targets": 5, // your case first column
 	    	      "className": "text-left",
 	    	      "width": "15%"
 	    	 },
@@ -490,27 +619,45 @@ table.dataTable thead .sorting_desc {
 			    type:"GET",
 			    data:{
 			    	coop_membername:$('#coop_membername').val(),
-			    	cmd: 'survey'
+                    coop_membersurname:$('#coop_membersurname').val(),
+			    	cmd:'survey'
 			    },
-			    error:function(){
+                error: function(jqXHR, textStatus, errorThrown) {
 			    	$("#pageLoading").fadeOut();
 			    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
 					setInterval(function(){
 				        $('#error-box').fadeOut();
 				    }, 5000);*/
-				    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
+			    	if (jqXHR.responseText == 'notfound') {
+                        $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+                    }
+			    	else {
+                        $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+                    }
+
+                    $('#example2').css('display','none');
+                    $('#example2').DataTable().destroy();
 			    	$("#message-modal").modal();
-			    }  
+			    }
 		 	},
-		    error:function(){
-		    	$("#pageLoading").fadeOut();
-		    	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
-				setInterval(function(){
-			        $('#error-box').fadeOut();
-			    }, 5000);*/
-			    $("#msg-modal-txt").html('มีบางอย่างผิดพลาด ค้นหาไม่สำเร็จ');
-			    $("#message-modal").modal();
-		    }  
+		    // error:function(){
+            // error: function(jqXHR, textStatus, errorThrown) {
+		    // 	$("#pageLoading").fadeOut();
+		    // 	/*$('#error-box').html('ไม่พบข้อมูลที่ค้นหา').show();
+			// 	setInterval(function(){
+			//         $('#error-box').fadeOut();
+			//     }, 5000);*/
+			//     // $("#msg-modal-txt").html('พบข้อผิดพลาด ค้นหาไม่สำเร็จ : ' + jqXHR.responseText);
+            //
+            //     if (jqXHR.responseText == 'notfound') {
+            //         $("#msg-modal-txt").html('ไม่พบข้อมูลชื่อหรือนามสกุลที่ต้องการค้นหา');
+            //     }
+            //     else {
+            //         $("#msg-modal-txt").html('พบข้อผิดพลาด : ' + jqXHR.responseText);
+            //     }
+            //
+            //     $("#message-modal").modal();
+		    // }
 		});
 		table.on( 'preDraw', function () {
 			$("#pageLoading").fadeIn();

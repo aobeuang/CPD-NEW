@@ -49,10 +49,10 @@ input::-webkit-inner-spin-button {
 
             <div class="report-action-bar ">
 
-                <div class="col-md-5 col-xs-12" >
+                <div class="col-md-6 col-xs-12" >
                     <div id="searchbox" name="searchbox" class="row form-inline searchbox">
                         <div class="form-group" style="margin-bottom: 0;">
-                            <label for="citizen_id">ค้นหาข้อมูลสมาชิกด้วยหมายเลขบัตรประชาชน</label>
+                            <label for="citizen_id">ค้นหาข้อมูลสมาชิกด้วย หมายเลขบัตรประชาชน</label>
                             <div class="input-group input-btn-right">
                                 <input type="number" id="citizen_id" name="citizen_id"
                                        class="form-control mx-sm-3 search-input"
@@ -66,15 +66,15 @@ input::-webkit-inner-spin-button {
                         </div>
                     </div>
                 </div>
-                <div class="col-md-7 col-xs-12" >
+                <div class="col-md-6 col-xs-12" >
                     <!-- ค้นหาด้วยชื่อ นามสกุล -->
                     <div id="searchbox-name" name="searchbox" class="row form-inline searchbox">
                         <div class="form-group bd-left" style="margin-bottom: 0;padding-left: 15px;">
-                            <label for="coop_membername">ค้นหาข้อมูลสมาชิกด้วยชื่อ-นามสกุล</label>
+                            <label for="coop_membername">ค้นหาข้อมูลสมาชิกด้วย ชื่อ-นามสกุล</label>
                             <div class="input-group">
                                 <input id="coop_membername" name="coop_membername"
                                        class="form-control"
-                                       style="width: 145px"
+                                       style="width: 130px"
                                        type="text" min="3"  placeholder="ชื่อ" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
                                 <div class="input-group-btn">
                                     <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
@@ -82,7 +82,7 @@ input::-webkit-inner-spin-button {
                             </div>
                             <div class="input-group input-btn-right">
                                 <input id="coop_membersurname" name="coop_membersurname"
-                                       style="width: 145px"
+                                       style="width: 130px"
                                        class="form-control" type="text" min="3"  placeholder="นามสกุล" aria-label="Search" value="<?php echo !empty($_GET['coop_membername'])? $_GET['coop_membername']:""?>">
                                 <div class="input-group-btn">
                                     <button class="btn btn-w-input close-icon" type="reset" onclick="resetForm(this);" style="display:none;"><span class="glyphicon glyphicon-remove"></button>
