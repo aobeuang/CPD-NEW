@@ -243,8 +243,8 @@ $current_url = $_SERVER['REQUEST_URI'];
 							<li class=""><a href="<?php echo site_url('report3/index12')?>">รายงานจำนวนสมาชิกสหกรณ์ ที่เป็นสมาชิก มากกว่า 1 แห่ง</a></li>
 							<li class=""><a href="<?php echo site_url('report3/index5')?>">รายงานสถานภาพสมาชิกสหกรณ์ (ไม่นับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</a></li>	
 							<li class=""><a href="<?php echo site_url('report3/index15')?>">รายงานสถานภาพสมาชิกสหกรณ์ (โดยนับสมาชิกสหกรณ์ที่สังกัดสหกรณ์มากกว่า 1 แห่ง)</a></li>
-							<li class=""><a href="<?php echo site_url('report3/index10')?>">รายงานข้อมูลการเลี้ยงสัตว์</a></li>
-							<li class=""><a href="<?php echo site_url('report3/index11')?>">รายงานข้อมูลการทำประมง</a></li>                
+							<li class=""><a href="<?php echo site_url('report3/index10new')?>">รายงานข้อมูลการเลี้ยงสัตว์</a></li>
+							<li class=""><a href="<?php echo site_url('report3/index11new')?>">รายงานข้อมูลการทำประมง</a></li>
 		              </ul>
                      </li>  
                      <?php endif?>
