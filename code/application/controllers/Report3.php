@@ -16,7 +16,7 @@ class Report3 extends MY_Controller {
 		$this->load->driver('cache',array('adapter' => 'apc', 'backup' => 'file'));
 		$this->load->library('session');
 		$this->load->library('grocery_CRUD');
-//        $this->load->library('fpdf');
+        $this->load->library('fpdf');
 //        $this->load->library('mpdf');
 
         $secId = $this->input->get('secId');
@@ -704,6 +704,64 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
+
+    public function ajaxreport10() {
+
+
+        try {
+
+            ini_set('max_execution_time', 0);
+            ini_set("memory_limit", '-1');
+            $ci =& get_instance();
+
+            try {
+                $ci->dbext = $ci->load->database('defaultext', TRUE);
+                $data_cache = null;
+
+
+                $storedName = "begin analyticrdo.pkg_report_mis.rpt_sum_livestock(:p_cur_result, :p_total_count, :p_out_msg); end;";
+                $refcur = $this->dbext->get_cursor();
+                //             $refcur = oci_new_cursor($this->dbext->conn_id);
+                $stmt = oci_parse($this->dbext->conn_id, $storedName);
+                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
+                oci_bind_by_name($stmt, ":p_total_count", $total_animal, -1, OCI_B_INT   );
+                oci_bind_by_name($stmt, ":p_out_msg", $msg, -1, SQLT_CHR   );
+
+                $r = ociexecute($stmt);
+                oci_execute($refcur, OCI_DEFAULT);
+
+                oci_fetch_all($refcur, $list_animal_cur, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+                oci_free_statement($stmt);
+
+                $list_animal = array();
+                foreach ($list_animal_cur as $value) {
+
+                    $list_animal[] =  array('name'=>$value['ANIMAL_NAME'],'value'=> is_numeric($value['TOTAL_PRODUCED_AMOUNT'])?intval($value['TOTAL_PRODUCED_AMOUNT']):0);
+//                    $list_total_type1 = $value['TOTAL'];
+                }
+
+                $output = array();
+
+                $output['list_animal'] = $list_animal;
+                $output['total_animal'] = $total_animal;
+                $output['date'] = $this->changemonth();
+                print_r(json_encode($output));
+                die();
+
+            }
+            finally {
+
+                oci_close($ci);
+            }
+
+        }
+        catch (Exception $e) {
+            log_message("error", $e);
+            print_r(json_encode($e));
+            die();
+        }
+    }
+
 	public function ajexreport11()
 	{
 		if(canViewReport())
@@ -724,6 +782,64 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
+
+    public function ajaxreport11() {
+
+
+        try {
+
+            ini_set('max_execution_time', 0);
+            ini_set("memory_limit", '-1');
+            $ci =& get_instance();
+
+            try {
+                $ci->dbext = $ci->load->database('defaultext', TRUE);
+                $data_cache = null;
+
+
+                $storedName = "begin analyticrdo.pkg_report_mis.rpt_sum_fishery(:p_cur_result, :p_total_count, :p_out_msg); end;";
+                $refcur = $this->dbext->get_cursor();
+                //             $refcur = oci_new_cursor($this->dbext->conn_id);
+                $stmt = oci_parse($this->dbext->conn_id, $storedName);
+                oci_bind_by_name($stmt, ":p_cur_result", $refcur, -1, OCI_B_CURSOR);
+                oci_bind_by_name($stmt, ":p_total_count", $total_animal, -1, OCI_B_INT   );
+                oci_bind_by_name($stmt, ":p_out_msg", $msg, -1, SQLT_CHR   );
+
+                $r = ociexecute($stmt);
+                oci_execute($refcur, OCI_DEFAULT);
+
+                oci_fetch_all($refcur, $list_animal_cur, null, null, OCI_FETCHSTATEMENT_BY_ROW);
+                oci_free_statement($stmt);
+
+                $list_animal = array();
+                foreach ($list_animal_cur as $value) {
+
+                    $list_animal[] =  array('name'=>$value['ANIMAL_NAME'],'value'=> is_numeric($value['TOTAL_PRODUCED_AMOUNT'])?intval($value['TOTAL_PRODUCED_AMOUNT']):0);
+//                    $list_total_type1 = $value['TOTAL'];
+                }
+
+                $output = array();
+
+                $output['list_animal'] = $list_animal;
+                $output['total_animal'] = $total_animal;
+                $output['date'] = $this->changemonth();
+                print_r(json_encode($output));
+                die();
+
+            }
+            finally {
+
+                oci_close($ci);
+            }
+
+        }
+        catch (Exception $e) {
+            log_message("error", $e);
+            print_r(json_encode($e));
+            die();
+        }
+    }
+
 
     public function ajaxreport5()
     {
@@ -2394,6 +2510,20 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
+    public function index10new()
+    {
+        if(canViewReport())
+        {
+            echo $this->load->view('auth/page_header', '', TRUE);
+
+            echo $this->load->view('reports3/report10new', '', TRUE);
+
+            echo $this->load->view('auth/page_footer', '', TRUE);
+        }
+        else {
+            redirect('/', 'refresh');
+        }
+    }
 	public function index11()
 	{
 		if(canViewReport())
@@ -2408,6 +2538,21 @@ class Report3 extends MY_Controller {
 			redirect('/', 'refresh');
 		}
 	}
+
+    public function index11new()
+    {
+        if(canViewReport())
+        {
+            echo $this->load->view('auth/page_header', '', TRUE);
+
+            echo $this->load->view('reports3/report11new', '', TRUE);
+
+            echo $this->load->view('auth/page_footer', '', TRUE);
+        }
+        else {
+            redirect('/', 'refresh');
+        }
+    }
 
     public function index17PDF()
     {
