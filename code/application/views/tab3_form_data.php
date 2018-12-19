@@ -434,15 +434,15 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
         <div class="row">
             <?php $table_id = 321; include("inc_js_table_active_row.php"); ?>
 
-            <th style="text-align: center;" >ชนิดสัตว์</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่เลี้ยง(ตัว)</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่คาดว่าจะเลี้ยง(ตัว)</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่เลี้ยงไว้ขาย(ตัว)</th>
-            <th style="text-align: center;" >รายได้ต่อปี<br/>ก่อนหักค่าใช้จ่าย<br/>(บาท)</th>
-            <th style="text-align: center;" >ประมาณ<br/>ค่าใช้จ่ายการเกษตร<br/>(บาท)</th>
-            <th style="text-align: center;" >อาหารสัตว์ (กก.)</th>
-            <th style="text-align: center;" >เวชภัณท์(กก.)</th>
-            <th style="text-align: center;" >อาหารเสริม<br/>(ลิตร/กก.)</th>
+            <th style="text-align: center;vertical-align: middle;" >ชนิดสัตว์</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่เลี้ยง(ตัว)</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่คาดว่าจะเลี้ยง(ตัว)</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่เลี้ยงไว้ขาย(ตัว)</th>
+            <th style="text-align: center;vertical-align: middle;" >รายได้ต่อปี<br/>ก่อนหักค่าใช้จ่าย<br/>(บาท)</th>
+            <th style="text-align: center;vertical-align: middle;" >ประมาณ<br/>ค่าใช้จ่ายการเกษตร<br/>(บาท)</th>
+            <th style="text-align: center;vertical-align: middle;" >อาหารสัตว์ (กก.)</th>
+            <th style="text-align: center;vertical-align: middle;" >เวชภัณท์(กก.)</th>
+            <th style="text-align: center;vertical-align: middle;" >อาหารเสริม<br/>(ลิตร/กก.)</th>
             </tr>
             </thead>
             <tbody>
@@ -584,15 +584,15 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
             <?php $table_id = 322; include("inc_js_table_active_row.php"); ?>
 
-            <th  style="text-align: center;" >ชนิดสัตว์น้ำ</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่เลี้ยง(ตัว)</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่คาดว่าจะเลี้ยง(ตัว)</th>
-            <th style="text-align: center;" >จำนวนสัตว์ที่เลี้ยงไว้ขาย(ตัว)</th>
-            <th  style="text-align: center;" >รายได้ต่อปี<br/>ก่อนหักค่าใช้จ่าย<br/>(บาท)</th>
-            <th  style="text-align: center;" >ประมาณ<br/>ค่าใช้จ่ายการเกษตร<br/>(บาท)</th>
-            <th  style="text-align: center;" >อาหารสัตว์ (กก.)</th>
-            <th  style="text-align: center;" >เวชภัณท์(กก.)</th>
-            <th   style="text-align: center;" >อาหารเสริม  (ลิตร/กก.)</th>
+            <th  style="text-align: center;vertical-align: middle;" >ชนิดสัตว์น้ำ</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่เลี้ยง(ตัว)</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่คาดว่าจะเลี้ยง(ตัว)</th>
+            <th style="text-align: center;vertical-align: middle;" >จำนวนสัตว์ที่เลี้ยงไว้ขาย(ตัว)</th>
+            <th  style="text-align: center;vertical-align: middle;" >รายได้ต่อปี<br/>ก่อนหักค่าใช้จ่าย<br/>(บาท)</th>
+            <th  style="text-align: center;vertical-align: middle;" >ประมาณ<br/>ค่าใช้จ่ายการเกษตร<br/>(บาท)</th>
+            <th  style="text-align: center;vertical-align: middle;" >อาหารสัตว์ (กก.)</th>
+            <th  style="text-align: center;vertical-align: middle;" >เวชภัณท์(กก.)</th>
+            <th   style="text-align: center;vertical-align: middle;" >อาหารเสริม  (ลิตร/กก.)</th>
             </tr>
             </thead>
             <tbody>
@@ -759,14 +759,14 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
                 <tr>
-                    <td>1</td>
+                    <td class="text-center">1</td>
                     <td> ปุ๋ยเคมี</td>
                     <td> </td>
                     <td> </td>
                     <td> </td><td> </td>
                 </tr>
                 <tr><?php  $chm_no = 1; $chm1 = 46; $chm2 = 0; $chm3 = 0; ?>
-                    <td></td>
+                    <td class="text-center"></td>
 
                     <td>1.<?php echo $chm_no; ?> สูตร <?php echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -782,7 +782,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 </tr>
 
                 <tr> <?php  $chm_no = 2; $chm1 = 15; $chm2 = 15; $chm3 = 15; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td>1.<?php echo $chm_no; ?> สูตร <?php echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -796,7 +796,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 </tr>
 
                 <tr> <?php  $chm_no = 3; $chm1 = 16; $chm2 = 20; $chm3 = 0; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td>1.<?php echo $chm_no; ?> สูตร <?php echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -811,7 +811,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
 
 
                 <tr> <?php  $chm_no = 4; $chm1 = 'other'; $chm2 = 'other'; $chm3 = 'other'; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td>1.<?php echo $chm_no; ?> อื่นๅ <?php /*echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3;*/ ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -826,7 +826,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 </tr>
 
                 <tr> <?php  $chm_no = 2; $chm1 = 'intr'; $chm2 = 'intr'; $chm3 = 'intr'; ?>
-                    <td><?php  echo $chm_no; ?></td>
+                    <td class="text-center"><?php  echo $chm_no; ?></td>
 
                     <td> ปุ๋ยอินทรีย์ <?php /*echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3;*/ ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -840,14 +840,14 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 </tr>
 
                 <tr>
-                    <td>3</td>
+                    <td class="text-center">3</td>
                     <td>ยาปราบศัตรูพืช</td>
                     <td> </td>
                     <td> </td>
                     <td> </td><td> </td>
                 </tr>
                 <tr> <?php  $chm_no = 1; $chm1 = 'water'; $chm2 = 'water'; $chm3 = 'water'; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td>3.<?php echo $chm_no; ?> ชนิดน้ำ <?php /* echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; */ ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -861,7 +861,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                     <?php } ?>
                 </tr>
                 <tr> <?php  $chm_no = 2; $chm1 = 'c'; $chm2 = 'c'; $chm3 = 'c'; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td>3.<?php echo $chm_no; ?> ชนิดเม็ด/ผง<?php /* echo $chm1; ?> - <?php echo $chm2; ?> - <?php echo $chm3; */ ?></td>
                     <?php for($j=1;$j<=2;$j++){ ?>
@@ -874,7 +874,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                     <?php } ?>
                 </tr>
                 <tr>
-                    <td>4</td>
+                    <td class="text-center">4</td>
                     <td> เมล็ดพันธุ์</td>
                     <td> </td>
                     <td> </td>
@@ -898,7 +898,7 @@ $product_sale_comment = $product_sale_comment==null ? array():$product_sale_comm
                 </tr>
                 
                 <tr> <?php  $chm_no = 2; $chm1 = 'seed'; ?>
-                    <td><?php //echo $chm_no; ?></td>
+                    <td class="text-center"><?php //echo $chm_no; ?></td>
 
                     <td><div class="pull-left">4.<?php echo $chm_no; ?>&nbsp;&nbsp;</div>
                     <div style="display: block; overflow: hidden;"><input class="form-control input-no-spinner"  type="text" name="chm<?php echo $chm_no; ?>_<?php echo $chm1; ?>_text[<?php echo $j; ?>]" value="<?php if(isset($user_survey_data[strtoupper('chm'.$chm_no.'_'.$chm1)])) {

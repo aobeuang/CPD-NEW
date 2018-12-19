@@ -1595,48 +1595,47 @@ if(isset($user_survey_data[strtoupper('do_buz2')]) && $user_survey_data[strtoupp
 		<div class="row">
 			<div class="col-md-12">
 				<ul class="list-unstyled">
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[0]" id="do_buz1" <?php if (in_array(1, $do_buz2)) echo "checked=checked"?>  value="1"> <span>ด้านทุน</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[1]" id="do_buz2" <?php if (in_array(2, $do_buz2)) echo "checked=checked"?> value="2"> <span>ด้านแรงงาน</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[2]" id="do_buz3"  <?php if (in_array(3, $do_buz2)) echo "checked=checked"?> value="3"> <span>ด้านปัจจัยและเทคโนโลยีการผลิต</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[3]" id="do_buz4"  <?php if (in_array(4, $do_buz2)) echo "checked=checked"?> value="4"> <span>ด้านการตลาด</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[4]" id="do_buz5" <?php if (in_array(5, $do_buz2)) echo "checked=checked"?> value="5"> <span>องค์ความรู้</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[5]" id="do_buz6" <?php if (in_array(6, $do_buz2)) echo "checked=checked"?> value="6"> <span>โรคระบาด</span>
 					</label>
 				</li>
-				<div class="col-md-12" style="padding: 0">
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[6]" id="do_buz7"  <?php if (in_array(7, $do_buz2)) echo "checked=checked"?> value="7"> <span>ปัจจัยการผลิด</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[7]" id="do_buz8" <?php if (in_array(8, $do_buz2)) echo "checked=checked"?> value="8"> <span>ที่ดินทำกิน</span>
 					</label>
 				</li>
-				<li class="col-md-2">
+				<li class="col-md-3">
 					<label>
 						<input type="checkbox" name="do_buz2[8]" id="do_buz9"  <?php if (in_array(9, $do_buz2)) echo "checked=checked"?> value="9"> <span>ด้านภัยพิบัติ</span>
 						<!-- <input type="text" name="do_buz_text" id="do_buz4" class="col-md-7 form-control" style="margin-left: 6px;" value=""> -->
@@ -1655,7 +1654,6 @@ if(isset($user_survey_data[strtoupper('do_buz2')]) && $user_survey_data[strtoupp
 					</label>
 					<input   onclick="$('#do_buz10').prop('checked', true);" onkeyup="$('#do_buz10').prop('checked', true);"   onkeypress="$('#do_buz10').prop('checked', true);return isAlphaNumeric(event);" type="text" name="do_buz_text" id="do_buz429" class="form-control"  style="margin-left: 6px;" value="<?php if(in_array(10, $do_buz2) && isset($user_survey_data[strtoupper('do_buz_text')])) {echo strip_tags($user_survey_data[strtoupper('do_buz_text')]);}?>" >
 				</li>
-				</div>
 				</ul>
 			</div>
 		</div>

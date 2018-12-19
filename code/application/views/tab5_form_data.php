@@ -64,7 +64,7 @@
 
                 for($j=0;$j<count($list_label);$j++){ //echo "<pre>"; print_r($user_survey_data[strtoupper('tab5_debt_normal_'.$list_arr_name[$j])]);echo "</pre>";
                     $no = $j;?>
-                    <tr> <td><?php  $no++;echo $no; ?></td><td>
+                    <tr> <td style="text-align: center;"><?php  $no++;echo $no; ?></td><td>
 
                             <table style="width:100%;"><tr> <td style="border-top:0px;vertical-align:baseline;">  <?php echo $list_label[$j]; ?>
 

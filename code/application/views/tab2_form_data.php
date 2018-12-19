@@ -288,47 +288,49 @@
                 </label>
             </div>
             
-           <div class="col-md-12 col-xs-12" style="margin-bottom:-10px;">
-              	&#160;
-           </div>
-            <ul class="list-unstyled">
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_shallow_well_own" name="water_shallow_well_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_shallow_well_own[$ir]) && $water_shallow_well_own[$ir]==true) echo "checked=checked"?>     value="1"> <span>บ่อน้ำตื้นของตนเอง</span>
-                </label>
-            </li>
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_groundwater_wells_own" name="water_groundwater_wells_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_groundwater_wells_own[$ir]) && $water_groundwater_wells_own[$ir]==true) echo "checked=checked"?>  value="2"> <span>บ่อบาดาลของตนเอง</span>
-                </label>
-            </li>            
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_ponds_own" name="water_ponds_own[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_ponds_own[$ir]) && $water_ponds_own[$ir]==true) echo "checked=checked"?>    value="3"> <span>สระน้ำของตนเอง</span>
-                </label>
-            </li>       
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_groundwater_wells_public" name="water_groundwater_wells_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_groundwater_wells_public[$ir]) && $water_groundwater_wells_public[$ir]==true) echo "checked=checked"?>     value="4"> <span>บ่อบาดาลสาธารณะ</span>
-                </label>
-            </li>    
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_swamp_public" name="water_swamp_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>   <?php if (isset($water_swamp_public[$ir]) && $water_swamp_public[$ir]==true) echo "checked=checked"?>    value="5"> <span>หนอง/สระสาธารณะ</span>
-                </label>
-            </li>            
-            <li class="col-md-3 col-xs-12">
-                <label class="water">
-                    <input type="checkbox" id="water_Irrigation_canal_public" name="water_Irrigation_canal_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_Irrigation_canal_public[$ir]) && $water_Irrigation_canal_public[$ir]==true) echo "checked=checked"?>    value="6"> <span>คลองชลประทานสาธารณะ</span>
-                </label>
-            </li>         
-            <li class="col-md-3 col-xs-12">
-                <label class="water" >
-                    <input type="checkbox" id="water_river_public" name="water_river_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_river_public[$ir]) && $water_river_public[$ir]==true) echo "checked=checked"?>   value="7"> <span>แม่น้ำสาธารณะ</span>
-                </label>
-            </li> 
-           	</ul>
-                                    
+            <div class="col-md-12" style="padding: 0;">
+            <div class="col-md-2"> 
+            </div>
+            <div class="col-md-10" style="padding: 0;"> 	
+                <ul class="list-unstyled">
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_shallow_well_own" name="water_shallow_well_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_shallow_well_own[$ir]) && $water_shallow_well_own[$ir]==true) echo "checked=checked"?>     value="1"> <span>บ่อน้ำตื้นของตนเอง</span>
+                    </label>
+                </li>
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_groundwater_wells_own" name="water_groundwater_wells_own[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_groundwater_wells_own[$ir]) && $water_groundwater_wells_own[$ir]==true) echo "checked=checked"?>  value="2"> <span>บ่อบาดาลของตนเอง</span>
+                    </label>
+                </li>            
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_ponds_own" name="water_ponds_own[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_ponds_own[$ir]) && $water_ponds_own[$ir]==true) echo "checked=checked"?>    value="3"> <span>สระน้ำของตนเอง</span>
+                    </label>
+                </li>       
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_groundwater_wells_public" name="water_groundwater_wells_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?> <?php if (isset($water_groundwater_wells_public[$ir]) && $water_groundwater_wells_public[$ir]==true) echo "checked=checked"?>     value="4"> <span>บ่อบาดาลสาธารณะ</span>
+                    </label>
+                </li>    
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_swamp_public" name="water_swamp_public[]" class="water" <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>   <?php if (isset($water_swamp_public[$ir]) && $water_swamp_public[$ir]==true) echo "checked=checked"?>    value="5"> <span>หนอง/สระสาธารณะ</span>
+                    </label>
+                </li>            
+                <li class="col-md-3 col-xs-12">
+                    <label class="water">
+                        <input type="checkbox" id="water_Irrigation_canal_public" name="water_Irrigation_canal_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_Irrigation_canal_public[$ir]) && $water_Irrigation_canal_public[$ir]==true) echo "checked=checked"?>    value="6"> <span>คลองชลประทานสาธารณะ</span>
+                    </label>
+                </li>         
+                <li class="col-md-3 col-xs-12">
+                    <label class="water" >
+                        <input type="checkbox" id="water_river_public" name="water_river_public[]" class="water"  <?php if(isset($water[$ir])){ if($water[$ir]==0){  echo ' disabled  ';   } } ?>  <?php if (isset($water_river_public[$ir]) && $water_river_public[$ir]==true) echo "checked=checked"?>   value="7"> <span>แม่น้ำสาธารณะ</span>
+                    </label>
+                </li> 
+               	</ul>
+            </div>  
+            </div>                
             <script type="text/javascript">
                 <?php if($mode!="view"){ ?>$(".water").css('display','none'); <?php } ?>
 				function waterSwitch(value){

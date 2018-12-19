@@ -33,7 +33,7 @@
         });
 
 // Delete last row in the table
-        $('#btnDelLastRow<?php echo $table_id; ?>').on('click', function() {
+       /* $('#btnDelLastRow<?php echo $table_id; ?>').on('click', function() {
             var lenRow = $('#tblAddRow<?php echo $table_id; ?> tbody tr').length;
             //alert(lenRow);
             if (lenRow == 1 || lenRow <= 1) {
@@ -41,14 +41,15 @@
             } else {
                 $('#tblAddRow<?php echo $table_id; ?> tbody tr:last').remove();
             }
-        });
+        });*/
 
 // Delete row on click in the table
         $('#tblAddRow<?php echo $table_id; ?>').on('click', 'tr a', function(e) {
             var lenRow = $('#tblAddRow<?php echo $table_id; ?> tbody tr').length;
             e.preventDefault();
             if (lenRow == 1 || lenRow <= 1) {
-                alert("ท่านไม่สามารถลบทั้งหมดได้คะ อย่างน้อยต้องเหลือไว้หนึ่งแถวข้อมูล!");
+                $("#msg-modal-txt").html('ท่านไม่สามารถลบทั้งหมดได้ค่ะ อย่างน้อยต้องเหลือไว้หนึ่งแถวข้อมูล!');
+                $("#message-modal").modal();
             } else {
                 $(this).parents('tr').remove();
             }
@@ -61,7 +62,8 @@
             var row	= $("#tblAddRow<?php echo $table_id; ?> tbody .checkboxcol input[type='checkbox']:checked").parent().parent();
             //alert(lenRow + ' - ' + lenChecked);
             if (lenRow == 1 || lenRow <= 1 || lenChecked >= lenRow) {
-                alert("ท่านไม่สามารถลบทั้งหมดได้คะ อย่างน้อยต้องเหลือไว้หนึ่งแถวข้อมูล!");
+                $("#msg-modal-txt").html('ท่านไม่สามารถลบทั้งหมดได้ค่ะ อย่างน้อยต้องเหลือไว้หนึ่งแถวข้อมูล!');
+                $("#message-modal").modal();
             } else {
                 row.remove();
             }
@@ -77,9 +79,9 @@
 <button id="btnAddRow<?php echo $table_id; ?>" type="button" class="btn btn-default">
     <span class="glyphicon glyphicon-plus"></span> เพิ่มข้อมูล
 </button>
-<button id="btnDelLastRow<?php echo $table_id; ?>" type="button" class="btn btn-default">
+<!-- <button id="btnDelLastRow<?php echo $table_id; ?>" type="button" class="btn btn-default">
     <span class="glyphicon glyphicon-trash"></span> ลบข้อมูลแถวสุดท้าย
-</button>
+</button> -->
 <button id="btnDelCheckRow<?php echo $table_id; ?>" type="button" class="btn btn-default">
     <span class="glyphicon glyphicon-trash"></span> ลบแถวข้อมูลที่เลือก
 </button>
