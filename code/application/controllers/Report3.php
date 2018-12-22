@@ -745,6 +745,74 @@ class Report3 extends MY_Controller {
                 $output['list_animal'] = $list_animal;
                 $output['total_animal'] = $total_animal;
                 $output['date'] = $this->changemonth();
+
+                $output['sql1'] = $storedName;
+                $output['sql2'] = "-- project_code ปีล่าสุด
+      select max(project_code)
+      into v_lastest_year
+      from mv_oae_sum_type_year;
+      
+      -- จำนวนรวม
+      select sum(t.produced_amount) produced_amount
+      into p_out_total_count
+          from analyticrdo.mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+         where g.group_code = 2
+           and project_code = 2561
+           and produced_unit = 'ตัว';
+           
+      
+      -- รายงานข้อมูล
+      open p_cur_result for
+      with animal as
+       (select 'เป็ด' animal_name
+          from dual
+        union all
+        select 'สุกร' animal_name
+          from dual
+        union all
+        select 'โคเนื้อ' animal_name
+          from dual
+        union all
+        select 'โคนม' animal_name
+          from dual
+        union all
+        select 'ไก่' animal_name
+          from dual
+        union all
+        select 'กระบือ' animal_name
+          from dual
+        union all
+        select 'แพะ' animal_name
+          from dual),
+      q_produce_animal as
+       (select t.type, t.type_detail, a.animal_name, sum(t.produced_amount) produced_amount
+          from analyticrdo.mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+          join animal a
+            on (t.type like '%' || a.animal_name || '%' or
+               t.type_detail like '%' || a.animal_name || '%')
+         where g.group_code = 2
+           and project_code = v_lastest_year
+           and produced_unit = 'ตัว'
+         group by t.type, t.type_detail, a.animal_name),
+      q_produce_others as
+       (select t.type, t.type_detail, 'อื่นๆ' animal_name, sum(t.produced_amount) produced_amount
+          from analyticrdo.mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+         where g.group_code = 2
+           and project_code = v_lastest_year
+           and produced_unit = 'ตัว'
+           and (t.type, t.type_detail) not in
+               (select type, type_detail from q_produce_animal)
+         group by t.type, t.type_detail)
+      select animal_name, sum(produced_amount) total_produced_amount from q_produce_animal group by animal_name
+      union all
+      select animal_name, sum(produced_amount) total_produced_amount from q_produce_others group by animal_name;";
+
                 print_r(json_encode($output));
                 die();
 
@@ -823,6 +891,70 @@ class Report3 extends MY_Controller {
                 $output['list_animal'] = $list_animal;
                 $output['total_animal'] = $total_animal;
                 $output['date'] = $this->changemonth();
+
+
+                $output['sql1'] = $storedName;
+                $output['sql2'] = " -- project_code ปีล่าสุด
+      select max(project_code)
+      into v_lastest_year
+      from mv_oae_sum_type_year;
+    
+      -- จำนวนรวม
+      select sum(t.produced_amount) produced_amount
+      into p_out_total_count
+          from mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+         where g.group_code = 3
+           and project_code = 2561
+           and produced_unit = 'ตัว';
+           
+      -- รายงานข้อมูล
+      open p_cur_result for
+      with animal as
+       (select 'ทับทิม' animal_name
+          from dual
+        union all
+        select 'ดุก' animal_name
+          from dual
+        union all
+        select 'ตะเพียน' animal_name
+          from dual
+        union all
+        select 'นิล' animal_name
+          from dual
+        union all
+        select 'สวาย' animal_name
+          from dual
+          ),
+      q_produce_animal as
+       (select t.type, t.type_detail, a.animal_name, sum(t.produced_amount) produced_amount
+          from analyticrdo.mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+          join animal a
+            on (t.type like '%' || a.animal_name || '%' or
+               t.type_detail like '%' || a.animal_name || '%')
+         where g.group_code = 3
+           and project_code = v_lastest_year
+           and produced_unit = 'ตัว'
+         group by t.type, t.type_detail, a.animal_name),
+      q_produce_others as
+       (select t.type, t.type_detail, 'อื่นๆ' animal_name, sum(t.produced_amount) produced_amount
+          from analyticrdo.mv_oae_sum_type_year t
+          join analyticrdo.group_type g
+            on g.type = t.type
+         where g.group_code = 3
+           and project_code = v_lastest_year
+           and produced_unit = 'ตัว'
+           and (t.type, t.type_detail) not in
+               (select type, type_detail from q_produce_animal)
+         group by t.type, t.type_detail)
+      select 'ปลา' || animal_name as animal_name, sum(produced_amount) total_produced_amount from q_produce_animal group by animal_name
+      union all
+      select 'ปลา' || animal_name as animal_name, sum(produced_amount) total_produced_amount from q_produce_others group by animal_name;";
+
+
                 print_r(json_encode($output));
                 die();
 
@@ -2692,6 +2824,7 @@ class Report3 extends MY_Controller {
 
 			$spreadsheet->getActiveSheet()->getStyle($strFilds3)->getAlignment()->applyFromArray(['horizontal' => \PhpOffice\PhpSpreadsheet\Style\Alignment::HORIZONTAL_CENTER,
 					'vertical' => \PhpOffice\PhpSpreadsheet\Style\Alignment::VERTICAL_CENTER,]);
+
 
 
 //		 		$writer = new Xlsx($spreadsheet);

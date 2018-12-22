@@ -105,6 +105,7 @@ class Survey extends MY_Controller {
 			
 			$coops = getMemberByCitizenID($citizen_id);
 
+
 			$data = array();
 			$pcheck = 0;
 
@@ -186,6 +187,119 @@ class Survey extends MY_Controller {
 		}
 			
 	}
+
+    public function index1_v2()
+    {
+        if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id'))
+            && (canViewReport() || canAdd()))
+        {
+
+            $citizen_id = isset($_GET['citizen_id'])? trim($_GET['citizen_id']): "";
+
+
+            $export = isset($_GET['exportdata'])?trim($_GET['exportdata']):"";
+
+            if(!empty($export))
+            {
+                die();
+            }
+            echo $this->load->view('auth/page_header', '', TRUE);
+
+            if (strlen($citizen_id)>0 && strlen($citizen_id) != 13 && !is_numeric($citizen_id))
+            {
+                echo $this->load->view('survey_error', array('message'=>'หมายเลขบัตรประชาชนไม่ถูกต้อง'), TRUE);
+
+                echo $this->load->view('auth/page_footer', '', TRUE);
+
+                die();
+            }
+
+
+            $year = getSelectedSurveyYear();
+
+            $coops = getMemberByCitizenID($citizen_id);
+
+
+            $data = array();
+            $pcheck = 0;
+
+            $user_id = $this->session->userdata('auth_user_id');
+            $user = getUser($user_id);
+
+            $role_user = $this->session->userdata('auth_role');
+
+            $detail_user = getOrgByID($user['org_id']);
+
+            if (!empty($citizen_id)){
+                foreach ($coops as $key => $value) {
+                    $coop = getCoopByID($value['COOP_ID']);
+
+                    if ($role_user == 'notcentral_normal') {
+
+                        if ($coop['ORG_ID'] == $user['org_id']) {
+                            $data[$key] = getDataCitizen($coop,$value);
+                        }else if ($coop['PROVINCE_ID'] == $detail_user['province_id']){
+                            $data[$key] = getDataCitizen($coop,$value);
+                        }else{
+                            $pcheck = 1;
+                        }
+
+                    }else if ($role_user == 'notcentral_manager') {
+
+                        $khet = getOrgByID($coop['ORG_ID']);
+                        $real_khet = null;
+                        $user_khet = null;
+                        if ($khet['khet_id'] == 99) {
+                            $real_khet = 1;
+                        }else{
+                            $real_khet = $khet['khet_id'];
+                        }
+                        if ($detail_user['khet_id'] == 99) {
+                            $user_khet = 1;
+                        }else{
+                            $user_khet = $detail_user['khet_id'];
+                        }
+
+                        if ($real_khet == $user_khet) {
+                            $data[$key] = getDataCitizen($coop,$value);
+                        }else{
+                            $pcheck = 1;
+                        }
+
+                    }else{
+                        $data[$key] = getDataCitizen($coop,$value);
+                    }
+
+
+                }
+            }
+
+
+
+
+            $existing_surveys = getAllSurveyRecordByCitizenIDYear($citizen_id);
+
+            $output = array(
+                'citizen_id' => $citizen_id,
+                'year' => $year,
+                'coop_members' => $data,
+                'permission' => $pcheck,
+                'surveys' => $existing_surveys,
+                'role'	=> $role_user,
+            );
+
+
+            echo $this->load->view('survey/survey_v2', $output, TRUE);
+
+            echo $this->load->view('auth/page_footer', '', TRUE);
+
+            die();
+        }
+        else
+        {
+            redirect('/');
+        }
+    }
 
 	public function add_survey()
 	{

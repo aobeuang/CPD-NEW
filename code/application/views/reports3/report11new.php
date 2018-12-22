@@ -49,7 +49,26 @@ $this->load->helper('survey');
 	<div id="main-wrapper">
 		<span>Page Code : MIS900</span>
 		<div id="main-container" class="container-fluid col-md-12 col-xs-12">
-		
+
+            <?php
+            if (isset($_SESSION['showSQL'])) {
+
+                if (isset($_SESSION['showSQL'])) {
+                    echo "<pre>
+                         /* Oracle Stored Procedure  */
+                          <span id='sql1'></span>
+                        </pre>".
+                        "<pre>
+                         
+                         /* Script */
+                          <span id='sql2'></span>
+                        </pre>"
+
+                    ;
+                }
+            }
+            ?>
+
 			<h2><span class="glyphicon glyphicon-stats"></span> รายงานข้อมูลการทำประมง</h2>
 			<div id="right-container" class="col-md-12 col-xs-12">
 				<div class="row">
@@ -232,6 +251,13 @@ $(document).ready(function() {
 			$('#total').html(parseFloat(listresult.total_animal).toLocaleString('en'));
 			google.charts.setOnLoadCallback(drawType);
             $('#pageLoading').fadeOut();
+
+            <?php if (isset($_SESSION['showSQL'])) { ?>
+            if (result.sql1) {
+                $("#sql1").html(result.sql1);
+                $("#sql2").html(result.sql2);
+            }
+            <?php } ?>
 	        
 		}
 
