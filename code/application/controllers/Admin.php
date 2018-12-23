@@ -179,7 +179,7 @@ class Admin extends MY_Controller {
 
 		$sequence_tablename = "USERS_SEQUENCE";
 		$query = $this->db->query(" SELECT $sequence_tablename.nextval as nextvalue FROM dual ");
-		$result = $query->result_array();;
+		$result = $query->result_array();
 		$nextvalue = !empty($result) && isset($result[0]['NEXTVALUE']) ? $result[0]['NEXTVALUE']: 1;
 		if (empty($nextvalue))
 		{
@@ -1765,6 +1765,137 @@ public function changeUsersCall($citizen = null)
 			redirect('/', 'refresh');
 		}
 	}
+
+    public function add_survey_1_v2($citizen_id=0)
+    {  //if(!isset($citizen_id)){ if(isset($_GET['citizen_id'])){ $citizen_id=$_GET['citizen_id']; }}
+        if($this->session->userdata('auth_user_id')!=null && is_numeric($this->session->userdata('auth_user_id')))
+        {
+            if (!canAdd())
+            {
+                echo $this->load->view('auth/page_header', '', TRUE);
+
+                echo $this->load->view('survey_error', array('message'=>'ไม่มีสิทธิเพิ่มแบบสำรวจ'), TRUE);
+
+                echo $this->load->view('auth/page_footer', '', TRUE);
+
+                die();
+            }
+
+
+
+            if(strlen($citizen_id)!=13)
+            {   //echo 2; exit;
+                redirect('admin/add_survey_v2', 'refresh');
+            }
+
+            // check access
+// 			checkSuspiciousActivityMahadthai($citizen_id, "Add Survey 1", getSelectedSurveyYear());
+
+            $output = array();
+
+            $step = isset($_GET['step'])? $_GET['step']: "";
+            $coop_id = isset($_GET['coop'])? $_GET['coop']: "";
+            $coop = null;
+
+            if (!empty($coop_id) && !is_numeric($coop_id))
+            {
+                echo $this->load->view('auth/page_header', '', TRUE);
+
+                echo $this->load->view('survey_error', array('message'=>'รหัสสหกรณ์ไม่มีอยู่'), TRUE);
+
+                echo $this->load->view('auth/page_footer', '', TRUE);
+
+                die();
+            }
+
+            if (!empty($coop_id))
+            {
+                $coop = getCoopByID($coop_id);
+                if (empty($coop_id))
+                {
+                    echo $this->load->view('auth/page_header', '', TRUE);
+
+                    echo $this->load->view('survey_error', array('message'=>'รหัสสหกรณ์ไม่มีอยู่'), TRUE);
+
+                    echo $this->load->view('auth/page_footer', '', TRUE);
+
+                    die();
+                }
+
+                if (!canViewSurveyByCoop($coop_id))
+                {
+                    echo $this->load->view('auth/page_header', '', TRUE);
+
+                    echo $this->load->view('survey_error', array('message'=>'ไม่มีสิทธิเข้าถึงข้อมูลสหกรณ์  '.$coop['COOP_NAME_TH'].', '.$coop['PROVINCE_NAME']), TRUE);
+
+                    echo $this->load->view('auth/page_footer', '', TRUE);
+
+                    die();
+                }
+
+
+            }
+
+
+
+            if ($step=="1")
+            {   //echo 3; exit;
+                //	echo $this->load->view('auth/page_header', '', TRUE);
+                $data_mahadthai = array();
+                $data_farmer_one = array();
+                // load data from MAHADTHAI and check if information is there
+                $data_mahadthai = getMahadthaiByCitizenID($citizen_id);
+
+                // Load data from FarmerOne and check if information is there
+                /////$data_farmer_one = getFarmerOneByCitizenID($citizen_id);
+                $data_getAllprovinces = getAllProvinces();
+                // if there is info from $mahadthai_table or $farmer_one_table, autofill the form
+                $default_data = array(
+
+                );
+
+
+                // save to survey db
+                // citizen_already_in_f1 - ถ้ามีข้อมูลใน FarmerOne ใส่ค่า Column เป็น TRUE
+                // User ไม่ต้องกรอกข้อมูล
+
+                $already_have_data_in_farmer1 = !empty($data_farmer_one)? true: false;
+
+                echo $this->load->view('auth/page_header', '', TRUE);
+
+                $master = $this->loadSurveyMaster();
+
+                $output = array(
+                    'default_data' => $default_data,
+                    'already_have_data_in_farmer1' => $already_have_data_in_farmer1,
+                    'citizen_id' => $citizen_id,
+                    'mahadthai' => $data_mahadthai,
+                    'coop' => $coop,
+                    'data_farmer_one' => $data_farmer_one,
+                    'data_getAllprovinces'=>$data_getAllprovinces,
+                    'data_getAllPrefix' => $master['mst_prefix'][0],
+                    'data_getAllMaritalStatus' => $master['mst_marital_status']
+                );
+
+                echo $this->load->view('survey_add_v2', $output, true);
+
+
+                echo $this->load->view('auth/page_footer', '', TRUE);
+
+                die();
+            }
+
+            echo $this->load->view('auth/page_header', '', TRUE);
+
+
+            echo $this->load->view('auth/page_footer', '', TRUE);
+
+        }
+        else
+        {
+            redirect('/', 'refresh');
+        }
+    }
 	
 	public function add_survey_1_old($citizen_id)
 	{
@@ -2718,6 +2849,26 @@ public function changeUsersCall($citizen = null)
 
 		        // return date('Y-m-d', strtotime($val));
 		}
+
+		public function loadSurveyMaster() {
+
+            $query = $this->db->query(" select * from mst_prefix order by order_no");
+            $mst_prefix = $query->result();
+
+            $query = $this->db->query(" select * from mst_marital_status order by order_no");
+            $mst_marital_status = $query->result();
+
+
+
+            $output = array(
+                'mst_prefix' => $mst_prefix,
+                'mst_marital_status' => $mst_marital_status
+            );
+            return $output;
+
+
+
+        }
 	
 
 

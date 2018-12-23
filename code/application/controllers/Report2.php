@@ -2711,7 +2711,15 @@ class Report2 extends MY_Controller {
 							$temp_data[] ="<a href='/index.php/admin/do_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."&mode=view'><i class='fa fa-eye'></i> <strong>ดู</strong></a>&nbsp;&nbsp;
 								<a href='/index.php/admin/do_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><img src='/assets/default/images/edit-495057.png' width='12px'> <strong>แก้ไข</strong></a>&nbsp;&nbsp;
 								<a href='/index.php/admin/add_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><i class='fa fa-plus'></i> <strong>เพิ่ม</strong></a>";
-						}else{
+
+						}
+                        else if(!empty($cmd)&& $cmd == 'survey_v2'){
+                            $temp_data[] ="<a href='/index.php/admin/do_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."&mode=view'><i class='fa fa-eye'></i> <strong>ดู</strong></a>&nbsp;&nbsp;
+								<a href='/index.php/admin/do_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><img src='/assets/default/images/edit-495057.png' width='12px'> <strong>แก้ไข</strong></a>&nbsp;&nbsp;
+								<a href='/index.php/admin/add_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><i class='fa fa-plus'></i> <strong>เพิ่ม</strong></a>";
+
+                        }
+						else{
 							$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].",".$value['IN_D_COOP'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 						}
 						$data_temp[]=$temp_data;
@@ -2741,7 +2749,13 @@ class Report2 extends MY_Controller {
 							$temp_data[] ="<a href='/index.php/admin/do_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."&mode=view'><i class='fa fa-eye'></i> <strong>ดู</strong></a>&nbsp;&nbsp;
 								<a href='/index.php/admin/do_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><img src='/assets/default/images/edit-495057.png' width='12px'> <strong>แก้ไข</strong></a>&nbsp;&nbsp;
 								<a href='/index.php/admin/add_survey_1/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><i class='fa fa-plus'></i> <strong>เพิ่ม</strong></a>";
-						}else{
+						}
+                        if(!empty($cmd)&& $cmd == 'survey_v2'){
+                            $temp_data[] ="<a href='/index.php/admin/do_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."&mode=view'><i class='fa fa-eye'></i> <strong>ดู</strong></a>&nbsp;&nbsp;
+								<a href='/index.php/admin/do_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><img src='/assets/default/images/edit-495057.png' width='12px'> <strong>แก้ไข</strong></a>&nbsp;&nbsp;
+								<a href='/index.php/admin/add_survey_1_v2/".$value['OU_D_ID']."/?coop=".$value['IN_D_COOP']."&step=1&org=".$coop['ORG_ID']."&citizen_id=".$value['OU_D_ID']."' ><i class='fa fa-plus'></i> <strong>เพิ่ม</strong></a>";
+                        }
+						else{
 							$temp_data[] ="<a href='javascript:void(0)' onclick='getUserDetail(".$value['OU_D_ID'].",".$value['IN_D_COOP'].");'><i class='fa fa-eye'></i> <strong>ดูรายละเอียด</strong></a>";
 						}
 						$data_temp[]=$temp_data;

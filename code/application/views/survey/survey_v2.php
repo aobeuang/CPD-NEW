@@ -26,7 +26,7 @@ input::-webkit-inner-spin-button {
 		<div style="text-align:left;display: inline-block;width: 100%;margin-bottom: 10px;">
 		
 		
-			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> ค้นหาแบบสำรวจ</h2>
+			<h2 style="text-align:left"><span class="glyphicon glyphicon-th-list"></span> ค้นหาแบบสำรวจ v2</h2>
 			
 			<!-- <a href="<?php echo site_url('survey/add_survey_v2')?>" class="floatR"><i class="glyphicon glyphicon-plus"></i>  เพิ่มแบบสำรวจโดยกรอกข้อมูลสมาชิกเอง</a> -->
 		</div>
@@ -453,8 +453,11 @@ table.dataTable thead .sorting_desc {
 	        pageResize: true,
 	    	"destroy": true,
 			"bServerSide": false,
-		    initComplete : function() {
+		    initComplete : function(settings, json) {
 				$('#pageLoading').fadeOut();
+				// alert(JSON.stringify(json));
+
+
 		    },
 		    "autoWidth": false,
 		    "columns": [
@@ -487,7 +490,7 @@ table.dataTable thead .sorting_desc {
 			    type:"GET",
 			    data:{
 			    	citizen_id:citizen_id,
-			    	cmd:'survey'
+			    	cmd:'survey_v2'
 			    },
                 error: function(jqXHR, textStatus, errorThrown) {
 			    	$("#pageLoading").fadeOut();
