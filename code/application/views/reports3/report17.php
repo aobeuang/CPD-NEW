@@ -200,6 +200,8 @@ th
 
       function drawChart() {
 
+
+
     	  	//console.log(listresult.khet);
 
 			var data_array = [];
@@ -290,6 +292,11 @@ th
       }
 			function drawPDF()
 			{
+
+                window.open('<?php echo substr(base_url(), 0, -1); ?>:8080/CPDReport/MIS300' );
+                if (1 == 1) {
+                    return;
+                }
 					//console.log('ooo111');
 					// console.log(listresult.khet);
 					//console.log('ooo222');
@@ -676,7 +683,7 @@ th
     		    success:function(result){
     				// console.log(result);
     				listresult = result;
-    				$('#testdata').html(JSON.stringify(listresult));
+    				// $('#testdata').html(JSON.stringify(listresult));
 
     				$('#total').html(listresult.list_total.toLocaleString());
     				google.charts.setOnLoadCallback(drawChart);
